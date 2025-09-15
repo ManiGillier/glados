@@ -17,6 +17,9 @@ all:
 run:
 	stack exec $(EXEC)
 
+install:
+	curl -sSL https://get.haskellstack.org/ | sh
+
 tests_run:
 	make all
 

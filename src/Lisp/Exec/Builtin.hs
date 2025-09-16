@@ -16,30 +16,28 @@ module Lisp.Exec.Builtin (equal,
 
 -- eq? 
 equal :: Int -> Int -> Bool
-equal x y = x == y
+equal = (==)
 
 -- <
 infsign :: Int -> Int -> Bool
-infsign x y = x < y
+infsign = (<)
 
 -- + 
 add :: Int -> Int -> Int
-add x y = x + y
+add = (+)
 
 -- -
 sub :: Int -> Int -> Int
-sub x y = x - y
+sub = (-)
 
 -- *
 mul :: Int -> Int -> Int 
-mul x y = x * y
+mul = (*)
 
 -- div
-safeDiv :: Int -> Int -> Maybe Int
-safeDiv _ 0 = Nothing
-safeDiv x y = Just (x `div` y)
+safeDiv :: Int -> Int -> Int
+safeDiv = Prelude.div
 
 -- mod
-safeMod :: Int -> Int -> Maybe Int
-safeMod _ 0 = Nothing
-safeMod x y = Just (x `mod` y)
+safeMod :: Int -> Int -> Int
+safeMod = Prelude.mod

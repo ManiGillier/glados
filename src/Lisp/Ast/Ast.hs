@@ -5,11 +5,15 @@
 -- Ast
 -}
 
-module Lisp.Ast.Ast (SExpr(..),
+module Lisp.Ast.Ast (Symbol(),
+                Env,
+                SExpr(..),
                 Ast(..))
     where
 
 type Symbol = String
+
+type Env = [(Symbol, Ast)]
 
 data SExpr = SInt Int
              | SSymbol Symbol

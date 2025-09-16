@@ -5,7 +5,8 @@
 -- Ast
 -}
 
-module Ast.Ast (SExpr(..))
+module Lisp.Ast.Ast (SExpr(..),
+                Ast(..))
     where
 
 type Symbol = String

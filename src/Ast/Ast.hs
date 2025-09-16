@@ -8,15 +8,16 @@
 module Ast.Ast (SExpr(..))
     where
 
-datatype Symbol = String
+type Symbol = String
 
-data SExpr = Int Int
-            | Symbol Symbol
-            | List [SExpr]
-            deriving (Show)
+data SExpr = SInt Int
+             | SSymbol Symbol
+             | SList [SExpr]
+             deriving (Show)
 
-data Ast = Symbol String
-  | Define Symbol Ast
-  | Lambda [Symbol] Ast
-  | Value Int
-  | Call Symbol [Ast]
+data Ast = ASymbol Symbol
+           | Define Symbol Ast
+           | Lambda [Symbol] Ast
+           | Value Int
+           | Call String [Ast]
+           deriving (Show)

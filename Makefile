@@ -1,21 +1,20 @@
 ##
 ## EPITECH PROJECT, 2025
-## Makefile
+## Glados
 ## File description:
-## PROJECT
+## Makefile
 ##
 
-EXEC_BASE = glados-exe
-
-EXEC = glados
+COMPILED_NAME	:= glados
+NAME	:= glados
 
 all:
-	stack build
-	cp $$(stack path --local-install-root)/bin/$(EXEC_BASE) .
-	mv $(EXEC_BASE) $(EXEC)
+	$(RM) $(NAME)
+	$(MAKE) $(NAME)
 
-run:
-	stack exec $(EXEC)
+$(NAME):
+	stack build --allow-different-user
+	ln -s `stack path --local-install-root`/bin/$(COMPILED_NAME)-exe $@
 
 install:
 	# install ghcup
@@ -26,15 +25,15 @@ install:
 	ghcup install stack 3.7.1
 
 tests_run:
-	make all
-
-clean:
-	rm -rf $(EXEC)
+	mkdir -p test/coverage
+	stack clean --allow-different-user
+	stack test --coverage --allow-different-user
+	stack hpc report --all --destdir test/coverage --allow-different-user
 
 fclean:
-	rm -rf $(EXEC)
 	stack clean
+	$(RM) $(NAME)
 
-re:		clean all
+re: fclean $(NAME)
 
-.PHONY: 	clean all
+.PHONY: all fclean re

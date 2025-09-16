@@ -14,6 +14,7 @@ import Lisp.Ast.Ast
 execLisp :: Ast -> Env -> (Maybe Int, Env)
 execLisp ast env = evalAst env ast 
 
+-- Eval case of Ast
 evalAst :: Env -> Ast -> (Maybe Int, Env)
 evalAst env ast =
     case ast of
@@ -25,9 +26,8 @@ evalAst env ast =
 
 -- Check if the Symbol already exist
 lookupTable :: Env -> String -> (Maybe Int, Env)
--- TODO: add exeption
--- lookupTable [] e tar = ("Exception: variable " ++ tar ++ " is not bound", e)
-lookupTable env@[] _ = (Nothing, env)
+lookupTable [] var = 
+    errorWithoutStackTrace ("*** ERROR : variable " ++ var ++ " is not bound")
 lookupTable env@((sym, val):rest) target
     | sym == target = evalAst env val
     | otherwise = lookupTable rest target
@@ -40,18 +40,23 @@ defineSym ((sym,val):rest) s a
     | otherwise = let (res, newEnv) = defineSym rest s a
                   in (res, (sym,val) : newEnv)
 
+-- Check if override builtin
+isOveride :: String -> Env -> Bool
+isOveride s env =
+    s `elem` ["+", "-", "*", "div", "mod", "eq?", "<"]
+    && s `elem` map fst env
+
 -- Call builtin function
--- TODO : check if builtin is replace
 evalCall :: Env -> String -> [Ast] -> (Maybe Int, Env)
-evalCall env funcName args = case funcName of
-    "+" -> (evalBinaryOp env Builtin.add args, env)
-    "-" -> (evalBinaryOp env Builtin.sub args, env)
-    "*" -> (evalBinaryOp env Builtin.mul args, env)
-    "div" -> (evalBinaryOp env Builtin.safeDiv args, env)
-    "mod" -> (evalBinaryOp env Builtin.safeMod args, env)
-    "eq?" ->  (evalBinaryOp env Builtin.equal args, env)
-    "<" ->  (evalBinaryOp env Builtin.infsign args, env)
-    _ -> otherCall env funcName args
+evalCall env fName args =  case fName of
+        "+" -> (evalBinaryOp env Builtin.add args, env)
+        "-" -> (evalBinaryOp env Builtin.sub args, env)
+        "*" -> (evalBinaryOp env Builtin.mul args, env)
+        "div" -> (evalBinaryOp env Builtin.safeDiv args, env)
+        "mod" -> (evalBinaryOp env Builtin.safeMod args, env)
+        "eq?" ->  (evalBinaryOp env Builtin.equal args, env)
+        "<" ->  (evalBinaryOp env Builtin.infsign args, env)
+        _ -> otherCall env fName args
 
 evalBinaryOp :: Env -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
 evalBinaryOp env op [arg1, arg2] = do
@@ -69,4 +74,4 @@ otherCall env@((sym, _):rest) f args
     | otherwise = otherCall rest f args
 
 evalLambda :: Env -> [Symbol] -> Ast -> (Maybe Int, Env)
-evalLambda env _ _ = (Just 5, env)
+evalLambda env _ _ = (Nothing, env)

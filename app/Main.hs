@@ -13,12 +13,13 @@ import Lisp.Ast.Ast
 testCases :: [Ast]
 testCases = 
     [ Value 42
-    , ASymbol "x"
+    -- , ASymbol "x"
     , Define "x" (Value 42)
     , Define "y" (Call "+" [Value 10, Call "+" [Value 2, Value 3]])
     , Define "y" (Value 32)
     , ASymbol "x"
     , ASymbol "y"
+    , Call "+" [ASymbol "y", Value 2]
     , Call "+" [Value 10, Value 2]
     , Call "*" [Value 5, Call "+" [Value 2, Value 3]]
     , Call "-" [Value 100, Call "div" [Value 20, Value 4]]

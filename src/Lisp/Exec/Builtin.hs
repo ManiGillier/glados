@@ -5,7 +5,7 @@
 -- Builtin 
 -}
 
-module Exec.Builtin (equal,
+module Lisp.Exec.Builtin (equal,
                     infsign,
                     add,
                     sub,

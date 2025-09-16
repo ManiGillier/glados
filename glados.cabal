@@ -25,8 +25,9 @@ source-repository head
 
 library
   exposed-modules:
-      Ast.Ast
-      Exec.Builtin
+      Lisp.Ast.Ast
+      Lisp.Exec.Builtin
+      Lisp.Exec.Exec
   other-modules:
       Paths_glados
   autogen-modules:

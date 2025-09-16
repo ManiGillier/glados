@@ -14,13 +14,13 @@ module Lisp.Exec.Builtin (equal,
                     safeMod)
     where
 
--- eq? 
-equal :: Int -> Int -> Bool
-equal = (==)
+-- eq?
+equal :: Int -> Int -> Int
+equal x y = fromEnum (x == y)
 
 -- <
-infsign :: Int -> Int -> Bool
-infsign = (<)
+infsign :: Int -> Int -> Int
+infsign x y = fromEnum (x < y)
 
 -- + 
 add :: Int -> Int -> Int

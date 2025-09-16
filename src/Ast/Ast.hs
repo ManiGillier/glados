@@ -1,9 +1,9 @@
-{-
+{--
 -- EPITECH PROJECT, 2025
--- glados
+-- GLaDOS
 -- File description:
 -- Ast
--}
+--}
 
 module Ast.Ast (SExpr(..))
     where

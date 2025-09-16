@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Ast.Ast
+      Exec.Builtin
   other-modules:
       Paths_glados
   autogen-modules:

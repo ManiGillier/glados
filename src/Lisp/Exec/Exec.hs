@@ -37,7 +37,9 @@ lookupSymbol [] var =
     errorWithoutStackTrace ("*** ERROR : variable " ++ var ++ " is not bound")
 lookupSymbol env@((sym, val):rest) target
     | sym == target = (Just val, env)
-    | otherwise = lookupSymbol rest target
+    | otherwise =
+        let (res, _) = lookupSymbol rest target
+        in (res, env)
 
 -- Define Symbol and keep it with env variable 
 defineSymbol :: Env -> Symbol -> Ast -> (Maybe Value, Env)
@@ -85,10 +87,10 @@ evalUserCall env fName args =
             applyLambda env params body closureEnv args
         Just (VInt x) -> 
             errorWithoutStackTrace 
-                ("*** ERROR : attempt to apply non-procedure" ++ show x)
+                ("*** ERROR : attempt to apply non-procedure " ++ show x)
         Nothing -> 
             errorWithoutStackTrace 
-                ("*** ERROR : function " ++ fName ++ " is not defined")
+                ("*** ERROR : attempt to apply non-procedure")
 
 evalBinaryOp :: Env -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
 evalBinaryOp env op [arg1, arg2] = do

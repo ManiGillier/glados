@@ -25,14 +25,18 @@ testCases =
     , Call "-" [Value 100, Call "div" [Value 20, Value 4]]
     , Call "eq?" [Value 5, Value 5]
     , Call "<" [Value 7, Value 3]
-    , Lambda ["x"] (Call "+" [ASymbol "x", Value 1])
+    , Define "addone" (Lambda ["x"] (Call "+" [ASymbol "x", Value 1]))
+    , Call "addone" [Value 41]
+    , (Lambda ["x" , "y", "z"] (Call "*" [ASymbol "x", Call "*" [ASymbol "y", ASymbol "z"]]))
+    ,Apply (Lambda ["x","y","z"] (Call "*" [ASymbol "x", Call "*" [ASymbol "y", ASymbol "z"]])) 
+     [Value 2, Value 2, Value 2]
     ]
 
 testOne :: Ast -> Env -> IO Env
 testOne ast env = do
     putStrLn $ "cur ast = " ++ show ast
     let (result, newEnv) = Exec.execLisp ast env
-    putStrLn $ "res = " ++ show result
+    putStrLn $ "res = " ++ result
     putStrLn $ "env = " ++ show newEnv
     putStrLn ""
     return newEnv

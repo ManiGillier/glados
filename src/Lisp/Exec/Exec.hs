@@ -33,8 +33,7 @@ evalAst env ast =
 
 -- Check if the Symbol already exist
 lookupSymbol :: Env -> String -> (Maybe Value, Env)
-lookupSymbol [] var = 
-    errorWithoutStackTrace ("*** ERROR : variable " ++ var ++ " is not bound")
+lookupSymbol [] var = notBoundError var
 lookupSymbol env@((sym, val):rest) target
     | sym == target = (Just val, env)
     | otherwise =
@@ -58,7 +57,8 @@ updateEnv ((sym, oldVal):rest) s val
 -- Call buitlin or defined lambda
 evalCall :: Env -> String -> [Ast] -> (Maybe Value, Env)
 evalCall env fName args 
-    | isBuiltin fName && (not $ isDefined fName env) = evalBuiltinCall env fName args
+    | isBuiltin fName && (not $ isDefined fName env) 
+        = evalBuiltinCall env fName args
     | otherwise = evalUserCall env fName args
 
 isBuiltin :: String -> Bool
@@ -86,11 +86,9 @@ evalUserCall env fName args =
         Just (VLambda params body closureEnv) -> 
             applyLambda env params body closureEnv args
         Just (VInt x) -> 
-            errorWithoutStackTrace 
-                ("*** ERROR : attempt to apply non-procedure " ++ show x)
+            nonProcedError (Just x)
         Nothing -> 
-            errorWithoutStackTrace 
-                ("*** ERROR : attempt to apply non-procedure")
+            nonProcedError Nothing
 
 evalBinaryOp :: Env -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
 evalBinaryOp env op [arg1, arg2] = do
@@ -105,11 +103,10 @@ evalBinaryOp _ _ _ = Nothing
 evalLambda :: Env -> [Symbol] -> Ast -> (Maybe Value, Env)
 evalLambda env params body = (Just (VLambda params body env), env)
 
+
 applyLambda :: Env -> [Symbol] -> Ast -> Env -> [Ast] -> (Maybe Value, Env)
 applyLambda currentEnv params body closureEnv args
-    | length params /= length args = 
-        errorWithoutStackTrace 
-        ("*** ERROR : wrong number of argument of " ++ show (length args))
+    | length params /= length args = argsError args 
     | otherwise = 
         let argValues = map (fst . evalAst currentEnv) args
         in if all isJustVal argValues
@@ -136,3 +133,20 @@ isJustVal Nothing = False
 fromJustVal :: Maybe a -> a
 fromJustVal (Just x) = x
 fromJustVal Nothing = error "fromJust: Nothing"
+
+-- TODO: Create error file
+-- Errrors 
+argsError :: [a] -> (Maybe Value, Env)
+argsError args = errorWithoutStackTrace 
+    ("*** ERROR : wrong number of argument of " ++ show (length args))
+
+nonProcedError :: Maybe Int -> (Maybe Value, Env)
+nonProcedError (Just x) = errorWithoutStackTrace 
+    ("*** ERROR : attempt to apply non-procedure " ++ show x)
+nonProcedError Nothing = errorWithoutStackTrace 
+    ("*** ERROR : attempt to apply non-procedure")
+
+notBoundError :: String -> (Maybe Value, Env)
+notBoundError var = errorWithoutStackTrace
+    ("*** ERROR : variable " ++ var ++ " is not bound")
+

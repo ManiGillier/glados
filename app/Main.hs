@@ -29,7 +29,7 @@ testCases =
     , Define "addone" (Lambda ["x"] (Call "+" [ASymbol "x", Value 1]))
     , Call "addone" [Value 41]
     , (Lambda ["x" , "y", "z"] (Call "*" [ASymbol "x", Call "*" [ASymbol "y", ASymbol "z"]]))
-    ,Apply (Lambda ["x","y","z"] (Call "*" [ASymbol "x", Call "*" [ASymbol "y", ASymbol "z"]])) 
+    , Apply (Lambda ["x","y","z"] (Call "*" [ASymbol "x", Call "*" [ASymbol "y", ASymbol "z"]])) 
      [Value 2, Value 2, Value 2]
     ]
 

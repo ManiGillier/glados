@@ -7,18 +7,11 @@
 
 module Lisp.Ast.Ast (SExpr(..),
                     Symbol(),
-                    Env,
-                    Value(..),
                     Ast(..))
                     where
 
 type Symbol = String
 
-type Env = [(Symbol, Value)]
-
-data Value = VInt Int
-           | VLambda [Symbol] Ast Env
-           deriving (Show)
 
 data SExpr = SInt Int
              | SSymbol Symbol

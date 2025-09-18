@@ -11,27 +11,18 @@ module Lisp.Exec.ErrorExec (argsError,
                             ThrowsError) 
                             where
 
-import Lisp.Ast.Ast
+type ThrowsError = Either String
 
-data LispError
-    = UnboundVar String
-    | WrongArgCount Int
-    | NonProcedure String
-    deriving (Show, Eq)
+argsError :: [a] -> String
+argsError args = "*** ERROR : wrong number of argument of " 
+    ++ show (length args)
 
-type ThrowsError = Either LispError
+nonProcedErrorStr :: String
+nonProcedErrorStr = "*** ERROR : attempt to apply non-procedure"
 
--- Errrors 
-argsError :: [a] -> (Maybe Value, Env)
-argsError args = errorWithoutStackTrace 
-    ("*** ERROR : wrong number of argument of " ++ show (length args))
+nonProcedError :: Maybe Int -> String
+nonProcedError (Just x) = (nonProcedErrorStr ++ " " ++ show x)
+nonProcedError Nothing = nonProcedErrorStr 
 
-nonProcedError :: Maybe Int -> (Maybe Value, Env)
-nonProcedError (Just x) = errorWithoutStackTrace 
-    ("*** ERROR : attempt to apply non-procedure " ++ show x)
-nonProcedError Nothing = errorWithoutStackTrace 
-    ("*** ERROR : attempt to apply non-procedure")
-
-notBoundError :: String -> (Maybe Value, Env)
-notBoundError var = errorWithoutStackTrace
-    ("*** ERROR : variable " ++ var ++ " is not bound")
+notBoundError :: String -> String
+notBoundError var = "*** ERROR : variable " ++ var ++ " is not bound"

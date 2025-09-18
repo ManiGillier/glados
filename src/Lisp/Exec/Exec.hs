@@ -12,9 +12,15 @@ import qualified Lisp.Exec.Builtin as Builtin
 import qualified Lisp.Exec.ErrorExec as Error
 import Lisp.Ast.Ast
 
+type Defined = [(Symbol, Value)]
+
+data Value = VInt Int
+           | VLambda [Symbol] Ast Defined
+           deriving (Show)
+
 -- Main function of lisp execution
 -- Return result and modified env 
-execLisp :: Ast -> Env -> (String, Env)
+execLisp :: Ast -> Defined -> (String, Defined)
 execLisp ast env = 
     let (val, e) = evalAst env ast     
     in case val of
@@ -23,7 +29,7 @@ execLisp ast env =
         Nothing -> ("",e)
 
 -- Eval case of Ast
-evalAst :: Env -> Ast -> (Maybe Value, Env)
+evalAst :: Defined -> Ast -> (Maybe Value, Defined)
 evalAst env ast =
     case ast of
         Value x -> (Just (VInt x), env)
@@ -34,7 +40,7 @@ evalAst env ast =
         Apply lambdaExpr args -> evalApply env lambdaExpr args
 
 -- Check if the Symbol already exist
-lookupSymbol :: Env -> String -> (Maybe Value, Env)
+lookupSymbol :: Defined -> String -> (Maybe Value, Defined)
 lookupSymbol [] var = Error.notBoundError var
 lookupSymbol env@((sym, val):rest) target
     | sym == target = (Just val, env)
@@ -43,21 +49,21 @@ lookupSymbol env@((sym, val):rest) target
         in (res, env)
 
 -- Define Symbol and keep it with env variable 
-defineSymbol :: Env -> Symbol -> Ast -> (Maybe Value, Env)
+defineSymbol :: Defined -> Symbol -> Ast -> (Maybe Value, Defined)
 defineSymbol env s a = 
     let (maybeVal, newEnv) = evalAst env a
     in case maybeVal of
         Just val -> (Nothing, updateEnv newEnv s val)
         Nothing -> (Nothing, env)
 
-updateEnv :: Env -> Symbol -> Value -> Env
+updateEnv :: Defined -> Symbol -> Value -> Defined
 updateEnv [] s val = [(s, val)]
 updateEnv ((sym, oldVal):rest) s val
     | sym == s = (sym, val) : rest
     | otherwise = (sym, oldVal) : updateEnv rest s val
 
 -- Call buitlin or defined lambda
-evalCall :: Env -> String -> [Ast] -> (Maybe Value, Env)
+evalCall :: Defined -> String -> [Ast] -> (Maybe Value, Defined)
 evalCall env fName args 
     | isBuiltin fName && (not $ isDefined fName env) 
         = evalBuiltinCall env fName args
@@ -66,11 +72,11 @@ evalCall env fName args
 isBuiltin :: String -> Bool
 isBuiltin s = s `elem` ["+", "-", "*", "div", "mod", "eq?", "<"]
 
-isDefined :: String -> Env -> Bool
+isDefined :: String -> Defined -> Bool
 isDefined s env = s `elem` map fst env
 
 -- Call builtin function
-evalBuiltinCall :: Env -> String -> [Ast] -> (Maybe Value, Env)
+evalBuiltinCall :: Defined -> String -> [Ast] -> (Maybe Value, Defined)
 evalBuiltinCall env fName args = case fName of
     "+" -> (fmap VInt (evalBinaryOp env Builtin.add args), env)
     "-" -> (fmap VInt (evalBinaryOp env Builtin.sub args), env)
@@ -82,7 +88,7 @@ evalBuiltinCall env fName args = case fName of
     _ -> (Nothing, env)
 
 -- Evaluate user-defined functions (lambdas)
-evalUserCall :: Env -> String -> [Ast] -> (Maybe Value, Env)
+evalUserCall :: Defined -> String -> [Ast] -> (Maybe Value, Defined)
 evalUserCall env fName args = 
     case lookup fName env of
         Just (VLambda params body closureEnv) -> 
@@ -92,20 +98,19 @@ evalUserCall env fName args =
         Nothing -> 
             Error.nonProcedError Nothing
 
-evalBinaryOp :: Env -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
-evalBinaryOp env op [arg1, arg2] = do
-    let (val1, _) = evalAst env arg1
-    let (val2, _) = evalAst env arg2
-    case (val1, val2) of
+evalBinaryOp :: Defined -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
+evalBinaryOp env op [arg1, arg2] =
+    case (fst (evalAst env arg1), fst (evalAst env arg2)) of
         (Just (VInt v1), Just (VInt v2)) -> Just (op v1 v2)
         _                                -> Nothing
 evalBinaryOp _ _ _ = Nothing
 
 -- Create a lambda
-evalLambda :: Env -> [Symbol] -> Ast -> (Maybe Value, Env)
+evalLambda :: Defined -> [Symbol] -> Ast -> (Maybe Value, Defined)
 evalLambda env params body = (Just (VLambda params body env), env)
 
-applyLambda :: Env -> [Symbol] -> Ast -> Env -> [Ast] -> (Maybe Value, Env)
+-- Apply lambda
+applyLambda :: Defined -> [Symbol] -> Ast -> Defined -> [Ast] -> (Maybe Value, Defined)
 applyLambda currentEnv params body closureEnv args
     | length params /= length args = Error.argsError args 
     | otherwise = 
@@ -118,7 +123,7 @@ applyLambda currentEnv params body closureEnv args
            else (Nothing, currentEnv)
 
 -- Apply anonymous Lambda call ex: ((lambda (a b c) (* a (* b c))) 2 2 2)
-evalApply :: Env -> Ast -> [Ast] -> (Maybe Value, Env)
+evalApply :: Defined -> Ast -> [Ast] -> (Maybe Value, Defined)
 evalApply env lambdaExpr args = 
     let (maybeLambda, newEnv) = evalAst env lambdaExpr
     in case maybeLambda of

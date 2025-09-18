@@ -13,4 +13,5 @@ data Ast = Symbol !String
            | Value !Int
            | Call !String ![Ast]
            | Apply !Ast ![Ast]
+           | If !Ast !Ast !Ast
            deriving (Show)

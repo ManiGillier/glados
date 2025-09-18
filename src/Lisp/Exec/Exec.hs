@@ -10,7 +10,7 @@ module Lisp.Exec.Exec (execLisp) where
 import Data.Maybe (fromJust, isJust)
 import qualified Lisp.Exec.Builtin as Builtin
 import qualified Lisp.Exec.ErrorExec as Error
-import Lisp.Ast.Ast
+import Lisp.DataStruct.Ast
 
 -- Main function of lisp execution
 -- Return result and modified env 

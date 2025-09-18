@@ -8,11 +8,11 @@
 module Lisp.Exec.SymboleTable (SymTable,
                                Value(..))
                                where
-import Lisp.Ast.Ast
+import Lisp.DataStruct.Ast
 
-type SymTable = [(Symbol, Value)]
+type SymTable = [(String, Value)]
 
 data Value = VInt Int
-           | VLambda [Symbol] Ast SymTable
+           | VLambda [String] Ast SymTable
            | VError String
            deriving (Show)

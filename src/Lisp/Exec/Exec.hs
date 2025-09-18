@@ -14,7 +14,7 @@ import Lisp.Exec.SymboleTable
 import Lisp.DataStruct.Ast
 
 -- Main function of lisp execution
--- Return result and modified Symbol table 
+-- Return result and modified String table 
 execLisp :: Ast -> SymTable -> (String, SymTable)
 execLisp ast env = 
     let (val, e) = evalAst env ast     
@@ -35,7 +35,7 @@ evalAst env ast =
         Lambda param body -> evalLambda env param body
         Apply lambdaExpr args -> evalApply env lambdaExpr args
 
--- Check if the Symbol already exist
+-- Check if the String already exist
 lookupSymbol :: SymTable -> String -> (Maybe Value, SymTable)
 lookupSymbol [] var = (Just (VError (Error.notBoundError var)), [])
 lookupSymbol env@((sym, val):rest) target
@@ -48,15 +48,15 @@ lookupSymbol env@((sym, val):rest) target
         let (res, _) = lookupSymbol rest target
         in (res, env)
 
--- Define Symbol and keep it with env variable 
-defineSymbol :: SymTable -> Symbol -> Ast -> (Maybe Value, SymTable)
+-- Define String and keep it with env variable 
+defineSymbol :: SymTable -> String -> Ast -> (Maybe Value, SymTable)
 defineSymbol env s a = 
     let (maybeVal, newEnv) = evalAst env a
     in case maybeVal of
         Just val -> (Nothing, updateEnv newEnv s val)
         Nothing -> (Nothing, env)
 
-updateEnv :: SymTable -> Symbol -> Value -> SymTable
+updateEnv :: SymTable -> String -> Value -> SymTable
 updateEnv [] s val = [(s, val)]
 updateEnv ((sym, oldVal):rest) s val
     | sym == s = (sym, val) : rest
@@ -131,11 +131,11 @@ evalBinaryOp env op [arg1, arg2] =
 evalBinaryOp _ _ _ = Nothing
 
 -- Create a lambda
-evalLambda :: SymTable -> [Symbol] -> Ast -> (Maybe Value, SymTable)
+evalLambda :: SymTable -> [String] -> Ast -> (Maybe Value, SymTable)
 evalLambda env param body = (Just (VLambda param body env), env)
 
 -- Apply lambda
-applyLambda :: SymTable -> [Symbol] -> Ast -> SymTable -> [Ast] -> (Maybe Value, SymTable)
+applyLambda :: SymTable -> [String] -> Ast -> SymTable -> [Ast] -> (Maybe Value, SymTable)
 applyLambda env param body closureEnv args
     | length param /= length args = (Just (VError (Error.argsError args)), env)
     | otherwise = 

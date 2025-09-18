@@ -9,7 +9,7 @@ module Main (main) where
 
 import qualified Lisp.Exec.Exec as Exec
 import Lisp.Exec.SymboleTable
-import Lisp.Ast.Ast
+import Lisp.DataStruct.Ast
 
 testCases :: [Ast]
 testCases = 

@@ -17,28 +17,28 @@ testCases =
     , Define "x" (Value 42)
     , Define "y" (Call "+" [Value 10, Call "+" [Value 2, Value 3]])
     , Define "y" (Value 32)
-    , ASymbol "x"
-    , ASymbol "y"
-    , Call "+" [ASymbol "y", Value 2]
+    , Symbol "x"
+    , Symbol "y"
+    , Call "+" [Symbol "y", Value 2]
     , Call "+" [Value 10, Value 2]
     , Call "*" [Value 5, Call "+" [Value 2, Value 3]]
     , Call "-" [Value 100, Call "div" [Value 20, Value 4]]
     , Call "eq?" [Value 5, Value 5]
     , Call "<" [Value 7, Value 3]
-    , Define "addone" (Lambda ["x"] (Call "+" [ASymbol "x", Value 1]))
+    , Define "addone" (Lambda ["x"] (Call "+" [Symbol "x", Value 1]))
     , Call "addone" [Value 41]
-    , Apply (Lambda ["x","y","z"] (Call "*" [ASymbol "x", Call "*" [ASymbol "y", ASymbol "z"]])) 
+    , Apply (Lambda ["x","y","z"] (Call "*" [Symbol "x", Call "*" [Symbol "y", Symbol "z"]]))
      [Value 2, Value 2, Value 2]
      -- VARIADIC OPERATIONS
      , Call "+" [Value 2, Value 2, Value 2]
      , Call "-" [Value 2, Value 2, Value 2]
      , Call "*" [Value 2, Value 2, Value 2]
      -- ERROR CASE 
-     , (Lambda ["x" , "y", "z"] (Call "*" [ASymbol "x", Call "*" [ASymbol "y", ASymbol "z"]]))
+     , (Lambda ["x" , "y", "z"] (Call "*" [Symbol "x", Call "*" [Symbol "y", Symbol "z"]]))
      , Call "y" []
-     , ASymbol "p"
+     , Symbol "p"
      , Call "*" [Value 2]
-     , ASymbol "addone"
+     , Symbol "addone"
     ]
 
 testOne :: Ast -> SymTable -> IO SymTable

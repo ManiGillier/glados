@@ -29,7 +29,7 @@ evalAst :: SymTable -> Ast -> (Maybe Value, SymTable)
 evalAst env ast =
     case ast of
         Value x -> (Just (VInt x), env)
-        ASymbol s -> lookupSymbol env s
+        Symbol s -> lookupSymbol env s
         Define sym a -> defineSymbol env sym a
         Call f args -> evalCall env f args
         Lambda param body -> evalLambda env param body

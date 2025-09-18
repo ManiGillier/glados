@@ -10,9 +10,10 @@ module Main (main) where
 import qualified Lisp.Exec.Exec as Exec
 import Lisp.Exec.SymboleTable
 import Lisp.DataStruct.Ast
+import qualified Lisp.Shell.Repl as Repl
 
 testCases :: [Ast]
-testCases = 
+testCases =
     [ Value 42
     , Define "x" (Value 42)
     , Define "y" (Call "+" [Value 10, Call "+" [Value 2, Value 3]])
@@ -35,9 +36,9 @@ testCases =
      , Call "-" [Value 2, Value 2, Value 2]
      , Call "*" [Value 2, Value 2, Value 2]
      -- IF TEEST
-     , If (Call "eq?" [Value 1, Value 1, Value 1]) (Boolean True) (Boolean False) 
-     , If (Call "eq?" [Value 2, Value 1]) (Boolean True) (Boolean False) 
-     -- ERROR CASE 
+     , If (Call "eq?" [Value 1, Value 1, Value 1]) (Boolean True) (Boolean False)
+     , If (Call "eq?" [Value 2, Value 1]) (Boolean True) (Boolean False)
+     -- ERROR CASE
      , (Lambda ["x" , "y", "z"] (Call "*" [Symbol "x", Call "*" [Symbol "y", Symbol "z"]]))
      , Call "y" []
      , Symbol "p"
@@ -67,4 +68,4 @@ testExec = do
     testExecHelper testCases env
 
 main :: IO ()
-main = testExec
+main = Repl.repl

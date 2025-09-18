@@ -8,6 +8,7 @@
 module Lisp.Exec.ErrorExec (argsError,
                             nonProcedError,
                             notBoundError,
+                            procError,
                             ThrowsError) 
                             where
 
@@ -26,3 +27,6 @@ nonProcedError Nothing = nonProcedErrorStr
 
 notBoundError :: String -> String
 notBoundError var = "*** ERROR : variable " ++ var ++ " is not bound"
+
+procError :: String
+procError = "#<procedure"

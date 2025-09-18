@@ -34,11 +34,15 @@ testCases =
      , Call "+" [Value 2, Value 2, Value 2]
      , Call "-" [Value 2, Value 2, Value 2]
      , Call "*" [Value 2, Value 2, Value 2]
+     -- IF TEEST
+     , If (Call "eq?" [Value 1, Value 1, Value 1]) (Boolean True) (Boolean False) 
+     , If (Call "eq?" [Value 2, Value 1]) (Boolean True) (Boolean False) 
      -- ERROR CASE 
      , (Lambda ["x" , "y", "z"] (Call "*" [Symbol "x", Call "*" [Symbol "y", Symbol "z"]]))
      , Call "y" []
      , Symbol "p"
      , Call "*" [Value 2]
+     , Call "<" [Value 2, Value 2, Value 2]
      , Symbol "addone"
     ]
 

@@ -9,7 +9,7 @@ module Lisp.Exec.Builtin (equal,
                     infsign,
                     safeDiv,
                     safeMod,
-                    boolFromInt)
+                    iToB)
     where
 
 -- eq?
@@ -28,6 +28,6 @@ safeDiv = Prelude.div
 safeMod :: Int -> Int -> Int
 safeMod = Prelude.mod
 
-boolFromInt :: Maybe Int -> Maybe Bool
-boolFromInt (Just 0) = Just False
-boolFromInt _ = Just True
+iToB :: Maybe Int -> Maybe Bool
+iToB (Just 0) = Just False
+iToB _ = Just True

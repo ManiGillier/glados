@@ -29,6 +29,7 @@ testCases =
     , Call "addone" [Value 41]
     , Apply (Lambda ["x","y","z"] (Call "*" [Symbol "x", Call "*" [Symbol "y", Symbol "z"]]))
      [Value 2, Value 2, Value 2]
+    , Boolean True
      -- VARIADIC OPERATIONS
      , Call "+" [Value 2, Value 2, Value 2]
      , Call "-" [Value 2, Value 2, Value 2]

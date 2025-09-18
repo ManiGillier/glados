@@ -31,6 +31,7 @@ evalAst :: SymTable -> Ast -> (Maybe Value, SymTable)
 evalAst env ast =
     case ast of
         Value x -> (Just (VInt x), env)
+        Boolean x -> (Just (VBool x), env)
         Symbol s -> lookupSymbol env s
         Define sym a -> defineSymbol env sym a
         Call f args -> evalCall env f args

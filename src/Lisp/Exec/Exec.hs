@@ -12,6 +12,7 @@ import qualified Lisp.Exec.Builtin as Builtin
 import qualified Lisp.Exec.ErrorExec as Error
 import Lisp.Exec.SymboleTable
 import Lisp.DataStruct.Ast
+import Lisp.Exec.Builtin (boolFromInt)
 
 -- Main function of lisp execution
 -- Return result and modified String table 
@@ -20,6 +21,7 @@ execLisp ast env =
     let (val, e) = evalAst env ast     
     in case val of
         Just (VInt v) -> (show v, e)
+        Just (VBool v) -> if v then ("#t", e) else ("#f", e)
         Just (VLambda _ _ _) -> (Error.procError ++ ">", e) 
         Just (VError s) -> (s, e)
         Nothing -> ("",e)
@@ -34,6 +36,7 @@ evalAst env ast =
         Call f args -> evalCall env f args
         Lambda param body -> evalLambda env param body
         Apply lambdaExpr args -> evalApply env lambdaExpr args
+        If _ _ _ -> (Just (VBool True), env) 
 
 -- Check if the String already exist
 lookupSymbol :: SymTable -> String -> (Maybe Value, SymTable)
@@ -82,8 +85,8 @@ evalBuiltinCall env fName args = case fName of
     "*" -> (fmap VInt (evalVariadicOp env (*) 1 args), env)
     "div" -> (fmap VInt (evalBinaryOp env Builtin.safeDiv args), env)
     "mod" -> (fmap VInt (evalBinaryOp env Builtin.safeMod args), env)
-    "eq?" -> (fmap VInt (evalBinaryOp env Builtin.equal args), env)
-    "<" -> (fmap VInt (evalBinaryOp env Builtin.infsign args), env)
+    "eq?" -> (fmap VBool (boolFromInt (evalBinaryOp env Builtin.equal args)), env)
+    "<" -> (fmap VBool (boolFromInt (evalBinaryOp env Builtin.infsign args)), env)
     _ -> (Nothing, env)
 
 evalVariadicOp :: SymTable -> (Int -> Int -> Int) -> Int -> [Ast] -> Maybe Int
@@ -118,10 +121,11 @@ evalUserCall env fName args =
             applyLambda env param body closureEnv args
         Just (VInt x) -> 
             (Just (VError (Error.nonProcedError (Just x))), env)
-        Just (VError _) ->
-            (Just (VError (Error.nonProcedError Nothing)), env)
-        Nothing -> 
-            (Just (VError (Error.nonProcedError Nothing)), env)
+        Just (VBool _) -> err 
+        Just (VError _) -> err
+        Nothing -> err
+        where 
+            err = (Just (VError (Error.nonProcedError Nothing)), env)
 
 evalBinaryOp :: SymTable -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
 evalBinaryOp env op [arg1, arg2] =

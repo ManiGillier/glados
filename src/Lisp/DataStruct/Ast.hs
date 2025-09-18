@@ -11,6 +11,7 @@ data Ast = Symbol !String
            | Define !String !Ast
            | Lambda ![String] !Ast
            | Value !Int
+           | Boolean !Bool
            | Call !String ![Ast]
            | Apply !Ast ![Ast]
            | If !Ast !Ast !Ast

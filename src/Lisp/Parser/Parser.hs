@@ -15,7 +15,6 @@ parseLambdaArgs (S.Symbol x:xs) = liftA2 (:) (Just x) (parseLambdaArgs xs)
 parseLambdaArgs _ = Nothing
 
 parseSExpr :: SExpr -> Maybe Ast
-parseSExpr (S.Value x) = Just $ A.Value x
 parseSExpr (S.List [S.Symbol "define", S.Symbol name, sContent])
   = A.Define name <$> parseSExpr sContent
 parseSExpr (S.List [S.Symbol "lambda", S.List args, sContent])
@@ -28,5 +27,8 @@ parseSExpr (S.List (S.Symbol name:args))
   = A.Call name <$> mapM parseSExpr args
 parseSExpr (S.List (ast:args))
   = A.Apply <$> parseSExpr ast <*> mapM parseSExpr args
+parseSExpr (S.Symbol "#t") = Just $ A.Boolean True
+parseSExpr (S.Symbol "#f") = Just $ A.Boolean False
 parseSExpr (S.Symbol symbol) = Just $ A.Symbol symbol
+parseSExpr (S.Value x) = Just $ A.Value x
 parseSExpr _ = Nothing

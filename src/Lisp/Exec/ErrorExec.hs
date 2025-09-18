@@ -11,7 +11,7 @@ module Lisp.Exec.ErrorExec (argsError,
                             ThrowsError) 
                             where
 
-import Lisp.Ast.Ast
+import Lisp.DataStruct.Ast
 
 data LispError
     = UnboundVar String

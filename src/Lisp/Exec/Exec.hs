@@ -12,7 +12,7 @@ import qualified Lisp.Exec.Builtin as Builtin
 import qualified Lisp.Exec.ErrorExec as Error
 import Lisp.Exec.SymboleTable
 import Lisp.DataStruct.Ast
-import Lisp.Exec.Builtin (boolFromInt)
+import Lisp.Exec.Builtin
 
 -- Main function of lisp execution
 -- Return result and modified String table 
@@ -37,7 +37,20 @@ evalAst env ast =
         Call f args -> evalCall env f args
         Lambda param body -> evalLambda env param body
         Apply lambdaExpr args -> evalApply env lambdaExpr args
-        If _ _ _ -> (Just (VBool True), env) 
+        If cond th el -> evalCond env cond th el
+
+-- Eval if -> then -> else
+evalCond :: SymTable -> Ast -> Ast -> Ast -> (Maybe Value, SymTable)
+evalCond env conditionAst thenBranch elseBranch = 
+    let (maybeCondition, newEnv) = evalAst env conditionAst
+    in case maybeCondition of
+        Just (VBool True) -> evalAst newEnv thenBranch
+        Just (VBool False) -> evalAst newEnv elseBranch
+        Just (VInt 0) -> evalAst newEnv elseBranch
+        Just (VInt _) -> evalAst newEnv thenBranch
+        Just (VError err) -> (Just (VError err), newEnv)
+        Nothing -> evalAst newEnv elseBranch
+        _ -> (Just (VError Error.condError), newEnv)
 
 -- Check if the String already exist
 lookupSymbol :: SymTable -> String -> (Maybe Value, SymTable)
@@ -76,19 +89,29 @@ evalCall env fName args
 isBuiltin :: String -> Bool
 isBuiltin s = s `elem` ["+", "-", "*", "div", "mod", "eq?", "<"]
 
+isVariadic :: String -> Bool
+isVariadic s = s `elem` ["+", "-", "*"]
+
 isDefined :: String -> SymTable -> Bool
 isDefined s env = s `elem` map fst env
 
 evalBuiltinCall :: SymTable -> String -> [Ast] -> (Maybe Value, SymTable)
-evalBuiltinCall env fName args = case fName of
-    "+" -> (fmap VInt (evalVariadicOp env (+) 0 args), env)
-    "-" -> (fmap VInt (evalVariadicSub env args), env)
-    "*" -> (fmap VInt (evalVariadicOp env (*) 1 args), env)
-    "div" -> (fmap VInt (evalBinaryOp env Builtin.safeDiv args), env)
-    "mod" -> (fmap VInt (evalBinaryOp env Builtin.safeMod args), env)
-    "eq?" -> (fmap VBool (boolFromInt (evalBinaryOp env Builtin.equal args)), env)
-    "<" -> (fmap VBool (boolFromInt (evalBinaryOp env Builtin.infsign args)), env)
-    _ -> (Nothing, env)
+evalBuiltinCall env fName args 
+    | not (isVariadic fName) && (length args > 2) = 
+        (Just (VError $ Error.argsError args 
+        ++ " " ++Error.callError fName args), env)
+    | otherwise = callBuiltin env fName args
+
+callBuiltin :: SymTable -> String -> [Ast] -> (Maybe Value, SymTable)
+callBuiltin env fName args = case fName of
+        "+" -> (fmap VInt (evalVariadicOp env (+) 0 args), env)
+        "-" -> (fmap VInt (evalVariadicSub env args), env)
+        "*" -> (fmap VInt (evalVariadicOp env (*) 1 args), env)
+        "div" -> (fmap VInt (evalBinaryOp env Builtin.safeDiv args), env)
+        "mod" -> (fmap VInt (evalBinaryOp env Builtin.safeMod args), env)
+        "eq?" -> (fmap VBool (iToB (evalBinaryOp env Builtin.equal args)), env)
+        "<" -> (fmap VBool (iToB (evalBinaryOp env Builtin.infsign args)), env)
+        _ -> (Nothing, env)
 
 evalVariadicOp :: SymTable -> (Int -> Int -> Int) -> Int -> [Ast] -> Maybe Int
 evalVariadicOp env op identity args = 
@@ -118,8 +141,7 @@ evalToInt env ast =
 evalUserCall :: SymTable -> String -> [Ast] -> (Maybe Value, SymTable)
 evalUserCall env fName args = 
     case lookup fName env of
-        Just (VLambda param body closureEnv) -> 
-            applyLambda env param body closureEnv args
+        Just (VLambda para body clEnv) -> applyLambda env para body clEnv args
         Just (VInt x) -> 
             (Just (VError (Error.nonProcedError (Just x))), env)
         Just (VBool _) -> err 
@@ -141,13 +163,13 @@ evalLambda env param body = (Just (VLambda param body env), env)
 
 -- Apply lambda
 applyLambda :: SymTable -> [String] -> Ast -> SymTable -> [Ast] -> (Maybe Value, SymTable)
-applyLambda env param body closureEnv args
+applyLambda env param body clEnv args
     | length param /= length args = (Just (VError (Error.argsError args)), env)
     | otherwise = 
         let argValues = map (fst . evalAst env) args
         in if all isJust argValues
            then let justValues = map fromJust argValues
-                    localEnv = zip param justValues ++ closureEnv
+                    localEnv = zip param justValues ++ clEnv
                     (result, _) = evalAst localEnv body
                 in (result, env)
            else (Nothing, env)
@@ -157,6 +179,6 @@ evalApply :: SymTable -> Ast -> [Ast] -> (Maybe Value, SymTable)
 evalApply env lambdaExpr args = 
     let (maybeLambda, newEnv) = evalAst env lambdaExpr
     in case maybeLambda of
-        Just (VLambda param body closureEnv) -> 
-            applyLambda newEnv param body closureEnv args
+        Just (VLambda param body clEnv) -> 
+            applyLambda newEnv param body clEnv args
         _ -> (Nothing, newEnv)

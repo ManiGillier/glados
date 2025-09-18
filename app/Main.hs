@@ -19,7 +19,7 @@ testCases =
     , Define "y" (Value 32)
     , ASymbol "x"
     , ASymbol "y"
-    -- , Call "x" []
+    -- , Call "y" []
     , Call "+" [ASymbol "y", Value 2]
     , Call "+" [Value 10, Value 2]
     , Call "*" [Value 5, Call "+" [Value 2, Value 3]]

@@ -7,7 +7,9 @@
 
 module Lisp.Exec.Exec (execLisp) where
 
+import Data.Maybe (fromJust, isJust)
 import qualified Lisp.Exec.Builtin as Builtin
+import qualified Lisp.Exec.ErrorExec as Error
 import Lisp.Ast.Ast
 
 -- Main function of lisp execution
@@ -33,7 +35,7 @@ evalAst env ast =
 
 -- Check if the Symbol already exist
 lookupSymbol :: Env -> String -> (Maybe Value, Env)
-lookupSymbol [] var = notBoundError var
+lookupSymbol [] var = Error.notBoundError var
 lookupSymbol env@((sym, val):rest) target
     | sym == target = (Just val, env)
     | otherwise =
@@ -86,9 +88,9 @@ evalUserCall env fName args =
         Just (VLambda params body closureEnv) -> 
             applyLambda env params body closureEnv args
         Just (VInt x) -> 
-            nonProcedError (Just x)
+            Error.nonProcedError (Just x)
         Nothing -> 
-            nonProcedError Nothing
+            Error.nonProcedError Nothing
 
 evalBinaryOp :: Env -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
 evalBinaryOp env op [arg1, arg2] = do
@@ -103,14 +105,13 @@ evalBinaryOp _ _ _ = Nothing
 evalLambda :: Env -> [Symbol] -> Ast -> (Maybe Value, Env)
 evalLambda env params body = (Just (VLambda params body env), env)
 
-
 applyLambda :: Env -> [Symbol] -> Ast -> Env -> [Ast] -> (Maybe Value, Env)
 applyLambda currentEnv params body closureEnv args
-    | length params /= length args = argsError args 
+    | length params /= length args = Error.argsError args 
     | otherwise = 
         let argValues = map (fst . evalAst currentEnv) args
-        in if all isJustVal argValues
-           then let justValues = map fromJustVal argValues
+        in if all isJust argValues
+           then let justValues = map fromJust argValues
                     localEnv = zip params justValues ++ closureEnv
                     (result, _) = evalAst localEnv body
                 in (result, currentEnv)
@@ -124,29 +125,3 @@ evalApply env lambdaExpr args =
         Just (VLambda params body closureEnv) -> 
             applyLambda newEnv params body closureEnv args
         _ -> (Nothing, newEnv)
-
--- Helpers
-isJustVal :: Maybe a -> Bool
-isJustVal (Just _) = True
-isJustVal Nothing = False
-
-fromJustVal :: Maybe a -> a
-fromJustVal (Just x) = x
-fromJustVal Nothing = error "fromJust: Nothing"
-
--- TODO: Create error file
--- Errrors 
-argsError :: [a] -> (Maybe Value, Env)
-argsError args = errorWithoutStackTrace 
-    ("*** ERROR : wrong number of argument of " ++ show (length args))
-
-nonProcedError :: Maybe Int -> (Maybe Value, Env)
-nonProcedError (Just x) = errorWithoutStackTrace 
-    ("*** ERROR : attempt to apply non-procedure " ++ show x)
-nonProcedError Nothing = errorWithoutStackTrace 
-    ("*** ERROR : attempt to apply non-procedure")
-
-notBoundError :: String -> (Maybe Value, Env)
-notBoundError var = errorWithoutStackTrace
-    ("*** ERROR : variable " ++ var ++ " is not bound")
-

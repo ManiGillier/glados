@@ -27,6 +27,7 @@ library
   exposed-modules:
       Lisp.Ast.Ast
       Lisp.Exec.Builtin
+      Lisp.Exec.ErrorExec
       Lisp.Exec.Exec
       Lisp.Parser.Parser
   other-modules:

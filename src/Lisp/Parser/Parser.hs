@@ -22,6 +22,8 @@ parseSExpr (S.List [S.Symbol "lambda", S.List args, sContent])
   = A.Lambda <$> parseLambdaArgs args <*> parseSExpr sContent
 parseSExpr (S.List [S.Symbol "define", S.List (S.Symbol name:args), sContent])
   = A.Define name <$> (A.Lambda <$> parseLambdaArgs args <*> parseSExpr sContent)
+parseSExpr (S.List [S.Symbol "If", cond, true, false])
+  = A.If <$> (parseSExpr cond) <*> (parseSExpr true) <*> (parseSExpr false)
 parseSExpr (S.List (S.Symbol name:args))
   = A.Call name <$> mapM parseSExpr args
 parseSExpr (S.List (ast:args))

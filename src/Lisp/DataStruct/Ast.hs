@@ -7,7 +7,7 @@
 
 module Lisp.DataStruct.Ast (Ast (..)) where
 
-data Ast = ASymbol !String
+data Ast = Symbol !String
            | Define !String !Ast
            | Lambda ![String] !Ast
            | Value !Int

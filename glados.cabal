@@ -33,6 +33,7 @@ library
       Lisp.Lexer.Lexer
       Lisp.Exec.SymboleTable
       Lisp.Parser.Parser
+      Lisp.Shell.Repl
   other-modules:
       Paths_glados
   autogen-modules:

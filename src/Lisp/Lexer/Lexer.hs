@@ -9,18 +9,11 @@ module Lisp.Lexer.Lexer (skipWhitespace, readSymbol, readValue, readSList, readS
     readManySExpr)
     where
 
-
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Data.Void
 import Data.Char(isSpace)
-
--- data SExpr = Value !Int
---              | Symbol !String
---              | List ![SExpr]
---              deriving (Show)
-
-import Lisp.Ast.Ast(SExpr(..))
+import Lisp.DataStruct.SymbolicExpression(SExpr(..))
 import Text.Read (readMaybe)
 
 type Lexer = Parsec Void String
@@ -33,7 +26,7 @@ readSymbol = do
     _ <- skipWhitespace
     sym <- takeWhile1P Nothing (\c -> not (isSpace c) && c /= '(' && c /= ')')
     _ <- skipWhitespace
-    return $ SSymbol sym
+    return $ Symbol sym
 
 readValue :: Lexer SExpr
 readValue = do
@@ -43,8 +36,8 @@ readValue = do
     _ <- skipWhitespace
     case readMaybe word of
         Just num -> return $ case sign of
-            Just '-' -> SInt (-num)
-            _ -> SInt num
+            Just '-' -> Value (-num)
+            _ -> Value num
         Nothing -> fail "Not a valid integer"
 
 readSList :: Lexer SExpr
@@ -55,7 +48,7 @@ readSList = do
     _ <- skipWhitespace
     _ <- char ')'
     _ <- skipWhitespace
-    return $ SList list
+    return $ List list
 
 readSExpr :: Lexer SExpr
 readSExpr = try readValue <|> readSList <|> readSymbol

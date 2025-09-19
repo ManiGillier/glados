@@ -7,39 +7,27 @@
 
 module Lisp.Exec.Builtin (equal,
                     infsign,
-                    add,
-                    sub,
-                    mul,
                     safeDiv,
-                    safeMod)
+                    safeMod,
+                    iToB)
     where
 
--- eq? 
-equal :: Int -> Int -> Bool
-equal x y = x == y
+-- eq?
+equal :: Int -> Int -> Int
+equal x y = fromEnum (x == y)
 
 -- <
-infsign :: Int -> Int -> Bool
-infsign x y = x < y
-
--- + 
-add :: Int -> Int -> Int
-add x y = x + y
-
--- -
-sub :: Int -> Int -> Int
-sub x y = x - y
-
--- *
-mul :: Int -> Int -> Int 
-mul x y = x * y
+infsign :: Int -> Int -> Int
+infsign x y = fromEnum (x < y)
 
 -- div
-safeDiv :: Int -> Int -> Maybe Int
-safeDiv _ 0 = Nothing
-safeDiv x y = Just (x `div` y)
+safeDiv :: Int -> Int -> Int
+safeDiv = Prelude.div
 
 -- mod
-safeMod :: Int -> Int -> Maybe Int
-safeMod _ 0 = Nothing
-safeMod x y = Just (x `mod` y)
+safeMod :: Int -> Int -> Int
+safeMod = Prelude.mod
+
+iToB :: Maybe Int -> Maybe Bool
+iToB (Just 0) = Just False
+iToB _ = Just True

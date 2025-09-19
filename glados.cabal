@@ -28,7 +28,7 @@ library
       Lisp.Ast.Ast
       Lisp.Exec.Builtin
       Lisp.Exec.Exec
-      Lisp.Parser.Parser
+      Lisp.Lexer.Lexer
   other-modules:
       Paths_glados
   autogen-modules:

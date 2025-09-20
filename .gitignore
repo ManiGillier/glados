@@ -3,3 +3,4 @@
 stack.yaml.lock
 glados
 *.lsp
+/glados.cabal

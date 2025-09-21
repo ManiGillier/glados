@@ -5,8 +5,7 @@
 -- Lexer
 --}
 
-module Lisp.Lexer.Lexer (skipWhitespace, readSymbol, readValue, readSList, readSExpr,
-    readManySExpr)
+module Lisp.Lexer.Lexer ( lexe )
     where
 
 import Text.Megaparsec
@@ -68,7 +67,10 @@ readSList = List <$>
   <* space
 
 readSExpr :: Lexer SExpr
-readSExpr = try readSList <|> try readValue <|> try readSymbol
+readSExpr = try readSList <|> try readValue <|> readSymbol
 
 readManySExpr :: Lexer [SExpr]
 readManySExpr = many readSExpr
+
+lexe :: String -> Either (ParseErrorBundle String Void) ([SExpr], String)
+lexe = parse ((,) <$> readManySExpr <*> getInput) ""

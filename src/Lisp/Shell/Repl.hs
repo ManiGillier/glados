@@ -48,10 +48,13 @@ manageAfterLexing :: Storage
 manageAfterLexing _ (Left e) = hPutStr stderr (errorBundlePretty e)
   >> exitWith (ExitFailure 84)
 manageAfterLexing s (Right (value, str)) =
-  print expressions
-  >> print final
-  >> case final of
-       Just s' -> replSingle (s { ibuf = str, symTable = s'} )
+  -- print value >>
+  -- print expressions >>
+  -- print final >>
+  case final of
+       Just s' ->
+         mapM putStrLn (filter (\str' -> not $ null str') (snd s')) >>
+         replSingle (s { ibuf = str, symTable = (fst s', [])} )
        Nothing -> hPutStrLn stderr "Parsing error." >> exitWith (ExitFailure 84)
   where expressions = sequence $ map parseSExpr value
         final = foldl' execFold (symTable s) <$> expressions

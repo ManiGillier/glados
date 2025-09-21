@@ -17,5 +17,5 @@ repl = do
         case content of
             "quit" -> return()
             "q" -> return()
-            otherwise -> putStrLn (content) >> repl
+            _ -> putStrLn content >> repl
             --                  put rayane's func before the content in the paranthesis

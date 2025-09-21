@@ -19,7 +19,7 @@ import Text.Read (readMaybe)
 type Lexer = Parsec Void String
 
 skipWhitespace :: Lexer ()
-skipWhitespace = space1 <|> eof
+skipWhitespace = space
 
 readSymbol' :: Lexer SExpr
 readSymbol' = do
@@ -49,6 +49,7 @@ readValue' = do
 readValue :: Lexer SExpr
 readValue = Value <$>
   signed (return ()) decimal
+  <* notFollowedBy (noneOf " \t\n()")
   <* skipWhitespace
 
 readSList' :: Lexer SExpr

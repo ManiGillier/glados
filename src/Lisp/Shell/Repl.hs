@@ -14,6 +14,9 @@ import Text.Megaparsec (ParseErrorBundle, errorBundlePretty)
 import Data.Void (Void)
 import Lisp.DataStruct.SymbolicExpression (SExpr)
 import Lisp.Parser.Parser (parseSExpr)
+import Lisp.DataStruct.Ast (Ast)
+import Lisp.Exec.SymboleTable (SymTable)
+import Lisp.Exec.Exec (execLisp)
 
 repl' :: IO ()
 repl' = do
@@ -29,16 +32,25 @@ repl' = do
 repl :: IO ()
 repl = replSingle ""
 
-manageAfterLexing :: Either (ParseErrorBundle String Void) ([SExpr], String)
+manageAst :: SymTable -> Maybe Ast -> Either String (String, SymTable)
+manageAst _ Nothing = Left "Parsing failed."
+manageAst table (Just ast) = Right $ execLisp ast table
+
+manageAfterLexing :: SymTable
+  -> Either (ParseErrorBundle String Void) ([SExpr], String)
   -> IO ()
-manageAfterLexing (Left e) = hPutStr stderr (errorBundlePretty e)
+manageAfterLexing table (Left e) = hPutStr stderr (errorBundlePretty e)
   >> exitWith (ExitFailure 84)
-manageAfterLexing (Right (value, str)) = print (map parseSExpr value)
+manageAfterLexing table (Right (value, str)) =
+  print expressions
+  >> print ast
   >> replSingle str
+  where expressions = map parseSExpr value
+        ast = map (manageAst table) expressions
 
 replSingle :: String -> IO ()
 replSingle str = putStr ("> " ++ str) >> hFlush stdout >> isEOF >>= \ isEof ->
   if isEof then
     return ()
   else
-    (fmap (\ str' -> lexe (str ++ str')) getLine) >>= manageAfterLexing
+    (fmap (\ str' -> lexe (str ++ str')) getLine) >>= manageAfterLexing []

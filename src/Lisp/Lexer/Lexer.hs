@@ -72,5 +72,8 @@ readSExpr = try readSList <|> try readValue <|> readSymbol
 readManySExpr :: Lexer [SExpr]
 readManySExpr = many readSExpr
 
+startReadManySExpr :: Lexer [SExpr]
+startReadManySExpr = notFollowedBy (char ')') *> readManySExpr <* notFollowedBy (char ')')
+
 lexe :: String -> Either (ParseErrorBundle String Void) ([SExpr], String)
-lexe = parse ((,) <$> readManySExpr <*> getInput) ""
+lexe = parse ((,) <$> startReadManySExpr <*> getInput) ""

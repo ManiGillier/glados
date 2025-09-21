@@ -10,7 +10,7 @@ import System.IO
 import Control.Monad (unless)
 import Lisp.Lexer.Lexer ( lexe )
 import System.Exit (exitWith, exitSuccess, ExitCode (ExitFailure))
-import Text.Megaparsec (ParseErrorBundle)
+import Text.Megaparsec (ParseErrorBundle, errorBundlePretty)
 import Data.Void (Void)
 import Lisp.DataStruct.SymbolicExpression (SExpr)
 import Lisp.Parser.Parser (parseSExpr)
@@ -31,7 +31,8 @@ repl = replSingle ""
 
 manageAfterLexing :: Either (ParseErrorBundle String Void) ([SExpr], String)
   -> IO ()
-manageAfterLexing (Left _) = exitWith (ExitFailure 84)
+manageAfterLexing (Left e) = hPutStr stderr (errorBundlePretty e)
+  >> exitWith (ExitFailure 84)
 manageAfterLexing (Right (value, str)) = print (map parseSExpr value)
   >> replSingle str
 

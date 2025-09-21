@@ -17,6 +17,12 @@ import Lisp.Parser.Parser (parseSExpr)
 import Lisp.DataStruct.Ast (Ast)
 import Lisp.Exec.SymboleTable (SymTable)
 import Lisp.Exec.Exec (execLisp)
+import Data.Maybe (fromJust)
+
+data Storage = Storage {
+    ibuf :: !String,
+    symTable :: !(SymTable, [String])
+}
 
 repl' :: IO ()
 repl' = do
@@ -30,27 +36,29 @@ repl' = do
             --                  put rayane's func before the content in the paranthesis
 
 repl :: IO ()
-repl = replSingle ""
+repl = replSingle $ Storage "" ([], [])
 
-manageAst :: SymTable -> Maybe Ast -> Either String (String, SymTable)
-manageAst _ Nothing = Left "Parsing failed."
-manageAst table (Just ast) = Right $ execLisp ast table
+execFold :: (SymTable, [String]) -> Ast -> (SymTable, [String])
+execFold (table', str') ast = (table, str:str')
+  where (str, table) = execLisp ast table'
 
-manageAfterLexing :: SymTable
+manageAfterLexing :: Storage
   -> Either (ParseErrorBundle String Void) ([SExpr], String)
   -> IO ()
-manageAfterLexing table (Left e) = hPutStr stderr (errorBundlePretty e)
+manageAfterLexing _ (Left e) = hPutStr stderr (errorBundlePretty e)
   >> exitWith (ExitFailure 84)
-manageAfterLexing table (Right (value, str)) =
+manageAfterLexing s (Right (value, str)) =
   print expressions
-  >> print ast
-  >> replSingle str
-  where expressions = map parseSExpr value
-        ast = map (manageAst table) expressions
+  >> print final
+  >> case final of
+       Just s' -> replSingle (s { ibuf = str, symTable = s'} )
+       Nothing -> hPutStrLn stderr "Parsing error." >> exitWith (ExitFailure 84)
+  where expressions = sequence $ map parseSExpr value
+        final = foldl' execFold (symTable s) <$> expressions
 
-replSingle :: String -> IO ()
-replSingle str = putStr ("> " ++ str) >> hFlush stdout >> isEOF >>= \ isEof ->
+replSingle :: Storage -> IO ()
+replSingle s = putStr ("> " ++ ibuf s) >> hFlush stdout >> isEOF >>= \ isEof ->
   if isEof then
     return ()
   else
-    (fmap (\ str' -> lexe (str ++ str')) getLine) >>= manageAfterLexing []
+    (fmap (\ str' -> lexe (ibuf s ++ str')) getLine) >>= manageAfterLexing s

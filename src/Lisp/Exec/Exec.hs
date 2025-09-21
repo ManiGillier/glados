@@ -141,7 +141,8 @@ evalToInt env ast =
 evalUserCall :: SymTable -> String -> [Ast] -> (Maybe Value, SymTable)
 evalUserCall env fName args = 
     case lookup fName env of
-        Just (VLambda para body clEnv) -> applyLambda env para body clEnv args
+        Just (VLambda para body clEnv) -> 
+            applyLambda env para body clEnv args fName
         Just (VInt x) -> 
             (Just (VError (Error.nonProcedError (Just x))), env)
         Just (VBool _) -> err 
@@ -162,14 +163,14 @@ evalLambda :: SymTable -> [String] -> Ast -> (Maybe Value, SymTable)
 evalLambda env param body = (Just (VLambda param body env), env)
 
 -- Apply lambda
-applyLambda :: SymTable -> [String] -> Ast -> SymTable -> [Ast] -> (Maybe Value, SymTable)
-applyLambda env param body clEnv args
+applyLambda :: SymTable -> [String] -> Ast -> SymTable -> [Ast] -> String -> (Maybe Value, SymTable)
+applyLambda env param body clEnv args funcName
     | length param /= length args = (Just (VError (Error.argsError args)), env)
-    | otherwise = 
-        let argValues = map (fst . evalAst env) args
+    | otherwise = let argValues = map (fst . evalAst env) args
         in if all isJust argValues
            then let justValues = map fromJust argValues
-                    localEnv = zip param justValues ++ clEnv
+                    recursiveEnv = (funcName, VLambda param body clEnv) : clEnv
+                    localEnv = zip param justValues ++ recursiveEnv
                     (result, _) = evalAst localEnv body
                 in (result, env)
            else (Nothing, env)
@@ -180,5 +181,17 @@ evalApply env lambdaExpr args =
     let (maybeLambda, newEnv) = evalAst env lambdaExpr
     in case maybeLambda of
         Just (VLambda param body clEnv) -> 
-            applyLambda newEnv param body clEnv args
+            applyLambdaAnonymous newEnv param body clEnv args
         _ -> (Nothing, newEnv)
+
+applyLambdaAnonymous :: SymTable -> [String] -> Ast -> SymTable -> [Ast] -> (Maybe Value, SymTable)
+applyLambdaAnonymous env param body clEnv args
+    | length param /= length args = (Just (VError (Error.argsError args)), env)
+    | otherwise = 
+        let argValues = map (fst . evalAst env) args
+        in if all isJust argValues
+           then let justValues = map fromJust argValues
+                    localEnv = zip param justValues ++ clEnv
+                    (result, _) = evalAst localEnv body
+                in (result, env)
+           else (Nothing, env)

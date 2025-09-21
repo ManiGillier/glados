@@ -11,7 +11,8 @@ module Lisp.Lexer.Lexer (skipWhitespace, readSymbol, readValue, readSList, readS
 
 import Text.Megaparsec
 import Text.Megaparsec.Char
-import Data.Void
+import Text.Megaparsec.Char.Lexer ( signed, decimal, symbol )
+import Data.Void ( Void )
 import Data.Char(isSpace)
 import Lisp.DataStruct.SymbolicExpression(SExpr(..))
 import Text.Read (readMaybe)
@@ -19,17 +20,22 @@ import Text.Read (readMaybe)
 type Lexer = Parsec Void String
 
 skipWhitespace :: Lexer ()
-skipWhitespace = skipMany (spaceChar)
+skipWhitespace = space1 <|> eof
 
-readSymbol :: Lexer SExpr
-readSymbol = do
+readSymbol' :: Lexer SExpr
+readSymbol' = do
     _ <- skipWhitespace
     sym <- takeWhile1P Nothing (\c -> not (isSpace c) && c /= '(' && c /= ')')
     _ <- skipWhitespace
     return $ Symbol sym
 
-readValue :: Lexer SExpr
-readValue = do
+readSymbol :: Lexer SExpr
+readSymbol = Symbol <$>
+  some (noneOf " \t\n()")
+  <* space
+
+readValue' :: Lexer SExpr
+readValue' = do
     _ <- skipWhitespace
     sign <- optional (char '-' <|> char '+')
     word <- takeWhile1P Nothing (\c -> not (isSpace c) && c /= '(' && c /= ')')
@@ -37,11 +43,17 @@ readValue = do
     case readMaybe word of
         Just num -> return $ case sign of
             Just '-' -> Value (-num)
-            _ -> Value num
+            Just _ -> Value num
+            Nothing -> Value num
         Nothing -> fail "Not a valid integer"
 
-readSList :: Lexer SExpr
-readSList = do
+readValue :: Lexer SExpr
+readValue = Value <$>
+  signed (return ()) decimal
+  <* skipWhitespace
+
+readSList' :: Lexer SExpr
+readSList' = do
     _ <- skipWhitespace
     _ <- char '('
     list <- many readSExpr
@@ -50,8 +62,13 @@ readSList = do
     _ <- skipWhitespace
     return $ List list
 
+readSList :: Lexer SExpr
+readSList = List <$>
+  between (symbol (return ()) "(") (symbol (return ()) ")") (readManySExpr)
+  <* space
+
 readSExpr :: Lexer SExpr
-readSExpr = try readValue <|> readSList <|> readSymbol
+readSExpr = try readSList <|> try readValue <|> try readSymbol
 
 readManySExpr :: Lexer [SExpr]
 readManySExpr = many readSExpr

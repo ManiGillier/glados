@@ -132,6 +132,7 @@ jobs:
     # needs: [ push_to_mirror ]
     name: Create Release
     runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -141,6 +142,7 @@ jobs:
         run: |
           make STACK_ROOT=$STACK_ROOT
       - name: Create Release
+        needs: [ push_to_mirror ]
         id: create_release
         uses: ncipollo/release-action@v1
         env:

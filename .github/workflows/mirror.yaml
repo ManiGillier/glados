@@ -75,7 +75,6 @@ jobs:
         timeout-minutes: 15
         name: Compilation
         run: |
-          make install
           make
       - id: clean
         name: Clean

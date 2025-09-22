@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+span.lineno { color: white; background: #aaaaaa; border-right: solid white 12px }
+span.nottickedoff { background: yellow}
+span.istickedoff { background: white }
+span.tickonlyfalse { margin: -1px; border: 1px solid #f20913; background: #f20913 }
+span.tickonlytrue  { margin: -1px; border: 1px solid #60de51; background: #60de51 }
+span.funcount { font-size: small; color: orange; z-index: 2; position: absolute; right: 20 }
+span.decl { font-weight: bold }
+span.spaces    { background: white }
+</style>
+</head>
+<body>
+<pre>
+<span class="decl"><span class="nottickedoff">never executed</span> <span class="tickonlytrue">always true</span> <span class="tickonlyfalse">always false</span></span>
+</pre>
+<pre>
+<span class="lineno">    1 </span>{-
+<span class="lineno">    2 </span>-- EPITECH PROJECT, 2025
+<span class="lineno">    3 </span>-- glados
+<span class="lineno">    4 </span>-- File description:
+<span class="lineno">    5 </span>-- ErrorExec 
+<span class="lineno">    6 </span>-}
+<span class="lineno">    7 </span>
+<span class="lineno">    8 </span>module Lisp.Exec.ErrorExec (argsError,
+<span class="lineno">    9 </span>                            nonProcedError,
+<span class="lineno">   10 </span>                            notBoundError,
+<span class="lineno">   11 </span>                            procError,
+<span class="lineno">   12 </span>                            callError,
+<span class="lineno">   13 </span>                            condError)
+<span class="lineno">   14 </span>                            where
+<span class="lineno">   15 </span>argsError :: [a] -&gt; String
+<span class="lineno">   16 </span><span class="decl"><span class="istickedoff">argsError args = &quot;*** ERROR : wrong number of argument of &quot; </span>
+<span class="lineno">   17 </span><span class="spaces">    </span><span class="istickedoff">++ show (length args)</span></span>
+<span class="lineno">   18 </span>
+<span class="lineno">   19 </span>nonProcedErrorStr :: String
+<span class="lineno">   20 </span><span class="decl"><span class="istickedoff">nonProcedErrorStr = &quot;*** ERROR : attempt to apply non-procedure&quot;</span></span>
+<span class="lineno">   21 </span>
+<span class="lineno">   22 </span>nonProcedError :: Maybe Int -&gt; String
+<span class="lineno">   23 </span><span class="decl"><span class="istickedoff">nonProcedError (Just x) = (nonProcedErrorStr ++ &quot; &quot; ++ show x)</span>
+<span class="lineno">   24 </span><span class="spaces"></span><span class="istickedoff">nonProcedError Nothing = nonProcedErrorStr</span></span> 
+<span class="lineno">   25 </span>
+<span class="lineno">   26 </span>notBoundError :: String -&gt; String
+<span class="lineno">   27 </span><span class="decl"><span class="istickedoff">notBoundError var = &quot;*** ERROR : variable &quot; ++ var ++ &quot; is not bound&quot;</span></span>
+<span class="lineno">   28 </span>
+<span class="lineno">   29 </span>callError ::Show a =&gt; String -&gt; [a] -&gt; String
+<span class="lineno">   30 </span><span class="decl"><span class="istickedoff">callError fName args = </span>
+<span class="lineno">   31 </span><span class="spaces">    </span><span class="istickedoff">&quot;in call (&quot; ++ fName ++ concatMap ((&quot; &quot; ++) . show) args ++ &quot;)&quot;</span></span>
+<span class="lineno">   32 </span>
+<span class="lineno">   33 </span>condError :: String
+<span class="lineno">   34 </span><span class="decl"><span class="nottickedoff">condError = &quot;*** ERROR : Invalid condition type&quot;</span></span>
+<span class="lineno">   35 </span>
+<span class="lineno">   36 </span>procError :: String
+<span class="lineno">   37 </span><span class="decl"><span class="nottickedoff">procError = &quot;#&lt;procedure&quot;</span></span>
+
+</pre>
+</body>
+</html>

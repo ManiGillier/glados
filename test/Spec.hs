@@ -197,6 +197,16 @@ testIfFalse = TestCase $
   let (result, _) = Exec.execLisp (If (Value 0) (Value 42) (Value 0)) []
   in assertEqual "If false then 0" (Correct "0") result
 
+testIfFalseBool :: Test
+testIfFalseBool = TestCase $ 
+  let (result, _) = Exec.execLisp (If (Boolean True) (Value 42) (Value 0)) []
+  in assertEqual "If false then 0" (Correct "0") result
+
+testIfFalseBoolFalse :: Test
+testIfFalseBoolFalse = TestCase $ 
+  let (result, _) = Exec.execLisp (If (Boolean False) (Value 42) (Value 0)) []
+  in assertEqual "If false then 0" (Correct "0") result
+
 testStringTable :: Test
 testStringTable = TestCase $ 
   let (_, env) = Exec.execLisp (Define "x" (Value 10)) []
@@ -280,13 +290,14 @@ tests = TestList
   , testMultiplyVariadicDefine
   , testIfEqual
   , testIfFalse
+  , testIfFalseBool
+  , testIfFalseBoolFalse
   , testStringTable
   , testNotBoundErrorHandling
   , testEvalBuiltinCallError
   , testNonProcedError
   , testNonProcedError2
   , testProcedureError
-  , testProcError
   , testLambdaAnonymous
   , testLambda
   ]

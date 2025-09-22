@@ -129,6 +129,7 @@ jobs:
           ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
   build:
     if: ${{ startsWith('refs/tags/v', github.ref ) }}
+    needs: [push_to_mirror]
     name: Create Release
     runs-on: ubuntu-latest
     steps:
@@ -144,3 +145,15 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+      - id: compile
+        timeout-minutes: 15
+        name: Compilation
+        run: |
+          make STACK_ROOT=$STACK_ROOT
+      - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ${{ env.EXECUTABLES }}
+        asset_name: ${{ env.EXECUTABLES }}
+        tag: ${{ github.ref }}

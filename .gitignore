@@ -4,3 +4,4 @@ stack.yaml.lock
 glados
 *.lsp
 /glados.cabal
+./test/coverage

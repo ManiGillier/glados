@@ -29,6 +29,7 @@ tests_run:
 	stack clean --allow-different-user
 	stack test --coverage --allow-different-user
 	stack hpc report --all --destdir test/coverage --allow-different-user
+	xdg-open `stack path --local-hpc-root`/index.html
 
 fclean:
 	stack clean

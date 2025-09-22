@@ -148,3 +148,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           artifacts: ${{ env.EXECUTABLES }}
+      - name: Create Release on Mirror
+        id: create_release
+        uses: ncipollo/release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_SSH_PRIVATE_KEY }}
+        with:
+          artifacts: ${{ env.EXECUTABLES }}
+          repo: ${{ env.MIRROR_URL }}

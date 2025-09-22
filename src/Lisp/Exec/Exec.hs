@@ -10,21 +10,22 @@ module Lisp.Exec.Exec (execLisp) where
 import Data.Maybe (fromJust, isJust)
 import qualified Lisp.Exec.Builtin as Builtin
 import qualified Lisp.Exec.ErrorExec as Error
+import Error.MaybeError (MaybeError (..))
 import Lisp.Exec.SymboleTable
 import Lisp.DataStruct.Ast
 import Lisp.Exec.Builtin
 
 -- Main function of lisp execution
 -- Return result and modified String table 
-execLisp :: Ast -> SymTable -> (String, SymTable)
+execLisp :: Ast -> SymTable -> (MaybeError String, SymTable)
 execLisp ast env = 
     let (val, e) = evalAst env ast     
     in case val of
-        Just (VInt v) -> (show v, e)
-        Just (VBool v) -> if v then ("#t", e) else ("#f", e)
-        Just (VLambda _ _ _) -> (Error.procError ++ ">", e) 
-        Just (VError s) -> (s, e)
-        Nothing -> ("",e)
+        Just (VInt v) -> (Correct (show v), e)
+        Just (VBool v) -> (Correct $ boolToSymbol v, e)
+        Just (VLambda _ _ _) -> ((Error (Error.procError ++ ">") []), e) 
+        Just (VError s) -> (Error s [], e)
+        Nothing ->  (Correct [],e)
 
 -- Eval case of Ast
 evalAst :: SymTable -> Ast -> (Maybe Value, SymTable)
@@ -94,6 +95,11 @@ isVariadic s = s `elem` ["+", "-", "*"]
 
 isDefined :: String -> SymTable -> Bool
 isDefined s env = s `elem` map fst env
+
+boolToSymbol :: Bool -> String
+boolToSymbol x
+    | x = "#t"
+    | otherwise = "#f"
 
 evalBuiltinCall :: SymTable -> String -> [Ast] -> (Maybe Value, SymTable)
 evalBuiltinCall env fName args 

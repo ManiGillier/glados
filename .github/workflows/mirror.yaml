@@ -60,7 +60,7 @@ jobs:
         name: Runs the coding-style-checker
         run: |
           /tmp/lambdananas $(pwd)
-          ! (/tmp/lambdananas $(pwd) | read -N 1 -t 1)
+          exit `! (/tmp/lambdananas $(pwd) | read -n 1 -t 1); echo $?`
   check_program_compilation:
     name: check_program_compilation
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}

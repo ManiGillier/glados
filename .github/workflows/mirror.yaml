@@ -60,8 +60,13 @@ jobs:
       - id: launch_coding_style
         name: Runs the coding-style-checker
         run: |
-          /tmp/lambdananas $(pwd)
-          exit `! (/tmp/lambdananas $(pwd) | read -n 1 -t 1); echo $?`
+          /tmp/lambdananas $(pwd) > coding-style-reports.log
+          if [ -s coding-style-reports.log ]; then
+            cat coding-style-reports.log
+            exit 1
+          else
+            echo "No coding style error found."
+          fi
   check_program_compilation:
     name: check_program_compilation
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}

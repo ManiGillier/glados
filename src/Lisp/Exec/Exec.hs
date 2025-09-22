@@ -155,7 +155,7 @@ evalUserCall env fName args =
         Just (VError _) -> err
         Nothing -> err
         where 
-            err = (Just (VError (Error.nonProcedError Nothing)), env)
+            err = (Just (VError (Error.notBoundError fName)), env)
 
 evalBinaryOp :: SymTable -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
 evalBinaryOp env op [arg1, arg2] =

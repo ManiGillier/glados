@@ -28,7 +28,10 @@ repl :: IO ()
 repl = replSingle $ Storage "" ([], [])
 
 execFold :: (SymTable, [String]) -> Ast -> (SymTable, [String])
-execFold (table', str') ast = (table, str : str')
+execFold (table', str') ast =
+  case str of
+    Correct str'' -> (table, str'' : str')
+    Error t e -> (table, (t ++ e) : str')
   where
     (str, table) = execLisp ast table'
 

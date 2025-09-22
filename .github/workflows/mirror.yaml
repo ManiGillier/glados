@@ -10,6 +10,7 @@ env:
   REPO_SSH_URL: git@github.com:${{ github.repository }}.git
   PREFIX_BRANCH_IGNORE: ga-ignore-
   FORBIDEN_FUNCTIONS:
+  STACK_ROOT: /tmp/stack-root
 
 jobs:
   is_valid:

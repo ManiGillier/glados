@@ -7,65 +7,7 @@
 
 module Main (main) where
 
-import qualified Lisp.Exec.Exec as Exec
-import Lisp.Exec.SymboleTable
-import Lisp.DataStruct.Ast
 import qualified Lisp.Shell.Repl as Repl
-
-testCases :: [Ast]
-testCases =
-    [ Value 42
-    , Define "x" (Value 42)
-    , Define "y" (Call "+" [Value 10, Call "+" [Value 2, Value 3]])
-    , Define "y" (Value 32)
-    , Symbol "x"
-    , Symbol "y"
-    , Call "+" [Symbol "y", Value 2]
-    , Call "+" [Value 10, Value 2]
-    , Call "*" [Value 5, Call "+" [Value 2, Value 3]]
-    , Call "-" [Value 100, Call "div" [Value 20, Value 4]]
-    , Call "eq?" [Value 5, Value 5]
-    , Call "<" [Value 7, Value 3]
-    , Define "addone" (Lambda ["x"] (Call "+" [Symbol "x", Value 1]))
-    , Call "addone" [Value 41]
-    , Apply (Lambda ["x","y","z"] (Call "*" [Symbol "x", Call "*" [Symbol "y", Symbol "z"]]))
-     [Value 2, Value 2, Value 2]
-    , Boolean True
-     -- VARIADIC OPERATIONS
-     , Call "+" [Value 2, Value 2, Value 2]
-     , Call "-" [Value 2, Value 2, Value 2]
-     , Call "*" [Value 2, Value 2, Value 2]
-     -- IF TEEST
-     , If (Call "eq?" [Value 1, Value 1, Value 1]) (Boolean True) (Boolean False)
-     , If (Call "eq?" [Value 2, Value 1]) (Boolean True) (Boolean False)
-     -- ERROR CASE
-     , (Lambda ["x" , "y", "z"] (Call "*" [Symbol "x", Call "*" [Symbol "y", Symbol "z"]]))
-     , Call "y" []
-     , Symbol "p"
-     , Call "*" [Value 2]
-     , Call "<" [Value 2, Value 2, Value 2]
-     , Symbol "addone"
-    ]
-
-testOne :: Ast -> SymTable -> IO SymTable
-testOne ast env = do
-    putStrLn $ "cur ast = " ++ show ast
-    let (result, newEnv) = Exec.execLisp ast env
-    putStrLn $ "res = " ++ result
-    putStrLn $ "env = " ++ show newEnv
-    putStrLn ""
-    return newEnv
-
-testExecHelper :: [Ast] -> SymTable -> IO ()
-testExecHelper [] _ = return ()
-testExecHelper (ast:rest) env = do
-    newEnv <- testOne ast env
-    testExecHelper rest newEnv
-
-testExec :: IO ()
-testExec = do
-    let env = []
-    testExecHelper testCases env
 
 main :: IO ()
 main = Repl.repl

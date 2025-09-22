@@ -200,7 +200,7 @@ testIfFalse = TestCase $
 testIfFalseBool :: Test
 testIfFalseBool = TestCase $ 
   let (result, _) = Exec.execLisp (If (Boolean True) (Value 42) (Value 0)) []
-  in assertEqual "If false then 0" (Correct "0") result
+  in assertEqual "If true then 42" (Correct "42") result
 
 testIfFalseBoolFalse :: Test
 testIfFalseBoolFalse = TestCase $ 
@@ -227,7 +227,7 @@ testEvalBuiltinCallError = TestCase $
 testNonProcedError :: Test
 testNonProcedError = TestCase $
   let (result, _) = Exec.execLisp (Call "nonProc" [Value 1]) []
-  in assertEqual "Error on calling non-procedure" (Error "*** ERROR : attempt to apply non-procedure" "") result
+  in assertEqual "Error on calling lambda not define" (Error "*** ERROR : variable nonProc is not bound" "") result
 
 testNonProcedError2 :: Test
 testNonProcedError2 = TestCase $

@@ -42,7 +42,7 @@ span.spaces    { background: white }
 <span class="lineno">   23 </span><span class="spaces">    </span><span class="istickedoff">in case val of</span>
 <span class="lineno">   24 </span><span class="spaces">        </span><span class="istickedoff">Just (VInt v) -&gt; (Correct (show v), <span class="nottickedoff">e</span>)</span>
 <span class="lineno">   25 </span><span class="spaces">        </span><span class="istickedoff">Just (VBool v) -&gt; (Correct $ boolToSymbol v, <span class="nottickedoff">e</span>)</span>
-<span class="lineno">   26 </span><span class="spaces">        </span><span class="istickedoff">Just (VLambda _ _ _) -&gt; <span class="nottickedoff">((Error (Error.procError ++ &quot;&gt;&quot;) []), e)</span> </span>
+<span class="lineno">   26 </span><span class="spaces">        </span><span class="istickedoff">Just (VLambda _ _ _) -&gt; ((Error (Error.procError ++ &quot;&gt;&quot;) []), <span class="nottickedoff">e</span>) </span>
 <span class="lineno">   27 </span><span class="spaces">        </span><span class="istickedoff">Just (VError s) -&gt; (Error s [], <span class="nottickedoff">e</span>)</span>
 <span class="lineno">   28 </span><span class="spaces">        </span><span class="istickedoff">Nothing -&gt;  (<span class="nottickedoff">Correct []</span>,e)</span></span>
 <span class="lineno">   29 </span>
@@ -51,7 +51,7 @@ span.spaces    { background: white }
 <span class="lineno">   32 </span><span class="decl"><span class="istickedoff">evalAst env ast =</span>
 <span class="lineno">   33 </span><span class="spaces">    </span><span class="istickedoff">case ast of</span>
 <span class="lineno">   34 </span><span class="spaces">        </span><span class="istickedoff">Value x -&gt; (Just (VInt x), env)</span>
-<span class="lineno">   35 </span><span class="spaces">        </span><span class="istickedoff">Boolean x -&gt; <span class="nottickedoff">(Just (VBool x), env)</span></span>
+<span class="lineno">   35 </span><span class="spaces">        </span><span class="istickedoff">Boolean x -&gt; (Just (VBool x), <span class="nottickedoff">env</span>)</span>
 <span class="lineno">   36 </span><span class="spaces">        </span><span class="istickedoff">Symbol s -&gt; lookupSymbol env s</span>
 <span class="lineno">   37 </span><span class="spaces">        </span><span class="istickedoff">Define sym a -&gt; defineSymbol env sym a</span>
 <span class="lineno">   38 </span><span class="spaces">        </span><span class="istickedoff">Call f args -&gt; evalCall env f args</span>
@@ -64,8 +64,8 @@ span.spaces    { background: white }
 <span class="lineno">   45 </span><span class="decl"><span class="istickedoff">evalCond env conditionAst thenBranch elseBranch = </span>
 <span class="lineno">   46 </span><span class="spaces">    </span><span class="istickedoff">let (maybeCondition, newEnv) = evalAst <span class="nottickedoff">env</span> conditionAst</span>
 <span class="lineno">   47 </span><span class="spaces">    </span><span class="istickedoff">in case maybeCondition of</span>
-<span class="lineno">   48 </span><span class="spaces">        </span><span class="istickedoff">Just (VBool True) -&gt; <span class="nottickedoff">evalAst newEnv thenBranch</span></span>
-<span class="lineno">   49 </span><span class="spaces">        </span><span class="istickedoff">Just (VBool False) -&gt; <span class="nottickedoff">evalAst newEnv elseBranch</span></span>
+<span class="lineno">   48 </span><span class="spaces">        </span><span class="istickedoff">Just (VBool True) -&gt; evalAst <span class="nottickedoff">newEnv</span> thenBranch</span>
+<span class="lineno">   49 </span><span class="spaces">        </span><span class="istickedoff">Just (VBool False) -&gt; evalAst <span class="nottickedoff">newEnv</span> elseBranch</span>
 <span class="lineno">   50 </span><span class="spaces">        </span><span class="istickedoff">Just (VInt 0) -&gt; evalAst <span class="nottickedoff">newEnv</span> elseBranch</span>
 <span class="lineno">   51 </span><span class="spaces">        </span><span class="istickedoff">Just (VInt _) -&gt; evalAst <span class="nottickedoff">newEnv</span> thenBranch</span>
 <span class="lineno">   52 </span><span class="spaces">        </span><span class="istickedoff">Just (VError err) -&gt; <span class="nottickedoff">(Just (VError err), newEnv)</span></span>
@@ -104,7 +104,7 @@ span.spaces    { background: white }
 <span class="lineno">   85 </span><span class="decl"><span class="istickedoff">evalCall env fName args </span>
 <span class="lineno">   86 </span><span class="spaces">    </span><span class="istickedoff">| isBuiltin fName &amp;&amp; (not $ isDefined fName env) </span>
 <span class="lineno">   87 </span><span class="spaces">        </span><span class="istickedoff">= evalBuiltinCall env fName args</span>
-<span class="lineno">   88 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlytrue">otherwise</span> = evalUserCall env fName <span class="nottickedoff">args</span></span></span>
+<span class="lineno">   88 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlytrue">otherwise</span> = evalUserCall env fName args</span></span>
 <span class="lineno">   89 </span>
 <span class="lineno">   90 </span>isBuiltin :: String -&gt; Bool
 <span class="lineno">   91 </span><span class="decl"><span class="istickedoff">isBuiltin s = s `elem` [&quot;+&quot;, &quot;-&quot;, &quot;*&quot;, &quot;div&quot;, &quot;mod&quot;, &quot;eq?&quot;, &quot;&lt;&quot;]</span></span>
@@ -167,59 +167,58 @@ span.spaces    { background: white }
 <span class="lineno">  148 </span><span class="decl"><span class="istickedoff">evalUserCall env fName args = </span>
 <span class="lineno">  149 </span><span class="spaces">    </span><span class="istickedoff">case lookup fName env of</span>
 <span class="lineno">  150 </span><span class="spaces">        </span><span class="istickedoff">Just (VLambda para body clEnv) -&gt; </span>
-<span class="lineno">  151 </span><span class="spaces">            </span><span class="istickedoff"><span class="nottickedoff">applyLambda env para body clEnv args fName</span></span>
-<span class="lineno">  152 </span><span class="spaces">        </span><span class="istickedoff">Just (VInt x) -&gt; </span>
-<span class="lineno">  153 </span><span class="spaces">            </span><span class="istickedoff">(Just (VError (Error.nonProcedError (Just x))), <span class="nottickedoff">env</span>)</span>
-<span class="lineno">  154 </span><span class="spaces">        </span><span class="istickedoff">Just (VBool _) -&gt; <span class="nottickedoff">err</span> </span>
-<span class="lineno">  155 </span><span class="spaces">        </span><span class="istickedoff">Just (VError _) -&gt; <span class="nottickedoff">err</span></span>
-<span class="lineno">  156 </span><span class="spaces">        </span><span class="istickedoff">Nothing -&gt; err</span>
-<span class="lineno">  157 </span><span class="spaces">        </span><span class="istickedoff">where </span>
-<span class="lineno">  158 </span><span class="spaces">            </span><span class="istickedoff">err = (Just (VError (Error.nonProcedError Nothing)), <span class="nottickedoff">env</span>)</span></span>
-<span class="lineno">  159 </span>
-<span class="lineno">  160 </span>evalBinaryOp :: SymTable -&gt; (Int -&gt; Int -&gt; Int) -&gt; [Ast] -&gt; Maybe Int
-<span class="lineno">  161 </span><span class="decl"><span class="istickedoff">evalBinaryOp env op [arg1, arg2] =</span>
-<span class="lineno">  162 </span><span class="spaces">    </span><span class="istickedoff">case (fst (evalAst env arg1), fst (evalAst <span class="nottickedoff">env</span> arg2)) of</span>
-<span class="lineno">  163 </span><span class="spaces">        </span><span class="istickedoff">(Just (VInt v1), Just (VInt v2)) -&gt; Just (op v1 v2)</span>
-<span class="lineno">  164 </span><span class="spaces">        </span><span class="istickedoff">_                                -&gt; <span class="nottickedoff">Nothing</span></span>
-<span class="lineno">  165 </span><span class="spaces"></span><span class="istickedoff">evalBinaryOp _ _ _ = <span class="nottickedoff">Nothing</span></span></span>
-<span class="lineno">  166 </span>
-<span class="lineno">  167 </span>-- Create a lambda
-<span class="lineno">  168 </span>evalLambda :: SymTable -&gt; [String] -&gt; Ast -&gt; (Maybe Value, SymTable)
-<span class="lineno">  169 </span><span class="decl"><span class="istickedoff">evalLambda env param body = (Just (VLambda param body env), <span class="nottickedoff">env</span>)</span></span>
-<span class="lineno">  170 </span>
-<span class="lineno">  171 </span>-- Apply lambda
-<span class="lineno">  172 </span>applyLambda :: SymTable -&gt; [String] -&gt; Ast -&gt; SymTable -&gt; [Ast] -&gt; String -&gt; (Maybe Value, SymTable)
-<span class="lineno">  173 </span><span class="decl"><span class="nottickedoff">applyLambda env param body clEnv args funcName</span>
-<span class="lineno">  174 </span><span class="spaces">    </span><span class="nottickedoff">| length param /= length args = (Just (VError (Error.argsError args)), env)</span>
-<span class="lineno">  175 </span><span class="spaces">    </span><span class="nottickedoff">| otherwise = let argValues = map (fst . evalAst env) args</span>
-<span class="lineno">  176 </span><span class="spaces">        </span><span class="nottickedoff">in if all isJust argValues</span>
-<span class="lineno">  177 </span><span class="spaces">           </span><span class="nottickedoff">then let justValues = map fromJust argValues</span>
-<span class="lineno">  178 </span><span class="spaces">                    </span><span class="nottickedoff">recursiveEnv = (funcName, VLambda param body clEnv) : clEnv</span>
-<span class="lineno">  179 </span><span class="spaces">                    </span><span class="nottickedoff">localEnv = zip param justValues ++ recursiveEnv</span>
-<span class="lineno">  180 </span><span class="spaces">                    </span><span class="nottickedoff">(result, _) = evalAst localEnv body</span>
-<span class="lineno">  181 </span><span class="spaces">                </span><span class="nottickedoff">in (result, env)</span>
-<span class="lineno">  182 </span><span class="spaces">           </span><span class="nottickedoff">else (Nothing, env)</span></span>
-<span class="lineno">  183 </span>
-<span class="lineno">  184 </span>-- Apply anonymous Lambda call ex: ((lambda (a b c) (* a (* b c))) 2 2 2)
-<span class="lineno">  185 </span>evalApply :: SymTable -&gt; Ast -&gt; [Ast] -&gt; (Maybe Value, SymTable)
-<span class="lineno">  186 </span><span class="decl"><span class="istickedoff">evalApply env lambdaExpr args = </span>
-<span class="lineno">  187 </span><span class="spaces">    </span><span class="istickedoff">let (maybeLambda, newEnv) = evalAst env lambdaExpr</span>
-<span class="lineno">  188 </span><span class="spaces">    </span><span class="istickedoff">in case maybeLambda of</span>
-<span class="lineno">  189 </span><span class="spaces">        </span><span class="istickedoff">Just (VLambda param body clEnv) -&gt; </span>
-<span class="lineno">  190 </span><span class="spaces">            </span><span class="istickedoff">applyLambdaAnonymous <span class="nottickedoff">newEnv</span> param body clEnv args</span>
-<span class="lineno">  191 </span><span class="spaces">        </span><span class="istickedoff">_ -&gt; <span class="nottickedoff">(Nothing, newEnv)</span></span></span>
-<span class="lineno">  192 </span>
-<span class="lineno">  193 </span>applyLambdaAnonymous :: SymTable -&gt; [String] -&gt; Ast -&gt; SymTable -&gt; [Ast] -&gt; (Maybe Value, SymTable)
-<span class="lineno">  194 </span><span class="decl"><span class="istickedoff">applyLambdaAnonymous env param body clEnv args</span>
-<span class="lineno">  195 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlyfalse">length param /= length args</span> = <span class="nottickedoff">(Just (VError (Error.argsError args)), env)</span></span>
-<span class="lineno">  196 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlytrue">otherwise</span> = </span>
-<span class="lineno">  197 </span><span class="spaces">        </span><span class="istickedoff">let argValues = map (fst . evalAst <span class="nottickedoff">env</span>) args</span>
-<span class="lineno">  198 </span><span class="spaces">        </span><span class="istickedoff">in if <span class="tickonlytrue">all isJust argValues</span></span>
-<span class="lineno">  199 </span><span class="spaces">           </span><span class="istickedoff">then let justValues = map fromJust argValues</span>
-<span class="lineno">  200 </span><span class="spaces">                    </span><span class="istickedoff">localEnv = zip param justValues ++ clEnv</span>
-<span class="lineno">  201 </span><span class="spaces">                    </span><span class="istickedoff">(result, _) = evalAst localEnv body</span>
-<span class="lineno">  202 </span><span class="spaces">                </span><span class="istickedoff">in (result, <span class="nottickedoff">env</span>)</span>
-<span class="lineno">  203 </span><span class="spaces">           </span><span class="istickedoff">else <span class="nottickedoff">(Nothing, env)</span></span></span>
+<span class="lineno">  151 </span><span class="spaces">            </span><span class="istickedoff">applyLambda <span class="nottickedoff">env</span> para body clEnv args fName</span>
+<span class="lineno">  152 </span><span class="spaces">        </span><span class="istickedoff">Just (VInt x) -&gt; (Just (VError (Error.nonProcedError (Just x))), <span class="nottickedoff">env</span>)</span>
+<span class="lineno">  153 </span><span class="spaces">        </span><span class="istickedoff">Just (VBool _) -&gt; <span class="nottickedoff">err</span> </span>
+<span class="lineno">  154 </span><span class="spaces">        </span><span class="istickedoff">Just (VError _) -&gt; <span class="nottickedoff">err</span></span>
+<span class="lineno">  155 </span><span class="spaces">        </span><span class="istickedoff">Nothing -&gt; err</span>
+<span class="lineno">  156 </span><span class="spaces">        </span><span class="istickedoff">where </span>
+<span class="lineno">  157 </span><span class="spaces">            </span><span class="istickedoff">err = (Just (VError (Error.notBoundError fName)), <span class="nottickedoff">env</span>)</span></span>
+<span class="lineno">  158 </span>
+<span class="lineno">  159 </span>evalBinaryOp :: SymTable -&gt; (Int -&gt; Int -&gt; Int) -&gt; [Ast] -&gt; Maybe Int
+<span class="lineno">  160 </span><span class="decl"><span class="istickedoff">evalBinaryOp env op [arg1, arg2] =</span>
+<span class="lineno">  161 </span><span class="spaces">    </span><span class="istickedoff">case (fst (evalAst env arg1), fst (evalAst <span class="nottickedoff">env</span> arg2)) of</span>
+<span class="lineno">  162 </span><span class="spaces">        </span><span class="istickedoff">(Just (VInt v1), Just (VInt v2)) -&gt; Just (op v1 v2)</span>
+<span class="lineno">  163 </span><span class="spaces">        </span><span class="istickedoff">_                                -&gt; <span class="nottickedoff">Nothing</span></span>
+<span class="lineno">  164 </span><span class="spaces"></span><span class="istickedoff">evalBinaryOp _ _ _ = <span class="nottickedoff">Nothing</span></span></span>
+<span class="lineno">  165 </span>
+<span class="lineno">  166 </span>-- Create a lambda
+<span class="lineno">  167 </span>evalLambda :: SymTable -&gt; [String] -&gt; Ast -&gt; (Maybe Value, SymTable)
+<span class="lineno">  168 </span><span class="decl"><span class="istickedoff">evalLambda env param body = (Just (VLambda param body env), env)</span></span>
+<span class="lineno">  169 </span>
+<span class="lineno">  170 </span>-- Apply lambda
+<span class="lineno">  171 </span>applyLambda :: SymTable -&gt; [String] -&gt; Ast -&gt; SymTable -&gt; [Ast] -&gt; String -&gt; (Maybe Value, SymTable)
+<span class="lineno">  172 </span><span class="decl"><span class="istickedoff">applyLambda env param body clEnv args funcName</span>
+<span class="lineno">  173 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlyfalse">length param /= length args</span> = <span class="nottickedoff">(Just (VError (Error.argsError args)), env)</span></span>
+<span class="lineno">  174 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlytrue">otherwise</span> = let argValues = map (fst . evalAst <span class="nottickedoff">env</span>) args</span>
+<span class="lineno">  175 </span><span class="spaces">        </span><span class="istickedoff">in if <span class="tickonlytrue">all isJust argValues</span></span>
+<span class="lineno">  176 </span><span class="spaces">           </span><span class="istickedoff">then let justValues = map fromJust argValues</span>
+<span class="lineno">  177 </span><span class="spaces">                    </span><span class="istickedoff">recursiveEnv = (funcName, <span class="nottickedoff">VLambda param body clEnv</span>) : clEnv</span>
+<span class="lineno">  178 </span><span class="spaces">                    </span><span class="istickedoff">localEnv = zip param justValues ++ recursiveEnv</span>
+<span class="lineno">  179 </span><span class="spaces">                    </span><span class="istickedoff">(result, _) = evalAst localEnv body</span>
+<span class="lineno">  180 </span><span class="spaces">                </span><span class="istickedoff">in (result, <span class="nottickedoff">env</span>)</span>
+<span class="lineno">  181 </span><span class="spaces">           </span><span class="istickedoff">else <span class="nottickedoff">(Nothing, env)</span></span></span>
+<span class="lineno">  182 </span>
+<span class="lineno">  183 </span>-- Apply anonymous Lambda call ex: ((lambda (a b c) (* a (* b c))) 2 2 2)
+<span class="lineno">  184 </span>evalApply :: SymTable -&gt; Ast -&gt; [Ast] -&gt; (Maybe Value, SymTable)
+<span class="lineno">  185 </span><span class="decl"><span class="istickedoff">evalApply env lambdaExpr args = </span>
+<span class="lineno">  186 </span><span class="spaces">    </span><span class="istickedoff">let (maybeLambda, newEnv) = evalAst env lambdaExpr</span>
+<span class="lineno">  187 </span><span class="spaces">    </span><span class="istickedoff">in case maybeLambda of</span>
+<span class="lineno">  188 </span><span class="spaces">        </span><span class="istickedoff">Just (VLambda param body clEnv) -&gt; </span>
+<span class="lineno">  189 </span><span class="spaces">            </span><span class="istickedoff">applyLambdaAnonymous <span class="nottickedoff">newEnv</span> param body clEnv args</span>
+<span class="lineno">  190 </span><span class="spaces">        </span><span class="istickedoff">_ -&gt; <span class="nottickedoff">(Nothing, newEnv)</span></span></span>
+<span class="lineno">  191 </span>
+<span class="lineno">  192 </span>applyLambdaAnonymous :: SymTable -&gt; [String] -&gt; Ast -&gt; SymTable -&gt; [Ast] -&gt; (Maybe Value, SymTable)
+<span class="lineno">  193 </span><span class="decl"><span class="istickedoff">applyLambdaAnonymous env param body clEnv args</span>
+<span class="lineno">  194 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlyfalse">length param /= length args</span> = <span class="nottickedoff">(Just (VError (Error.argsError args)), env)</span></span>
+<span class="lineno">  195 </span><span class="spaces">    </span><span class="istickedoff">| <span class="tickonlytrue">otherwise</span> = </span>
+<span class="lineno">  196 </span><span class="spaces">        </span><span class="istickedoff">let argValues = map (fst . evalAst <span class="nottickedoff">env</span>) args</span>
+<span class="lineno">  197 </span><span class="spaces">        </span><span class="istickedoff">in if <span class="tickonlytrue">all isJust argValues</span></span>
+<span class="lineno">  198 </span><span class="spaces">           </span><span class="istickedoff">then let justValues = map fromJust argValues</span>
+<span class="lineno">  199 </span><span class="spaces">                    </span><span class="istickedoff">localEnv = zip param justValues ++ clEnv</span>
+<span class="lineno">  200 </span><span class="spaces">                    </span><span class="istickedoff">(result, _) = evalAst localEnv body</span>
+<span class="lineno">  201 </span><span class="spaces">                </span><span class="istickedoff">in (result, <span class="nottickedoff">env</span>)</span>
+<span class="lineno">  202 </span><span class="spaces">           </span><span class="istickedoff">else <span class="nottickedoff">(Nothing, env)</span></span></span>
 
 </pre>
 </body>

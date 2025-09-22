@@ -40,7 +40,7 @@ span.spaces    { background: white }
 <span class="lineno">   21 </span>
 <span class="lineno">   22 </span>nonProcedError :: Maybe Int -&gt; String
 <span class="lineno">   23 </span><span class="decl"><span class="istickedoff">nonProcedError (Just x) = (nonProcedErrorStr ++ &quot; &quot; ++ show x)</span>
-<span class="lineno">   24 </span><span class="spaces"></span><span class="istickedoff">nonProcedError Nothing = nonProcedErrorStr</span></span> 
+<span class="lineno">   24 </span><span class="spaces"></span><span class="istickedoff">nonProcedError Nothing = <span class="nottickedoff">nonProcedErrorStr</span></span></span> 
 <span class="lineno">   25 </span>
 <span class="lineno">   26 </span>notBoundError :: String -&gt; String
 <span class="lineno">   27 </span><span class="decl"><span class="istickedoff">notBoundError var = &quot;*** ERROR : variable &quot; ++ var ++ &quot; is not bound&quot;</span></span>
@@ -53,7 +53,7 @@ span.spaces    { background: white }
 <span class="lineno">   34 </span><span class="decl"><span class="nottickedoff">condError = &quot;*** ERROR : Invalid condition type&quot;</span></span>
 <span class="lineno">   35 </span>
 <span class="lineno">   36 </span>procError :: String
-<span class="lineno">   37 </span><span class="decl"><span class="nottickedoff">procError = &quot;#&lt;procedure&quot;</span></span>
+<span class="lineno">   37 </span><span class="decl"><span class="istickedoff">procError = &quot;#&lt;procedure&quot;</span></span>
 
 </pre>
 </body>

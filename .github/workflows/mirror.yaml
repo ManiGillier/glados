@@ -64,7 +64,7 @@ jobs:
   check_program_compilation:
     name: check_program_compilation
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}
-    needs: [is_valid, check_coding_style]
+    needs: [is_valid]
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
@@ -75,7 +75,7 @@ jobs:
         timeout-minutes: 15
         name: Compilation
         run: |
-          make
+          make STACK_ROOT=$STACK_ROOT
       - id: clean
         name: Clean
         run: |
@@ -95,7 +95,7 @@ jobs:
   run_tests:
     name: run_tests
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}
-    needs: [is_valid, check_program_compilation]
+    needs: [is_valid]
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
@@ -106,7 +106,7 @@ jobs:
         name: Run make tests_run
         timeout-minutes: 15
         run: |
-          make tests_run
+          make tests_run STACK_ROOT=$STACK_ROOT
   push_to_mirror:
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}
     needs: [is_valid, check_program_compilation, run_tests, check_coding_style]

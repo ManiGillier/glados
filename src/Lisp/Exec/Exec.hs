@@ -149,8 +149,7 @@ evalUserCall env fName args =
     case lookup fName env of
         Just (VLambda para body clEnv) -> 
             applyLambda env para body clEnv args fName
-        Just (VInt x) -> 
-            (Just (VError (Error.nonProcedError (Just x))), env)
+        Just (VInt x) -> (Just (VError (Error.nonProcedError (Just x))), env)
         Just (VBool _) -> err 
         Just (VError _) -> err
         Nothing -> err

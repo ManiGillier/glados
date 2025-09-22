@@ -57,4 +57,5 @@ replSingle s =
         if isEof then
             return ()
         else
-            (fmap (\str' -> lexe (ibuf s ++ str')) getLine) >>= manageAfterLexing s
+            (fmap (\str' -> lexe (ibuf s ++ 
+                str')) getLine) >>= manageAfterLexing s

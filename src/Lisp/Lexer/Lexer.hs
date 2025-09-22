@@ -65,7 +65,8 @@ readValue =
 readSList :: Lexer SExpr
 readSList =
     List
-        <$> between (symbol (return ()) "(") (symbol (return ()) ")") (readManySExpr)
+        <$> between (symbol (return ()) "(")
+            (symbol (return ()) ")") (readManySExpr)
         <* space
 
 readSExpr :: Lexer SExpr
@@ -75,7 +76,8 @@ readManySExpr :: Lexer [SExpr]
 readManySExpr = many readSExpr
 
 startReadManySExpr :: Lexer [SExpr]
-startReadManySExpr = notFollowedBy (char ')') *> readManySExpr <* notFollowedBy (char ')')
+startReadManySExpr = notFollowedBy (char ')') 
+    *> readManySExpr <* notFollowedBy (char ')')
 
 lexe :: String -> Either (ParseErrorBundle String Void) ([SExpr], String)
 lexe = parse ((,) <$> startReadManySExpr <*> getInput) ""

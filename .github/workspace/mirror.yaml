@@ -55,38 +55,38 @@ jobs:
         run: |
           lambdananas $(pwd)
           ! (lambdananas $(pwd) | read -N 1 -t 1)
-          check_program_compilation:
-            name: check_program_compilation
-            if: ${{ needs.is_valid.outputs.is_valid == 1 }}
-            needs: [is_valid, check_coding_style]
-            runs-on: ubuntu-latest
-            container: epitechcontent/epitest-docker
-            steps:
-              - id: checkout
-                name: Checkout
-                uses: actions/checkout@v4
-                - id: compile
-                  timeout-minutes: 15
-                  name: Compilation
-                  run: |
-                    make install
-                    make
-                    - id: clean
-                      name: Clean
-                      run: |
-                        make fclean
-                        - id: do_executables_exist
-                          name: Check existence of executables
-                          run: |
-                            IN=${{ env.EXECUTABLES }}
-                            executables=$(echo $IN | tr "," "\n")
-                            for exec in $executables
-                            do
-                            if [[ ! -x $exec ]]; then
-                            echo "::error::'$exec' was not found or is not executable"
-                            exit 1
-                            fi
-                            done
+  check_program_compilation:
+    name: check_program_compilation
+    if: ${{ needs.is_valid.outputs.is_valid == 1 }}
+    needs: [is_valid, check_coding_style]
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+      - id: compile
+        timeout-minutes: 15
+        name: Compilation
+        run: |
+          make install
+          make
+      - id: clean
+        name: Clean
+        run: |
+          make fclean
+      - id: do_executables_exist
+        name: Check existence of executables
+        run: |
+          IN=${{ env.EXECUTABLES }}
+          executables=$(echo $IN | tr "," "\n")
+          for exec in $executables
+          do
+          if [[ ! -x $exec ]]; then
+          echo "::error::'$exec' was not found or is not executable"
+          exit 1
+          fi
+          done
   run_tests:
     name: run_tests
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}

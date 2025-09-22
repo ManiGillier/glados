@@ -1,0 +1,118 @@
+name: Mirror
+run-name: Mirroring
+on: [push, pull_request]
+
+env:
+  MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git
+  EXECUTABLES: glados
+  BRANCH_NAME: ${{ github.ref_name }}
+  REPO_NAME: ${{ github.repository }}
+  REPO_SSH_URL: git@github.com:${{ github.repository }}.git
+  PREFIX_BRANCH_IGNORE: ga-ignore-
+  FORBIDEN_FUNCTIONS:
+
+jobs:
+  is_valid:
+    name: is_valid
+    runs-on: ubuntu-latest
+    outputs:
+      is_valid: |
+        ${{ (steps.no_errors.outputs.is_valid == 1 &&
+        steps.is_target_self.outputs.is_error != 1 &&
+        steps.is_branch_ignored.outputs.is_error != 1) && 1 || 0}}
+    steps:
+      - id: is_target_self
+        name: Checking if the mirror is self
+        if: ${{ env.MIRROR_URL == env.REPO_SSH_URL }}
+        run: |
+          echo "::error::Target is self"
+          echo "is_error=1" >> "$GITHUB_OUTPUT"
+          exit 0
+      - id: is_branch_ignored
+        name: Checking if the branch is ignored
+        if: ${{ startsWith(env.BRANCH_NAME, env.PREFIX_BRANCH_IGNORE) }}
+        run: |
+          echo "::error::Branch is ignored"
+          echo "is_error=1" >> "$GITHUB_OUTPUT"
+          exit 0
+      - id: no_errors
+        name: Return without errors
+        run: |
+          echo "is_valid=1" >> "$GITHUB_OUTPUT"
+          exit 0
+  check_coding_style:
+    name: check_coding_style
+    if: ${{ needs.is_valid.outputs.is_valid == 1 }}
+    needs: [is_valid]
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:latest
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+      - id: launch_coding_style
+        name: Runs the coding-style-checker
+        run: |
+          lambdananas $(pwd)
+          ! (lambdananas $(pwd) | read -N 1 -t 1)
+check_program_compilation:
+  name: check_program_compilation
+  if: ${{ needs.is_valid.outputs.is_valid == 1 }}
+  needs: [is_valid, check_coding_style]
+  runs-on: ubuntu-latest
+  container: epitechcontent/epitest-docker
+  steps:
+    - id: checkout
+      name: Checkout
+      uses: actions/checkout@v4
+    - id: compile
+      timeout-minutes: 15
+      name: Compilation
+      run: |
+        make install
+        make
+    - id: clean
+      name: Clean
+      run: |
+        make fclean
+    - id: do_executables_exist
+      name: Check existence of executables
+      run: |
+        IN=${{ env.EXECUTABLES }}
+        executables=$(echo $IN | tr "," "\n")
+        for exec in $executables
+        do
+        if [[ ! -x $exec ]]; then
+        echo "::error::'$exec' was not found or is not executable"
+        exit 1
+        fi
+        done
+  run_tests:
+    name: run_tests
+    if: ${{ needs.is_valid.outputs.is_valid == 1 }}
+    needs: [is_valid, check_program_compilation]
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+      - id: tests_run
+        name: Run make tests_run
+        timeout-minutes: 15
+        run: |
+          make tests_run
+  push_to_mirror:
+    if: ${{ needs.is_valid.outputs.is_valid == 1 }}
+    needs: [is_valid, check_program_compilation, run_tests, check_coding_style]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Checkout
+        with:
+          fetch-depth: 0
+      - uses: pixta-dev/repository-mirroring-action@v1
+        name: Pushing to the repo
+        with:
+          target_repo_url: ${{ env.MIRROR_URL }}
+          ssh_private_key: ${{ secrets.GIT_SSH_PRIVATE_KEY }}

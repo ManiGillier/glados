@@ -16,7 +16,12 @@ import System.IO ( hPutStrLn, stderr )
 type ErrorType = String
 
 data MaybeError a = Error !ErrorType !String | Correct !a
-  deriving (Show, Eq)
+  deriving (Eq)
+
+instance Show a => Show (MaybeError a) where
+  show (Correct x) = show x
+  show (Error t "") = t
+  show (Error t s) = t ++ ": " ++ s
 
 instance Functor MaybeError where
   fmap f (Correct x) = Correct (f x)
@@ -40,9 +45,6 @@ toMaybeError (Just result) _ = Correct result
 printError :: MaybeError a -> IO ()
 printError (Error t c) = hPutStrLn stderr (t ++ ": " ++ c)
 printError _ = return ()
-
-undefinedError :: ErrorType
-undefinedError = "Undefined error"
 
 toMaybe :: MaybeError a -> Maybe a
 toMaybe (Correct x) = Just x

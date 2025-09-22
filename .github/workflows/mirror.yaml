@@ -52,14 +52,15 @@ jobs:
         run: |
           wget https://github.com/Epitech/lambdananas/releases/download/v2.4.3.2/lambdananas
           chmod +x lambdananas
+          mv lambdananas /tmp/lambdananas
       - id: checkout
         name: Checkout
         uses: actions/checkout@v4
       - id: launch_coding_style
         name: Runs the coding-style-checker
         run: |
-          ./lambdananas $(pwd)
-          ! (./lambdananas $(pwd) | read -N 1 -t 1)
+          /tmp/lambdananas $(pwd)
+          ! (/tmp/lambdananas $(pwd) | read -N 1 -t 1)
   check_program_compilation:
     name: check_program_compilation
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}

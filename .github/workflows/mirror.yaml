@@ -4,7 +4,8 @@ on: [push, pull_request]
 
 env:
   MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git
-  MIRROR_URL_HTTPS: https://github.com/EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1
+  MIRROR_OWNER: EpitechPGE3-2025
+  MIRROR_NAME: G-FUN-500-TLS-5-1-glados-1
   EXECUTABLES: glados
   BRANCH_NAME: ${{ github.ref_name }}
   REPO_NAME: ${{ github.repository }}
@@ -154,5 +155,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: ${{ env.EXECUTABLES }}
-          repo: ${{ env.MIRROR_URL_HTTPS }}
+          repo: ${{ env.MIRROR_NAME }}
+          owner: ${{ env.MIRROR_OWNER }}
           token: ${{ secrets.MIRROR_RELEASE_WRITE_TOKEN_2 }}

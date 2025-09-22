@@ -64,7 +64,7 @@ jobs:
   check_program_compilation:
     name: check_program_compilation
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}
-    needs: [is_valid, check_coding_style]
+    needs: [is_valid]
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
@@ -95,7 +95,7 @@ jobs:
   run_tests:
     name: run_tests
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}
-    needs: [is_valid, check_program_compilation]
+    needs: [is_valid]
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:

@@ -1,9 +1,9 @@
-{--
+{-
 -- EPITECH PROJECT, 2025
--- GLaDOS
+-- Glados
 -- File description:
---}
 -- Ast
+-}
 
 module Lisp.DataStruct.Ast (Ast (..)) where
 

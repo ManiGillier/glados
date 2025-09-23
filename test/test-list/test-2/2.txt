@@ -1,6 +1,3 @@
 0
 1
-*** ERROR : wrong number of argument of 1 in a call (div)
-*** ERROR : wrong number of argument of 1 in a call (-)
-*** ERROR : wrong number of argument of 1 in a call (mod)
-*** ERROR : wrong number of argument of 1 in a call (<)
+*** ERROR : wrong number of argument of 0 in a call (div)

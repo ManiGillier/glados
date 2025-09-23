@@ -1,6 +1,5 @@
 #<procedure>
 0
-*** ERROR : wrong number of argument of 1
 0
-*** ERROR : wrong number of argument of 1
 #<procedure f>
+*** ERROR : wrong number of argument of 1

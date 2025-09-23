@@ -1,3 +1,2 @@
-*** ERROR : variable x is not bound
 42
 10

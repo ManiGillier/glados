@@ -6,3 +6,4 @@ glados
 /glados.cabal
 ./test/coverage
 /test/coverage/
+test/coverage/

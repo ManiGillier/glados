@@ -12,13 +12,13 @@ import subprocess
 ############ Const Variables #############
 
 testFolderPath = 'test/test-list'
+gladosExecutableName = "glados"
 
 ##########################################
 
 
 ############ Global Variables #############
 
-gladosExecutableName = "glados"
 testFolders = []
 
 ##########################################
@@ -91,7 +91,7 @@ def get_glados_output(testFile: str) -> str:
     global gladosExecutableName
 
     p1 = subprocess.Popen(["cat", testFile], stdout=subprocess.PIPE)
-    p2 = subprocess.Popen([f"./{gladosExecutableName}"], stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p2 = subprocess.Popen([f"./{gladosExecutableName}"], stdin=p1.stdout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     p1.stdout.close()
 
     output, _ = p2.communicate()
@@ -147,6 +147,8 @@ def start_gay_sex():
         if (test_folder(folderToTest)):
             passedTest += 1
     print(f"\n[*] [Gay-Sex] ({passedTest}/{len(testFolders)}) test passed !")
+    if passedTest != len(testFolders):
+        exit(84)
 
 
 if __name__ == "__main__":

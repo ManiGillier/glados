@@ -5,6 +5,7 @@ import Test.HUnit
 import qualified System.Exit as Exit
 import Error.MaybeError (MaybeError(..))
 import Lisp.Exec.SymboleTable (Value(VBool))
+import Test.HUnit.Lang (Result(Failure))
 
 testValue42 :: Test
 testValue42 = TestCase $
@@ -309,6 +310,25 @@ testLambdaDefBadArgs = TestCase $
         (result, _) = Exec.execLisp (Call "add5" [Value 10]) env
     in assertEqual "Define and call lambda" (Error "*** ERROR : wrong number of argument of 1" "") result
 
+testLambdaRecur :: Test
+testLambdaRecur = TestCase $
+    let (_, env) = Exec.execLisp (Define "f" (Lambda ["a"] (If (Call "eq?" [Symbol "a", Value 10]) (Value 42) (Call "f" [Call "+" [Symbol "a", Value 1]])))) []
+        (result, _) = Exec.execLisp (Call "f" [Value 1]) env
+    in assertEqual "Define and call lambda recursive" (Correct "42") result
+
+testDefineBoolEnvUptdate :: Test
+testDefineBoolEnvUptdate = TestCase $
+  let (_, env) = Exec.execLisp (Define "x" (Boolean True)) []
+      (_, env2) = Exec.execLisp (Define "x" (Boolean False)) env
+  in assertEqual "env equal at" [("x", (VBool False))] env2 
+
+testSymbolLambda :: Test
+testSymbolLambda = TestCase $
+    let (_, env) = Exec.execLisp (Define "add5" (Lambda ["a", "b"] (Call "+" [Symbol "a", Symbol "b"]))) []
+        (result, _) = Exec.execLisp (Symbol "add5") env
+    in assertEqual "Define and call lambda with symbol"
+        (Error "#<procedure add5>" "") result
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -366,6 +386,9 @@ tests = TestList
   , testToMuchArgs
   , testLambdaBadArgsNb
   , testLambdaDefBadArgs
+  , testLambdaRecur
+  , testDefineBoolEnvUptdate
+  , testSymbolLambda
   ]
 
 main :: IO ()

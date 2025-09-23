@@ -463,6 +463,12 @@ testBuiltinCallEnvOther = TestCase $
   let (_, env) = Exec.execLisp (Call ">" [Value 5, Value 5]) []
   in assertEqual "call builtin env _" [] env
 
+testErrorCallDefine :: Test
+testErrorCallDefine = TestCase $
+  let (res, _) = Exec.execLisp (Define "x" (Define "z" (Value 1))) []
+  in assertEqual "call builtin env _" 
+    (Error "*** ERROR : invalid context for definition (z Value 1)" "") res
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -546,6 +552,7 @@ tests = TestList
   , testBuiltinCallEnvMod
   , testBuiltinCallEnvInferior
   , testBuiltinCallEnvOther
+  , testErrorCallDefine
   ]
 
 main :: IO ()

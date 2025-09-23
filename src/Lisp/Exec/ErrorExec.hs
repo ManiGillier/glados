@@ -10,6 +10,7 @@ module Lisp.Exec.ErrorExec (argsError,
                             notBoundError,
                             procError,
                             callError,
+                            invalidDefine,
                             condError)
                             where
 argsError :: [a] -> String
@@ -32,6 +33,9 @@ callError fName args =
 
 condError :: String
 condError = "*** ERROR : Invalid condition type"
+
+invalidDefine :: String -> String
+invalidDefine str = "*** ERROR : invalid context for definition " ++ str
 
 procError :: String
 procError = "#<procedure"

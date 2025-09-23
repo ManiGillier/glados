@@ -75,6 +75,9 @@ lookupSymbol table target
  
 -- Define String and keep it with env variable 
 defineSymbol :: SymTable -> String -> Ast -> (Maybe Value, SymTable)
+defineSymbol env _ (Define s a) = 
+    (Just (VError (Error.invalidDefine
+        ("(" ++ s ++ " " ++ show a ++ ")"))), env)
 defineSymbol env s a = 
     let (maybeVal, newEnv) = evalAst env a
     in case maybeVal of

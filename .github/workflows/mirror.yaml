@@ -115,6 +115,10 @@ jobs:
         timeout-minutes: 15
         run: |
           make tests_run STACK_ROOT=$STACK_ROOT
+      - id: functional_tests_run
+        name: Run gay_sex.py
+        run: |
+          python3 gay_sex.py
   push_to_mirror:
     if: ${{ needs.is_valid.outputs.is_valid == 1 }}
     needs: [is_valid, check_program_compilation, run_tests, check_coding_style]

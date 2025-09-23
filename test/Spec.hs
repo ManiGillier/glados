@@ -275,6 +275,40 @@ testEnvIf = TestCase $
   let (_, env) = Exec.execLisp (If (Value 1) (Value 1)  (Value 2)) []
   in assertEqual "env equal at" [] env 
 
+testVariadicSubOneArg :: Test
+testVariadicSubOneArg = TestCase $
+  let (result, _) = Exec.execLisp (Call "-" [Value 1]) []
+  in assertEqual "sub 1, 2, and 3" (Correct "-1") result
+
+testVariadicSubNoArgs :: Test
+testVariadicSubNoArgs = TestCase $
+  let (result, _) = Exec.execLisp (Call "-" []) []
+  in assertEqual "sub no args" (Correct "") result
+
+testToMuchArgs :: Test
+testToMuchArgs= TestCase $
+  let (result, _) = Exec.execLisp (Call "div" [Value 1, Value 2, Value 3]) []
+  in assertEqual "to much args in div built in" 
+    (Error "*** ERROR : wrong number of argument of 3 in call (div Value 1 Value 2 Value 3)" "") result
+
+testNotEnoughtArgs :: Test
+testNotEnoughtArgs = TestCase $
+  let (result, _) = Exec.execLisp (Call "div" [Value 1]) []
+  in assertEqual "to much args in div built in" 
+    (Error "*** ERROR : wrong number of argument of 3 in call (div Value 1 Value 2 Value 3)" "") result
+
+testLambdaBadArgsNb :: Test
+testLambdaBadArgsNb = TestCase $
+  let lambdaAst = Lambda ["x"] (Call "+" [Symbol "x", Value 5])
+      (result, _) = Exec.execLisp (Apply lambdaAst [Value 10, Value 10]) []
+  in assertEqual "Lambda application" (Error "*** ERROR : wrong number of argument of 2" "") result
+
+testLambdaDefBadArgs :: Test
+testLambdaDefBadArgs = TestCase $
+    let (_, env) = Exec.execLisp (Define "add5" (Lambda ["a", "b"] (Call "+" [Symbol "a", Symbol "b"]))) []
+        (result, _) = Exec.execLisp (Call "add5" [Value 10]) env
+    in assertEqual "Define and call lambda" (Error "*** ERROR : wrong number of argument of 1" "") result
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -326,6 +360,12 @@ tests = TestList
   , testLambda
   , testEnvIf
   , testBool
+  , testVariadicSubOneArg
+  , testVariadicSubNoArgs
+  , testToMuchArgs
+  , testToMuchArgs
+  , testLambdaBadArgsNb
+  , testLambdaDefBadArgs
   ]
 
 main :: IO ()

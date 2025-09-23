@@ -16,4 +16,5 @@ data Value = VInt Int
            | VBool Bool
            | VLambda [String] Ast SymTable
            | VError String
+           | VErrorProc String
            deriving (Show, Eq)

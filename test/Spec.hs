@@ -249,7 +249,7 @@ testNonProcedError2 = TestCase $
 testProcedureError :: Test
 testProcedureError = TestCase $
     let (result, _) = Exec.execLisp ((Lambda ["a", "b"] (Call "+" [Symbol "a", Symbol "b"]))) []
-    in assertEqual "Error on calling non-procedure" (Error "#<procedure>" "") result
+    in assertEqual "Error on calling non-procedure" (Correct "#<procedure>") result
 
 testLambdaAnonymous :: Test
 testLambdaAnonymous = TestCase $
@@ -325,7 +325,7 @@ testSymbolLambda = TestCase $
     let (_, env) = Exec.execLisp (Define "add5" (Lambda ["a", "b"] (Call "+" [Symbol "a", Symbol "b"]))) []
         (result, _) = Exec.execLisp (Symbol "add5") env
     in assertEqual "Define and call lambda with symbol"
-        (Error "#<procedure add5>" "") result
+        (Correct "#<procedure add5>") result
 
 testCallSymbol :: Test
 testCallSymbol = TestCase $
@@ -369,7 +369,7 @@ testEnvIfOther = TestCase $
 testSymbolBuiltin :: Test
 testSymbolBuiltin = TestCase $
   let (output, _) = Exec.execLisp (Symbol "+" ) []
-  in assertEqual "call builtin error" (Error "#<procedure +>" "") output
+  in assertEqual "call builtin error" (Correct "#<procedure +>") output
 
 testSymbolnotDef :: Test
 testSymbolnotDef = TestCase $

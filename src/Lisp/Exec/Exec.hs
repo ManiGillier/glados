@@ -23,8 +23,9 @@ execLisp ast env =
     in case val of
         Just (VInt v) -> (Correct (show v), e)
         Just (VBool v) -> (Correct $ boolToSymbol v, e)
-        Just (VLambda _ _ _) -> ((Error (Error.procError ++ ">") []), e) 
+        Just (VLambda _ _ _) -> ((Correct (Error.procError ++ ">")), e) 
         Just (VError s) -> (Error s [], e)
+        Just (VErrorProc s) -> (Correct s, e)
         Nothing ->  (Correct [],e)
 
 -- Eval case of Ast
@@ -60,8 +61,9 @@ findSymbolVal env@((sym, val):rest) target
     | sym == target = 
         case val of
             VLambda _ _ _ -> 
-                (Just (VError (Error.procError ++ " " ++ target ++ ">")), env)
-            _             -> (Just val, env)
+                (Just (VErrorProc 
+                (Error.procError ++ " " ++ target ++ ">")), env)
+            _ -> (Just val, env)
     | otherwise =
         let (res, _) = findSymbolVal rest target
         in (res, env)
@@ -70,7 +72,7 @@ findSymbolVal env@((sym, val):rest) target
 lookupSymbol :: SymTable -> String -> (Maybe Value, SymTable)
 lookupSymbol table target
     | isBuiltin target && not (target `elem` map fst table) = 
-        (Just (VError (Error.procError ++ " " ++ target ++ ">")), table)
+        (Just (VErrorProc (Error.procError ++ " " ++ target ++ ">")), table)
     | otherwise = findSymbolVal table target 
  
 -- Define String and keep it with env variable 
@@ -159,11 +161,11 @@ evalUserCall env fName args =
     case lookup fName env of
         Just (VLambda para body clEnv) -> 
             applyLambda env para body clEnv args fName
-        Just (VInt x) -> 
-            (Just (VError (Error.nonProcedError (Just $ show x))), env)
+        Just (VInt x)-> (Just(VError(Error.nonProcedError(Just $ show x))),env)
         Just (VBool x) -> 
             (Just (VError (Error.nonProcedError (Just $ boolToSymbol x))), env)
         Just (VError x) -> (Just (VError x), env)
+        Just (VErrorProc x) -> (Just (VError x), env)
         Nothing -> (Just (VError (Error.notBoundError fName)), env)
 
 evalBinaryOp :: SymTable -> (Int -> Int -> Int) -> [Ast] -> Maybe Int

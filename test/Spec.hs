@@ -274,7 +274,7 @@ testDefineBoolEnv = TestCase $
 testEnvIf :: Test
 testEnvIf = TestCase $
   let (_, env) = Exec.execLisp (If (Value 1) (Value 1)  (Value 2)) []
-  in assertEqual "env equal at" [] env 
+  in assertEqual "env equal at" [] env
 
 testVariadicSubOneArg :: Test
 testVariadicSubOneArg = TestCase $
@@ -335,6 +335,38 @@ testCallSymbol = TestCase $
         (result, _) = Exec.execLisp (Call "x" []) env
     in assertEqual "Define and call lambda with symbol"
         (Error "*** ERROR : attempt to apply non-procedure 3" "") result
+
+testEnvIf0 :: Test
+testEnvIf0 = TestCase $
+  let (_, env) = Exec.execLisp (If (Value 0) (Value 1)  (Value 2)) []
+  in assertEqual "env equal at" [] env
+
+testEnvIfTrue :: Test
+testEnvIfTrue = TestCase $
+  let (_, env) = Exec.execLisp (If (Boolean True) (Boolean True) (Boolean False)) []
+  in assertEqual "env equal at" [] env
+
+testEnvIfFalse :: Test
+testEnvIfFalse = TestCase $
+  let (_, env) = Exec.execLisp (If (Boolean False) (Boolean True) (Boolean False)) []
+  in assertEqual "env equal at" [] env
+
+-- testEnvIfError :: Test
+-- testEnvIfError = TestCase $
+--   let (_, env) = Exec.execLisp (If (Value 1) (Error "test") (Boolean False)) []
+--   in assertEqual "env equal at" [] env
+
+-- testEnvIfNothing :: Test
+-- testEnvIfNothing = TestCase $
+--   let (_, env) = Exec.execLisp (If () () ()) []
+--   in assertEqual "env equal at" [] env
+
+testEnvIfOther :: Test
+testEnvIfOther = TestCase $
+  let (_, env) = Exec.execLisp (If (Lambda ["a", "b"] (Call "+" [Symbol "a", Symbol "b"]))(Boolean True) (Boolean False)) []
+      (result, _) =  Exec.execLisp (Apply (Lambda ["a", "b"] (Call "+" [Symbol "a", Symbol "b"])) [Value 10, Value 5]) env
+  in assertEqual "env equal at" [] env
+     >> assertEqual "Lambda application" (Correct "15") result
 
 tests :: Test
 tests = TestList
@@ -397,6 +429,10 @@ tests = TestList
   , testDefineBoolEnvUptdate
   , testSymbolLambda
   , testCallSymbol
+  , testEnvIf0
+  , testEnvIfTrue
+  , testEnvIfFalse
+  , testEnvIfOther
   ]
 
 main :: IO ()

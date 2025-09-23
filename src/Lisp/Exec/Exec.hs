@@ -54,18 +54,25 @@ evalCond env conditionAst thenBranch elseBranch =
         _ -> (Just (VError Error.condError), newEnv)
 
 -- Check if the String already exist
-lookupSymbol :: SymTable -> String -> (Maybe Value, SymTable)
-lookupSymbol [] var = (Just (VError (Error.notBoundError var)), [])
-lookupSymbol env@((sym, val):rest) target
+findSymbolVal :: SymTable -> String -> (Maybe Value, SymTable)
+findSymbolVal [] var = (Just (VError (Error.notBoundError var)), [])
+findSymbolVal env@((sym, val):rest) target
     | sym == target = 
         case val of
             VLambda _ _ _ -> 
                 (Just (VError (Error.procError ++ " " ++ target ++ ">")), env)
             _             -> (Just val, env)
     | otherwise =
-        let (res, _) = lookupSymbol rest target
+        let (res, _) = findSymbolVal rest target
         in (res, env)
 
+-- Check if symbol isn't define and is a builtin
+lookupSymbol :: SymTable -> String -> (Maybe Value, SymTable)
+lookupSymbol table target
+    | isBuiltin target && not (target `elem` map fst table) = 
+        (Just (VError (Error.procError ++ " " ++ target ++ ">")), table)
+    | otherwise = findSymbolVal table target 
+ 
 -- Define String and keep it with env variable 
 defineSymbol :: SymTable -> String -> Ast -> (Maybe Value, SymTable)
 defineSymbol env s a = 

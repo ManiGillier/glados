@@ -368,6 +368,28 @@ testEnvIfOther = TestCase $
   in assertEqual "env equal at" [] env
      >> assertEqual "Lambda application" (Correct "15") result
 
+testSymbolBuiltin :: Test
+testSymbolBuiltin = TestCase $
+  let (output, _) = Exec.execLisp (Symbol "+" ) []
+  in assertEqual "call builtin error" (Error "#<procedure +>" "") output
+
+testSymbolnotDef :: Test
+testSymbolnotDef = TestCase $
+  let (output, _) = Exec.execLisp (Symbol "x" ) []
+  in assertEqual "call symbol not define error" (Error "*** ERROR : variable x is not bound" "") output
+
+testCallBuiltin :: Test
+testCallBuiltin = TestCase $
+  let (_, env) = Exec.execLisp (Define "+" (Value 42)) []
+      (res, _) = Exec.execLisp (Symbol "+") env
+  in assertEqual "call builtin error" (Correct "42") res 
+
+testSymbolCall :: Test
+testSymbolCall = TestCase $
+  let (_, env) = Exec.execLisp (Define "x" (Value 42)) []
+      (res, _) = Exec.execLisp (Call "x" []) env
+  in assertEqual "call symbol not define error" (Error "*** ERROR : attempt to apply non-procedure 42" "") res
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -433,6 +455,10 @@ tests = TestList
   , testEnvIfTrue
   , testEnvIfFalse
   , testEnvIfOther
+  , testSymbolBuiltin
+  , testSymbolCall
+  , testSymbolnotDef
+  , testSymbolCall
   ]
 
 main :: IO ()

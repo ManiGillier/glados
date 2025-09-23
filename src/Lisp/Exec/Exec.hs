@@ -45,7 +45,7 @@ evalCond :: SymTable -> Ast -> Ast -> Ast -> (Maybe Value, SymTable)
 evalCond env conditionAst thenBranch elseBranch = 
     let (maybeCondition, newEnv) = evalAst env conditionAst
     in case maybeCondition of
-        Just (VBool True) -> evalAst newEnv thenBranch
+        Just (VBool True) -> evalAst newEnv thenBranch 
         Just (VBool False) -> evalAst newEnv elseBranch
         Just (VInt 0) -> evalAst newEnv elseBranch
         Just (VInt _) -> evalAst newEnv thenBranch
@@ -77,7 +77,7 @@ lookupSymbol table target
 defineSymbol :: SymTable -> String -> Ast -> (Maybe Value, SymTable)
 defineSymbol env _ (Define s a) = 
     (Just (VError (Error.invalidDefine
-        ("(" ++ s ++ " " ++ show a ++ ")"))), env)
+        ("(define " ++ s ++ " " ++ show a ++ ")"))), env)
 defineSymbol env s a = 
     let (maybeVal, newEnv) = evalAst env a
     in case maybeVal of

@@ -1,4 +1,3 @@
-module Main where
 import Lisp.Exec.Exec as Exec
 import Lisp.DataStruct.Ast as Ast
 import Test.HUnit
@@ -295,7 +294,7 @@ testNotEnoughtArgs :: Test
 testNotEnoughtArgs = TestCase $
   let (result, _) = Exec.execLisp (Call "div" [Value 1]) []
   in assertEqual "to much args in div built in" 
-    (Error "*** ERROR : wrong number of argument of 3 in call (div Value 1 Value 2 Value 3)" "") result
+    (Error "*** ERROR : wrong number of argument of 2 in call (div Value 1)" "") result
 
 testLambdaBadArgsNb :: Test
 testLambdaBadArgsNb = TestCase $
@@ -467,7 +466,7 @@ testErrorCallDefine :: Test
 testErrorCallDefine = TestCase $
   let (res, _) = Exec.execLisp (Define "x" (Define "z" (Value 1))) []
   in assertEqual "call builtin env _" 
-    (Error "*** ERROR : invalid context for definition (z Value 1)" "") res
+    (Error "*** ERROR : invalid context for definition (define z Value 1)" "") res
 
 tests :: Test
 tests = TestList
@@ -553,6 +552,8 @@ tests = TestList
   , testBuiltinCallEnvInferior
   , testBuiltinCallEnvOther
   , testErrorCallDefine
+  , testNotEnoughtArgs
+  , testCallBuiltin 
   ]
 
 main :: IO ()

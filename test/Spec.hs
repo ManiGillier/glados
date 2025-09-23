@@ -329,6 +329,13 @@ testSymbolLambda = TestCase $
     in assertEqual "Define and call lambda with symbol"
         (Error "#<procedure add5>" "") result
 
+testCallSymbol :: Test
+testCallSymbol = TestCase $
+    let (_, env) = Exec.execLisp (Define "x" (Value 3)) []
+        (result, _) = Exec.execLisp (Call "x" []) env
+    in assertEqual "Define and call lambda with symbol"
+        (Error "*** ERROR : attempt to apply non-procedure 3" "") result
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -389,6 +396,7 @@ tests = TestList
   , testLambdaRecur
   , testDefineBoolEnvUptdate
   , testSymbolLambda
+  , testCallSymbol
   ]
 
 main :: IO ()

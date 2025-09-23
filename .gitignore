@@ -5,3 +5,4 @@ glados
 *.lsp
 /glados.cabal
 ./test/coverage
+/test/coverage/

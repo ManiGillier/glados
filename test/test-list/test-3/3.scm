@@ -1,4 +1,4 @@
 (define x 42)
-(x)
+x
 (define x 10)
-(x)
+x

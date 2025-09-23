@@ -1,5 +1,4 @@
 #<procedure>
 0
-0
 #<procedure f>
-*** ERROR : wrong number of argument of 1
+0

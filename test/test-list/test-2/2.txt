@@ -1,3 +1,2 @@
 0
 1
-*** ERROR : wrong number of argument of 0 in call (div)

@@ -5,7 +5,6 @@ import Test.HUnit
 import qualified System.Exit as Exit
 import Error.MaybeError (MaybeError(..))
 import Lisp.Exec.SymboleTable (Value(VBool))
-import Test.HUnit.Lang (Result(Failure))
 
 testValue42 :: Test
 testValue42 = TestCase $
@@ -390,6 +389,39 @@ testSymbolCall = TestCase $
       (res, _) = Exec.execLisp (Call "x" []) env
   in assertEqual "call symbol not define error" (Error "*** ERROR : attempt to apply non-procedure 42" "") res
 
+testSymbolCallBool :: Test
+testSymbolCallBool = TestCase $
+  let (_, env) = Exec.execLisp (Define "x" (Boolean True)) []
+      (res, _) = Exec.execLisp (Call "x" []) env
+  in assertEqual "call symbol not define error" (Error "*** ERROR : attempt to apply non-procedure #t" "") res
+
+testIfError :: Test 
+testIfError = TestCase $ 
+    let (res, _) = Exec.execLisp (If (Call "div" []) (Value 1) (Value 2)) []
+    in assertEqual "call symbol not define error" 
+        (Error "*** ERROR : wrong number of argument of 0 in call (div)" "") res
+
+testIfError2 :: Test 
+testIfError2 = TestCase $ 
+    let (res, _) = Exec.execLisp (If (Call "mod" [Value 1]) (Value 1) (Value 2)) []
+    in assertEqual "call symbol not define error" (Error "*** ERROR : wrong number of argument of 1 in call (mod Value 1)" "") res
+
+testIfError3 :: Test 
+testIfError3 = TestCase $ 
+    let (res, _) = Exec.execLisp (If (Define "x" (Value 1)) (Value 1) (Value 2)) []
+    in assertEqual "call symbol not define error" (Correct "2") res
+
+testEnvError :: Test 
+testEnvError = TestCase $ 
+    let (_, env) = Exec.execLisp (Symbol "x") []
+    in assertEqual "call symbol not define error" [] env
+
+testLambdaCallNotDef :: Test
+testLambdaCallNotDef = TestCase $
+    let (_, env) = Exec.execLisp (Define "f" (Lambda ["a"] (If (Call "eq?" [Symbol "a", Value 10]) (Value 42) (Call "x" [Call "+" [Symbol "a", Value 1]])))) []
+        (result, _) = Exec.execLisp (Call "f" [Value 1]) env
+    in assertEqual "Define and call lambda recursive" (Error "*** ERROR : variable x is not bound" "") result
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -459,6 +491,11 @@ tests = TestList
   , testSymbolCall
   , testSymbolnotDef
   , testSymbolCall
+  , testIfError
+  , testIfError2
+  , testIfError3
+  , testSymbolCallBool
+  , testLambdaCallNotDef
   ]
 
 main :: IO ()

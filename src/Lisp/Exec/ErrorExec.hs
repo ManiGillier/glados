@@ -19,8 +19,8 @@ argsError args = "*** ERROR : wrong number of argument of "
 nonProcedErrorStr :: String
 nonProcedErrorStr = "*** ERROR : attempt to apply non-procedure"
 
-nonProcedError :: Maybe Int -> String
-nonProcedError (Just x) = (nonProcedErrorStr ++ " " ++ show x)
+nonProcedError :: Maybe String -> String
+nonProcedError (Just x) = (nonProcedErrorStr ++ " " ++ x)
 nonProcedError Nothing = nonProcedErrorStr 
 
 notBoundError :: String -> String

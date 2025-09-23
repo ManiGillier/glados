@@ -110,7 +110,7 @@ boolToSymbol x
 
 evalBuiltinCall :: SymTable -> String -> [Ast] -> (Maybe Value, SymTable)
 evalBuiltinCall env fName args 
-    | not (isVariadic fName) && (length args > 2) = 
+    | not (isVariadic fName) && (length args /= 2) = 
         (Just (VError $ Error.argsError args 
         ++ " " ++Error.callError fName args), env)
     | otherwise = callBuiltin env fName args
@@ -156,12 +156,12 @@ evalUserCall env fName args =
     case lookup fName env of
         Just (VLambda para body clEnv) -> 
             applyLambda env para body clEnv args fName
-        Just (VInt x) -> (Just (VError (Error.nonProcedError (Just x))), env)
-        Just (VBool _) -> err 
-        Just (VError _) -> err
-        Nothing -> err
-        where 
-            err = (Just (VError (Error.notBoundError fName)), env)
+        Just (VInt x) -> 
+            (Just (VError (Error.nonProcedError (Just $ show x))), env)
+        Just (VBool x) -> 
+            (Just (VError (Error.nonProcedError (Just $ boolToSymbol x))), env)
+        Just (VError x) -> (Just (VError x), env)
+        Nothing -> (Just (VError (Error.notBoundError fName)), env)
 
 evalBinaryOp :: SymTable -> (Int -> Int -> Int) -> [Ast] -> Maybe Int
 evalBinaryOp env op [arg1, arg2] =

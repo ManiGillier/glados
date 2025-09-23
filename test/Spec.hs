@@ -294,7 +294,7 @@ testNotEnoughtArgs :: Test
 testNotEnoughtArgs = TestCase $
   let (result, _) = Exec.execLisp (Call "div" [Value 1]) []
   in assertEqual "to much args in div built in" 
-    (Error "*** ERROR : wrong number of argument of 2 in call (div Value 1)" "") result
+    (Error "*** ERROR : wrong number of argument of 1 in call (div Value 1)" "") result
 
 testLambdaBadArgsNb :: Test
 testLambdaBadArgsNb = TestCase $

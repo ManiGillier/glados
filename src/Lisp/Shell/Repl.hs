@@ -27,13 +27,14 @@ data Storage = Storage
 repl :: IO ()
 repl = replSingle $ Storage "" ([], [])
 
-execFold :: (SymTable, [String]) -> Ast -> (SymTable, [String])
-execFold (table', str') ast =
+execFold :: MaybeError (SymTable, [String]) -> Ast -> MaybeError (SymTable, [String])
+execFold (Correct (table', str')) ast =
   case str of
-    Correct str'' -> (table, str'' : str')
-    Error t e -> (table, (t ++ e) : str')
+    Correct str'' -> Correct (table, str'' : str')
+    Error t e -> Error t e
   where
     (str, table) = execLisp ast table'
+execFold (Error t e) _ = Error t e
 
 manageAfterLexing :: Storage
     -> Either (ParseErrorBundle String Void) ([SExpr], String)
@@ -43,13 +44,15 @@ manageAfterLexing _ (Left e) =
         >> exitWith (ExitFailure 84)
 manageAfterLexing s (Right (value, str)) =
     case final of
-        Correct (table, result) ->
+        Correct (Correct (table, result)) ->
             mapM putStrLn (filter (\str' -> not $ null str') result)
                 >> replSingle (s{ibuf = str, symTable = (table, [])})
+        Correct err -> hPutStrLn stderr (show err)
+          >> exitWith (ExitFailure 84)
         err -> hPutStrLn stderr (show err) >> exitWith (ExitFailure 84)
   where
     expressions = sequence $ map parseSExpr value
-    final = foldl' execFold (symTable s) <$> expressions
+    final = foldl' execFold (Correct $ symTable s) <$> expressions
 
 replSingle :: Storage -> IO ()
 replSingle s =

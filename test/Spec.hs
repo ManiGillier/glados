@@ -203,11 +203,16 @@ testIfFalse = TestCase $
   let (result, _) = Exec.execLisp (If (Value 0) (Value 42) (Value 0)) []
   in assertEqual "If false then 0" (Correct "0") result
 
-
 testIfFalseBool :: Test
 testIfFalseBool = TestCase $ 
   let (result, _) = Exec.execLisp (If (Boolean True) (Value 42) (Value 0)) []
   in assertEqual "If true then 42" (Correct "42") result
+
+testBool :: Test
+testBool = TestCase $ 
+  let (_, env) = Exec.execLisp (Define "x" (Boolean True)) []
+      (_, envres) = Exec.execLisp (Symbol "x") env
+  in assertEqual "new env ==" [("x", VBool True)] envres
 
 testIfFalseBoolFalse :: Test
 testIfFalseBoolFalse = TestCase $ 
@@ -265,6 +270,11 @@ testDefineBoolEnv = TestCase $
   let (_, env) = Exec.execLisp (Define "x" (Boolean True)) []
   in assertEqual "env equal at" [("x", (VBool True))] env 
 
+testEnvIf :: Test
+testEnvIf = TestCase $
+  let (_, env) = Exec.execLisp (If (Value 1) (Value 1)  (Value 2)) []
+  in assertEqual "env equal at" [] env 
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -314,6 +324,8 @@ tests = TestList
   , testProcedureError
   , testLambdaAnonymous
   , testLambda
+  , testEnvIf
+  , testBool
   ]
 
 main :: IO ()

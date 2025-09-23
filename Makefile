@@ -37,6 +37,7 @@ tests_open:
 fclean:
 	stack clean
 	$(RM) $(NAME)
+	rm -rf test/coverage
 
 re: fclean $(NAME)
 

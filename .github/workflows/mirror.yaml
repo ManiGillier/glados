@@ -115,6 +115,10 @@ jobs:
         timeout-minutes: 15
         run: |
           make tests_run STACK_ROOT=$STACK_ROOT
+      - id: compile
+        name: Compilation
+        run: |
+          make STACK_ROOT=$STACK_ROOT
       - id: functional_tests_run
         name: Run gay_sex.py
         run: |

@@ -422,6 +422,47 @@ testLambdaCallNotDef = TestCase $
         (result, _) = Exec.execLisp (Call "f" [Value 1]) env
     in assertEqual "Define and call lambda recursive" (Error "*** ERROR : variable x is not bound" "") result
 
+testEnvDefineBool :: Test
+testEnvDefineBool = TestCase $
+  let (_, env) = Exec.execLisp (Define "x" (Boolean True)) []
+  in assertEqual "env equal at" [("x", (VBool True))] env
+
+
+testBuiltinCallEnvAdd :: Test
+testBuiltinCallEnvAdd = TestCase $
+  let (_, env) = Exec.execLisp (Call "+" [Value 10, Value 20]) []
+  in assertEqual "call builtin env +" [] env
+
+testBuiltinCallEnvMinus :: Test
+testBuiltinCallEnvMinus = TestCase $
+  let (_, env) = Exec.execLisp (Call "-" [Value 20, Value 10]) []
+  in assertEqual "call builtin env -" [] env
+
+testBuiltinCallEnvMul :: Test
+testBuiltinCallEnvMul = TestCase $
+  let (_, env) = Exec.execLisp (Call "*" [Value 10, Value 20]) []
+  in assertEqual "call builtin env *" [] env
+
+testBuiltinCallEnvDiv :: Test
+testBuiltinCallEnvDiv = TestCase $
+  let (_, env) = Exec.execLisp (Call "div" [Value 20, Value 10]) []
+  in assertEqual "call builtin env div" [] env
+
+testBuiltinCallEnvMod :: Test
+testBuiltinCallEnvMod = TestCase $
+  let (_, env) = Exec.execLisp (Call "mod" [Value 20, Value 6]) []
+  in assertEqual "call builtin env mod" [] env
+
+testBuiltinCallEnvInferior :: Test
+testBuiltinCallEnvInferior = TestCase $
+  let (_, env) = Exec.execLisp (Call "<" [Value 3, Value 5]) []
+  in assertEqual "call builtin env <" [] env
+
+testBuiltinCallEnvOther :: Test
+testBuiltinCallEnvOther = TestCase $
+  let (_, env) = Exec.execLisp (Call ">" [Value 5, Value 5]) []
+  in assertEqual "call builtin env _" [] env
+
 tests :: Test
 tests = TestList
   [ testValue42
@@ -496,6 +537,15 @@ tests = TestList
   , testIfError3
   , testSymbolCallBool
   , testLambdaCallNotDef
+  , testEnvError
+  , testEnvDefineBool
+  , testBuiltinCallEnvAdd
+  , testBuiltinCallEnvMinus
+  , testBuiltinCallEnvMul
+  , testBuiltinCallEnvDiv
+  , testBuiltinCallEnvMod
+  , testBuiltinCallEnvInferior
+  , testBuiltinCallEnvOther
   ]
 
 main :: IO ()

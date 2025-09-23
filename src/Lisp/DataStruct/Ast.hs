@@ -2,8 +2,8 @@
 -- EPITECH PROJECT, 2025
 -- GLaDOS
 -- File description:
--- Ast
 --}
+-- Ast
 
 module Lisp.DataStruct.Ast (Ast (..)) where
 
@@ -15,4 +15,4 @@ data Ast = Symbol !String
            | Call !String ![Ast]
            | Apply !Ast ![Ast]
            | If !Ast !Ast !Ast
-           deriving (Show)
+           deriving (Show, Eq)

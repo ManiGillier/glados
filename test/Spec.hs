@@ -4,6 +4,7 @@ import Lisp.DataStruct.Ast as Ast
 import Test.HUnit
 import qualified System.Exit as Exit
 import Error.MaybeError (MaybeError(..))
+import Lisp.Exec.SymboleTable (Value(VBool))
 
 testValue42 :: Test
 testValue42 = TestCase $
@@ -31,6 +32,11 @@ testDefineX = TestCase $
   let (_, env) = Exec.execLisp (Define "x" (Value 42)) []
       (result, _) = Exec.execLisp (Symbol "x") env
   in assertEqual "Define x" (Correct "42") result
+
+testDefine :: Test
+testDefine = TestCase $
+  let (result, _) = Exec.execLisp (Define "x" (Value 42)) []
+  in assertEqual "Define" (Correct []) result
 
 testDefineY :: Test
 testDefineY = TestCase $
@@ -197,6 +203,7 @@ testIfFalse = TestCase $
   let (result, _) = Exec.execLisp (If (Value 0) (Value 42) (Value 0)) []
   in assertEqual "If false then 0" (Correct "0") result
 
+
 testIfFalseBool :: Test
 testIfFalseBool = TestCase $ 
   let (result, _) = Exec.execLisp (If (Boolean True) (Value 42) (Value 0)) []
@@ -252,6 +259,11 @@ testLambda = TestCase $
         (result, _) = Exec.execLisp (Call "add5" [Value 10, Value 5]) env
     in assertEqual "Define and call lambda" (Correct "15") result
 
+-- TEST renturded env 
+testDefineBoolEnv :: Test
+testDefineBoolEnv = TestCase $
+  let (_, env) = Exec.execLisp (Define "x" (Boolean True)) []
+  in assertEqual "env equal at" [("x", (VBool True))] env 
 
 tests :: Test
 tests = TestList
@@ -259,8 +271,10 @@ tests = TestList
   , testValueMinus1
   , testValue0
   , testBigNum
+  , testDefine
   , testDefineX
   , testDefineY
+  , testDefineBoolEnv
   , testSymbolX
   , testAdd
   , testMinus
@@ -306,4 +320,3 @@ main :: IO ()
 main = do
     result <- runTestTT tests
     if failures result > 0 then Exit.exitFailure else Exit.exitSuccess
-

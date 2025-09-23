@@ -42,14 +42,13 @@ manageAfterLexing :: Storage
 manageAfterLexing _ (Left e) =
     hPutStr stderr (errorBundlePretty e)
         >> exitWith (ExitFailure 84)
-manageAfterLexing s (Right (value, str)) =
-    case final of
-        Correct (Correct (table, result)) ->
-            mapM putStrLn (filter (\str' -> not $ null str') result)
-                >> replSingle (s{ibuf = str, symTable = (table, [])})
-        Correct err -> hPutStrLn stderr (show err)
-          >> exitWith (ExitFailure 84)
-        err -> hPutStrLn stderr (show err) >> exitWith (ExitFailure 84)
+manageAfterLexing s (Right (value, str)) = case final of
+  Correct (Correct (table, result)) ->
+    mapM putStrLn (filter (\str' -> not $ null str') result)
+    >> replSingle (s{ibuf = str, symTable = (table, [])})
+  Correct err -> hPutStrLn stderr (show err)
+    >> exitWith (ExitFailure 84)
+  err -> hPutStrLn stderr (show err) >> exitWith (ExitFailure 84)
   where
     expressions = sequence $ map parseSExpr value
     final = foldl' execFold (Correct $ symTable s) <$> expressions

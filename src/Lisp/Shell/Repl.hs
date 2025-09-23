@@ -27,6 +27,16 @@ data Storage = Storage
 repl :: IO ()
 repl = replSingle $ Storage "" ([], [])
 
+isatty :: IO Bool
+isatty = hIsTerminalDevice stdin
+
+printIfTty :: String -> IO ()
+printIfTty str = isatty >>= \ tty
+  ->  if tty then
+        putStr str >> hFlush stdout
+      else
+        return ()
+
 execFold :: MaybeError (SymTable, [String]) -> Ast -> MaybeError (SymTable, [String])
 execFold (Correct (table', str')) ast =
   case str of
@@ -55,7 +65,7 @@ manageAfterLexing s (Right (value, str)) = case final of
 
 replSingle :: Storage -> IO ()
 replSingle s =
-    putStr ("> " ++ ibuf s) >> hFlush stdout >> isEOF >>= \isEof ->
+    printIfTty ("> " ++ ibuf s) >> isEOF >>= \isEof ->
         if isEof then
             return ()
         else

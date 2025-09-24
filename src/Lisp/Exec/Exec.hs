@@ -199,7 +199,8 @@ evalApply env lambdaExpr args =
     in case maybeLambda of
         Just (VLambda param body clEnv) -> 
             applyLambdaAnonymous newEnv param body clEnv args
-        _ -> (Nothing, newEnv)
+        _ -> evalAst env lambdaExpr
+
 
 applyLambdaAnonymous :: SymTable -> [String] -> Ast -> SymTable -> [Ast] -> (Maybe Value, SymTable)
 applyLambdaAnonymous env param body clEnv args

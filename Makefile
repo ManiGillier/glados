@@ -14,7 +14,7 @@ PART_2_COMPILER_DIR	:= fcc_src
 PART_2_VM_DIR	:= fcvm_src
 
 all:
-	$(MAKE) -j $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
+	$(MAKE) $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
 
 re:
 	$(MAKE) -C $(PART_1_DIR) fclean

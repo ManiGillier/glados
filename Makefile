@@ -16,6 +16,12 @@ PART_2_VM_DIR	:= fcvm_src
 all:
 	$(MAKE) -j $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
 
+re:
+	$(MAKE) -C $(PART_1_DIR) fclean
+	$(MAKE) -C $(PART_2_COMPILER_DIR) fclean
+	$(MAKE) -C $(PART_2_VM_DIR) fclean
+	$(MAKE) all
+
 install:
 # install ghcup
 	curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
@@ -43,4 +49,4 @@ tests_run:
 	$(MAKE) -j -C $(PART_2_VM_DIR) $@
 
 .PHONY: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM) all install \
-	tests_run
+	tests_run re

@@ -9,3 +9,6 @@ glados
 test/coverage/
 /fcc
 /fcvm
+/lisp/test/coverage/
+/fcvm_src/test/coverage/
+/fcc_src/test/coverage/

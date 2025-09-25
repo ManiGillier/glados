@@ -13,7 +13,8 @@ PART_1_DIR	:= lisp
 PART_2_COMPILER_DIR	:= fcc_src
 PART_2_VM_DIR	:= fcvm_src
 
-all: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
+all:
+	$(MAKE) -j $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
 
 install:
 # install ghcup
@@ -36,4 +37,10 @@ $(PART_2_VM):
 	$(MAKE) -C $(PART_2_VM_DIR) $(PART_2_VM)
 	ln -s $(PART_2_VM_DIR)/$(PART_2_VM) $@
 
-.PHONY: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM) all install
+tests_run:
+	$(MAKE) -j -C $(PART_1_DIR) $@
+	$(MAKE) -j -C $(PART_2_COMPILER_DIR) $@
+	$(MAKE) -j -C $(PART_2_VM_DIR) $@
+
+.PHONY: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM) all install \
+	tests_run

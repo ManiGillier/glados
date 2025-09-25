@@ -6,7 +6,7 @@ env:
   MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git
   MIRROR_OWNER: EpitechPGE3-2025
   MIRROR_NAME: G-FUN-500-TLS-5-1-glados-1
-  EXECUTABLES: glados
+  EXECUTABLES: glados,fcc,fcvm
   BRANCH_NAME: ${{ github.ref_name }}
   REPO_NAME: ${{ github.repository }}
   REPO_SSH_URL: git@github.com:${{ github.repository }}.git

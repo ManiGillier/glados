@@ -9,8 +9,8 @@
           #t)))
 (> 10 -2)
 
-(define (fact x)
+(define (! x)
   (if (eq? x 1)
       1
-      (* x (fact (- x 1)))))
-(fact 10)
+      (* x (! (- x 1)))))
+(! 10)

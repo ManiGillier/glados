@@ -1,44 +1,39 @@
 ##
 ## EPITECH PROJECT, 2025
-## Glados
+## glados
 ## File description:
 ## Makefile
 ##
 
-COMPILED_NAME	:= glados
-NAME	:= glados
+PART_1	:= glados # Great Language Assembler Doctrined Over Seas
+PART_2_COMPILER	:= fcc # Franc C Compiler
+PART_2_VM	:= fcvm	# Franc C Virtual Machine
 
-all:
-	$(RM) $(NAME)
-	$(MAKE) $(NAME)
+PART_1_DIR	:= lisp
+PART_2_COMPILER_DIR	:= fcc_src
+PART_2_VM_DIR	:= fcvm_src
 
-$(NAME):
-	stack build --allow-different-user
-	ln -s `stack path --local-install-root`/bin/$(COMPILED_NAME)-exe $@
+all: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
 
 install:
-	# install ghcup
+# install ghcup
 	curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
-	# Set version
+# Set version
 	ghcup install ghc 9.10.2 && ghcup set ghc 9.10.2
 	ghcup --url-source=https://raw.githubusercontent.com/haskell/ghcup-metadata/master/ghcup-vanilla-0.0.9.yaml install hls 2.11.0.0 && ghcup set hls 2.11.0.0
 	ghcup install stack 3.7.1
 
-tests_run:
-	mkdir -p test/coverage
-	stack clean --allow-different-user
-	stack test --coverage --allow-different-user
-	stack hpc report --all --destdir test/coverage --allow-different-user
+$(PART_1):
+	$(RM) $@
+	$(MAKE) -C $(PART_1_DIR) $(PART_1)
+	ln -s $(PART_1_DIR)/$(PART_1) $@
+$(PART_2_COMPILER):
+	$(RM) $@
+	$(MAKE) -C $(PART_2_COMPILER_DIR) $(PART_2_COMPILER)
+	ln -s $(PART_2_COMPILER_DIR)/$(PART_2_COMPILER) $@
+$(PART_2_VM):
+	$(RM) $@
+	$(MAKE) -C $(PART_2_VM_DIR) $(PART_2_VM)
+	ln -s $(PART_2_VM_DIR)/$(PART_2_VM) $@
 
-tests_open:
-	make -s tests_run
-	xdg-open `stack path --local-hpc-root`/index.html
-
-fclean:
-	stack clean
-	$(RM) $(NAME)
-	rm -rf test/coverage
-
-re: fclean $(NAME)
-
-.PHONY: all fclean re
+.PHONY: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM) all install

@@ -7,3 +7,5 @@ glados
 ./test/coverage
 /test/coverage/
 test/coverage/
+/fcc
+/fcvm

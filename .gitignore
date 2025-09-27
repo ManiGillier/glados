@@ -12,3 +12,6 @@ test/coverage/
 /lisp/test/coverage/
 /fcvm_src/test/coverage/
 /fcc_src/test/coverage/
+/fcc_src/fcc
+/fcvm_src/fcvm
+/lisp/glados

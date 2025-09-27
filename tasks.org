@@ -1,13 +1,16 @@
 #+TODO: TODO(t) | DONE(d) CANCELED(c@)
 
 * TASK
-** CI/CD [0/2]
+** CI/CD [1/2]
 *** TODO Fix CI Compilation crashes
 DEADLINE: <2025-09-26 Fri 15:00>
-*** TODO Separate CI in multiple files
+:LOGBOOK:
+CLOCK: [2025-09-27 Sat 13:57]
+:END:
+*** DONE Separate CI in multiple files
 DEADLINE: <2025-09-26 Fri 18:00>
 :LOGBOOK:
-CLOCK: [2025-09-27 Sat 10:01]
+CLOCK: [2025-09-27 Sat 10:01]--[2025-09-27 Sat 13:57] =>  3:56
 :END:
 ** TODO Fix coding-style
 * IDEAS

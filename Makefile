@@ -48,5 +48,11 @@ tests_run:
 	$(MAKE) -j -C $(PART_2_COMPILER_DIR) $@
 	$(MAKE) -j -C $(PART_2_VM_DIR) $@
 
+fclean:
+	$(RM) $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
+	$(MAKE) -C $(PART_1_DIR) fclean
+	$(MAKE) -C $(PART_2_COMPILATION_DIR) fclean
+	$(MAKE) -C $(PART_2_VM_DIR) fclean
+
 .PHONY: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM) all install \
 	tests_run re

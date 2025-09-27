@@ -1,0 +1,34 @@
+name: Coding Style
+run-name: Checking coding style
+on: [push, pull_request]
+
+env:
+  MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git
+  REPO_SSH_URL: git@github.com:${{ github.repository }}.git
+
+jobs:
+  check_coding_style:
+    name: check_coding_style
+    if: ${{ env.MIRROR_URL != env.REPO_SSH_URL }}
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:latest
+    steps:
+      - id: install
+        name: install lambdananas
+        run: |
+          wget https://github.com/Epitech/lambdananas/releases/download/v2.4.3.2/lambdananas
+          chmod +x lambdananas
+          mv lambdananas /tmp/lambdananas
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+      - id: launch_coding_style
+        name: Runs the coding-style-checker
+        run: |
+          /tmp/lambdananas $(pwd) > coding-style-reports.log
+          if [ -s coding-style-reports.log ]; then
+            cat coding-style-reports.log
+            exit 1
+          else
+            echo "No coding style error found."
+          fi

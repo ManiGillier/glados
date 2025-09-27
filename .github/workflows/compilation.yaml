@@ -1,0 +1,41 @@
+name: Compilation
+run-name: Checking compilation
+on: [push, pull_request]
+
+env:
+  MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git
+  EXECUTABLES: glados,fcc,fcvm
+  REPO_SSH_URL: git@github.com:${{ github.repository }}.git
+  STACK_ROOT: /tmp/stack-root
+
+jobs:
+  check_program_compilation:
+    name: check_program_compilation
+    if: ${{ env.MIRROR_URL != env.REPO_SSH_URL }}
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+      - id: compile
+        timeout-minutes: 15
+        name: Compilation
+        run: |
+          make STACK_ROOT=$STACK_ROOT
+      - id: clean
+        name: Clean
+        run: |
+          make fclean
+      - id: do_executables_exist
+        name: Check existence of executables
+        run: |
+          IN=${{ env.EXECUTABLES }}
+          executables=$(echo $IN | tr "," "\n")
+          for exec in $executables
+          do
+          if [[ ! -x $exec ]]; then
+          echo "::error::'$exec' was not found or is not executable"
+          exit 1
+          fi
+          done

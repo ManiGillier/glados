@@ -1,0 +1,32 @@
+name: Unit tests
+run-name: Testing program
+on: [push, pull_request]
+
+env:
+  MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git
+  REPO_SSH_URL: git@github.com:${{ github.repository }}.git
+  STACK_ROOT: /tmp/stack-root
+
+jobs:
+  run_tests:
+    name: run_tests
+    if: ${{ env.MIRROR_URL != env.REPO_SSH_URL }}
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker
+    steps:
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v4
+      - id: tests_run
+        name: Run make tests_run
+        timeout-minutes: 15
+        run: |
+          make tests_run STACK_ROOT=$STACK_ROOT
+      - id: compile
+        name: Compilation
+        run: |
+          make STACK_ROOT=$STACK_ROOT
+      - id: functional_tests_run
+        name: Run gay_sex.py
+        run: |
+          python3 gay_sex.py

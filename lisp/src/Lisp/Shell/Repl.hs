@@ -55,8 +55,6 @@ manageAfterLexing _ (Left e) =
 manageAfterLexing s (Right (value, str)) = case final of
   Correct (Correct (table, result)) ->
     mapM putStrLn (filter (\str' -> not $ null str') result)
-    -- >> print expressions
-    -- >> print final
     >> replSingle (s{ibuf = str, symTable = (table, [])})
   Correct err -> hPutStrLn stderr (show err)
     >> exitWith (ExitFailure 84)

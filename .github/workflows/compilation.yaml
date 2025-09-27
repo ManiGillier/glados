@@ -11,7 +11,7 @@ env:
 jobs:
   check_program_compilation:
     name: check_program_compilation
-    if: ${{ env.MIRROR_URL != env.REPO_SSH_URL }}
+    if: env.MIRROR_URL != env.REPO_SSH_URL
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:

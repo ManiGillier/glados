@@ -14,7 +14,7 @@ env:
 
 jobs:
   push_to_mirror:
-    if: ${{ env.MIRROR_URL != env.REPO_SSH_URL }}
+    if: env.MIRROR_URL != env.REPO_SSH_URL
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

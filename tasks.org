@@ -1,24 +1,13 @@
 #+TODO: TODO(t) | DONE(d) CANCELED(c@)
 
-* TASKS
-** DONE Ajouter MaybeError
+* TASK
+** CI/CD [0/2]
+*** TODO Fix CI Compilation crashes
+DEADLINE: <2025-09-26 Fri 15:00>
+*** TODO Separate CI in multiple files
+DEADLINE: <2025-09-26 Fri 18:00>
 :LOGBOOK:
-CLOCK: [2025-09-22 Mon 11:07]--[2025-09-22 Mon 11:24] =>  0:17
+CLOCK: [2025-09-27 Sat 10:01]
 :END:
-** DONE Ajouter erreurs dans parsing
-:LOGBOOK:
-CLOCK: [2025-09-22 Mon 13:31]--[2025-09-22 Mon 13:39] =>  0:08
-CLOCK: [2025-09-22 Mon 11:24]--[2025-09-22 Mon 12:20] =>  0:56
-:END:
-** CANCELED Make lists a valid type
-- State "CANCELED"   from "TODO"       [2025-09-22 Mon 14:19] \\
-  Would need to rework exec also
-:LOGBOOK:
-CLOCK: [2025-09-22 Mon 13:39]--[2025-09-22 Mon 14:19] =>  0:40
-:END:
-** DONE Make a list of tests
-:LOGBOOK:
-CLOCK: [2025-09-22 Mon 14:16]-[2025-09-22 Mon 15:06] =>  0:50
-:END:
-** DONE Show prompt only in interactive mode
+** TODO Fix coding-style
 * IDEAS

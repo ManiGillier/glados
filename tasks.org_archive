@@ -1,0 +1,65 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/mani/Documents/Work/Epitech/glados/tasks.org
+
+
+* DONE Ajouter MaybeError
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 11:07]--[2025-09-22 Mon 11:24] =>  0:17
+:END:
+
+* DONE Ajouter erreurs dans parsing
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 13:31]--[2025-09-22 Mon 13:39] =>  0:08
+CLOCK: [2025-09-22 Mon 11:24]--[2025-09-22 Mon 12:20] =>  0:56
+:END:
+
+* CANCELED Make lists a valid type
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: CANCELED
+:END:
+- State "CANCELED"   from "TODO"       [2025-09-22 Mon 14:19] \\
+  Would need to rework exec also
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 13:39]--[2025-09-22 Mon 14:19] =>  0:40
+:END:
+
+* DONE Make a list of tests
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 14:16]-[2025-09-22 Mon 15:06] =>  0:50
+:END:
+
+* DONE Show prompt only in interactive mode
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:

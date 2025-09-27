@@ -28,4 +28,6 @@ jobs:
       - id: functional_tests_run
         name: Run gay_sex.py
         run: |
-          python3 lisp/gay_sex.py
+          cd lisp
+          python3 gay_sex.py
+          cd -

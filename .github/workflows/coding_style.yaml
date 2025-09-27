@@ -9,7 +9,6 @@ env:
 jobs:
   check_coding_style:
     name: check_coding_style
-    if: env.MIRROR_URL != env.REPO_SSH_URL
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker:latest
     steps:

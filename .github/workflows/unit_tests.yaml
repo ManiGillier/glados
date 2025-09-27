@@ -10,7 +10,6 @@ env:
 jobs:
   run_tests:
     name: run_tests
-    if: env.MIRROR_URL != env.REPO_SSH_URL
     runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:

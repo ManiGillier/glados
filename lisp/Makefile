@@ -8,11 +8,8 @@
 COMPILED_NAME	:= glados
 NAME	:= glados
 
-all:
-	$(RM) $(NAME)
-	$(MAKE) $(NAME)
-
 $(NAME):
+	$(RM) $(NAME)
 	stack build --allow-different-user
 	ln -s `stack path --local-install-root`/bin/$(COMPILED_NAME)-exe $@
 

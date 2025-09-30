@@ -20,16 +20,53 @@ data Value =
   deriving (Show)
 
 data Instruction =
+  -- Label definition (bin output = [])
   Label !LabelName
+  -- Unary
+  | DataInt !Int
+  | DataString !String
+  | BinNot
+  | BoolNot
+  | Negate
+  -- Binary
+  | BinAnd
+  | BinOr
+  | BoolAnd
+  | BoolOr
+  | Xor
+  | BitShiftLeft
+  | BitShiftRight
   | Add
   | Sub
-  -- Add more here
-  | Push !Value
-  | Pop !Value
+  | Mult
+  | Div
+  | Mod
+  | Gt -- Greater
+  | Ge -- Greater or equal
+  | Lt -- Less
+  | Le -- Less or equal
+  | Eq
+  | Diff
+  | Is
+  -- Push (Push 4 byte to the stack)
+  | PushValue !Int
+  | PushGlobAddr !Int
+  | PushRelAddr !Int
+  | PushLabel !LabelName -- Same bytecode as PushRelAddr
+  | PushStackRel !Int
+  -- Pop (Pop 4 bytes from the stack)
+  | PopStackRel !Int
+  | PopEmpty
+  -- Both
+  | Dupl -- Duplicates last stack entry
+  -- Function (modified stack)
   | Call
   | Ret
+  -- Jumps (POPS addr from stack)
   | Jmp
-  | ZJmp
+  | Zjmp -- If zero flag == true jump else continue
+  -- Debug functions (to remove later)
+  | Aff
   deriving (Show)
 
 type Asm = [Instruction]

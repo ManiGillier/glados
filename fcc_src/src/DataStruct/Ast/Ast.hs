@@ -5,20 +5,19 @@
 -- Ast
 -}
 
-module DataStruct.Ast (Ast (..)) where
+module DataStruct.Ast.Ast (Ast (..)
+                          , FunctionName
+                          , UnaryOperator (..)
+                          , BinaryOperator (..)
+                          , Operation (..)
+                          , Computable (..)
+                          , Condition (..)
+                          , FunctionBody (..)
+                          , FunctionDef (..)
+                          , MainFunctionDef (..)) where
 
-data VariableType = Bool | String | Int
-
-data VariableValue =
-  Bool Bool
-  | String String
-  | Int Int
-
-type VariableName = String
-
-data VariableDef = VariableDef VariableName VariableType VariableValue
-
-data ReturnType = Void | Value VariableType
+import DataStruct.Ast.Variable (VariableValue (..), VariableName
+                               , VariableDef (..), ReturnType (..))
 
 type FunctionName = String
 
@@ -57,4 +56,4 @@ data FunctionDef = Function FunctionName ReturnType [VariableDef] FunctionBody
 
 data MainFunctionDef = Main [VariableDef] FunctionBody
 
-type Ast = Ast MainFunctionDef [FunctionDef]
+data Ast = Ast MainFunctionDef [FunctionDef]

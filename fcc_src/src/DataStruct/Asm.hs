@@ -5,8 +5,7 @@
 -- Asm
 -}
 
-module DataStruct.Asm where
-import Data.Binary (Binary)
+module DataStruct.Asm (Asm) where
 
 type LabelName = String
 type VariableName = String

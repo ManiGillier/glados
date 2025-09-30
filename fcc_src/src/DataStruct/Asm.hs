@@ -6,6 +6,7 @@
 -}
 
 module DataStruct.Asm (Asm) where
+import Data.Binary (Word8)
 
 type LabelName = String
 type VariableName = String
@@ -25,10 +26,19 @@ data Instruction =
   -- Add more here
   | Push !Value
   | Pop !Value
-  | Call !LabelName
+  | Call
   | Ret
   | Jmp
   | ZJmp
   deriving (Show)
 
 type Asm = [Instruction]
+
+aymerick :: Instruction -> String
+aymerick = show
+
+maxime :: Instruction -> [Word8]
+maxime _ = []
+
+maxime_2 :: [Instruction] -> [Word8]
+maxime_2 _ = []

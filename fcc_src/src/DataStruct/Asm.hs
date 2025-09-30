@@ -6,7 +6,7 @@
 -}
 
 module DataStruct.Asm (Asm) where
-import Data.Binary (Word8)
+import Data.Word (Word8)
 
 type LabelName = String
 type VariableName = String
@@ -64,9 +64,9 @@ data Instruction =
   | Ret
   -- Jumps (POPS addr from stack)
   | Jmp
-  | Zjmp -- If zero flag == true jump else continue
+  | Zjmp -- Pops test from stack (if == 0, jump else continue)
   -- Debug functions (to remove later)
-  | Aff
+  | Aff -- Shows single char from addr popped from stack
   deriving (Show)
 
 type Asm = [Instruction]
@@ -79,3 +79,30 @@ maxime _ = []
 
 maxime_2 :: [Instruction] -> [Word8]
 maxime_2 _ = []
+{-
+test :: [Instruction]
+test = [
+    Label ".data"
+  , Label ".str_HelloWorld"
+  , DataString "Hello, World!"
+  , Label ".str_HelloWorld_end"
+  , Label ".start"
+  , PushLabel ".str_HelloWorld_end"
+  , PushLabel ".str_HelloWorld"
+  , Sub -- Len of string #0 +1 ~1
+  , Label ".loop"
+  , Dupl -- #1 +1 ~2
+  , PushLabel ".end" -- #2 +1 ~3
+  , Zjmp -- -2 ~1
+  , Dupl -- #1 + 1 -- len ~2
+  , Negate -- +0 -- -len ~2
+  , PushLabel ".str_HelloWorld_end" -- #2 +1 ~3
+  , Add -- -1 -- .str_HelloWorld_end - len #1 ~2
+  , Aff -- Show "Hello, World!"[actual_len - len] -1 ~1
+  , PushValue 1 -- #1 +1 ~2
+  , Sub -- #0 -1 (new len = len - 1) ~1
+  , PushLabel ".loop"
+  , Jmp
+  , Label ".end"
+  ]
+-}

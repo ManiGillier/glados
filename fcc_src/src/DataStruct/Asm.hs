@@ -5,7 +5,12 @@
 -- Asm
 -}
 
-module DataStruct.Asm (Asm) where
+module DataStruct.Asm (Asm (..)
+                      , Instruction (..)
+                      , Value (..)
+                      , LabelName
+                      , VariableName
+                      ) where
 import Data.Word (Word8)
 
 type LabelName = String

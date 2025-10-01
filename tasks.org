@@ -21,6 +21,12 @@ CLOCK: [2025-09-27 Sat 16:55]--[2025-09-27 Sat 16:57] =>  0:02
 :LOGBOOK:
 CLOCK: [2025-09-30 Tue 10:49]--[2025-09-30 Tue 11:23] =>  0:34
 :END:
+** TODO Variable management
+** TODO Operation Management
+** TODO Computable Management
+** TODO Condition mamagement
+** TODO Function management
+** TODO Loop management
 ** ADMIN
 *** DONE Create the second part trello
 :LOGBOOK:

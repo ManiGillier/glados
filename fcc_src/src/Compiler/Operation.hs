@@ -10,7 +10,9 @@ module Compiler.Operation ( compileOperation
 
 import DataStruct.Ast.Ast as Ast
 import DataStruct.Asm as Asm
-import DataStruct.Ast.Variable (VariableValue(Int, Bool))
+import DataStruct.Ast.Variable (VariableValue (..))
+import Compiler.Type
+import Compiler.Variable (getVariable)
 
 getUnOp :: UnaryOperator -> Instruction
 getUnOp Ast.BinaryNot = Asm.BinNot
@@ -38,22 +40,29 @@ getBinOp Ast.Equals = Asm.Eq
 getBinOp Ast.Is = Asm.Is
 getBinOp Ast.Different = Asm.Diff
 
-compileComputable :: Computable -> Maybe [Instruction]
+compileUnOp :: Compiler UnaryOperator
+compileUnOp s op = Just (s, [getUnOp op])
+
+compileBinOp :: Compiler BinaryOperator
+compileBinOp s op = Just (s, [getBinOp op])
+
+compileComputable :: Compiler Computable
 -- Computable Value
-compileComputable (Value (Int x)) = Just $ [PushValue x]
-compileComputable (Value (Bool False)) = Just $ [PushValue 0]
-compileComputable (Value (Bool True)) = Just $ [PushValue 1]
-compileComputable (Value _) = Nothing
+compileComputable s (Value (Int x)) = Just $ (s, [PushValue x])
+compileComputable s (Value (Bool False)) = Just $ (s, [PushValue 0])
+compileComputable s (Value (Bool True)) = Just $ (s, [PushValue 1])
+compileComputable _ (Value _) = Nothing
 -- Computable Variable
-compileComputable (Ast.Variable _) = error $ "TODO: Implement variable"
+compileComputable s (Ast.Variable name) = getVariable s name >>= (
+  \value -> (compileComputable s (Value value)))
 -- Computable Operation
-compileComputable (Ast.Operation op) = compileOperation op
+compileComputable s (Ast.Operation op) = compileOperation s op
 -- compileComputable _ = Nothing
 
-compileOperation :: Operation -> Maybe [Instruction]
-compileOperation (UnaryOperation op computable) =
-  liftA2 (++) (compileComputable computable) (Just [getUnOp op])
-compileOperation (BinaryOperation op c0 c1) =
-  liftA2 (++) values (Just [getBinOp op])
-  where values = liftA2 (++) (compileComputable c0) (compileComputable c1)
+compileOperation :: Compiler Operation
+compileOperation s (UnaryOperation op computable) = total
+  where total = (combine compileComputable compileUnOp) s (computable,op)
+compileOperation s (BinaryOperation op c0 c1) = total
+  where c = (combine compileComputable compileComputable)
+        total = (combine c compileBinOp) s ((c0,c1),op)
 -- compileOperation _ = Nothing

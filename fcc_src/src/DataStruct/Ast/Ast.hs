@@ -41,10 +41,10 @@ data Computable =
   | Operation Operation
   | Variable Var.VariableName
 
--- 1 + 1 - 5
+-- 1 + x - 5
 a :: Computable
 a = Operation $ BinaryOperation Sub
-  (Operation $ BinaryOperation Add (Value (Var.Int 1)) (Value (Var.Int 1)))
+  (Operation $ BinaryOperation Add (Value (Var.Int 1)) (Variable "x"))
   (Value $ Var.Int 5)
 
 data Condition = Condition Computable

@@ -21,9 +21,11 @@ CLOCK: [2025-09-27 Sat 16:55]--[2025-09-27 Sat 16:57] =>  0:02
 :LOGBOOK:
 CLOCK: [2025-09-30 Tue 10:49]--[2025-09-30 Tue 11:23] =>  0:34
 :END:
-** TODO Variable management
+** DONE Variable management (Read variables)
 :LOGBOOK:
-CLOCK: [2025-10-01 Wed 11:45]
+CLOCK: [2025-10-01 Wed 14:43]--[2025-10-01 Wed 15:59] =>  1:16
+CLOCK: [2025-10-01 Wed 14:00]--[2025-10-01 Wed 14:35] =>  0:35
+CLOCK: [2025-10-01 Wed 11:45]--[2025-10-01 Wed 12:52] =>  1:07
 :END:
 ** DONE Merge operation & computable
 :LOGBOOK:

@@ -15,6 +15,7 @@ data VariableValue =
   Bool Bool
   | String String
   | Int Int
+  deriving (Show, Eq)
 
 type VariableName = String
 

@@ -26,11 +26,11 @@ CLOCK: [2025-09-30 Tue 10:49]--[2025-09-30 Tue 11:23] =>  0:34
 :LOGBOOK:
 CLOCK: [2025-10-01 Wed 10:55]--[2025-10-01 Wed 11:04] =>  0:09
 :END:
-** TODO Operation Management
+** DONE Operation Management
 :LOGBOOK:
-CLOCK: [2025-10-01 Wed 11:04]
+CLOCK: [2025-10-01 Wed 11:04]--[2025-10-01 Wed 11:25] =>  0:21
 :END:
-** TODO Computable Management
+** DONE Computable Management
 ** TODO Condition mamagement
 ** TODO Function management
 ** TODO Loop management

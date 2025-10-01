@@ -14,10 +14,13 @@ module DataStruct.Ast.Ast (Ast (..)
                           , Condition (..)
                           , FunctionBody (..)
                           , FunctionDef (..)
-                          , MainFunctionDef (..)) where
+                          , MainFunctionDef (..)
+                          , a) where
 
-import DataStruct.Ast.Variable (VariableValue (..), VariableName
+import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
+                                                , VariableName
                                , VariableDef (..), ReturnType (..))
+import DataStruct.Lexing (Lexer(Symbol))
 
 type FunctionName = String
 
@@ -34,26 +37,29 @@ data Operation =
   BinaryOperation BinaryOperator Computable Computable
   | UnaryOperation UnaryOperator Computable
 
--- a :: Computable
--- a = Operation $ BinaryOperation (Sub (Operation $ BinaryOperation (Add (Value $ Int 2) (Value $ Int 3))) (Value $ Int 5))
-
 data Computable =
-  Value VariableValue
+  Value Var.VariableValue
   | Operation Operation
-  | Variable VariableName
+  | Variable Var.VariableName
+
+-- 1 + 1 - 5
+a :: Computable
+a = Operation $ BinaryOperation Sub
+  (Operation $ BinaryOperation Add (Value (Var.Int 1)) (Value (Var.Int 1)))
+  (Value $ Var.Int 5)
 
 data Condition = Condition Computable
 
 data FunctionBody =
-  Assign VariableName Computable
+  Assign Var.VariableName Computable
   | If Condition FunctionBody (Maybe FunctionBody)
   | Invoke FunctionName [Computable]
   | Loop Condition FunctionBody
   | Return Computable
   | Show Computable
 
-data FunctionDef = Function FunctionName ReturnType [VariableDef] FunctionBody
+data FunctionDef = Function FunctionName Var.ReturnType [Var.VariableDef] FunctionBody
 
-data MainFunctionDef = Main [VariableDef] FunctionBody
+data MainFunctionDef = Main [Var.VariableDef] FunctionBody
 
 data Ast = Ast MainFunctionDef [FunctionDef]

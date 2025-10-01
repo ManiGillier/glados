@@ -40,7 +40,7 @@ getBinOp Ast.Different = Asm.Diff
 
 compileComputable :: Computable -> Maybe [Instruction]
 -- Computable Value
-compileComputable (Value (Int a)) = Just $ [PushValue a]
+compileComputable (Value (Int x)) = Just $ [PushValue x]
 compileComputable (Value (Bool False)) = Just $ [PushValue 0]
 compileComputable (Value (Bool True)) = Just $ [PushValue 1]
 compileComputable (Value _) = Nothing

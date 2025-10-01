@@ -22,7 +22,14 @@ CLOCK: [2025-09-27 Sat 16:55]--[2025-09-27 Sat 16:57] =>  0:02
 CLOCK: [2025-09-30 Tue 10:49]--[2025-09-30 Tue 11:23] =>  0:34
 :END:
 ** TODO Variable management
+** DONE Merge operation & computable
+:LOGBOOK:
+CLOCK: [2025-10-01 Wed 10:55]--[2025-10-01 Wed 11:04] =>  0:09
+:END:
 ** TODO Operation Management
+:LOGBOOK:
+CLOCK: [2025-10-01 Wed 11:04]
+:END:
 ** TODO Computable Management
 ** TODO Condition mamagement
 ** TODO Function management

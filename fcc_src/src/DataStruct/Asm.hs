@@ -5,7 +5,7 @@
 -- Asm
 -}
 
-module DataStruct.Asm (Asm (..)
+module DataStruct.Asm (Asm
                       , Instruction (..)
                       , Value (..)
                       , LabelName

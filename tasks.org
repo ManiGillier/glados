@@ -36,6 +36,11 @@ CLOCK: [2025-10-01 Wed 10:55]--[2025-10-01 Wed 11:04] =>  0:09
 CLOCK: [2025-10-01 Wed 11:04]--[2025-10-01 Wed 11:25] =>  0:21
 :END:
 ** DONE Computable Management
+** DONE [#A] FIX Variable management is just plain wrong :/
+:LOGBOOK:
+CLOCK: [2025-10-01 Wed 17:04]--[2025-10-01 Wed 18:00] =>  0:56
+CLOCK: [2025-10-01 Wed 15:59]--[2025-10-01 Wed 16:22] =>  0:23
+:END:
 ** TODO Condition mamagement
 ** TODO Function management
 ** TODO Loop management

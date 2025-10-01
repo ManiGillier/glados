@@ -20,7 +20,6 @@ module DataStruct.Ast.Ast (Ast (..)
 import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
                                                 , VariableName
                                , VariableDef (..), ReturnType (..))
-import DataStruct.Lexing (Lexer(Symbol))
 
 type FunctionName = String
 

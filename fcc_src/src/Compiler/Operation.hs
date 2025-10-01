@@ -53,8 +53,8 @@ compileComputable s (Value (Bool False)) = Just $ (s, [PushValue 0])
 compileComputable s (Value (Bool True)) = Just $ (s, [PushValue 1])
 compileComputable _ (Value _) = Nothing
 -- Computable Variable
-compileComputable s (Ast.Variable name) = getVariable s name >>= (
-  \value -> (compileComputable s (Value value)))
+compileComputable s (Ast.Variable name) =
+  (\addr -> (s,[PushFromStackPtrRel addr])) <$> getVariable s name
 -- Computable Operation
 compileComputable s (Ast.Operation op) = compileOperation s op
 -- compileComputable _ = Nothing

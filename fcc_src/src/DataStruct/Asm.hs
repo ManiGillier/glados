@@ -10,11 +10,14 @@ module DataStruct.Asm (Asm
                       , Value (..)
                       , LabelName
                       , VariableName
+                      , Addr
                       ) where
 import Data.Word (Word8)
 
 type LabelName = String
 type VariableName = String
+
+type Addr = Int
 
 data Value =
   StackPos !Int
@@ -58,21 +61,25 @@ data Instruction =
   | PushGlobAddr !Int
   | PushRelAddr !Int
   | PushLabel !LabelName -- Same bytecode as PushRelAddr
-  | PushStackRel !Int
+  | PushFromStackPtrRel !Addr -- Push the value stored here
   -- Pop (Pop 4 bytes from the stack)
-  | PopStackRel !Int
+  | PopToStackPtrRel !Addr -- Pop and set to the address :D
   | PopEmpty
+  -- Stack writing
+  | WriteToStackPtrRel !Addr !Int -- Write Int to stack ptr + Addr
   -- Both
   | Dupl -- Duplicates last stack entry
   -- Function (modified stack)
-  | Call
-  | Ret
+  | Call -- Remember stack pointer :D
+  | Ret -- Retrieve caller stack pointer :D
   -- Jumps (POPS addr from stack)
   | Jmp
   | Zjmp -- Pops test from stack (if == 0, jump else continue)
   -- Debug functions (to remove later)
   | Aff -- Shows single char from addr popped from stack
   deriving (Show)
+
+-- Addr is the address added to the address of the stack pointer !
 
 type Asm = [Instruction]
 

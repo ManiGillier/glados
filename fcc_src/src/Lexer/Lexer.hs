@@ -6,7 +6,7 @@
 -}
 
 module Lexer.Lexer(skipWhitespace, readWord, readValue, lexStrings,
-    lexStringsWithTokens', lexStringsWithTokens, readAssign) where
+    lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign') where
 
 import Data.Void (Void)
 import DataStruct.Lexing(SExpr(..))
@@ -55,8 +55,14 @@ assignName = words "J'aimerais que <S>"
 assignValue :: [String]
 assignValue = words "prenne la valeur <V>"
 
+assignSentence :: [String]
+assignSentence = words "J'aimerais que <S> prenne la valeur <V>"
+
 readAssign :: Lexer [SExpr]
-readAssign = (\ws1 ws2 -> Assign : ws1 ++ ws2)
+readAssign = lexStringsWithTokens' [Assign] assignSentence <* readEOI
+
+readAssign' :: Lexer [SExpr]
+readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)
     <$> lexStringsWithTokens assignName
     <*> lexStringsWithTokens assignValue
     <* readEOI

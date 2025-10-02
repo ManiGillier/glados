@@ -5,7 +5,7 @@
 -- Lexing
 -}
 
-module DataStruct.Lexing where
+module DataStruct.Lexing(SExpr(..), Comparators(..), Operations(..)) where
 
 data Operations =
     Add |
@@ -21,11 +21,13 @@ data Operations =
     Xor |
     LeftBitshift |
     RightBitshift
+    deriving (Show, Eq)
 
 data Comparators =
     Equal | Different | Inferior | Superior | InferiorOrEqual | SuperiorOrEqual
+    deriving (Show, Eq)
 
-data Lexer =
+data SExpr =
     Hi |
     FuncDef |
     FuncType |
@@ -51,5 +53,5 @@ data Lexer =
     Number Int |
     Operation Operations |
     Comparator Comparators |
-    Sayonara
+    Sayonara deriving (Show, Eq)
 

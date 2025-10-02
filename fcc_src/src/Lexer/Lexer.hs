@@ -7,10 +7,12 @@
 
 module Lexer.Lexer(skipWhitespace, readWord, readValue, lexStrings,
     lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign', readCondition,
-    readComputable) where
+    readComputable, readComputables) where
 
 import Data.Void (Void)
 import Data.List (singleton)
+
+import ApplicativeAddons
 
 import DataStruct.Lexing(LexedData(..), Operations(..))
 import Lexer.Syntax(assignNameSyntax, assignValueSyntax, assignSyntax, assignSyntax', ifSyntax)
@@ -41,7 +43,11 @@ readComputableAfterOperation :: Lexer LexedData
 readComputableAfterOperation = try readValue <|> readWord
 
 readComputable :: Lexer [LexedData]
-readComputable = try (readOperation *> (singleton <$> readComputableAfterOperation)) <|> try (singleton <$> readValue)  <|> (singleton <$> readWord)
+readComputable = skipWhitespace *> try (readOperation $: (skipWhitespace *> glob readComputableAfterOperation))
+    <|> try (glob readValue) <|> glob readWord
+
+readComputables :: Lexer [LexedData]
+readComputables = concat <$> (many readComputable)
 
 readEOI :: Lexer Char
 readEOI = char '.'

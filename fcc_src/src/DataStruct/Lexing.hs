@@ -5,7 +5,7 @@
 -- Lexing
 -}
 
-module DataStruct.Lexing(SExpr(..), Comparators(..), Operations(..)) where
+module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..)) where
 
 data Operations =
     Add |
@@ -27,7 +27,7 @@ data Comparators =
     Equal | Different | Inferior | Superior | InferiorOrEqual | SuperiorOrEqual
     deriving (Show, Eq)
 
-data SExpr =
+data LexedData =
     Hi |
     FuncDef |
     FuncType |
@@ -54,4 +54,3 @@ data SExpr =
     Operation Operations |
     Comparator Comparators |
     Sayonara deriving (Show, Eq)
-

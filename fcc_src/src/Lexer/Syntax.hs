@@ -20,4 +20,4 @@ assignSyntax' :: [String]
 assignSyntax' = words "<S> prend la valeur <V>"
 
 ifSyntax :: [String]
-ifSyntax = words "Si <S> , exécute le texte :"
+ifSyntax = words "Si <S>, exécute le texte :"

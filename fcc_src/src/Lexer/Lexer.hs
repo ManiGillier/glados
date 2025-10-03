@@ -37,7 +37,13 @@ readValue =
         <* skipWhitespace
 
 readOperation :: Lexer LexedData
-readOperation = char '+' *> return (Operation Add)
+readOperation = Operation <$> choice [
+    Add      <$ string "plus",
+    Subtract <$ string "moins",
+    Multiply <$ string "fois",
+    Multiply <$ string "multiplié par",
+    Divide   <$ string "divisé par",
+    Modulo <$ string "modulo"]
 
 readComputableAfterOperation :: Lexer LexedData
 readComputableAfterOperation = try readValue <|> readWord

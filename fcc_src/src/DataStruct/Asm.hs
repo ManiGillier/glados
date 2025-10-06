@@ -13,6 +13,8 @@ module DataStruct.Asm (Asm
                       , Addr
                       ) where
 import Data.Word (Word8)
+import Data.Char (ord)
+import Data.Bits (testBit)
 
 type LabelName = String
 type VariableName = String
@@ -83,19 +85,48 @@ data Instruction =
 
 type Asm = [Instruction]
 
-aymerick :: Instruction -> String
-aymerick = show
+displayInstruction :: Instruction -> String
+displayInstruction = show
 
-maxime :: Instruction -> [Word8]
-maxime _ = []
+setAddressToLabel :: [Instruction] -> Int -> [(String, Word8)]
+setAddressToLabel [] _ = []
+setAddressToLabel ((Label labelName):xs) n =
+     [(labelName, fromIntegral n)] ++ setAddressToLabel xs (n + 1)
+setAddressToLabel (_:xs) n = setAddressToLabel xs n
 
-maxime_2 :: [Instruction] -> [Word8]
-maxime_2 _ = []
-{-
+getAddressLabel :: String -> [(String, Word8)] -> Word8
+-- TODO: Error here label not found
+getAddressLabel _ [] = (255) 
+getAddressLabel name ((x, y):xs)
+    | name == x = y
+    | otherwise = getAddressLabel name xs
+
+instructionEnd :: [Word8]
+instructionEnd = [0x0]
+
+intToBits :: Int -> [Word8]
+intToBits n = [ if testBit n i then 1 else 0 | i <- [63,62..0] ]
+
+stringWord8 :: String -> [Word8]
+stringWord8 str = map (fromIntegral . ord) str
+
+instructionToByteCode :: [(String, Word8)] -> Instruction -> [Word8]
+instructionToByteCode _ (DataInt val) = 
+    [0x1] ++ intToBits val ++ instructionEnd
+instructionToByteCode _ (DataString str) = 
+    [0x2] ++ stringWord8 str ++ instructionEnd
+instructionToByteCode _ (BinNot) = 
+    [0x03] ++ instructionEnd
+instructionToByteCode _ _ = []
+
+asmToBytecode :: [(String, Word8)] -> [Instruction] -> [Word8]
+asmToBytecode labelAddr xs = concatMap (instructionToByteCode labelAddr) xs
+
 test :: [Instruction]
 test = [
     Label ".data"
   , Label ".str_HelloWorld"
+  , DataInt 32
   , DataString "Hello, World!"
   , Label ".str_HelloWorld_end"
   , Label ".start"
@@ -117,4 +148,3 @@ test = [
   , Jmp
   , Label ".end"
   ]
--}

@@ -10,11 +10,10 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexStrings,
     readComputable, readComputables) where
 
 import Data.Void (Void)
-import Data.List (singleton)
 
 import ApplicativeAddons
 
-import DataStruct.Lexing(LexedData(..), Operations(..))
+import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..))
 import Lexer.Syntax(assignNameSyntax, assignValueSyntax, assignSyntax, assignSyntax', ifSyntax)
 
 import Text.Megaparsec
@@ -45,15 +44,21 @@ readOperation = Operation <$> choice [
     Divide   <$ string "divisé par",
     Modulo <$ string "modulo"]
 
+readComparator :: Lexer LexedData
+readComparator = Comparator <$> choice [
+    Equal <$ string "=="]
+
 readComputableAfterOperation :: Lexer LexedData
 readComputableAfterOperation = try readValue <|> readWord
 
 readComputable :: Lexer [LexedData]
-readComputable = skipWhitespace *> try (readOperation $: (skipWhitespace *> glob readComputableAfterOperation))
-    <|> try (glob readValue) <|> glob readWord
+readComputable = try (readOperation $: (space1 *> glob readComputableAfterOperation))
 
 readComputables :: Lexer [LexedData]
-readComputables = concat <$> (many readComputable)
+readComputables = concat <$> (glob readComputableAfterOperation $: many readComputable)
+
+readCondition :: Lexer [LexedData]
+readCondition = readComputables $++ (glob readComparator) $++ (space1 *> readComputables)
 
 readEOI :: Lexer Char
 readEOI = char '.'
@@ -82,11 +87,6 @@ lexStringsWithTokens toLex = lexStringsWithTokens' [] toLex
 readAssign :: Lexer [LexedData]
 readAssign = try (lexStringsWithTokens' [Assign] assignSyntax <* readEOI) <|>
     (lexStringsWithTokens' [Assign] assignSyntax' <* readEOI)
-
-readCondition :: Lexer [LexedData]
-readCondition = do
-    m <- lexStringsWithTokens' [If] ifSyntax
-    return m
 
 readAssign' :: Lexer [LexedData]
 readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)

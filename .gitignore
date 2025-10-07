@@ -16,3 +16,4 @@ test/coverage/
 /fcvm_src/fcvm
 /lisp/glados
 */*.cabal
+.DS_Store

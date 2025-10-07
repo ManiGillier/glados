@@ -59,6 +59,7 @@ data Instruction =
   | Eq
   | Diff
   | Is
+  | UpdateZFlag -- Pops stack, if zero set z flag to 1 else 0
   -- Push (Push 4 byte to the stack)
   | PushValue !Int64
   | PushGlobAddr !Int64

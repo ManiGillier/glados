@@ -7,7 +7,9 @@
 
 module Compiler.Type (Compiler, combine
                      , prefixCompiler
-                     , suffixCompiler) where
+                     , suffixCompiler
+                     , mapCompiler
+                     ) where
 import Compiler.Variable (VariableStorage)
 import DataStruct.Asm (Instruction)
 
@@ -36,3 +38,12 @@ suffixCompiler :: [Instruction] -> Compiler a -> Compiler a
 suffixCompiler i c = \ s a -> case c s a of
   Nothing -> Nothing
   Just (s', is) -> Just (s', is ++ i)
+
+mapCompiler :: Compiler a -> Compiler [a]
+mapCompiler ca = (
+  \s t -> case t of
+    [] -> Just (s,[])
+    (x:xs) -> ca s x >>=
+      (\(s',o) -> case mapCompiler ca s' xs of
+          Nothing -> Nothing
+          Just (s'', o') -> Just (s'', o ++ o')))

@@ -156,6 +156,7 @@ instructionToByteCode _ (Ret) = [35] ++ instructionEnd
 instructionToByteCode _ (Jmp) = [36] ++ instructionEnd
 instructionToByteCode _ (Zjmp) = [37] ++ instructionEnd
 instructionToByteCode _ (Aff) = [38] ++ instructionEnd
+instructionToByteCode _ (UpdateZFlag) = [39] ++ instructionEnd
 instructionToByteCode _ _ = []
 
 -- Take list of (key,value) label name & address,

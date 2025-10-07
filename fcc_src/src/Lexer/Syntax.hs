@@ -5,19 +5,34 @@
 -- Syntax
 -}
 
-module Lexer.Syntax(assignNameSyntax, assignValueSyntax, assignSyntax, assignSyntax', ifSyntax) where
+module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
+    assignSyntax, assignSyntax', ifSyntax) where
 
-assignNameSyntax :: [String]
-assignNameSyntax = words "J'aimerais que <S>"
+data Syntax =
+    Space |
+    SString String |
+    Word |
+    Value |
+    Condition
+    deriving (Show, Eq)
 
-assignValueSyntax :: [String]
-assignValueSyntax = words "prenne la valeur <V>"
+assignNameSyntax :: [Syntax]
+assignNameSyntax = [SString "J'aimerais", Space, SString "que", Space, Word]
 
-assignSyntax :: [String]
-assignSyntax = words "J'aimerais que <S> prenne la valeur <V>"
+assignValueSyntax :: [Syntax]
+assignValueSyntax = [Space, SString "prenne", Space, SString "la", Space,
+    SString "valeur", Space, Value]
 
-assignSyntax' :: [String]
-assignSyntax' = words "<S> prend la valeur <V>"
+assignSyntax :: [Syntax]
+assignSyntax = [SString "J'aimerais", Space, SString "que", Space, Word,
+    Space, SString "prenne", Space, SString "la", Space, SString "valeur",
+    Space, Value]
 
-ifSyntax :: [String]
-ifSyntax = words "Si <S>, exécute le texte :"
+assignSyntax' :: [Syntax]
+assignSyntax' = [Word, Space, SString "prend", Space, SString "la", Space,
+    SString "valeur", Space, Value]
+
+ifSyntax :: [Syntax]
+ifSyntax = [SString "Si", Space, Condition, SString ",", Space,
+    SString "exécute", Space, SString "le", Space, SString "texte", Space,
+    SString ":"]

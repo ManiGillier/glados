@@ -7,10 +7,7 @@
 
 module ArgParser (aparser) where
 import Control.Applicative
-
-instance Functor Parser
-instance Applicative Parser
-instance Alternative Parser
+import Options.Applicative
 
 data Arguments = Arguments
     { i     :: String   -- Input files's name
@@ -49,3 +46,6 @@ getArgs = getOutput =<< execParser opts
     opts = info (aparser <**> helper)
       ( fullDesc
      <> progDesc "This program is a compiler for the Franc C programming language")
+
+goingNext :: Arguments -> IO ()
+goingNext = putStrLn ("Input file(s) : " ++ (Arguments i) ++ "; Output name : " ++ (getOutput Arguments) ++ "LLVM usage : " ++ (Arguments llvm) ++ "Debug mode : " ++ (Arguments d))

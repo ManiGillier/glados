@@ -5,15 +5,10 @@
 -- Creation of a readable binary file
 -}
 
--- module Compiler.ReadableBinary ( transformReadableBinary ) where
-
-module Compiler.ReadableBinary ( transformOneLineToBinary, transformToBinary
-                      , Asm
-                      , Instruction (..)
-                      , Value (..)
-                      , LabelName
-                      , VariableName
-                      ) where
+module Binary.ReadableBinary ( transformOneLineToBinary
+                                , transformToBinary
+                               ) where
+import DataStruct.Asm
 
 -- test :: [Instruction]
 -- test = [

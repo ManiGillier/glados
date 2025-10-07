@@ -9,11 +9,11 @@ module ArgParser (aparser) where
 import Control.Applicative
 
 data Arguments = Arguments
-{ i     :: String   -- Input files's name
-, o     :: String   -- Output file's name
-, llvm  :: Bool     -- Usage of LLVM
-, d     :: Bool     -- Debug
-}
+    { i     :: String   -- Input files's name
+    , o     :: String   -- Output file's name
+    , llvm  :: Bool     -- Usage of LLVM
+    , d     :: Bool     -- Debug
+    }
 
 aparser :: Parser Arguments
 aparser = Arguments
@@ -35,13 +35,13 @@ aparser = Arguments
         <> help "enable debug mode")
 
 getOutput :: Arguments -> FilePath
-getOutput Options{..}
+getOutput Arguments{..}
     | d = "stdout"
     | otherwise = fromMaybe i o
 
 getArgs :: IO ()
-getArgs =<< execParser opts
-    where
-        opts = info (aparser <**> helper)
-            ( fullDesc
-                <> progDesc "This program is a compiler for the Franc C programming language")
+getArgs = getOutput =<< execParser opts
+  where
+    opts = info (aparser <**> helper)
+      ( fullDesc
+     <> progDesc "This program is a compiler for the Franc C programming language")

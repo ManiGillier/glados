@@ -8,6 +8,10 @@
 module ArgParser (aparser) where
 import Control.Applicative
 
+instance Functor Parser
+instance Applicative Parser
+instance Alternative Parser
+
 data Arguments = Arguments
     { i     :: String   -- Input files's name
     , o     :: String   -- Output file's name
@@ -35,8 +39,8 @@ aparser = Arguments
         <> help "enable debug mode")
 
 getOutput :: Arguments -> FilePath
-getOutput Arguments{..}
-    | d = "stdout"
+getOutput (Arguments i o llvm d)
+    | _ _ _ True = "stdout"
     | otherwise = fromMaybe i o
 
 getArgs :: IO ()

@@ -9,19 +9,27 @@ module ArgParser (aparser) where
 import Control.Applicative
 
 data Arguments = Arguments
-{ o     :: Char     -- Output file's name
-, llvm  :: String   -- Usage of LLVM
-, d     :: Char     -- Debug
+{ i     :: String   -- Input files's name
+, o     :: String   -- Output file's name
+, llvm  :: Bool     -- Usage of LLVM
+, d     :: Bool     -- Debug
 }
 
 aparser :: Parser Arguments
 aparser = Arguments
-    <$> option auto
-    (short 'o' 
+    <?> option auto
+    (metavar "FILESNAME"
+        <> help "List of the sourcefiles (.fr)"
+    )
+    <*> option auto
+    (short 'o'
     <> long "output"
-    <> metavar "Char"
-    <> help "O output's file name")
+    <> metavar "FILENAME"
+    <> help "output's file name")
     <*> option auto
     (long "llvm"
-        <> metavar String
-    )
+        <> help "Enable the use of LLVM")
+    <*> option auto
+    (short 'd'
+        <> long "debug"
+        <> help "enable debug mode")

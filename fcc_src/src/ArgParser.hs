@@ -38,3 +38,10 @@ getOutput :: Arguments -> FilePath
 getOutput Options{..}
     | d = "stdout"
     | otherwise = fromMaybe i o
+
+getArgs :: IO ()
+getArgs =<< execParser opts
+    where
+        opts = info (aparser <**> helper)
+            ( fullDesc
+                <> progDesc "This program is a compiler for the Franc C programming language")

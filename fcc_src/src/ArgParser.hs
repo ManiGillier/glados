@@ -33,3 +33,8 @@ aparser = Arguments
     (short 'd'
         <> long "debug"
         <> help "enable debug mode")
+
+getOutput :: Arguments -> FilePath
+getOutput Options{..}
+    | d = "stdout"
+    | otherwise = fromMaybe i o

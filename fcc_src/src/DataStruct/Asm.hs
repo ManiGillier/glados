@@ -149,7 +149,7 @@ instructionToByteCode _ (PushFromStackPtrRel addr) = [29] ++ intTo8Bytes addr
 instructionToByteCode _ (PopToStackPtrRel addr) = [30] ++ intTo8Bytes addr
 instructionToByteCode _ (PopEmpty) = [31] ++ instructionEnd
 instructionToByteCode _ (WriteToStackPtrRel addr val) =
-    [96] ++ intTo8Bytes addr ++ intTo8Bytes val
+    [32] ++ intTo8Bytes addr ++ intTo8Bytes val
 instructionToByteCode _ (Dupl) = [33] ++ instructionEnd
 instructionToByteCode _ (Call) = [34] ++ instructionEnd
 instructionToByteCode _ (Ret) = [35] ++ instructionEnd

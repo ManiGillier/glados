@@ -5,34 +5,49 @@
 -- compiler type
 -}
 
-module Compiler.Type (Compiler, combine
+module Compiler.Type ( Compiler (..), CompilerI
                      , prefixCompiler
-                     , suffixCompiler) where
+                     , suffixCompiler
+                     , (.$)
+                     ) where
 import Compiler.Variable (VariableStorage)
 import DataStruct.Asm (Instruction)
 
-type Compiler a = VariableStorage -> a -> Maybe (VariableStorage, [Instruction])
+ -- type Compiler a = VariableStorage -> a -> Maybe (VariableStorage, [Instruction])
 
-{-
-combine :: Compiler a -> a -> Compiler b -> b
-  -> VariableStorage -> Maybe (VariableStorage, [Instruction])
-combine ca a cb b s = ra >>= (\(s',ra') -> compile cb b s'
-                               >>= (\(s'',rb') -> Just (s'',ra' ++ rb')))
-  where ra = compile ca a s
--}
+data Compiler a b = Compiler {
+        compile :: VariableStorage -> a -> Maybe (VariableStorage, [b])
+  }
+type CompilerI a = Compiler a Instruction
 
-combine :: Compiler a -> Compiler b -> Compiler (a,b)
-combine ca cb =
-  \s (a,b) -> ca s a >>= (
-    \(s',ra') -> cb s' b >>= (
-      \(s'',rb) -> Just (s'', (ra' ++ rb))))
-
-prefixCompiler :: [Instruction] -> Compiler a -> Compiler a
-prefixCompiler i c = \ s a -> case c s a of
+prefixCompiler :: [b] -> Compiler a b -> Compiler a b
+prefixCompiler i c = Compiler $ \ s a -> case compile c s a of
   Nothing -> Nothing
   Just (s', is) -> Just (s', i ++ is)
 
-suffixCompiler :: [Instruction] -> Compiler a -> Compiler a
-suffixCompiler i c = \ s a -> case c s a of
+suffixCompiler :: [b] -> Compiler a b -> Compiler a b
+suffixCompiler i c = Compiler $ \ s a -> case compile c s a of
   Nothing -> Nothing
   Just (s', is) -> Just (s', is ++ i)
+
+instance Functor (Compiler a) where
+  fmap f ca = Compiler (
+    \s a -> case (compile ca) s a of
+              Nothing -> Nothing
+              Just (s', i) -> Just (s', map f i)
+    )
+
+instance Applicative (Compiler a) where
+  pure _ = Compiler $ (\s _ -> Just (s,[]))
+  liftA2 f ca2 cb = Compiler $ (
+        \s a1 -> (compile ca2 s a1) >>= (
+          \(s',a2) -> ((compile cb s' a1) >>=
+                        (\(s'',b) -> Just (s'',liftA2 f a2 b)))
+          ))
+
+infixl 5 .$
+
+(.$) :: Compiler a o -> Compiler b o -> Compiler (a,b) o
+ca .$ cb = Compiler $ (\s (a,b) -> compile ca s a >>=
+                      (\(s',o0) -> compile cb s' b >>=
+                      (\(s'',o1) -> Just (s'',o0++o1))))

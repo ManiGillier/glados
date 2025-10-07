@@ -12,8 +12,6 @@ data Operations =
     Multiply |
     Subtract |
     Divide |
-    OpenParenthesis |
-    ClosedParenthesis |
     Modulo |
     And |
     Or |
@@ -42,6 +40,8 @@ data LexedData =
     Returns |
     Invoke |
     ReturnVariable |
+    OpenParenthesis |
+    ClosedParenthesis |
     Assign |
     If |
     While |

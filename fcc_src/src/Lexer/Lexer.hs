@@ -7,7 +7,8 @@
 
 module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign',
-    readCondition, readComputable, readComputables, readIf) where
+    readCondition, readComputable, readComputables, readIf,
+    readParenthesisComputable) where
 
 import Data.Void (Void)
 
@@ -27,7 +28,7 @@ skipWhitespace :: Lexer ()
 skipWhitespace = space
 
 readWord :: Lexer LexedData
-readWord = Symbol <$> some (noneOf " .,\t\n")
+readWord = Symbol <$> some (noneOf " .,\t\n()")
 
 readValue :: Lexer LexedData
 readValue =
@@ -55,16 +56,23 @@ readComparator = Comparator <$> choice [
     Inferior <$ string "inférieure",
     Superior <$ string "supérieure"]
 
-readComputableAfterOperation :: Lexer LexedData
-readComputableAfterOperation = (try readValue <|> readWord)
+readParenthesisComputable :: Lexer [LexedData]
+readParenthesisComputable =
+  (\inner -> [OpenParenthesis] ++ inner ++ [ClosedParenthesis])
+    <$> (char '(' *> space *> (readComputableAfterOperation $++
+        (concat <$> many readComputable)) <* (space *> char ')'))
+
+readComputableAfterOperation :: Lexer [LexedData]
+readComputableAfterOperation =  try (glob readValue) <|>
+    try readParenthesisComputable <|> (glob readWord)
 
 readComputable :: Lexer [LexedData]
 readComputable = try (space1 *> readOperation $: (space1 *>
-    glob readComputableAfterOperation))
+    readComputableAfterOperation))
 
 readComputables :: Lexer [LexedData]
-readComputables = concat <$> (glob readComputableAfterOperation $:
-    (many (readComputable)))
+readComputables = concat <$> (readComputableAfterOperation $:
+    (many readComputable))
 
 readCondition :: Lexer [LexedData]
 readCondition = (readComputables <* (space1 *> string "est" *> space1)) $++

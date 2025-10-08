@@ -90,17 +90,16 @@ readComputableAfterOperation =  try
     try readParenthesisComputable <|> (glob readWord)
 
 readComputable :: Lexer [LexedData]
-readComputable = try (space1 *> readOperation $: (space1 *>
-    readComputableAfterOperation))
+readComputable = try ((space1 *> string "est" *> space1 *> glob readComparator
+    <* space <* string "à") $++ (space1 *> readComputableAfterOperation)) <|>
+    try (space1 *> readOperation $: (space1 *> readComputableAfterOperation))
 
 readComputables :: Lexer [LexedData]
 readComputables = concat <$> (readComputableAfterOperation $:
     (many readComputable))
 
 readCondition :: Lexer [LexedData]
-readCondition = (readComputables <* (space1 *> string "est" *> space1)) $++
-    (glob readComparator) $++
-    (space1 *> string "à" *> space1 *> readComputables)
+readCondition = readComputables
 
 readEOI :: Lexer Char
 readEOI = char '.'

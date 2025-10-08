@@ -5,19 +5,33 @@
 -- compiler type
 -}
 
-module Compiler.Type (Compiler, combine
+module Compiler.Type (Context (..)
+                     , baseContext
+                     , Compiler, combine
                      , prefixCompiler
                      , suffixCompiler
                      , mapCompiler
+                     , insertVariable
+                     , getVariable
                      , (+>)
                      , (<+)
                      , (.+)
+                     , (<@)
+                     , (@>)
                      , apply
                      ) where
-import Compiler.Variable (VariableStorage)
-import DataStruct.Asm (Instruction)
+import Compiler.Variable (VariableStorage, insertVariable'
+                         , Variable, getVariable')
+import DataStruct.Asm (Instruction, VariableName, Addr)
 
-type Compiler a = VariableStorage -> a -> Maybe (VariableStorage, [Instruction])
+data Context = Context
+  { var :: !VariableStorage
+  , labelCount :: !Int }
+
+baseContext :: Context
+baseContext = Context [] 0
+
+type Compiler a = Context -> a -> Maybe (Context, [Instruction])
 
 {-
 combine :: Compiler a -> a -> Compiler b -> b
@@ -65,10 +79,26 @@ infixl 9 <+
 (<+) :: a -> b -> (a,b)
 a <+ b = (a,b)
 
-infixl 9 .+
+infixl 8 .+
 
 (.+) :: (Compiler a, a) -> (Compiler b, b) -> (Compiler (a,b),(a,b))
 (ca,a) .+ (cb,b) = (\s _ -> (ca +> cb) s (a,b), (a,b))
 
-apply :: (Compiler a,a) -> VariableStorage -> Maybe (VariableStorage, [Instruction])
+infixl 9 <@
+
+(<@) :: (Compiler a, a) -> [Instruction] -> (Compiler a, a)
+(ca,a) <@ i = (prefixCompiler i ca, a)
+
+infixl 9 @>
+
+(@>) :: (Compiler a, a) -> [Instruction] -> (Compiler a, a)
+(ca,a) @> i = (suffixCompiler i ca, a)
+
+apply :: (Compiler a,a) -> Context -> Maybe (Context, [Instruction])
 apply (ca,a) s = ca s a
+
+insertVariable :: Context -> Variable -> Context
+insertVariable c v = c { var = insertVariable' (var c) v }
+
+getVariable :: Context -> VariableName -> Maybe Addr
+getVariable c = getVariable' (var c)

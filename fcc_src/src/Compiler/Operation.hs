@@ -11,8 +11,7 @@ module Compiler.Operation ( compileOperation
 import DataStruct.Ast.Ast as Ast
 import DataStruct.Asm as Asm
 import DataStruct.Ast.Variable (VariableValue (..))
-import Compiler.Type
-import Compiler.Variable (getVariable)
+import Compiler.Type ( combine, Compiler, getVariable )
 
 getUnOp :: UnaryOperator -> Instruction
 getUnOp Ast.BinaryNot = Asm.BinNot

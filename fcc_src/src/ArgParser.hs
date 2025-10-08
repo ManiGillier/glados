@@ -10,7 +10,7 @@ import Options.Applicative
 
 
 data Arguments = Arguments
-    { i     :: String   -- Input files's name
+    { i     :: [String]   -- Input files's name
     , o     :: String   -- Output file's name
     , llvm  :: Bool     -- Usage of LLVM
     , d     :: Bool     -- Debug
@@ -18,8 +18,8 @@ data Arguments = Arguments
 
 aparser :: Parser Arguments
 aparser = Arguments
-    <$> strArgument (metavar "FILESNAME" <> help
-        "List of the sourcefiles (.fr)" ) <*> strOption (short 'o' <> long
+    <$> some (strArgument (metavar "FILESNAME" <> help
+        "List of the sourcefiles (.fr)" )) <*> strOption (short 'o' <> long
         "output" <> metavar "FILENAME" <> help "output's file name" <> value ""
         <> showDefault) <*>
         switch (long "llvm" <> help "Enable the use of LLVM")
@@ -27,7 +27,7 @@ aparser = Arguments
 
 getOutput :: Arguments -> FilePath
 getOutput (Arguments _ _ _ True) = "stdout"
-getOutput (Arguments i [] _ _) = i
+getOutput (Arguments (i:is) [] _ _) = i
 getOutput (Arguments _ o _ _) = o
 
 getMyArgs :: IO ()
@@ -40,6 +40,6 @@ getMyArgs = goingNext =<< execParser opts
 
 goingNext :: Arguments -> IO ()
 goingNext (Arguments i o l d) =
-    putStrLn $ "Input file(s) : " ++ i ++
+    putStrLn $ "Input file(s) : " ++ (concat i)  ++
     "; Output name : " ++ (getOutput (Arguments i o l d)) ++ "; LLVM usage : "
     ++ show l ++ "; Debug mode : " ++ show d

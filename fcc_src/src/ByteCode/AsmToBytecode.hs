@@ -24,7 +24,6 @@ setAddressToLabel ((Label labelName):xs) n =
 setAddressToLabel (_:xs) n = setAddressToLabel xs n
 
 getAddressLabel :: String -> [(String, Int64)] -> Int64
--- TODO: Error here label not found
 getAddressLabel _ [] = (-1) 
 getAddressLabel name ((x, y):xs)
     | name == x = y
@@ -33,6 +32,7 @@ getAddressLabel name ((x, y):xs)
 instructionEnd :: [Word8]
 instructionEnd = [0x0]
 
+-- Convert 64-bits Integer to 8 bytes
 intTo8Bytes :: Int64 -> [Word8]
 intTo8Bytes n = [ fromIntegral ((n `div` (256 ^ i)) `mod` 256) | i <- [7, 6..0] ]
 

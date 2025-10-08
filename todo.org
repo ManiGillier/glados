@@ -5,5 +5,8 @@
 DEADLINE: <2025-10-10 Fri>
 *** DONE Condition mamagement
 *** TODO Function management
+:LOGBOOK:
+CLOCK: [2025-10-08 Wed 14:47]
+:END:
 *** TODO Loop management
 * IDEAS

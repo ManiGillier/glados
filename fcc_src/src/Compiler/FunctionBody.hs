@@ -5,12 +5,14 @@
 -- function body compiler
 -}
 
-module Compiler.FunctionBody where
+module Compiler.FunctionBody (compileFuncBody) where
 import Compiler.Operation (compileComputable)
-import Compiler.Type (Compiler, suffixCompiler, mapCompiler)
-import DataStruct.Ast.Ast (FunctionBody (..), a)
+import Compiler.Type (Compiler, suffixCompiler, mapCompiler
+                     , (.+), apply)
+import DataStruct.Ast.Ast (FunctionBody (..))
 import DataStruct.Asm (Instruction (..))
 import Compiler.Config (funcLabelPrefix)
+import Compiler.Condition (compileCondition)
 
 compileFuncBody :: Compiler FunctionBody
 compileFuncBody s (Return comp) = compiler s comp
@@ -22,4 +24,13 @@ compileFuncBody s (Invoke name args) = suffixCompiler
         , Call
         ] comps s args
   where comps = mapCompiler compileComputable
+compileFuncBody s (If cond body (Just elseBody)) =
+  flip apply s
+  $ (compileCondition, cond)
+  .+ (compileFuncBody, body)
+  .+ (compileFuncBody, elseBody)
+compileFuncBody s (If cond body Nothing) =
+  flip apply s
+  $ (compileCondition, cond)
+  .+ (compileFuncBody, body)
 compileFuncBody _ _ = Nothing

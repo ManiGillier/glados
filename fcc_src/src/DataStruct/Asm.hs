@@ -12,12 +12,13 @@ module DataStruct.Asm (Asm
                       , VariableName
                       , Addr
                       ) where
-import Data.Word (Word8)
+
+import Data.Int (Int64)
 
 type LabelName = String
 type VariableName = String
 
-type Addr = Int
+type Addr = Int64
 
 data Value =
   StackPos !Int
@@ -31,7 +32,7 @@ data Instruction =
   -- Label definition (bin output = [])
   Label !LabelName
   -- Unary
-  | DataInt !Int
+  | DataInt !Int64
   | DataString !String
   | BinNot
   | BoolNot
@@ -56,17 +57,18 @@ data Instruction =
   | Eq
   | Diff
   | Is
+  | UpdateZFlag -- Pops stack, if zero set z flag to 1 else 0
   -- Push (Push 4 byte to the stack)
-  | PushValue !Int
-  | PushGlobAddr !Int
-  | PushRelAddr !Int
+  | PushValue !Int64
+  | PushGlobAddr !Int64
+  | PushRelAddr !Int64
   | PushLabel !LabelName -- Same bytecode as PushRelAddr
   | PushFromStackPtrRel !Addr -- Push the value stored here
   -- Pop (Pop 4 bytes from the stack)
   | PopToStackPtrRel !Addr -- Pop and set to the address :D
   | PopEmpty
   -- Stack writing
-  | WriteToStackPtrRel !Addr !Int -- Write Int to stack ptr + Addr
+  | WriteToStackPtrRel !Addr !Int64 -- Write Int to stack ptr + Addr
   -- Both
   | Dupl -- Duplicates last stack entry
   -- Function (modified stack)
@@ -83,38 +85,28 @@ data Instruction =
 
 type Asm = [Instruction]
 
-aymerick :: Instruction -> String
-aymerick = show
-
-maxime :: Instruction -> [Word8]
-maxime _ = []
-
-maxime_2 :: [Instruction] -> [Word8]
-maxime_2 _ = []
-{-
-test :: [Instruction]
-test = [
-    Label ".data"
-  , Label ".str_HelloWorld"
-  , DataString "Hello, World!"
-  , Label ".str_HelloWorld_end"
-  , Label ".start"
-  , PushLabel ".str_HelloWorld_end"
-  , PushLabel ".str_HelloWorld"
-  , Sub -- Len of string #0 +1 ~1
-  , Label ".loop"
-  , Dupl -- #1 +1 ~2
-  , PushLabel ".end" -- #2 +1 ~3
-  , Zjmp -- -2 ~1
-  , Dupl -- #1 + 1 -- len ~2
-  , Negate -- +0 -- -len ~2
-  , PushLabel ".str_HelloWorld_end" -- #2 +1 ~3
-  , Add -- -1 -- .str_HelloWorld_end - len #1 ~2
-  , Aff -- Show "Hello, World!"[actual_len - len] -1 ~1
-  , PushValue 1 -- #1 +1 ~2
-  , Sub -- #0 -1 (new len = len - 1) ~1
-  , PushLabel ".loop"
-  , Jmp
-  , Label ".end"
-  ]
--}
+-- test :: [Instruction]
+-- test = [
+--     Label ".data"
+--   , Label ".str_HelloWorld"
+--   , DataString "Hello, World!"
+--   , Label ".str_HelloWorld_end"
+--   , Label ".start"
+--   , PushLabel ".str_HelloWorld_end"
+--   , PushLabel ".str_HelloWorld"
+--   , Sub -- Len of string #0 +1 ~1
+--   , Label ".loop"
+--   , Dupl -- #1 +1 ~2
+--   , PushLabel ".end" -- #2 +1 ~3
+--   , Zjmp -- -2 ~1
+--   , Dupl -- #1 + 1 -- len ~2
+--   , Negate -- +0 -- -len ~2
+--   , PushLabel ".str_HelloWorld_end" -- #2 +1 ~3
+--   , Add -- -1 -- .str_HelloWorld_end - len #1 ~2
+--   , Aff -- Show "Hello, World!"[actual_len - len] -1 ~1
+--   , PushValue 1 -- #1 +1 ~2
+--   , Sub -- #0 -1 (new len = len - 1) ~1
+--   , PushLabel ".loop"
+--   , Jmp
+--   , Label ".end"
+--   ]

@@ -10,11 +10,12 @@ module DataStruct.Ast.Variable (VariableValue (..), VariableName
                                , ReturnType (..)) where
 
 import DataStruct.Ast.Type (VariableType (..))
+import Data.Int (Int64)
 
 data VariableValue =
   Bool Bool
   | String String
-  | Int Int
+  | Int Int64
   deriving (Show, Eq)
 
 type VariableName = String

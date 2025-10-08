@@ -8,7 +8,10 @@
 module Compiler.FunctionBody (compileFuncBody) where
 import Compiler.Operation (compileComputable)
 import Compiler.Type (Compiler, suffixCompiler, mapCompiler
-                     , (.+), apply)
+                     , (.+)
+                     , (<@)
+                     , (@>)
+                     , apply)
 import DataStruct.Ast.Ast (FunctionBody (..))
 import DataStruct.Asm (Instruction (..))
 import Compiler.Config (funcLabelPrefix)
@@ -31,6 +34,7 @@ compileFuncBody s (If cond body (Just elseBody)) =
   .+ (compileFuncBody, elseBody)
 compileFuncBody s (If cond body Nothing) =
   flip apply s
-  $ (compileCondition, cond)
-  .+ (compileFuncBody, body)
+  -- TODO: Change label name here
+  $ (compileCondition, cond) @> [PushLabel "",Jmp]
+  .+ (compileFuncBody, body) @> [Label ""]
 compileFuncBody _ _ = Nothing

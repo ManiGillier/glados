@@ -13,8 +13,6 @@ module DataStruct.Asm (Asm
                       , Addr
                       ) where
 
-import Data.Word (Word8)
-import Data.Char (ord)
 import Data.Int (Int64)
 
 type LabelName = String

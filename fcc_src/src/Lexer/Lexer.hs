@@ -14,7 +14,8 @@ import Data.Void (Void)
 
 import ApplicativeAddons
 
-import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..))
+import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..),
+    UnaryOperations(..))
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifSyntax)
 
@@ -36,6 +37,12 @@ readValue =
         <$> signed (return ()) decimal
         <* notFollowedBy (noneOf " .,\t\n()")
 
+readUnaryOperation :: Lexer LexedData
+readUnaryOperation = UnaryOperation <$> choice [
+    BinaryNot <$ string "~",
+    Not <$ lexSyntax [SString "non", Space],
+    Negate <$ char '-']
+
 readOperation :: Lexer LexedData
 readOperation = Operation <$> choice [
     Add      <$ string "plus",
@@ -43,12 +50,22 @@ readOperation = Operation <$> choice [
     Multiply <$ string "fois",
     Multiply <$ lexSyntax [SString "multiplié", Space, SString "par"],
     Divide   <$ lexSyntax [SString "divisé", Space, SString "par"],
-    Modulo <$ string "modulo"]
+    Modulo <$ string "modulo",
+    BinaryAnd <$ try (lexSyntax [SString "et", Space, SString "binaire"]),
+    BinaryOr <$ try (lexSyntax [SString "ou", Space, SString "binaire"]),
+    Xor <$ try (lexSyntax [SString "ou", Space, SString "exclusif"]),
+    Xor <$ string "xor",
+    And <$ string "et",
+    Or <$ string "ou",
+    LeftBitshift <$ try (lexSyntax [SString "décalé", Space,
+        SString "binairement", Space, SString "à", Space, SString "gauche"]),
+    RightBitshift <$ try (lexSyntax [SString "décalé", Space,
+        SString "binairement", Space, SString "à", Space, SString "droite"])]
 
 readComparator :: Lexer LexedData
 readComparator = Comparator <$> choice [
     Equal <$ string "égale",
-    Different <$ string "différente",
+    Different <$ string "différent",
     InferiorOrEqual <$ try (lexSyntax [SString "inférieure", Space,
         SString "ou", Space, SString "égale"]),
     SuperiorOrEqual <$ try (lexSyntax [SString "supérieure", Space,
@@ -62,8 +79,14 @@ readParenthesisComputable =
     <$> (char '(' *> space *> (readComputableAfterOperation $++
         (concat <$> many readComputable)) <* (space *> char ')'))
 
+readComputableAfterOperationWithUnaryOperation :: Lexer [LexedData]
+readComputableAfterOperationWithUnaryOperation =
+    (readUnaryOperation <* skipWhitespace) $: ((try (glob readValue) <|>
+    try readParenthesisComputable <|> (glob readWord)))
+
 readComputableAfterOperation :: Lexer [LexedData]
-readComputableAfterOperation =  try (glob readValue) <|>
+readComputableAfterOperation =  try
+    readComputableAfterOperationWithUnaryOperation <|> try (glob readValue) <|>
     try readParenthesisComputable <|> (glob readWord)
 
 readComputable :: Lexer [LexedData]

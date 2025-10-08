@@ -5,7 +5,13 @@
 -- Lexing
 -}
 
-module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..)) where
+module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..), UnaryOperations(..)) where
+
+data UnaryOperations =
+    Not |
+    BinaryNot |
+    Negate
+    deriving (Show, Eq)
 
 data Operations =
     Add |
@@ -13,9 +19,10 @@ data Operations =
     Subtract |
     Divide |
     Modulo |
+    BinaryAnd |
+    BinaryOr |
     And |
     Or |
-    Not |
     Xor |
     LeftBitshift |
     RightBitshift
@@ -52,5 +59,6 @@ data LexedData =
     DuoSymbol String String |
     Number Int |
     Operation Operations |
+    UnaryOperation UnaryOperations |
     Comparator Comparators |
     Sayonara deriving (Show, Eq)

@@ -11,7 +11,7 @@ import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
                      , (<@)
                      , (@>)
-                     , apply)
+                     , apply, takeLabel)
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))
@@ -29,15 +29,17 @@ compileFuncBodyContent s (Invoke name args) = suffixCompiler
         ] comps s args
   where comps = mapCompiler compileComputable
 compileFuncBodyContent s (If cond body (Just elseBody)) =
-  flip apply s
-  $ (compileCondition, cond)
-  .+ (compileFuncBody, body)
-  .+ (compileFuncBody, elseBody)
+  flip apply s''
+  $ (compileCondition, cond) @> [PushLabel label,Zjmp]
+  .+ (compileFuncBody, body) @> [PushLabel labelEnd, Jmp, Label label]
+  .+ (compileFuncBody, elseBody) @> [Label labelEnd]
+  where (s', label) = takeLabel "if" s
+        (s'', labelEnd) = takeLabel "if" s'
 compileFuncBodyContent s (If cond body Nothing) =
-  flip apply s
-  -- TODO: Change label name here
-  $ (compileCondition, cond) @> [PushLabel "",Zjmp]
-  .+ (compileFuncBody, body) @> [Label ""]
+  flip apply s'
+  $ (compileCondition, cond) @> [PushLabel label,Zjmp]
+  .+ (compileFuncBody, body) @> [Label label]
+  where (s', label) = takeLabel "if" s
 compileFuncBodyContent _ _ = Nothing
 
 compileFuncBody :: Compiler FunctionBody

@@ -18,16 +18,22 @@ module Compiler.Type (Context (..)
                      , (.+)
                      , (<@)
                      , (@>)
+                     , takeLabel
                      , apply
                      ) where
 import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable')
-import DataStruct.Asm (Instruction, VariableName, Addr)
+import DataStruct.Asm (Instruction, VariableName, Addr, LabelName)
 
 data Context = Context
   { var :: !VariableStorage
   , labelCount :: !Int }
   deriving (Show)
+
+takeLabel :: LabelName -> Context -> (Context, LabelName)
+takeLabel prefix c = (c { labelCount = n + 1 },name)
+  where n = labelCount c
+        name = prefix ++ "_" ++ (show n)
 
 baseContext :: Context
 baseContext = Context [] 0

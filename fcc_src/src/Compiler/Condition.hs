@@ -9,8 +9,9 @@ module Compiler.Condition (compileCondition) where
 import Compiler.Type (Compiler, suffixCompiler)
 import Compiler.Operation (compileComputable)
 import DataStruct.Ast.Ast (Condition (Condition))
-import DataStruct.Asm (Instruction (Negate))
+import DataStruct.Asm (Instruction(BinNot))
 
 compileCondition :: Compiler Condition
 compileCondition s (Condition cond) = compiler s cond
-  where compiler = suffixCompiler [Negate] compileComputable
+-- TODO: Add the new INSTRUCTION here
+  where compiler = suffixCompiler [BinNot] compileComputable

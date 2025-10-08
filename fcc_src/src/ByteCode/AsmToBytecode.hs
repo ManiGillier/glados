@@ -72,7 +72,7 @@ instructionToByteCode _ (PushValue addr) = [89] ++ intTo8Bytes addr
 instructionToByteCode _ (PushGlobAddr addr) = [90] ++ intTo8Bytes addr
 instructionToByteCode _ (PushRelAddr addr) = [91] ++ intTo8Bytes addr
 instructionToByteCode labAddrs (PushLabel labName) =
-    [28] ++ intTo8Bytes (getAddressLabel labName labAddrs)
+    [91] ++ intTo8Bytes (getAddressLabel labName labAddrs)
 instructionToByteCode _ (PushFromStackPtrRel addr) = [29] ++ intTo8Bytes addr
 instructionToByteCode _ (PopToStackPtrRel addr) = [30] ++ intTo8Bytes addr
 instructionToByteCode _ (PopEmpty) = [31] ++ instructionEnd
@@ -86,9 +86,13 @@ instructionToByteCode _ (Zjmp) = [37] ++ instructionEnd
 instructionToByteCode _ (Aff) = [38] ++ instructionEnd
 instructionToByteCode _ _ = []
 
+-- Magic number definition
+magicNumber :: [Word8]
+magicNumber = [0x45, 0xc, 0x45, 0xc]
+
 -- Take list of (key,value) label name & address,
 -- list of instructions and return magic number + list of byte
 asmToBytecode :: [(String, Int64)] -> [Instruction] -> [Word8]
 asmToBytecode labelAddr xs =
-    [0x45, 0xc, 0x45, 0xc] ++ 
+    magicNumber ++ 
     concatMap (instructionToByteCode labelAddr) xs

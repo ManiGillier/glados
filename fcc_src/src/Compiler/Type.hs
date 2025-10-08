@@ -27,6 +27,7 @@ import DataStruct.Asm (Instruction, VariableName, Addr)
 data Context = Context
   { var :: !VariableStorage
   , labelCount :: !Int }
+  deriving (Show)
 
 baseContext :: Context
 baseContext = Context [] 0

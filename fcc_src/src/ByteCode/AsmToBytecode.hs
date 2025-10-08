@@ -35,7 +35,7 @@ instructionEnd = [0x0]
 -- Convert 64-bits Integer to 8 bytes
 intTo8Bytes :: Int64 -> [Word8]
 intTo8Bytes n = 
-    [ fromIntegral ((n `div` (256 ^ i)) `mod` 256) | i <- [7, 6..0] ]
+    [ fromIntegral ((n `div` (256 ^ i)) `mod` 256) | i <- [7, 6..0 :: Int] ]
 
 stringWord8 :: String -> [Word8]
 stringWord8 str = map (fromIntegral . ord) str

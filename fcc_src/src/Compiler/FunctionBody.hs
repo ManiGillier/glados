@@ -9,7 +9,7 @@ module Compiler.FunctionBody (compileFuncBody) where
 import Compiler.Operation (compileComputable)
 import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
-                     , (<@)
+                     -- , (<@)
                      , (@>)
                      , apply, takeLabel)
 import DataStruct.Ast.Ast ( FunctionBody

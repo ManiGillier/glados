@@ -21,6 +21,7 @@ module Compiler.Type (Context (..)
                      , (@>)
                      , takeLabel
                      , apply
+                     , revCompiler
                      ) where
 import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable', varExist')
@@ -116,3 +117,6 @@ insertVariable c v = c { var = insertVariable' (var c) v }
 
 getVariable :: Context -> VariableName -> Maybe Addr
 getVariable c = getVariable' (var c)
+
+revCompiler :: Compiler [a] -> Compiler [a]
+revCompiler ca = (\s l -> ca s $ reverse l)

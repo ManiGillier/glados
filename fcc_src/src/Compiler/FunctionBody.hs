@@ -11,7 +11,7 @@ import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
                      , (<@)
                      , (@>)
-                     , apply, takeLabel, varExist, getVariable)
+                     , apply, takeLabel, varExist, getVariable, revCompiler)
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))
@@ -27,7 +27,7 @@ compileFuncBodyContent s (Invoke name args) = suffixCompiler
         [ PushLabel $ funcLabelPrefix ++ name
         , Call
         ] comps s args
-  where comps = mapCompiler compileComputable
+  where comps = revCompiler $ mapCompiler compileComputable
 compileFuncBodyContent s (If cond body (Just elseBody)) =
   flip apply s''
   $ (compileCondition, cond) @> [PushLabel label,Zjmp]

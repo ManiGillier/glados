@@ -25,10 +25,13 @@ module Compiler.Type (Context (..)
 import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable', varExist')
 import DataStruct.Asm (Instruction, VariableName, Addr, LabelName)
+import DataStruct.Ast.Ast (FunctionName)
 
 data Context = Context
   { var :: !VariableStorage
-  , labelCount :: !Int }
+  , labelCount :: !Int
+  , functionNames :: ![FunctionName]
+  }
   deriving (Show)
 
 varExist :: Context -> VariableName -> Bool
@@ -40,7 +43,7 @@ takeLabel prefix c = (c { labelCount = n + 1 },name)
         name = prefix ++ "_" ++ (show n)
 
 baseContext :: Context
-baseContext = Context [] 0
+baseContext = Context [] 0 []
 
 type Compiler a = Context -> a -> Maybe (Context, [Instruction])
 

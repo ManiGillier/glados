@@ -30,7 +30,7 @@ compileFuncDef s (Function name _ vs body)
 
 compileMainDef :: Compiler MainFunctionDef
 compileMainDef s (Main vs body) = flip apply s'
-  $ [Label $ funcLabelPrefix ++ "main"]
+  $ [Label $ funcLabelPrefix ++ "main", Label ".start"]
   <@ (mapCompiler compileVarDef, vs)
   .+ (compileFuncBody, body)
   @> [Ret]

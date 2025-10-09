@@ -20,7 +20,7 @@ module DataStruct.Ast.Ast (Ast (..)
 
 import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
                                                 , VariableName
-                               , VariableDef (..), ReturnType (..))
+                               , VariableDef (..), ReturnType (..), FuncParam)
 
 type FunctionName = String
 
@@ -60,7 +60,8 @@ data FunctionBodyContent =
 
 type FunctionBody = [FunctionBodyContent]
 
-data FunctionDef = Function FunctionName Var.ReturnType [Var.VariableDef] FunctionBody
+data FunctionDef = Function FunctionName Var.ReturnType
+  [Var.FuncParam] [Var.VariableDef] FunctionBody
 
 data MainFunctionDef = Main [Var.VariableDef] FunctionBody
 

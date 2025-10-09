@@ -7,7 +7,9 @@
 
 module DataStruct.Ast.Variable (VariableValue (..), VariableName
                                , VariableDef (..)
-                               , ReturnType (..)) where
+                               , ReturnType (..)
+                               , FuncParam (..)
+                               ) where
 
 import DataStruct.Ast.Type (VariableType (..))
 import Data.Int (Int64)
@@ -23,3 +25,5 @@ type VariableName = String
 data VariableDef = VariableDef VariableName VariableType VariableValue
 
 data ReturnType = Void | Value VariableType
+
+data FuncParam = FuncParam VariableName VariableType

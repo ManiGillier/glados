@@ -13,6 +13,7 @@ module Compiler.Type (Context (..)
                      , mapCompiler
                      , insertVariable
                      , getVariable
+                     , varExist
                      , (+>)
                      , (<+)
                      , (.+)
@@ -22,13 +23,16 @@ module Compiler.Type (Context (..)
                      , apply
                      ) where
 import Compiler.Variable (VariableStorage, insertVariable'
-                         , Variable, getVariable')
+                         , Variable, getVariable', varExist')
 import DataStruct.Asm (Instruction, VariableName, Addr, LabelName)
 
 data Context = Context
   { var :: !VariableStorage
   , labelCount :: !Int }
   deriving (Show)
+
+varExist :: Context -> VariableName -> Bool
+varExist = varExist' . var
 
 takeLabel :: LabelName -> Context -> (Context, LabelName)
 takeLabel prefix c = (c { labelCount = n + 1 },name)
@@ -93,8 +97,8 @@ infixl 8 .+
 
 infixl 9 <@
 
-(<@) :: (Compiler a, a) -> [Instruction] -> (Compiler a, a)
-(ca,a) <@ i = (prefixCompiler i ca, a)
+(<@) :: [Instruction] -> (Compiler a, a) -> (Compiler a, a)
+i <@ (ca,a) = (prefixCompiler i ca, a)
 
 infixl 9 @>
 

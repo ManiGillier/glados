@@ -9,9 +9,9 @@ module Compiler.FunctionBody (compileFuncBody) where
 import Compiler.Operation (compileComputable)
 import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
-                     -- , (<@)
+                     , (<@)
                      , (@>)
-                     , apply, takeLabel)
+                     , apply, takeLabel, varExist, getVariable)
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))
@@ -40,7 +40,16 @@ compileFuncBodyContent s (If cond body Nothing) =
   $ (compileCondition, cond) @> [PushLabel label,Zjmp]
   .+ (compileFuncBody, body) @> [Label label]
   where (s', label) = takeLabel "if" s
-compileFuncBodyContent _ _ = Nothing
+compileFuncBodyContent s (Loop cond body) =
+  flip apply s'' $
+  [Label startLabel] <@ (compileCondition, cond) @> [PushLabel endLabel, Zjmp]
+  .+ (compileFuncBody, body) @> [PushLabel startLabel, Jmp, Label endLabel]
+  where (s', startLabel) = takeLabel "while" s
+        (s'', endLabel) = takeLabel "while" s'
+compileFuncBodyContent s (Assign name comp)
+  | varExist s name = (getVariable s name) >>= \varAddr -> flip apply s $
+    (compileComputable, comp) @> [PopToStackPtrRel varAddr]
+  | otherwise = Nothing
 
 compileFuncBody :: Compiler FunctionBody
 compileFuncBody = mapCompiler compileFuncBodyContent

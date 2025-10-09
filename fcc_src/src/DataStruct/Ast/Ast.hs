@@ -12,7 +12,8 @@ module DataStruct.Ast.Ast (Ast (..)
                           , Operation (..)
                           , Computable (..)
                           , Condition (..)
-                          , FunctionBody (..)
+                          , FunctionBody
+                          , FunctionBodyContent (..)
                           , FunctionDef (..)
                           , MainFunctionDef (..)
                           , a) where
@@ -49,13 +50,15 @@ a = Operation $ BinaryOperation Sub
 
 data Condition = Condition Computable
 
-data FunctionBody =
+data FunctionBodyContent =
   Assign Var.VariableName Computable
   | If Condition FunctionBody (Maybe FunctionBody)
   | Invoke FunctionName [Computable]
   | Loop Condition FunctionBody
   | Return Computable
   | Show Computable
+
+type FunctionBody = [FunctionBodyContent]
 
 data FunctionDef = Function FunctionName Var.ReturnType [Var.VariableDef] FunctionBody
 

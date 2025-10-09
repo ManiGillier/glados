@@ -1,7 +1,15 @@
 #+TODO: TODO(t) | DONE(d) CANCELED(c@)
 
 * TASK
-** TODO Condition mamagement
-** TODO Function management
-** TODO Loop management
+** TODO Compiler [1/3]
+DEADLINE: <2025-10-10 Fri>
+*** DONE Condition mamagement
+*** TODO Function management
+:LOGBOOK:
+CLOCK: [2025-10-09 Thu 14:44]--[2025-10-09 Thu 14:55] =>  0:11
+CLOCK: [2025-10-09 Thu 13:53]--[2025-10-09 Thu 14:30] =>  0:37
+CLOCK: [2025-10-09 Thu 13:32]--[2025-10-09 Thu 13:45] =>  0:13
+CLOCK: [2025-10-08 Wed 14:47]--[2025-10-08 Wed 18:00] =>  3:13
+:END:
+*** TODO Loop management
 * IDEAS

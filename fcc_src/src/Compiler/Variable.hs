@@ -7,9 +7,9 @@
 
 module Compiler.Variable ( Variable
                          , VariableStorage
-                         , insertVariable
-                         , getVariable
-                         , emptyStorage
+                         , insertVariable'
+                         , getVariable'
+                         , varExist'
                          ) where
 import DataStruct.Ast.Variable (VariableName)
 
@@ -19,11 +19,11 @@ import DataStruct.Asm (Addr)
 type Variable = (VariableName, Addr)
 type VariableStorage = Map.Map VariableName Addr
 
-insertVariable :: VariableStorage -> Variable -> VariableStorage
-insertVariable s (name, value) = Map.set s name value
+varExist' :: VariableStorage -> VariableName -> Bool
+varExist' = Map.contains
 
-getVariable :: VariableStorage -> VariableName -> Maybe Addr
-getVariable = Map.get
+insertVariable' :: VariableStorage -> Variable -> VariableStorage
+insertVariable' s (name, value) = Map.set s name value
 
-emptyStorage :: VariableStorage
-emptyStorage = []
+getVariable' :: VariableStorage -> VariableName -> Maybe Addr
+getVariable' = Map.get

@@ -9,7 +9,7 @@ module Compiler.FunctionDef ( compileFuncDef
                             , compileMainDef
                             ) where
 
-import Compiler.Type (Compiler, Context (functionNames)
+import Compiler.Type (Compiler, Context (functionNames, var)
                      , apply, mapCompiler
                      , (.+), (<@), (@>))
 import DataStruct.Ast.Ast (FunctionDef (..), MainFunctionDef (..))
@@ -26,7 +26,8 @@ compileFuncDef s (Function name _ vs body)
     <@ (mapCompiler compileVarDef, vs)
     .+ (compileFuncBody, body)
     @> [Ret]
-    where s' = s { functionNames = name : functionNames s }
+    where s' = s { functionNames = name : functionNames s
+                 , var = [] }
 
 compileMainDef :: Compiler MainFunctionDef
 compileMainDef s (Main vs body) = flip apply s'
@@ -34,4 +35,5 @@ compileMainDef s (Main vs body) = flip apply s'
   <@ (mapCompiler compileVarDef, vs)
   .+ (compileFuncBody, body)
   @> [Ret]
-    where s' = s { functionNames = "main" : functionNames s }
+    where s' = s { functionNames = "main" : functionNames s
+                 , var = [] }

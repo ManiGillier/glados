@@ -1,7 +1,7 @@
 #+TODO: TODO(t) | DONE(d) CANCELED(c@)
 
 * TASK
-** TODO Compiler [3/3]
+** DONE Compiler [3/3]
 DEADLINE: <2025-10-10 Fri>
 *** DONE Condition mamagement
 *** DONE Function management
@@ -14,4 +14,9 @@ CLOCK: [2025-10-09 Thu 13:32]--[2025-10-09 Thu 13:45] =>  0:13
 CLOCK: [2025-10-08 Wed 14:47]--[2025-10-08 Wed 18:00] =>  3:13
 :END:
 *** DONE Loop management
+** TODO [#B] Compiler Maybe -> Maybe Error
+*** TODO Add MaybeError
+*** TODO Replace types
+*** TODO Define error messages
+** TODO [#C] Test Compiler
 * IDEAS

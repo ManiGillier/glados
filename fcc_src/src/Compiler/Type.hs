@@ -34,7 +34,7 @@ data Context = Context
   , labelCount :: !Int
   , functionNames :: ![FunctionName]
   }
-  deriving (Show)
+  deriving (Show, Eq)
 
 varExist :: Context -> VariableName -> Bool
 varExist = varExist' . var
@@ -98,7 +98,7 @@ a <+ b = (a,b)
 infixl 8 .+
 
 (.+) :: (Compiler a, a) -> (Compiler b, b) -> (Compiler (a,b),(a,b))
-(ca,a) .+ (cb,b) = (\s _ -> (ca +> cb) s (a,b), (a,b))
+(ca,a) .+ (cb,b) = (\s (a',b') -> (ca +> cb) s (a',b'), (a,b))
 
 infixl 9 <@
 

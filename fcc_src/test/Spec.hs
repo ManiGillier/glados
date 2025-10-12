@@ -1,2 +1,10 @@
-main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+import Test.HUnit
+
+import Tests.Compiler.Type (compilerTest)
+
+tests :: Test
+tests = TestList [ "Compiler" ~: compilerTest
+                 ]
+
+main :: IO Counts
+main = runTestTT tests

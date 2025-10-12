@@ -79,7 +79,7 @@ data Instruction =
   | Zjmp -- Pops test from stack (if == 0, jump else continue)
   -- Debug functions (to remove later)
   | Aff -- Shows single char from addr popped from stack
-  deriving (Show)
+  deriving (Show, Eq)
 
 -- Addr is the address added to the address of the stack pointer !
 

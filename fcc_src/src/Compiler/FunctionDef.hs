@@ -36,17 +36,16 @@ checkDuplicatesParams [] = Nothing
 checkDuplicatesParams [_] = Nothing
 checkDuplicatesParams (x0'@(FuncParam x0 _):x1'@(FuncParam x1 _):xs)
   | x0 == x1 = Just x0
-  | otherwise = checkDuplicatesParams (x0':xs) <* checkDuplicatesParams (x1':xs)
+  | otherwise = checkDuplicatesParams (x0':xs)
+                <* checkDuplicatesParams (x1':xs)
 
 compileFuncDef :: Compiler FunctionDef
 compileFuncDef s (Function name _ ps vs body)
   | elem name $ functionNames s = Error alreadyDefFuncErr name
   | isJust duplParam = Error alreadyDefVarErr $ fromJust duplParam
   | otherwise = flip apply s' $
-    [Label $ funcLabelPrefix ++ name]
-    <@ (mapCompiler compileVarDef, vs)
-    .+ (compileFuncBody, body)
-    @> [Ret]
+    [Label $ funcLabelPrefix ++ name] <@ (mapCompiler compileVarDef, vs)
+    .+ (compileFuncBody, body) @> [Ret]
     where duplParam = checkDuplicatesParams ps
           s' = s { functionNames = name : functionNames s
                  , var = computeParams 0 ps }

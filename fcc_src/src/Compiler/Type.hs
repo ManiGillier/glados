@@ -27,6 +27,7 @@ import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable', varExist')
 import DataStruct.Asm (Instruction, VariableName, Addr, LabelName)
 import DataStruct.Ast.Ast (FunctionName)
+import Error.MaybeError (MaybeError (..))
 
 data Context = Context
   { var :: !VariableStorage
@@ -46,7 +47,7 @@ takeLabel prefix c = (c { labelCount = n + 1 },name)
 baseContext :: Context
 baseContext = Context [] 0 []
 
-type Compiler a = Context -> a -> Maybe (Context, [Instruction])
+type Compiler a = Context -> a -> MaybeError (Context, [Instruction])
 
 {-
 combine :: Compiler a -> a -> Compiler b -> b
@@ -64,22 +65,22 @@ combine ca cb =
 
 prefixCompiler :: [Instruction] -> Compiler a -> Compiler a
 prefixCompiler i c = \ s a -> case c s a of
-  Nothing -> Nothing
-  Just (s', is) -> Just (s', i ++ is)
+  Error t e -> Error t e
+  Correct (s', is) -> Correct (s', i ++ is)
 
 suffixCompiler :: [Instruction] -> Compiler a -> Compiler a
 suffixCompiler i c = \ s a -> case c s a of
-  Nothing -> Nothing
-  Just (s', is) -> Just (s', is ++ i)
+  Error t e -> Error t e
+  Correct (s', is) -> Correct (s', is ++ i)
 
 mapCompiler :: Compiler a -> Compiler [a]
 mapCompiler ca = (
   \s t -> case t of
-    [] -> Just (s,[])
+    [] -> Correct (s,[])
     (x:xs) -> ca s x >>=
       (\(s',o) -> case mapCompiler ca s' xs of
-          Nothing -> Nothing
-          Just (s'', o') -> Just (s'', o ++ o')))
+          Error et e -> Error et e
+          Correct (s'', o') -> Correct (s'', o ++ o')))
 
 combine :: Compiler a -> Compiler b -> Compiler (a,b)
 combine ca cb = \s (a,b) -> ca s a >>= (\(s',i) -> prefixCompiler i cb s' b)
@@ -109,13 +110,13 @@ infixl 9 @>
 (@>) :: (Compiler a, a) -> [Instruction] -> (Compiler a, a)
 (ca,a) @> i = (suffixCompiler i ca, a)
 
-apply :: (Compiler a,a) -> Context -> Maybe (Context, [Instruction])
+apply :: (Compiler a,a) -> Context -> MaybeError (Context, [Instruction])
 apply (ca,a) s = ca s a
 
 insertVariable :: Context -> Variable -> Context
 insertVariable c v = c { var = insertVariable' (var c) v }
 
-getVariable :: Context -> VariableName -> Maybe Addr
+getVariable :: Context -> VariableName -> MaybeError Addr
 getVariable c = getVariable' (var c)
 
 revCompiler :: Compiler [a] -> Compiler [a]

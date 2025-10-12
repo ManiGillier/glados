@@ -9,7 +9,11 @@ module Error.MaybeError ( ErrorType, MaybeError (..), fmap, pure, (<*>), (>>=)
              , printError
              , toMaybeError
              , toMaybe
-             , invertMaybe ) where
+             , invertMaybe
+             , (!<$>)
+             , (!>>=)
+             , (!>)
+             ) where
 
 import System.IO ( hPutStrLn, stderr )
 
@@ -41,6 +45,20 @@ instance Monad MaybeError where
 toMaybeError :: Maybe a -> (ErrorType,String) -> MaybeError a
 toMaybeError Nothing (err_type,err_str) = Error err_type err_str
 toMaybeError (Just result) _ = Correct result
+
+infixl 5 !>
+(!>) :: Maybe a -> (ErrorType,String) -> MaybeError a
+a !> e = toMaybeError a e
+
+infixl 5 !>>=
+(!>>=) :: Maybe a -> (a -> MaybeError b) -> ((ErrorType,String) -> MaybeError b)
+Nothing !>>= _ = \(e,m) -> Error e m
+(Just a) !>>= f = \_ -> f a
+
+infixl 5 !<$>
+(!<$>) :: (a -> b) -> Maybe a -> ((ErrorType,String) -> MaybeError b)
+_ !<$> Nothing = \(e,m) -> Error e m
+f !<$> (Just a) = \_ -> Correct $ f a
 
 printError :: MaybeError a -> IO ()
 printError (Error t c) = hPutStrLn stderr (t ++ ": " ++ c)

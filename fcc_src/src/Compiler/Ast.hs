@@ -11,8 +11,9 @@ import Compiler.Type (Compiler, apply, mapCompiler, baseContext
 import DataStruct.Ast.Ast (Ast (..))
 import Compiler.FunctionDef (compileMainDef, compileFuncDef)
 import DataStruct.Asm (Instruction)
+import Error.MaybeError (MaybeError)
 
-compile :: Ast -> Maybe [Instruction]
+compile :: Ast -> MaybeError [Instruction]
 compile ast = snd <$> compileAst baseContext ast
 
 compileAst :: Compiler Ast

@@ -17,6 +17,8 @@ import DataStruct.Ast.Ast ( FunctionBody
 import DataStruct.Asm (Instruction (..))
 import Compiler.Config (funcLabelPrefix)
 import Compiler.Condition (compileCondition)
+import Error.MaybeError (MaybeError(Error))
+import Error.ErrorList (ukVarErr)
 
 compileFuncBodyContent :: Compiler FunctionBodyContent
 compileFuncBodyContent s (Return comp) = compiler s comp
@@ -49,7 +51,7 @@ compileFuncBodyContent s (Loop cond body) =
 compileFuncBodyContent s (Assign name comp)
   | varExist s name = (getVariable s name) >>= \varAddr -> flip apply s $
     (compileComputable, comp) @> [PopToStackPtrRel varAddr]
-  | otherwise = Nothing
+  | otherwise = Error ukVarErr name
 
 compileFuncBody :: Compiler FunctionBody
 compileFuncBody = mapCompiler compileFuncBodyContent

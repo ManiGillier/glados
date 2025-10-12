@@ -15,8 +15,13 @@ CLOCK: [2025-10-08 Wed 14:47]--[2025-10-08 Wed 18:00] =>  3:13
 :END:
 *** DONE Loop management
 ** TODO [#B] Compiler Maybe -> Maybe Error
-*** TODO Add MaybeError
+SCHEDULED: <2025-10-12 Sun>
+*** DONE Add MaybeError
+:LOGBOOK:
+CLOCK: [2025-10-12 Sun 15:36]--[2025-10-12 Sun 15:37] =>  0:01
+:END:
 *** TODO Replace types
 *** TODO Define error messages
 ** TODO [#C] Test Compiler
+SCHEDULED: <2025-10-14 Tue>
 * IDEAS

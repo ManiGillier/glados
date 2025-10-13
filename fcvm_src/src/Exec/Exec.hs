@@ -11,6 +11,7 @@ import Error.MaybeError
 import Error.ErrorList
 import Data.Word (Word8)
 import Data.Int (Int64)
+import Debug.Trace
 
 testByteCode :: [Word8]
 testByteCode = 
@@ -21,9 +22,11 @@ testByteCode =
     91,0,0,0,0,0,0,0,15,13,0,38,0,89,0,0,0,0,0,0,0,1,14,0,91,0,0,0,0,0,0,0,17,36,0,
     39,0,0,0,0,0,0,0,18,0]
 
-type Stack = [(Int64, Int64)]
+type Stack = [Int64]
 
 type LabelIndex = [(Int64, Int64)]
+
+type PC = Int
 
 checkMagicNumber :: [Word8] -> Bool
 checkMagicNumber (0x45:0xc:0x45:0xc:_) = True
@@ -31,7 +34,9 @@ checkMagicNumber _ = False
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode
-    | checkMagicNumber byteCode = execByteCode [] (indexLabel $ drop 4 byteCode) $ drop 4 byteCode
+    | checkMagicNumber byteCode = 
+        let cleanByteCode = drop 4 byteCode
+        in execByteCode [] (indexLabel cleanByteCode) cleanByteCode
     | otherwise =  Error fileFormatError $ "magic number not found"
 
 bytesToInt64 :: [Word8] -> Int64
@@ -62,5 +67,33 @@ indexLabel = index 0 0
         index (i + fromIntegral len + 1) v (drop (len) xs)
     index i v (_:xs) = index (i + 1) v xs
 
+pushAddrStack :: Stack -> [Word8] -> Stack
+pushAddrStack st val = st ++ [bytesToInt64 $ take 8 val]
+
+binOp :: (Int64 -> Int64 -> Int64) -> Stack -> MaybeError Stack
+binOp f (x:y:xs) = Correct ((f y x):xs)
+binOp _ _ = Error stackError $ "underflow"
+
+dupl :: Stack -> MaybeError Stack
+dupl [] = Error stackError $ "empty stack"
+dupl (x:xs) = Correct (x:x:xs)
+
+-- zjmp :: Stack -> MaybeError Stack
+
 execByteCode :: Stack -> LabelIndex -> [Word8] -> MaybeError String
-execByteCode _ _ _ = Correct "test"
+execByteCode _ _ [] = Correct ""
+execByteCode stack labVal (0:91:bc) = 
+    execByteCode (pushAddrStack stack $ take 8 bc) labVal $ drop 8 bc
+execByteCode stack labVal (0:14:0:bc) =
+    let res = binOp (-) stack
+    in case res of
+         Correct newStack -> execByteCode newStack labVal bc
+         Error err msg -> Error err msg
+execByteCode stack labVal (0:33:0:bc) =
+    let st = dupl stack
+    in case st of
+        Correct newStack -> execByteCode newStack labVal bc
+        Error err msg  -> Error err msg
+execByteCode stack labVal (_:byteCode) = 
+    traceShow ("stack", stack)
+    execByteCode stack labVal byteCode

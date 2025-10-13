@@ -19,6 +19,7 @@ displayInstruction = show
 
 setAddressToLabel :: [Instruction] -> Int64 -> [(String, Int64)]
 setAddressToLabel [] _ = []
+setAddressToLabel ((DataString str):xs) n = setAddressToLabel xs (n + fromIntegral (length str))
 setAddressToLabel ((Label labelName):xs) n =
      [(labelName, n)] ++ setAddressToLabel xs (n + 1)
 setAddressToLabel (_:xs) n = setAddressToLabel xs n
@@ -84,6 +85,8 @@ instructionToByteCode _ (Ret) = [35] ++ instructionEnd
 instructionToByteCode _ (Jmp) = [36] ++ instructionEnd
 instructionToByteCode _ (Zjmp) = [37] ++ instructionEnd
 instructionToByteCode _ (Aff) = [38] ++ instructionEnd
+instructionToByteCode labAddrs (Label labName) = 
+    [39] ++ intTo8Bytes (getAddressLabel labName labAddrs) ++ instructionEnd
 instructionToByteCode _ _ = []
 
 -- Magic number definition
@@ -96,3 +99,30 @@ asmToBytecode :: [(String, Int64)] -> [Instruction] -> [Word8]
 asmToBytecode labelAddr xs =
     magicNumber ++ 
     concatMap (instructionToByteCode labelAddr) xs
+
+
+test :: [Instruction]
+test = [
+    Label ".data"
+  , Label ".str_HelloWorld"
+  , DataString "Hello, World!"
+  , Label ".str_HelloWorld_end"
+  , Label ".start"
+  , PushLabel ".str_HelloWorld_end"
+  , PushLabel ".str_HelloWorld"
+  , Sub -- Len of string #0 +1 ~1
+  , Label ".loop"
+  , Dupl -- #1 +1 ~2
+  , PushLabel ".end" -- #2 +1 ~3
+  , Zjmp -- -2 ~1
+  , Dupl -- #1 + 1 -- len ~2
+  , Negate -- +0 -- -len ~2
+  , PushLabel ".str_HelloWorld_end" -- #2 +1 ~3
+  , Add -- -1 -- .str_HelloWorld_end - len #1 ~2
+  , Aff -- Show "Hello, World!"[actual_len - len] -1 ~1
+  , PushValue 1 -- #1 +1 ~2
+  , Sub -- #0 -1 (new len = len - 1) ~1
+  , PushLabel ".loop"
+  , Jmp
+  , Label ".end"
+  ]

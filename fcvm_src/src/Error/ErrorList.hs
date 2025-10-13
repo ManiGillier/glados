@@ -6,10 +6,14 @@
 -}
 
 module Error.ErrorList (
-   fileFormatError 
+   fileFormatError,
+   stackError
 ) where
 
 import Error.MaybeError (ErrorType)
 
 fileFormatError :: ErrorType
 fileFormatError = "*** UNROCONIZED FILE FORMAT"
+
+stackError:: ErrorType
+stackError = "*** STACK ERROR"

@@ -9,9 +9,11 @@ module Tests.Compiler.Type (compilerTest) where
 
 import Test.HUnit
 
-import Compiler.Type
 import DataStruct.Asm (Instruction (..))
 import Error.MaybeError (MaybeError (..))
+import Compiler.Type
+import Error.ErrorList (ukVarErr)
+import Compiler.Type (revCompiler, mapCompiler, baseContext, Context (functionNames))
 
 testCompiler :: Compiler [Instruction]
 testCompiler s l = Correct (s, l)
@@ -85,5 +87,22 @@ compilerTest = TestList
     , "@>" ~: (flip apply baseContext $ 
        (testCompiler, [Zjmp]) @> [Jmp])
       ~?= Correct (baseContext, [Zjmp, Jmp])
+    , "rev" ~: (revCompiler (mapCompiler testCompiler))
+      baseContext [[Jmp], [Zjmp], [Jmp], [Jmp]]
+      ~?= Correct (baseContext, [Jmp, Jmp, Zjmp, Jmp])
     ]
+  , "variables" ~:
+    [ "insertVariable" ~: insertVariable baseContext ("x", 0)
+      ~?= Context [("x", (0, 8))] 0 []
+    , "getVariable - Error" ~: getVariable (Context [] 0 []) "x"
+      ~?= Error ukVarErr "x"
+    , "getVariable - Error" ~: getVariable (Context [("x", (0, 8))] 0 []) "x"
+      ~?= Correct 0
+    ]
+  , "show context" ~: show (Context [] 0 ["test"])
+    ~?= "Context {var = [], labelCount = 0, functionNames = [\"test\"]}"
+  , "eq context" ~: (Context [("x", (0, 8))] 1 ["test"])
+    == (Context [("x", (0, 8))] 1 ["test"])
+    ~?= True
+  , "getFuncName" ~: functionNames baseContext ~?= []
   ]

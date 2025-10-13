@@ -7,17 +7,19 @@
 
 module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign',
-    readCondition, readComputable, readComputables, readIf,
-    readParenthesisComputable) where
+    readCondition, readComputable, readComputables, readIfCondition,
+    readParenthesisComputable, readWhileCondition,
+    readFunctionDefinition) where
 
 import Data.Void (Void)
 
 import ApplicativeAddons
 
 import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..),
-    UnaryOperations(..))
+    UnaryOperations(..), FuncTypes(..))
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
-    assignSyntax, assignSyntax', ifSyntax)
+    assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
+    functionDefinitionSyntax, functionDefinitionSyntax')
 
 import Text.Megaparsec
 import Text.Megaparsec.Char
@@ -101,6 +103,17 @@ readComputables = concat <$> (readComputableAfterOperation $:
 readCondition :: Lexer [LexedData]
 readCondition = readComputables
 
+convertToDuo :: [LexedData] -> LexedData
+convertToDuo [Symbol a, Symbol b] = DuoSymbol a b
+convertToDuo _ = error "Not supposed to happen..?"
+
+readComboWord :: Lexer LexedData
+readComboWord = convertToDuo <$>
+    lexStringsWithTokens [SString "-", Space, Word, Space, Word]
+
+readOptionalComboWords :: Lexer [LexedData]
+readOptionalComboWords = many (readComboWord <* space1)
+
 readEOI :: Lexer Char
 readEOI = char '.'
 
@@ -110,7 +123,12 @@ lexSyntax (Word : xs) = readWord >>= \_ -> lexSyntax xs
 lexSyntax (Space : xs) = space1 *> lexSyntax xs
 lexSyntax (Value : xs) = readValue >>= \_ -> lexSyntax xs
 lexSyntax (Condition : xs) = readCondition >>= \_ -> lexSyntax xs
+lexSyntax (ComboWord : xs) = readComboWord >>= \_ -> lexSyntax xs
+lexSyntax (OptionalComboWord : xs) = (try readComboWord) >>= \_ -> lexSyntax xs
+lexSyntax (OptionalComboWords : xs) = readOptionalComboWords *> lexSyntax xs
+lexSyntax (OptionalSpace : xs) = skipWhitespace *> lexSyntax xs
 lexSyntax ((SString (x)):xs) = string x *> lexSyntax xs
+lexSyntax (Placeholder _ : xs) = lexSyntax xs
 
 lexSyntaxAndReturn :: [Syntax] -> a -> Lexer a
 lexSyntaxAndReturn [] a = return a
@@ -122,6 +140,15 @@ lexSyntaxAndReturn (Value : xs) a = readValue >>= \_ ->
 lexSyntaxAndReturn (Condition : xs) a = readCondition >>= \_ ->
     lexSyntaxAndReturn xs a
 lexSyntaxAndReturn ((SString (x)):xs) a = string x *> lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (ComboWord : xs) a = readComboWord >>= \_ ->
+    lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (OptionalComboWord : xs) a = (try readComboWord) >>= \_ ->
+    lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (OptionalComboWords : xs) a = (readOptionalComboWords) >>=
+    \_ -> lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (OptionalSpace : xs) a = skipWhitespace *>
+    lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (Placeholder _ : xs) a = lexSyntaxAndReturn xs a
 
 lexStringsWithTokens' :: [LexedData] -> [Syntax] -> Lexer [LexedData]
 lexStringsWithTokens' t [] = return t
@@ -134,6 +161,18 @@ lexStringsWithTokens' t (Condition : xs) = readCondition >>= \toAdd ->
     lexStringsWithTokens' (t ++ toAdd) xs
 lexStringsWithTokens' t ((SString (x)):xs) = string x *>
     lexStringsWithTokens' t xs
+lexStringsWithTokens' t (ComboWord : xs) = readComboWord >>= \toAdd ->
+    lexStringsWithTokens' (toAdd : t) xs
+lexStringsWithTokens' t (OptionalComboWord : xs) =
+    option [] (fmap (\x -> [x]) readComboWord) >>= \toAdd ->
+    lexStringsWithTokens' (t ++ toAdd) xs
+lexStringsWithTokens' t (OptionalComboWords : xs) =
+    option [] readOptionalComboWords >>= \toAdd ->
+    lexStringsWithTokens' (t ++ toAdd) xs
+lexStringsWithTokens' t (OptionalSpace : xs) = skipWhitespace *>
+    lexStringsWithTokens' t xs
+lexStringsWithTokens' t (Placeholder a : xs) =
+    lexStringsWithTokens' (t ++ [a]) xs
 
 lexStringsWithTokens :: [Syntax] -> Lexer [LexedData]
 lexStringsWithTokens toLex = lexStringsWithTokens' [] toLex
@@ -142,8 +181,17 @@ readAssign :: Lexer [LexedData]
 readAssign = try (lexStringsWithTokens' [Assign] assignSyntax <* readEOI) <|>
     (lexStringsWithTokens' [Assign] assignSyntax' <* readEOI)
 
-readIf :: Lexer [LexedData]
-readIf = lexStringsWithTokens' [If] ifSyntax
+readIfCondition :: Lexer [LexedData]
+readIfCondition = lexStringsWithTokens' [If] ifConditionSyntax
+
+readWhileCondition :: Lexer [LexedData]
+readWhileCondition = lexStringsWithTokens' [While] whileConditionSyntax
+
+readFunctionDefinition :: Lexer [LexedData]
+readFunctionDefinition =
+    (try (lexStringsWithTokens' [FuncDef, FuncType Function]
+    functionDefinitionSyntax') <|> (lexStringsWithTokens' [FuncDef]
+    functionDefinitionSyntax)) <* readEOI
 
 readAssign' :: Lexer [LexedData]
 readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)

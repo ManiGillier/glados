@@ -5,7 +5,8 @@
 -- Lexing
 -}
 
-module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..), UnaryOperations(..)) where
+module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..),
+    UnaryOperations(..), FuncTypes(..)) where
 
 data UnaryOperations =
     Not |
@@ -32,10 +33,14 @@ data Comparators =
     Equal | Different | Inferior | Superior | InferiorOrEqual | SuperiorOrEqual
     deriving (Show, Eq)
 
+data FuncTypes =
+    Main | Function
+    deriving (Show, Eq)
+
 data LexedData =
     Hi |
     FuncDef |
-    FuncType |
+    FuncType FuncTypes |
     ReturnType |
     Params |
     WithVariables |

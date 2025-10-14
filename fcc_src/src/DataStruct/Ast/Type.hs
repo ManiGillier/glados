@@ -7,4 +7,4 @@
 
 module DataStruct.Ast.Type (VariableType (..)) where
 
-data VariableType = Bool | String | Int
+data VariableType = Bool | String | Int deriving (Show)

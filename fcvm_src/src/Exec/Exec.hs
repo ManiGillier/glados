@@ -23,38 +23,39 @@ testByteCode =
     39,0,0,0,0,0,0,0,18,0]
 
 type Stack = [Int64]
-
-type LabelIndex = [(Int64, Int64)]
-
+type SP = Int
 type PC = Int
+type LabelIndex = [(Int64, Int64)]
+type ByteCode = [Word8]
 
-checkMagicNumber :: [Word8] -> Bool
+-- Check file valid format
+checkMagicNumber :: ByteCode -> Bool
 checkMagicNumber (0x45:0xc:0x45:0xc:_) = True
 checkMagicNumber _ = False
 
-execFccByteCode :: [Word8] -> MaybeError String
+execFccByteCode :: ByteCode -> MaybeError String
 execFccByteCode byteCode
     | checkMagicNumber byteCode = 
         let cleanByteCode = drop 4 byteCode
         in execByteCode [] (indexLabel cleanByteCode) cleanByteCode
     | otherwise =  Error fileFormatError $ "magic number not found"
 
-bytesToInt64 :: [Word8] -> Int64
+bytesToInt64 :: ByteCode -> Int64
 bytesToInt64 = fromIntegral . sum
 
-indexDataString :: [Word8] -> Int64 -> Int64 -> LabelIndex
+indexDataString :: ByteCode -> Int64 -> Int64 -> LabelIndex
 indexDataString [] _ _ = []
 indexDataString (0:_) _ _ = []
 indexDataString (_:xs) startIndex startIndexStack =
     [(startIndex, startIndexStack)] ++ 
     indexDataString xs (startIndex + 1) (startIndexStack + 1)
 
-dataStringLen :: [Word8] -> Int
+dataStringLen :: ByteCode -> Int
 dataStringLen [] = 0
 dataStringLen (0:_) = 0
 dataStringLen (_:xs) = 1 + dataStringLen xs
 
-indexLabel :: [Word8] -> LabelIndex
+indexLabel :: ByteCode -> LabelIndex
 indexLabel = index 0 0
   where
     index _ _ [] = []
@@ -67,7 +68,7 @@ indexLabel = index 0 0
         index (i + fromIntegral len + 1) v (drop (len) xs)
     index i v (_:xs) = index (i + 1) v xs
 
-pushAddrStack :: Stack -> [Word8] -> Stack
+pushAddrStack :: Stack -> ByteCode -> Stack
 pushAddrStack st val = st ++ [bytesToInt64 $ take 8 val]
 
 binOp :: (Int64 -> Int64 -> Int64) -> Stack -> MaybeError Stack
@@ -78,12 +79,26 @@ dupl :: Stack -> MaybeError Stack
 dupl [] = Error stackError $ "empty stack"
 dupl (x:xs) = Correct (x:x:xs)
 
--- zjmp :: Stack -> MaybeError Stack
+negateS :: Stack -> MaybeError Stack
+negateS [] = Error stackError $ "empty stack"
+negateS (x:xs) = Correct ((-x):xs)
 
-execByteCode :: Stack -> LabelIndex -> [Word8] -> MaybeError String
+write :: Stack -> Stack
+write [] = []
+write (x:xs) = traceShow ("x", x) show x >> xs
+
+-- zjmp :: Stack -> MaybeError Stack
+-- execByteCode :: ByteCode -> PC -> Stack -> LabelIndex -> MaybeError String
+
+execByteCode :: Stack -> LabelIndex -> ByteCode -> MaybeError String
 execByteCode _ _ [] = Correct ""
 execByteCode stack labVal (0:91:bc) = 
     execByteCode (pushAddrStack stack $ take 8 bc) labVal $ drop 8 bc
+execByteCode stack labVal (0:13:0:bc) =
+    let res = binOp (+) stack
+    in case res of
+         Correct newStack -> execByteCode newStack labVal bc
+         Error err msg -> Error err msg
 execByteCode stack labVal (0:14:0:bc) =
     let res = binOp (-) stack
     in case res of
@@ -93,7 +108,14 @@ execByteCode stack labVal (0:33:0:bc) =
     let st = dupl stack
     in case st of
         Correct newStack -> execByteCode newStack labVal bc
-        Error err msg  -> Error err msg
-execByteCode stack labVal (_:byteCode) = 
+        Error err msg -> Error err msg
+execByteCode stack labVal (0:5:0:bc) =
+    let st = negateS stack
+    in case st of
+        Correct newStack -> execByteCode newStack labVal bc
+        Error err msg -> Error err msg
+execByteCode stack labVal (0:38:0:bc) =
+    execByteCode (write stack)  labVal bc
+execByteCode stack labVal (_:byteCode) =
     traceShow ("stack", stack)
     execByteCode stack labVal byteCode

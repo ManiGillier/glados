@@ -16,11 +16,12 @@ module DataStruct.Ast.Ast (Ast (..)
                           , FunctionBodyContent (..)
                           , FunctionDef (..)
                           , MainFunctionDef (..)
+                          , CombinedAst (..)
                           , a) where
 
 import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
                                                 , VariableName
-                               , VariableDef (..), ReturnType (..))
+                               , VariableDef (..), ReturnType (..), FuncParam)
 
 type FunctionName = String
 
@@ -60,8 +61,11 @@ data FunctionBodyContent =
 
 type FunctionBody = [FunctionBodyContent]
 
-data FunctionDef = Function FunctionName Var.ReturnType [Var.VariableDef] FunctionBody
+data FunctionDef = Function FunctionName Var.ReturnType
+  [Var.FuncParam] [Var.VariableDef] FunctionBody
 
 data MainFunctionDef = Main [Var.VariableDef] FunctionBody
 
-data Ast = Ast MainFunctionDef [FunctionDef]
+data Ast = Ast (Maybe MainFunctionDef) [FunctionDef]
+
+data CombinedAst = CAst MainFunctionDef [FunctionDef]

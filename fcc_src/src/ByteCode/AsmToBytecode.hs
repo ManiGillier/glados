@@ -100,7 +100,6 @@ asmToBytecode labelAddr xs =
     magicNumber ++ 
     concatMap (instructionToByteCode labelAddr) xs
 
-
 test :: [Instruction]
 test = [
     Label ".data"

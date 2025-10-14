@@ -5,7 +5,7 @@
 -- open a file
 -}
 
-module Compiler.FileToBytecode (fileToByteCode) where
+module FileOpening.FileToBytecode (fileToByteCode) where
 
 import qualified Data.ByteString as B
 import Data.Word

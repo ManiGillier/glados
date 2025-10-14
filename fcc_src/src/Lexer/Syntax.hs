@@ -12,7 +12,8 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionDefinitionParametersSyntax,
     functionDefinitionWithVariablesSyntax,
     functionDefinitionEndSyntax,
-    functionDefinitionReturnsVariableSyntax, fcTypes) where
+    functionDefinitionReturnsVariableSyntax, functionTypes, variableTypes,
+    invokeSyntax, invokeAssignSyntax, invokeParametersSyntax) where
 import DataStruct.Lexing(LexedData(..), LexedTypes(..))
 
 data Syntax =
@@ -25,8 +26,10 @@ data Syntax =
     OptionalComboWord |
     OptionalComboWords |
     OptionalSpace |
-    WordType |
+    WordVariableType |
+    WordFunctionType |
     MultipleSString [String] |
+    MultipleWords |
     Placeholder LexedData
     deriving (Show, Eq)
 
@@ -40,9 +43,15 @@ fcStringType :: [Syntax]
 fcStringType = [SString "chaîne", Space, SString "de", Space,
     SString "caractères"]
 
-fcTypes :: [([Syntax], LexedData)]
-fcTypes = [(fcIntType, LexedType LInt), (fcBoolType, LexedType LBoolean),
+fcVoidType :: [Syntax]
+fcVoidType = [SString "nul"]
+
+variableTypes :: [([Syntax], LexedData)]
+variableTypes = [(fcIntType, LexedType LInt), (fcBoolType, LexedType LBoolean),
     (fcStringType, LexedType LString)]
+
+functionTypes :: [([Syntax], LexedData)]
+functionTypes = variableTypes ++ [(fcVoidType, LexedType LVoid)]
 
 assignNameSyntax :: [Syntax]
 assignNameSyntax = [SString "J'aimerais", Space, SString "que", Space, Word]
@@ -78,8 +87,8 @@ functionDefinitionNameSyntax = [SString "J'aimerais", Space,
 
 functionDefinitionReturnTypeSyntax :: [Syntax]
 functionDefinitionReturnTypeSyntax = [SString "de", Space, SString "type",
-    Space, SString "de", Space, SString "retour", Space, WordType, SString ",",
-    Space]
+    Space, SString "de", Space, SString "retour", Space, WordFunctionType,
+    SString ",", Space]
 
 functionDefinitionParametersSyntax :: [Syntax]
 functionDefinitionParametersSyntax = [SString "nécessitant", Space,
@@ -97,5 +106,19 @@ functionDefinitionEndSyntax = [SString "représenté", Space, SString "par",
     MultipleSString ["ci-après", "suivant", "ci-dessous"]]
 
 functionDefinitionReturnsVariableSyntax :: [Syntax]
-functionDefinitionReturnsVariableSyntax = [SString ",", Space, SString "retournant", Space,
-    Word]
+functionDefinitionReturnsVariableSyntax = [SString ",", Space,
+    SString "retournant", Space, Word]
+
+invokeSyntax :: [Syntax]
+invokeSyntax = [SString "J'invoque", Space, SString "le", Space,
+    SString "bloc", Space, Word]
+
+invokeAssignSyntax :: [Syntax]
+invokeAssignSyntax = [SString ",", Space, SString "et", Space,
+    SString "j'assigne", Space, SString "la", Space, SString "valeur",
+    Space, SString "de", Space, SString "retour", Space, SString "à",
+    Space, SString "la", Space, SString "variable", Space, Word]
+
+invokeParametersSyntax :: [Syntax]
+invokeParametersSyntax = [SString ",", Space, SString "avec les paramètres",
+    Space, MultipleWords]

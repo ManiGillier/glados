@@ -30,7 +30,7 @@ data Operations =
     deriving (Show, Eq)
 
 data LexedTypes =
-    LInt | LBoolean | LString
+    LInt | LBoolean | LString | LVoid
     deriving (Show, Eq)
 
 data Comparators =
@@ -42,33 +42,32 @@ data FuncTypes =
     deriving (Show, Eq)
 
 data LexedData =
-    Hi |
-    FuncDef |
-    FuncType FuncTypes |
-    ReturnType |
-    Params |
-    WithVariables |
-    WithParameters |
-    DisplayNumber |
-    DisplayText |
-    LexedType LexedTypes |
-    DisplayNewLine |
-    FuncBody |
-    Returns |
-    Invoke |
-    ReturnVariable |
-    OpenParenthesis |
-    ClosedParenthesis |
-    Assign |
-    If |
-    While |
-    Else |
-    Return |
-    EOI |
-    Symbol String |
-    SymbolWithType String LexedTypes |
-    Number Int |
-    Operation Operations |
-    UnaryOperation UnaryOperations |
-    Comparator Comparators |
-    Sayonara deriving (Show, Eq)
+    Hi | -- Bonjour
+    FuncDef | -- Début de définition d'une fonction
+    FuncType FuncTypes | -- Type de fonction Main/Fonction
+    ReturnType | -- Type de retour d'une fonction
+    WithVariables | -- Variables d'une fonction
+    WithParameters | -- Paramètres d'une fonction / Paramètres d'invocation
+    DisplayNumber | -- Afficher un nombre
+    DisplayText | -- Afficher un texte
+    LexedType LexedTypes | -- Int/Void/Bool/String
+    DisplayNewLine | -- Afficher un \n
+    FuncBody | -- Début du corps de la fonction
+    Returns | -- La fonction retourne..
+    Invoke | -- Invoquer
+    AssignResultTo | -- assigner la valeur de retour 
+    OpenParenthesis | -- (
+    ClosedParenthesis | -- )
+    Assign | -- Assigner une variable à une valeur
+    If | -- Si
+    While | -- Tant que
+    Else | -- Sinon (Pas fait)
+    Return | -- Retourner une valeur.
+    Symbol String | -- Entrée utilisateur
+    SymbolWithType String LexedTypes | -- Combo entrée utilisateur et type
+    Number Int | -- Numéro
+    Operation Operations | -- Opération 
+    UnaryOperation UnaryOperations | -- Opération unaire
+    Comparator Comparators | -- Comparateur
+    Sayonara deriving (Show, Eq) -- Cordialement
+

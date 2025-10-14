@@ -5,15 +5,31 @@
 -- fcc arg parser
 -}
 
-module ArgParser (getMyArgs) where
+module ArgParser (getMyArgs, debugArgs, Arguments (..)) where
 import Options.Applicative
-
+    ( (<**>),
+      Alternative(some),
+      fullDesc,
+      help,
+      info,
+      long,
+      metavar,
+      progDesc,
+      short,
+      showDefault,
+      strArgument,
+      strOption,
+      switch,
+      value,
+      execParser,
+      helper,
+      Parser )
 
 data Arguments = Arguments
-    { i     :: [String]   -- Input files's name
-    , o     :: String   -- Output file's name
-    , llvm  :: Bool     -- Usage of LLVM
-    , d     :: Bool     -- Debug
+    { input     :: ![String] -- Input files's name
+    , output    :: !String   -- Output file's name
+    , llvm      :: !Bool     -- Usage of LLVM
+    , debug     :: !Bool     -- Debug
     }
 
 aparser :: Parser Arguments
@@ -27,19 +43,16 @@ aparser = Arguments
 
 getOutput :: Arguments -> FilePath
 getOutput (Arguments _ _ _ True) = "stdout"
-getOutput (Arguments (i:is) [] _ _) = i
+getOutput (Arguments (i:_) [] _ _) = i
 getOutput (Arguments _ o _ _) = o
 
-getMyArgs :: IO ()
-getMyArgs = goingNext =<< execParser opts
-  where
-    opts = info (aparser <**> helper)
-      ( fullDesc
-     <> progDesc
-        "This program is a compiler for the Franc C programming language")
+getMyArgs :: IO Arguments
+getMyArgs = execParser $ info (aparser <**> helper) $
+  fullDesc <> progDesc
+  "This program is a compiler for the Franc C programming language"
 
-goingNext :: Arguments -> IO ()
-goingNext (Arguments i o l d) =
+debugArgs :: Arguments -> IO ()
+debugArgs (Arguments i o l d) =
     putStrLn $ "Input file(s) : " ++ (concat i)  ++
     "; Output name : " ++ (getOutput (Arguments i o l d)) ++ "; LLVM usage : "
     ++ show l ++ "; Debug mode : " ++ show d

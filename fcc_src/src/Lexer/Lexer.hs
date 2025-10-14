@@ -8,8 +8,7 @@
 module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign',
     readCondition, readComputable, readComputables, readIfCondition,
-    readParenthesisComputable, readWhileCondition,
-    readFunctionDefinition) where
+    readParenthesisComputable, readWhileCondition, readFunctionDefinition) where
 
 import Data.Void (Void)
 
@@ -18,8 +17,7 @@ import ApplicativeAddons
 import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..),
     UnaryOperations(..), FuncTypes(..))
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
-    assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
-    functionDefinitionSyntax, functionDefinitionSyntax')
+    assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax, functionDefinitionNameSyntax, functionDefinitionReturnTypeSyntax, functionDefinitionWithVariablesSyntax, functionDefinitionParametersSyntax, functionDefinitionEndSyntax, functionDefinitionReturnsVariableSyntax, fcTypes)
 
 import Text.Megaparsec
 import Text.Megaparsec.Char
@@ -117,6 +115,19 @@ readOptionalComboWords = many (readComboWord <* space1)
 readEOI :: Lexer Char
 readEOI = char '.'
 
+tryReadOne :: [[Syntax]] -> Lexer [LexedData]
+tryReadOne [] = error "Nothing to try..?"
+tryReadOne [x] = lexStringsWithTokens x
+tryReadOne (x:xs) = lexStringsWithTokens x <|> tryReadOne xs
+
+tryReadStrings :: [String] -> Lexer [LexedData]
+tryReadStrings [] = fail "Nothing to try..?"
+tryReadStrings [x] = lexStringsWithTokens [SString x]
+tryReadStrings (x:xs) = lexStringsWithTokens [SString x] <|> tryReadStrings xs
+
+readType :: Lexer [LexedData]
+readType = tryReadOne fcTypes
+
 lexSyntax :: [Syntax] -> Lexer ()
 lexSyntax [] = return ()
 lexSyntax (Word : xs) = readWord >>= \_ -> lexSyntax xs
@@ -128,7 +139,9 @@ lexSyntax (OptionalComboWord : xs) = (try readComboWord) >>= \_ -> lexSyntax xs
 lexSyntax (OptionalComboWords : xs) = readOptionalComboWords *> lexSyntax xs
 lexSyntax (OptionalSpace : xs) = skipWhitespace *> lexSyntax xs
 lexSyntax ((SString (x)):xs) = string x *> lexSyntax xs
+lexSyntax ((MultipleSString (x) : xs)) = tryReadStrings x *> lexSyntax xs
 lexSyntax (Placeholder _ : xs) = lexSyntax xs
+lexSyntax (WordType : xs) = readType *> lexSyntax xs
 
 lexSyntaxAndReturn :: [Syntax] -> a -> Lexer a
 lexSyntaxAndReturn [] a = return a
@@ -149,6 +162,10 @@ lexSyntaxAndReturn (OptionalComboWords : xs) a = (readOptionalComboWords) >>=
 lexSyntaxAndReturn (OptionalSpace : xs) a = skipWhitespace *>
     lexSyntaxAndReturn xs a
 lexSyntaxAndReturn (Placeholder _ : xs) a = lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (WordType : xs) a = readType >>= \_ ->
+    lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (MultipleSString (x) : xs) a = tryReadStrings x >>= \_ ->
+    lexSyntaxAndReturn xs a
 
 lexStringsWithTokens' :: [LexedData] -> [Syntax] -> Lexer [LexedData]
 lexStringsWithTokens' t [] = return t
@@ -173,6 +190,10 @@ lexStringsWithTokens' t (OptionalSpace : xs) = skipWhitespace *>
     lexStringsWithTokens' t xs
 lexStringsWithTokens' t (Placeholder a : xs) =
     lexStringsWithTokens' (t ++ [a]) xs
+lexStringsWithTokens' t (WordType : xs) = readType >>= \toAdd ->
+    lexStringsWithTokens' (t ++ toAdd) xs
+lexStringsWithTokens' t (MultipleSString x : xs) = tryReadStrings x >>=
+    \toAdd -> lexStringsWithTokens' (t ++ toAdd) xs
 
 lexStringsWithTokens :: [Syntax] -> Lexer [LexedData]
 lexStringsWithTokens toLex = lexStringsWithTokens' [] toLex
@@ -187,11 +208,21 @@ readIfCondition = lexStringsWithTokens' [If] ifConditionSyntax
 readWhileCondition :: Lexer [LexedData]
 readWhileCondition = lexStringsWithTokens' [While] whileConditionSyntax
 
+readFunctionDefinition' :: Lexer [LexedData]
+readFunctionDefinition' = lexStringsWithTokens' [FuncDef, FuncType Function]
+    functionDefinitionNameSyntax $++ lexStringsWithTokens' [ReturnType]
+    functionDefinitionReturnTypeSyntax $++ lexStringsWithTokens'
+    [WithParameters] functionDefinitionParametersSyntax $++
+    lexStringsWithTokens' [WithVariables] functionDefinitionWithVariablesSyntax
+    $++ lexStringsWithTokens functionDefinitionEndSyntax
+
+readFunctionDefinition'' :: Lexer [LexedData]
+readFunctionDefinition'' = readFunctionDefinition' $++
+    lexStringsWithTokens' [Returns] functionDefinitionReturnsVariableSyntax
+
 readFunctionDefinition :: Lexer [LexedData]
-readFunctionDefinition =
-    (try (lexStringsWithTokens' [FuncDef, FuncType Function]
-    functionDefinitionSyntax') <|> (lexStringsWithTokens' [FuncDef]
-    functionDefinitionSyntax)) <* readEOI
+readFunctionDefinition = (try readFunctionDefinition'' <|>
+    readFunctionDefinition') <* readEOI
 
 readAssign' :: Lexer [LexedData]
 readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)

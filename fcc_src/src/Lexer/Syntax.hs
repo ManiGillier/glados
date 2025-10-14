@@ -7,8 +7,12 @@
 
 module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax,
-    whileConditionSyntax, functionDefinitionSyntax,
-    functionDefinitionSyntax') where
+    whileConditionSyntax, functionDefinitionNameSyntax,
+    functionDefinitionReturnTypeSyntax,
+    functionDefinitionParametersSyntax,
+    functionDefinitionWithVariablesSyntax,
+    functionDefinitionEndSyntax,
+    functionDefinitionReturnsVariableSyntax, fcTypes) where
 import DataStruct.Lexing(LexedData(..))
 
 data Syntax =
@@ -21,8 +25,23 @@ data Syntax =
     OptionalComboWord |
     OptionalComboWords |
     OptionalSpace |
+    WordType |
+    MultipleSString [String] |
     Placeholder LexedData
     deriving (Show, Eq)
+
+fcIntType :: [Syntax]
+fcIntType = [SString "entier", Space, SString "naturel"]
+
+fcBoolType :: [Syntax]
+fcBoolType = [SString "booléen"]
+
+fcStringType :: [Syntax]
+fcStringType = [SString "chaîne", Space, SString "de", Space,
+    SString "caractères"]
+
+fcTypes :: [[Syntax]]
+fcTypes = [fcIntType, fcBoolType, fcStringType]
 
 assignNameSyntax :: [Syntax]
 assignNameSyntax = [SString "J'aimerais", Space, SString "que", Space, Word]
@@ -50,31 +69,32 @@ whileConditionSyntax = [SString "Tant", Space, SString "que", Space, Condition,
     Space, SString "exécute", Space, SString "le", Space, SString "code",
     Space, SString "ci-après", Space, SString ":"]
 
-functionDefinitionSyntax :: [Syntax]
-functionDefinitionSyntax = [SString "J'aimerais", Space, SString "définir",
-    Space, SString "le", Space, SString "bloc", Space, SString "répondant",
-    Space, SString "au", Space, SString "nom", Space, SString "de", Space,
-    Word, SString ",", Space, SString "de", Space, SString "type", Space,
-    SString "de", Space, SString "retour", Space, Placeholder ReturnType, Word,
-    SString ",", Space, SString "nécessitant", Space, SString "comme", Space,
-    SString "entrée", Space, SString ":", Placeholder WithParameters, Space,
-    OptionalComboWords, SString ";", Space, SString "contenant", Space,
-    SString "les", Space, SString "variables", Space, SString ":",
-    Placeholder WithVariables, Space, OptionalComboWords, SString ";", Space,
-    SString "représenté", Space, SString "par", Space, SString "le",
-    Space, SString "code", Space, SString "suivant"]
+functionDefinitionNameSyntax :: [Syntax]
+functionDefinitionNameSyntax = [SString "J'aimerais", Space,
+    SString "définir", Space, SString "le", Space, SString "bloc", Space,
+    SString "répondant", Space, SString "au", Space, SString "nom", Space,
+    SString "de", Space, Word, SString ",", Space]
 
-functionDefinitionSyntax' :: [Syntax]
-functionDefinitionSyntax' = [SString "J'aimerais", Space, SString "définir",
-    Space, SString "le", Space, SString "bloc", Space, SString "répondant",
-    Space, SString "au", Space, SString "nom", Space, SString "de", Space,
-    Word, SString ",", Space, SString "de", Space, SString "type", Space,
-    SString "de", Space, SString "retour", Space, Placeholder ReturnType, Word,
-    SString ",", Space, SString "nécessitant", Space, SString "comme", Space,
-    SString "entrée", Space, SString ":", Placeholder WithParameters, Space,
-    OptionalComboWords, SString ";", Space, SString "contenant", Space,
-    SString "les", Space, SString "variables", Space, SString ":",
-    Placeholder WithVariables, Space, OptionalComboWords, SString ";", Space,
-    SString "représenté", Space, SString "par", Space, SString "le",
-    Space, SString "code", Space, SString "suivant", Placeholder Returns,
-    Space, SString "retournant", Space, Word]
+functionDefinitionReturnTypeSyntax :: [Syntax]
+functionDefinitionReturnTypeSyntax = [SString "de", Space, SString "type",
+    Space, SString "de", Space, SString "retour", Space, WordType, SString ",",
+    Space]
+
+functionDefinitionParametersSyntax :: [Syntax]
+functionDefinitionParametersSyntax = [SString "nécessitant", Space,
+    SString "comme", Space, SString "entrée", Space, SString ":", Space,
+    OptionalComboWords, SString ";", Space]
+
+functionDefinitionWithVariablesSyntax :: [Syntax]
+functionDefinitionWithVariablesSyntax = [SString "contenant", Space,
+    SString "les", Space, SString "variables", Space, SString ":", Space,
+    OptionalComboWords, SString ";", Space]
+
+functionDefinitionEndSyntax :: [Syntax]
+functionDefinitionEndSyntax = [SString "représenté", Space, SString "par",
+    Space, SString "le", Space, SString "code", Space,
+    MultipleSString ["ci-après", "suivant", "ci-dessous"]]
+
+functionDefinitionReturnsVariableSyntax :: [Syntax]
+functionDefinitionReturnsVariableSyntax = [Space, SString "retournant", Space,
+    Word]

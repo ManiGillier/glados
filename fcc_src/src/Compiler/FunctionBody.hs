@@ -11,12 +11,14 @@ import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
                      , (<@)
                      , (@>)
-                     , apply, takeLabel, varExist, getVariable)
+                     , apply, takeLabel, varExist, getVariable, revCompiler)
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))
 import Compiler.Config (funcLabelPrefix)
 import Compiler.Condition (compileCondition)
+import Error.MaybeError (MaybeError(Error))
+import Error.ErrorList (ukVarErr)
 
 compileFuncBodyContent :: Compiler FunctionBodyContent
 compileFuncBodyContent s (Return comp) = compiler s comp
@@ -27,7 +29,7 @@ compileFuncBodyContent s (Invoke name args) = suffixCompiler
         [ PushLabel $ funcLabelPrefix ++ name
         , Call
         ] comps s args
-  where comps = mapCompiler compileComputable
+  where comps = revCompiler $ mapCompiler compileComputable
 compileFuncBodyContent s (If cond body (Just elseBody)) =
   flip apply s''
   $ (compileCondition, cond) @> [PushLabel label,Zjmp]
@@ -49,7 +51,7 @@ compileFuncBodyContent s (Loop cond body) =
 compileFuncBodyContent s (Assign name comp)
   | varExist s name = (getVariable s name) >>= \varAddr -> flip apply s $
     (compileComputable, comp) @> [PopToStackPtrRel varAddr]
-  | otherwise = Nothing
+  | otherwise = Error ukVarErr name
 
 compileFuncBody :: Compiler FunctionBody
 compileFuncBody = mapCompiler compileFuncBodyContent

@@ -31,13 +31,18 @@ computeParams _ [] = []
 computeParams addr (x:xs) = insertVariable'
   (computeParams (addr - 8) xs) $ computeParam addr x
 
+prioritizeJust :: Maybe a -> Maybe a -> Maybe a
+prioritizeJust (Just a) _ = Just a
+prioritizeJust _ (Just a) = Just a
+prioritizeJust _ _ = Nothing
+
 checkDuplicatesParams :: [FuncParam] -> Maybe VariableName
 checkDuplicatesParams [] = Nothing
 checkDuplicatesParams [_] = Nothing
 checkDuplicatesParams (x0'@(FuncParam x0 _):x1'@(FuncParam x1 _):xs)
   | x0 == x1 = Just x0
   | otherwise = checkDuplicatesParams (x0':xs)
-                <* checkDuplicatesParams (x1':xs)
+                `prioritizeJust` checkDuplicatesParams (x1':xs)
 
 removeVar :: (Context, [Instruction])
   -> (Context, [Instruction])

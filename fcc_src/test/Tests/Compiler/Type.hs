@@ -105,4 +105,10 @@ compilerTest = TestList
     == (Context [("x", (0, 8))] 1 ["test"])
     ~?= True
   , "getFuncName" ~: functionNames baseContext ~?= []
+  , "compileMaybe" ~:
+    [ "Nothing" ~: compileMaybe testCompiler baseContext Nothing
+      ~?= Correct (baseContext,[])
+    , "Just [Jmp]" ~: compileMaybe testCompiler baseContext (Just [Jmp])
+      ~?= Correct (baseContext,[Jmp])
+    ]
   ]

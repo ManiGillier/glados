@@ -7,7 +7,7 @@
 
 module Compiler.Ast ( compile ) where
 import Compiler.Type (Compiler, apply, mapCompiler, baseContext
-                     , (.+))
+                     , (.+), compileMaybe)
 import DataStruct.Ast.Ast (Ast (..))
 import Compiler.FunctionDef (compileMainDef, compileFuncDef)
 import DataStruct.Asm (Instruction)
@@ -18,5 +18,5 @@ compile ast = snd <$> compileAst baseContext ast
 
 compileAst :: Compiler Ast
 compileAst s (Ast main funcs) = flip apply s $
-  (compileMainDef, main)
+  (compileMaybe compileMainDef, main)
   .+ (mapCompiler compileFuncDef, funcs)

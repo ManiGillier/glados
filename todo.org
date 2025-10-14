@@ -25,6 +25,8 @@ CLOCK: [2025-10-12 Sun 15:36]--[2025-10-12 Sun 15:37] =>  0:01
 CLOCK: [2025-10-12 Sun 15:38]--[2025-10-12 Sun 16:31] =>  0:53
 :END:
 **** DONE Define error messages
-** TODO [#C] Test Compiler
+** DONE [#C] Test Compiler
 SCHEDULED: <2025-10-14 Tue>
+** TODO Linker
+*** DONE Preparation
 * IDEAS

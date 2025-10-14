@@ -16,6 +16,7 @@ module DataStruct.Ast.Ast (Ast (..)
                           , FunctionBodyContent (..)
                           , FunctionDef (..)
                           , MainFunctionDef (..)
+                          , CombinedAst (..)
                           , a) where
 
 import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
@@ -65,4 +66,6 @@ data FunctionDef = Function FunctionName Var.ReturnType
 
 data MainFunctionDef = Main [Var.VariableDef] FunctionBody
 
-data Ast = Ast MainFunctionDef [FunctionDef]
+data Ast = Ast (Maybe MainFunctionDef) [FunctionDef]
+
+data CombinedAst = CAst MainFunctionDef [FunctionDef]

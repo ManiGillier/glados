@@ -19,8 +19,7 @@ import DataStruct.Ast.Type as T
 astTest :: Test
 astTest = TestList
   [ "simple test" ~:
-    compile (Ast (
-                Main [Var.VariableDef "x" T.Int $ Var.Int 42] [])
+    compile (Ast (Just $ Main [Var.VariableDef "x" T.Int $ Var.Int 42] [])
               [Function "foo" Var.Void [] [] []])
     ~?= Correct [ Asm.Label "func_main"
                 , Asm.Label ".start"

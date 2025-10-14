@@ -39,13 +39,17 @@ checkDuplicatesParams (x0'@(FuncParam x0 _):x1'@(FuncParam x1 _):xs)
   | otherwise = checkDuplicatesParams (x0':xs)
                 <* checkDuplicatesParams (x1':xs)
 
+removeVar :: (Context, [Instruction])
+  -> (Context, [Instruction])
+removeVar (c, i) = (c { var = [] }, i)
+
 compileFuncDef :: Compiler FunctionDef
 compileFuncDef s (Function name _ ps vs body)
   | elem name $ functionNames s = Error alreadyDefFuncErr name
   | isJust duplParam = Error alreadyDefVarErr $ fromJust duplParam
-  | otherwise = flip apply s' $
+  | otherwise = removeVar <$> (flip apply s' $
     [Label $ funcLabelPrefix ++ name] <@ (mapCompiler compileVarDef, vs)
-    .+ (compileFuncBody, body) @> [Ret]
+    .+ (compileFuncBody, body) @> [Ret])
     where duplParam = checkDuplicatesParams ps
           s' = s { functionNames = name : functionNames s
                  , var = computeParams 0 ps }

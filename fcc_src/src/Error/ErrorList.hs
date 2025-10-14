@@ -10,6 +10,7 @@ module Error.ErrorList
   , supportErr
   , alreadyDefVarErr
   , alreadyDefFuncErr
+  , noMainErr
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -25,3 +26,6 @@ alreadyDefVarErr = "Redefinition of variable"
 
 alreadyDefFuncErr :: ErrorType
 alreadyDefFuncErr = "Redefinition of function"
+
+noMainErr :: ErrorType
+noMainErr = "Undefined reference of main"

@@ -69,13 +69,18 @@ instructionToByteCode _ (Le ) = [21] ++ instructionEnd
 instructionToByteCode _ (Eq) = [22] ++ instructionEnd
 instructionToByteCode _ (Diff) = [23] ++ instructionEnd
 instructionToByteCode _ (Is) = [24] ++ instructionEnd
-instructionToByteCode _ (PushValue addr) = [89] ++ intTo8Bytes addr
-instructionToByteCode _ (PushGlobAddr addr) = [90] ++ intTo8Bytes addr
-instructionToByteCode _ (PushRelAddr addr) = [91] ++ intTo8Bytes addr
+instructionToByteCode _ (PushValue addr) 
+    = [89] ++ intTo8Bytes addr ++ instructionEnd
+instructionToByteCode _ (PushGlobAddr addr) 
+    = [90] ++ intTo8Bytes addr ++ instructionEnd
+instructionToByteCode _ (PushRelAddr addr) 
+    = [91] ++ intTo8Bytes addr ++ instructionEnd
 instructionToByteCode labAddrs (PushLabel labName) =
-    [91] ++ intTo8Bytes (getAddressLabel labName labAddrs)
-instructionToByteCode _ (PushFromStackPtrRel addr) = [29] ++ intTo8Bytes addr
-instructionToByteCode _ (PopToStackPtrRel addr) = [30] ++ intTo8Bytes addr
+    [91] ++ intTo8Bytes (getAddressLabel labName labAddrs) ++ instructionEnd
+instructionToByteCode _ (PushFromStackPtrRel addr) 
+    = [29] ++ intTo8Bytes addr ++ instructionEnd
+instructionToByteCode _ (PopToStackPtrRel addr) 
+    = [30] ++ intTo8Bytes addr ++ instructionEnd
 instructionToByteCode _ (PopEmpty) = [31] ++ instructionEnd
 instructionToByteCode _ (WriteToStackPtrRel addr val) =
     [96] ++ intTo8Bytes addr ++ intTo8Bytes val
@@ -102,26 +107,14 @@ asmToBytecode labelAddr xs =
 
 test :: [Instruction]
 test = [
-    Label ".data"
-  , Label ".str_HelloWorld"
-  , DataString "Hello, World!"
-  , Label ".str_HelloWorld_end"
-  , Label ".start"
-  , PushLabel ".str_HelloWorld_end"
-  , PushLabel ".str_HelloWorld"
-  , Sub -- Len of string #0 +1 ~1
-  , Label ".loop"
-  , Dupl -- #1 +1 ~2
-  , PushLabel ".end" -- #2 +1 ~3
-  , Zjmp -- -2 ~1
-  , Dupl -- #1 + 1 -- len ~2
-  , Negate -- +0 -- -len ~2
-  , PushLabel ".str_HelloWorld_end" -- #2 +1 ~3
-  , Add -- -1 -- .str_HelloWorld_end - len #1 ~2
-  , Aff -- Show "Hello, World!"[actual_len - len] -1 ~1
-  , PushValue 1 -- #1 +1 ~2
-  , Sub -- #0 -1 (new len = len - 1) ~1
-  , PushLabel ".loop"
-  , Jmp
-  , Label ".end"
-  ]
+      Label "func_main"
+    , Label ".start"
+    , PushValue 10 -- x = 0
+    , PushValue 0 -- b = 0
+    , PushValue 0 -- c = 0
+    , PushValue 42, PopToStackPtrRel 0 -- x = 42
+    , PushFromStackPtrRel 0, PopToStackPtrRel 8 -- b = x
+    , PushFromStackPtrRel 8, PushFromStackPtrRel 0, Add, PopToStackPtrRel 16 -- c = b + x
+    , PushFromStackPtrRel 16, Aff -- print c ('T')
+    , Ret
+    ]

@@ -11,18 +11,18 @@ import Error.MaybeError
 import Error.ErrorList
 import Data.Word (Word8)
 import Data.Int (Int64)
+import Data.Char
 import Debug.Trace
 
 testByteCode :: [Word8]
 testByteCode = 
     [69,12,69,12,39,0,0,0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,1,0,
-    2,72,101,108,108,111,44,32,87,111,114,108,100,33,0,39,0,0,0,0,0,0,0,15,0,
-    39,0,0,0,0,0,0,0,16,0,91,0,0,0,0,0,0,0,15,91,0,0,0,0,0,0,0,1,14,0,
-    39,0,0,0,0,0,0,0,17,0,33,0,91,0,0,0,0,0,0,0,18,37,0,33,0,5,0,
-    91,0,0,0,0,0,0,0,15,13,0,38,0,89,0,0,0,0,0,0,0,1,14,0,91,0,0,0,0,0,0,0,17,36,0,
-    39,0,0,0,0,0,0,0,18,0]
+    89,0,0,0,0,0,0,0,10,0,89,0,0,0,0,0,0,0,0,0,89,0,0,0,0,0,0,0,0,0,
+    89,0,0,0,0,0,0,0,42,0,30,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,
+    30,0,0,0,0,0,0,0,8,0,29,0,0,0,0,0,0,0,8,0,29,0,0,0,0,0,0,0,0,0,
+    13,0,30,0,0,0,0,0,0,0,16,0,29,0,0,0,0,0,0,0,16,0,38,0,35,0]
 
-type Stack = [Int64]
+type Stack = [Word8]
 type SP = Int
 type PC = Int
 type LabelIndex = [(Int64, Int64)]
@@ -37,11 +37,16 @@ execFccByteCode :: ByteCode -> MaybeError String
 execFccByteCode byteCode
     | checkMagicNumber byteCode = 
         let cleanByteCode = drop 4 byteCode
-        in execByteCode [] (indexLabel cleanByteCode) cleanByteCode
+        in execByteCode cleanByteCode 0 [] 0 (indexLabel cleanByteCode)
     | otherwise =  Error fileFormatError $ "magic number not found"
 
 bytesToInt64 :: ByteCode -> Int64
 bytesToInt64 = fromIntegral . sum
+
+-- Convert 64-bits Integer to 8 bytes
+int64To8Bytes :: Int64 -> [Word8]
+int64To8Bytes n = 
+    [ fromIntegral ((n `div` (256 ^ i)) `mod` 256) | i <- [7, 6..0 :: Int] ]
 
 indexDataString :: ByteCode -> Int64 -> Int64 -> LabelIndex
 indexDataString [] _ _ = []
@@ -69,11 +74,13 @@ indexLabel = index 0 0
     index i v (_:xs) = index (i + 1) v xs
 
 pushAddrStack :: Stack -> ByteCode -> Stack
-pushAddrStack st val = st ++ [bytesToInt64 $ take 8 val]
+pushAddrStack st val = st ++ take 8 val
 
 binOp :: (Int64 -> Int64 -> Int64) -> Stack -> MaybeError Stack
-binOp f (x:y:xs) = Correct ((f y x):xs)
-binOp _ _ = Error stackError $ "underflow"
+binOp _ [_] = Error stackError $ "underflow"
+binOp _ [] = Error stackError $ "underflow"
+binOp f xs = Correct $ int64To8Bytes
+    (f (bytesToInt64(take 8 xs)) (bytesToInt64(take 8 $ drop 8 xs)))
 
 dupl :: Stack -> MaybeError Stack
 dupl [] = Error stackError $ "empty stack"
@@ -84,38 +91,52 @@ negateS [] = Error stackError $ "empty stack"
 negateS (x:xs) = Correct ((-x):xs)
 
 write :: Stack -> Stack
-write [] = []
-write (x:xs) = traceShow ("x", x) show x >> xs
+write xs = traceShow ("x", xs) xs
 
--- zjmp :: Stack -> MaybeError Stack
--- execByteCode :: ByteCode -> PC -> Stack -> LabelIndex -> MaybeError String
+popStack :: Stack -> Stack
+popStack xs = (drop 8 xs)
 
-execByteCode :: Stack -> LabelIndex -> ByteCode -> MaybeError String
-execByteCode _ _ [] = Correct ""
-execByteCode stack labVal (0:91:bc) = 
-    execByteCode (pushAddrStack stack $ take 8 bc) labVal $ drop 8 bc
-execByteCode stack labVal (0:13:0:bc) =
-    let res = binOp (+) stack
-    in case res of
-         Correct newStack -> execByteCode newStack labVal bc
-         Error err msg -> Error err msg
-execByteCode stack labVal (0:14:0:bc) =
-    let res = binOp (-) stack
-    in case res of
-         Correct newStack -> execByteCode newStack labVal bc
-         Error err msg -> Error err msg
-execByteCode stack labVal (0:33:0:bc) =
-    let st = dupl stack
-    in case st of
-        Correct newStack -> execByteCode newStack labVal bc
-        Error err msg -> Error err msg
-execByteCode stack labVal (0:5:0:bc) =
-    let st = negateS stack
-    in case st of
-        Correct newStack -> execByteCode newStack labVal bc
-        Error err msg -> Error err msg
-execByteCode stack labVal (0:38:0:bc) =
-    execByteCode (write stack)  labVal bc
-execByteCode stack labVal (_:byteCode) =
-    traceShow ("stack", stack)
-    execByteCode stack labVal byteCode
+popToStackPtrRel :: Stack -> SP -> Int -> Stack
+popToStackPtrRel st sp addr = 
+    let size = length st
+    in (take (addr + sp)  st) ++ (drop (size - 8) st) ++ 
+        (drop (addr + 8 + sp) (take (size - 8) st))
+
+pushFromStackPtrRel :: Stack -> SP -> Int -> Stack
+pushFromStackPtrRel st sp addr = 
+    let val = take 8 $ drop (addr + sp) st
+    in st ++ val
+
+isInstruction :: ByteCode -> Int -> Bool
+isInstruction bc pc
+    | bc !! (pc - 1) == 0 = True
+    | otherwise = False
+
+execByteCode :: ByteCode -> PC -> Stack -> SP -> LabelIndex -> MaybeError String
+execByteCode bc pc st sp lab
+    | pc >= length bc = Correct $ ""
+    -- PushValue
+    | bc !! pc == 89 && isInstruction bc pc =
+        execByteCode bc (pc + 8) (pushAddrStack st $ drop (pc + 1) bc) sp lab
+    -- PopToStackPtrRel
+    | bc !! pc == 30 && isInstruction bc pc =
+        execByteCode bc (pc + 8) (popToStackPtrRel st sp 
+        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp lab
+    -- PushFromStackPtrRel
+    | bc !! pc == 29 && isInstruction bc pc =
+        execByteCode bc (pc + 8) (pushFromStackPtrRel st sp 
+        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp lab
+    -- Add
+    | bc !! pc == 13 && isInstruction bc pc = 
+        let res = binOp (+) st
+        in case res of
+             Correct nst -> execByteCode bc (pc + 8) nst sp lab
+             Error err msg -> Error err msg
+    -- Aff
+    | bc !! pc == 38 && isInstruction bc pc = 
+        let val = chr $ fromIntegral $ bytesToInt64 (take 8 st)
+        in case execByteCode bc (pc + 1) (popStack st) sp lab of
+            Correct rest -> Correct (val : rest)
+            Error err msg -> Error err msg
+    | otherwise =
+        execByteCode bc (pc + 1) st sp lab

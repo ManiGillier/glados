@@ -11,7 +11,4 @@ import qualified Data.ByteString as B
 import Data.Word
 
 fileToByteCode :: String -> IO [Word8]
-fileToByteCode s = do
-    file <- B.readFile s
-    let new_file = B.unpack file
-    return (new_file)
+fileToByteCode s = B.unpack <$> B.readFile s

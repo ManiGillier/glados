@@ -5,127 +5,60 @@
 -- Creation of a readable binary file
 -}
 
-module Binary.ReadableBinary (stackToAsm) where
+module Binary.ReadableBinary (readableAsm, readableAsmToString) where
 
 import DataStruct.Asm
-import Data.List (intercalate)
 import Data.Int (Int64)
 
-dataSection :: [Instruction] -> ([String], [String])
-dataSection [] = ([], [])
-dataSection (Label start : DataString s : Label end : rest) =
-  let (labs, lines) = dataSection rest
-  in (start : end : labs, (start ++ ":") : ("    db " ++ show s) : (end ++ ":") : lines)
-dataSection (Label l : DataString s : rest) =
-  let (labs, lines) = dataSection rest
-  in (l : labs, (l ++ ":") : ("    db " ++ show s) : lines)
-dataSection (Label start : DataInt n : Label end : rest) =
-  let (labs, lines) = dataSection rest
-  in (start : end : labs, (start ++ ":") : ("    dq " ++ show n) : (end ++ ":") : lines)
-dataSection (Label l : DataInt n : rest) =
-  let (labs, lines) = dataSection rest
-  in (l : labs, (l ++ ":") : ("    dq " ++ show n) : lines)
-dataSection (_ : rest) = dataSection rest
-
 translateInstr :: Instruction -> [String]
-translateInstr instr = case instr of
-    Label l       -> [l ++ ":"]
-    DataInt _     -> []
-    DataString _  -> []
-    BinNot        -> ["   binnot"]
-    BoolNot       -> ["   boolnot"]
-    Negate        -> ["   negate"]
-    BinAnd        -> ["   binand"]
-    BinOr         -> ["   binor"]
-    BoolAnd       -> ["   booland"]
-    BoolOr        -> ["   boolor"]
-    Xor           -> ["   xor"]
-    BitShiftLeft  -> ["   bitshiftleft"]
-    BitShiftRight -> ["   bitshiftright"]
-    Add           -> ["   add"]
-    Sub           -> ["   sub"]
-    Mult          -> ["   mult"]
-    Div           -> ["   div"]
-    Mod           -> ["   mod"]
-    Gt            -> ["   gt"]
-    Ge            -> ["   ge"]
-    Lt            -> ["   lt"]
-    Le            -> ["   le"]
-    Eq            -> ["   eq"]
-    Diff          -> ["   diff"]
-    Is            -> ["   is"]
-    UpdateZFlag   -> ["   updatezflag"]
-    PushValue v   -> ["   pushvalue " ++ show v]
-    PushGlobAddr v -> ["   pushglobaddr " ++ show v]
-    PushRelAddr v  -> ["   pushreladdr " ++ show v]
-    PushLabel l   -> ["   pushlabel " ++ l]
-    PushFromStackPtrRel a -> ["   pushfromstackptrrel " ++ show a]
-    PopToStackPtrRel a -> ["   poptostackptrrel " ++ show a]
-    PopEmpty      -> ["   popempty"]
-    WriteToStackPtrRel a v -> ["   writetostackptrrel " ++ show a ++ " " ++ show v]
-    Dupl          -> ["   dupl"]
-    Call          -> ["   call"]
-    Ret           -> ["   ret"]
-    Jmp           -> ["   jmp"]
-    Zjmp          -> ["   zjmp"]
-    Aff           -> ["   aff"]
+translateInstr (Label l)     = [l ++ ":"]
+translateInstr (DataInt i)   = ["\tdb " ++ show i]
+translateInstr (DataString s)= ["\tdb " ++ show s]
+translateInstr BinNot        = ["\tbinnot"]
+translateInstr BoolNot       = ["\tboolnot"]
+translateInstr Negate        = ["\tnegate"]
+translateInstr BinAnd        = ["\tbinand"]
+translateInstr BinOr         = ["\tbinor"]
+translateInstr BoolAnd       = ["\tbooland"]
+translateInstr BoolOr        = ["\tboolor"]
+translateInstr Xor           = ["\txor"]
+translateInstr BitShiftLeft  = ["\tbitshiftleft"]
+translateInstr BitShiftRight = ["\tbitshiftright"]
+translateInstr Add          = ["\tadd"]
+translateInstr Sub          = ["\tsub"]
+translateInstr Mult         = ["\tmult"]
+translateInstr Div          = ["\tdiv"]
+translateInstr Mod          = ["\tmod"]
+translateInstr Gt           = ["\tgt"]
+translateInstr Ge           = ["\tge"]
+translateInstr Lt           = ["\tlt"]
+translateInstr Le           = ["\tle"]
+translateInstr Eq           = ["\teq"]
+translateInstr Diff         = ["\tdiff"]
+translateInstr Is           = ["\tis"]
+translateInstr UpdateZFlag  = ["\tupdatezflag"]
+translateInstr (PushValue v)            = ["\tpushvalue " ++ show v]
+translateInstr (PushGlobAddr v)         = ["\tpushglobaddr " ++ show v]
+translateInstr (PushRelAddr v)          = ["\tpushreladdr " ++ show v]
+translateInstr (PushLabel l)            = ["\tpushlabel " ++ l]
+translateInstr (PushFromStackPtrRel a)  = ["\tpushfromstackptrrel " ++ show a]
+translateInstr (PopToStackPtrRel a)     = ["\tpoptostackptrrel " ++ show a]
+translateInstr PopEmpty               = ["\tpopempty"]
+translateInstr (WriteToStackPtrRel a v) =
+  ["\twritetostackptrrel " ++ show a ++ " " ++ show v]
+translateInstr Dupl                   = ["\tdupl"]
+translateInstr Call                   = ["\tcall"]
+translateInstr Ret                    = ["\tret"]
+translateInstr Jmp                    = ["\tjmp"]
+translateInstr Zjmp                   = ["\tzjmp"]
+translateInstr Aff                    = ["\taff"]
 
-reservedLabels :: [String]
-reservedLabels = [".data", ".start"]
+listOfStringToString :: [String] -> String
+listOfStringToString [] = ""
+listOfStringToString (x:xs) = x ++ "\n" ++ listOfStringToString xs
 
-isPushLabel :: Instruction -> Bool
-isPushLabel (PushLabel _) = True
-isPushLabel _ = False
+readableAsm :: [Instruction] -> [String]
+readableAsm xs = concatMap translateInstr xs
 
-translate :: [String] -> [Instruction] -> [String]
-translate _ [] = []
-translate dataLabels (Label l : xs)
-  | l `elem` dataLabels = translate dataLabels xs
-  | l `elem` reservedLabels = translate dataLabels xs
-  | otherwise = (l ++ ":") : translate dataLabels xs
-translate dataLabels (DataString _ : xs) = translate dataLabels xs
-translate dataLabels (instr : xs) =
-  if isPushLabel instr
-    then translate dataLabels xs
-    else translateInstr instr ++ translate dataLabels xs
-
-stackToAsm :: [Instruction] -> String
-stackToAsm instrs =
-  intercalate "\n"
-    ( ["SECTION .data"]
-      ++ dataLines
-      ++ ["", "SECTION .text", "global _start", "_start:"]
-      ++ codeLines
-    )
-  where
-    (dataLabels, dataLines) = dataSection instrs
-    codeLines = translate dataLabels instrs
-
--- test :: [Instruction]
--- test =
---     [ Label ".data"
---     , Label ".str_HelloWorld"
---     , DataString "Hello, World!"
---     , Label ".str_HelloWorld_end"
---     , Label ".start"
---     , PushLabel ".str_HelloWorld_end"
---     , PushLabel ".str_HelloWorld"
---     , Sub
---     , Label ".loop"
---     , Dupl
---     , PushLabel ".end"
---     , Zjmp
---     , Dupl
---     , Negate
---     , PushLabel ".str_HelloWorld_end"
---     , Add
---     , Aff
---     , PushValue 1
---     , Sub
---     , PushLabel ".loop"
---     , Jmp
---     , Label ".end"
---     ]
-
--- main :: IO ()
--- main = putStrLn (stackToAsm test)
+readableAsmToString :: [Instruction] -> String
+readableAsmToString xs = listOfStringToString (concatMap translateInstr xs)

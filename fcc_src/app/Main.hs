@@ -7,5 +7,7 @@
 
 module Main (main) where
 
+import ArgParser (debugArgs, getMyArgs)
+
 main :: IO ()
-main = putStrLn "42!"
+main = getMyArgs >>= debugArgs

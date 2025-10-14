@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - megaparsec >= 9.4.0
 - HUnit
+- optparse-applicative
 
 ghc-options:
 - -Wall

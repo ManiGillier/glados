@@ -5,6 +5,7 @@ import Tests.Compiler.Variable (variableTest)
 import Tests.Compiler.Operation (operationTest)
 import Tests.Compiler.FunctionBody (functionBodyTest)
 import Tests.Compiler.FunctionDef (functionDefTest)
+import Tests.Compiler.Ast (astTest)
 
 tests :: Test
 tests = TestList [ "Compiler" ~: compilerTest
@@ -12,6 +13,7 @@ tests = TestList [ "Compiler" ~: compilerTest
                  , "Operations" ~: operationTest
                  , "FunctionBody" ~: functionBodyTest
                  , "FunctionDef" ~: functionDefTest
+                 , "Ast" ~: astTest
                  ]
 
 main :: IO Counts

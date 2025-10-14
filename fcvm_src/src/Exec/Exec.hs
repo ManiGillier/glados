@@ -9,18 +9,29 @@ module Exec.Exec (execFccByteCode) where
 
 import Error.MaybeError
 import Error.ErrorList
-import Data.Word (Word8)
+import Data.Word (Word8, Word64)
 import Data.Int (Int64)
 import Data.Char
+import Data.Bits (shiftL, (.|.), shiftR, (.&.))
 import Debug.Trace
 
-testByteCode :: [Word8]
-testByteCode = 
+displayT :: [Word8]
+displayT = 
     [69,12,69,12,39,0,0,0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,1,0,
     89,0,0,0,0,0,0,0,10,0,89,0,0,0,0,0,0,0,0,0,89,0,0,0,0,0,0,0,0,0,
     89,0,0,0,0,0,0,0,42,0,30,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,
     30,0,0,0,0,0,0,0,8,0,29,0,0,0,0,0,0,0,8,0,29,0,0,0,0,0,0,0,0,0,
     13,0,30,0,0,0,0,0,0,0,16,0,29,0,0,0,0,0,0,0,16,0,38,0,35,0]
+
+callFoo :: [Word8]
+callFoo = 
+    [69,12,69,12,39,0,0,0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,1,0,
+    89,0,0,0,0,0,0,0,42,0,89,0,0,0,0,0,0,0,30,0,
+    30,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,91,0,0,0,0,0,0,0,2,0,
+    34,0,35,0,39,0,0,0,0,0,0,0,2,0,89,0,0,0,0,0,0,0,12,0,
+    89,0,0,0,0,0,0,0,0,0,29,255,255,255,255,255,255,255,248,0,
+    29,0,0,0,0,0,0,0,0,0,13,0,30,0,0,0,0,0,0,0,8,0,29,0,0,0,0,0,0,0,8,0,
+    38,0,89,0,0,0,0,0,0,0,0,0,30,255,255,255,255,255,255,255,248,0,35,0]
 
 type Stack = [Word8]
 type SP = Int
@@ -40,8 +51,10 @@ execFccByteCode byteCode
         in execByteCode cleanByteCode 0 [] 0 (indexLabel cleanByteCode)
     | otherwise =  Error fileFormatError $ "magic number not found"
 
-bytesToInt64 :: ByteCode -> Int64
-bytesToInt64 = fromIntegral . sum
+bytesToInt64 :: [Word8] -> Int64
+bytesToInt64 bytes =
+    let w = foldl (\acc b -> (acc `shiftL` 8) .|. fromIntegral b) 0 bytes
+    in fromIntegral (w :: Word64)
 
 -- Convert 64-bits Integer to 8 bytes
 int64To8Bytes :: Int64 -> [Word8]
@@ -68,9 +81,8 @@ indexLabel = index 0 0
         let val = bytesToInt64 (take 8 xs)
         in (i, val) : index (i + 8 + 1) (val + 1) (drop 8 xs)
     index i v (2:xs) = 
-        let len = dataStringLen xs
-        in indexDataString xs (i + 1) v ++ 
-        index (i + fromIntegral len + 1) v (drop (len) xs)
+        indexDataString xs (i + 1) v ++ index (i + fromIntegral 
+        (dataStringLen xs) + 1) v (drop ((dataStringLen xs)) xs)
     index i v (_:xs) = index (i + 1) v xs
 
 pushAddrStack :: Stack -> ByteCode -> Stack
@@ -89,9 +101,6 @@ dupl (x:xs) = Correct (x:x:xs)
 negateS :: Stack -> MaybeError Stack
 negateS [] = Error stackError $ "empty stack"
 negateS (x:xs) = Correct ((-x):xs)
-
-write :: Stack -> Stack
-write xs = traceShow ("x", xs) xs
 
 popStack :: Stack -> Stack
 popStack xs = (drop 8 xs)
@@ -112,11 +121,20 @@ isInstruction bc pc
     | bc !! (pc - 1) == 0 = True
     | otherwise = False
 
+getPc :: Stack -> LabelIndex -> PC
+getPc st labV = fromIntegral $ index (bytesToInt64 (take 8 st)) labV
+    where
+        index _ [] = 0
+        index x ((y,z):xs)
+            | x == z = y
+            | otherwise = index x xs
+
 execByteCode :: ByteCode -> PC -> Stack -> SP -> LabelIndex -> MaybeError String
 execByteCode bc pc st sp lab
+    -- End execution
     | pc >= length bc = Correct $ ""
-    -- PushValue
-    | bc !! pc == 89 && isInstruction bc pc =
+    -- PushValue & PushLabel & PushRelAddr
+    | bc !! pc == 89 || bc !! pc == 91 && isInstruction bc pc =
         execByteCode bc (pc + 8) (pushAddrStack st $ drop (pc + 1) bc) sp lab
     -- PopToStackPtrRel
     | bc !! pc == 30 && isInstruction bc pc =
@@ -132,6 +150,9 @@ execByteCode bc pc st sp lab
         in case res of
              Correct nst -> execByteCode bc (pc + 8) nst sp lab
              Error err msg -> Error err msg
+    -- Call 
+    | bc !! pc == 34 && isInstruction bc pc = 
+         execByteCode bc (getPc st lab) (popStack st) ((length st) - 8) lab
     -- Aff
     | bc !! pc == 38 && isInstruction bc pc = 
         let val = chr $ fromIntegral $ bytesToInt64 (take 8 st)
@@ -139,4 +160,5 @@ execByteCode bc pc st sp lab
             Correct rest -> Correct (val : rest)
             Error err msg -> Error err msg
     | otherwise =
+        traceShow ("st=", st)
         execByteCode bc (pc + 1) st sp lab

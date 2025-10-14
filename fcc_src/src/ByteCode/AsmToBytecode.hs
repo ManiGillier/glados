@@ -10,9 +10,9 @@ module ByteCode.AsmToBytecode (displayInstruction
                                , setAddressToLabel
                                ) where
 import DataStruct.Asm
-import Data.Word (Word8)
-import Data.Char (ord)
 import Data.Int (Int64)
+import Data.Word (Word8)
+import Data.Char
 
 displayInstruction :: Instruction -> String
 displayInstruction = show
@@ -105,16 +105,40 @@ asmToBytecode labelAddr xs =
     magicNumber ++ 
     concatMap (instructionToByteCode labelAddr) xs
 
+-- test :: [Instruction]
+-- test = [
+--       Label "func_main"
+--     , Label ".start"
+--     , PushValue 10 -- x = 0
+--     , PushValue 0 -- b = 0
+--     , PushValue 0 -- c = 0
+--     , PushValue 42, PopToStackPtrRel 0 -- x = 42
+--     , PushFromStackPtrRel 0, PopToStackPtrRel 8 -- b = x
+--     , PushFromStackPtrRel 8, PushFromStackPtrRel 0, Add, PopToStackPtrRel 16 -- c = b + x
+--     , PushFromStackPtrRel 16, Aff -- print c ('T')
+--     , Ret
+--     ]
+
 test :: [Instruction]
 test = [
-      Label "func_main"
-    , Label ".start"
-    , PushValue 10 -- x = 0
-    , PushValue 0 -- b = 0
-    , PushValue 0 -- c = 0
-    , PushValue 42, PopToStackPtrRel 0 -- x = 42
-    , PushFromStackPtrRel 0, PopToStackPtrRel 8 -- b = x
-    , PushFromStackPtrRel 8, PushFromStackPtrRel 0, Add, PopToStackPtrRel 16 -- c = b + x
-    , PushFromStackPtrRel 16, Aff -- print c ('T')
-    , Ret
-    ]
+    Label "func_main"
+    ,Label ".start"
+    ,PushValue 42
+    ,PushValue 30
+    ,PopToStackPtrRel 0
+    ,PushFromStackPtrRel 0
+    ,PushLabel "func_foo"
+    ,Call
+    ,Ret
+    ,Label "func_foo"
+    ,PushValue 12
+    ,PushValue 0
+    ,PushFromStackPtrRel (-8)
+    ,PushFromStackPtrRel 0
+    ,Add
+    ,PopToStackPtrRel 8
+    ,PushFromStackPtrRel 8
+    ,Aff
+    ,PushValue 0
+    ,PopToStackPtrRel (-8)
+    ,Ret]

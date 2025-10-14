@@ -39,7 +39,7 @@ translateInstr UpdateZFlag  = ["    updatezflag"]
 translateInstr (PushValue v)            = ["    pushvalue " ++ show v]
 translateInstr (PushGlobAddr v)         = ["    pushglobaddr " ++ show v]
 translateInstr (PushRelAddr v)          = ["    pushreladdr " ++ show v]
-translateInstr (PushLabel l)            = ["    pushlabel " ++ l]
+translateInstr (PushLabel l)            = ["    pushreladdr %" ++ l]
 translateInstr (PushFromStackPtrRel a)  =
   ["    pushfromstackptrrel " ++ show a]
 translateInstr (PopToStackPtrRel a)     = ["    poptostackptrrel " ++ show a]

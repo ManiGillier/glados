@@ -22,6 +22,7 @@ module Compiler.Type (Context (..)
                      , takeLabel
                      , apply
                      , revCompiler
+                     , compileMaybe
                      ) where
 import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable', varExist')
@@ -84,6 +85,11 @@ mapCompiler ca = (
 
 combine :: Compiler a -> Compiler b -> Compiler (a,b)
 combine ca cb = \s (a,b) -> ca s a >>= (\(s',i) -> prefixCompiler i cb s' b)
+
+compileMaybe :: Compiler a -> Compiler (Maybe a)
+compileMaybe ca = \s ma -> case ma of
+  Nothing -> Correct (s,[])
+  Just a -> ca s a
 
 infixl 9 +>
 

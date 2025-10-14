@@ -13,7 +13,7 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionDefinitionWithVariablesSyntax,
     functionDefinitionEndSyntax,
     functionDefinitionReturnsVariableSyntax, fcTypes) where
-import DataStruct.Lexing(LexedData(..))
+import DataStruct.Lexing(LexedData(..), LexedTypes(..))
 
 data Syntax =
     Space |
@@ -40,8 +40,9 @@ fcStringType :: [Syntax]
 fcStringType = [SString "chaîne", Space, SString "de", Space,
     SString "caractères"]
 
-fcTypes :: [[Syntax]]
-fcTypes = [fcIntType, fcBoolType, fcStringType]
+fcTypes :: [([Syntax], LexedData)]
+fcTypes = [(fcIntType, LexedType LInt), (fcBoolType, LexedType LBoolean),
+    (fcStringType, LexedType LString)]
 
 assignNameSyntax :: [Syntax]
 assignNameSyntax = [SString "J'aimerais", Space, SString "que", Space, Word]
@@ -96,5 +97,5 @@ functionDefinitionEndSyntax = [SString "représenté", Space, SString "par",
     MultipleSString ["ci-après", "suivant", "ci-dessous"]]
 
 functionDefinitionReturnsVariableSyntax :: [Syntax]
-functionDefinitionReturnsVariableSyntax = [Space, SString "retournant", Space,
+functionDefinitionReturnsVariableSyntax = [SString ",", Space, SString "retournant", Space,
     Word]

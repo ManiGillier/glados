@@ -6,7 +6,7 @@
 -}
 
 module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..),
-    UnaryOperations(..), FuncTypes(..)) where
+    UnaryOperations(..), FuncTypes(..), LexedTypes(..)) where
 
 data UnaryOperations =
     Not |
@@ -29,6 +29,10 @@ data Operations =
     RightBitshift
     deriving (Show, Eq)
 
+data LexedTypes =
+    LInt | LBoolean | LString
+    deriving (Show, Eq)
+
 data Comparators =
     Equal | Different | Inferior | Superior | InferiorOrEqual | SuperiorOrEqual
     deriving (Show, Eq)
@@ -47,6 +51,7 @@ data LexedData =
     WithParameters |
     DisplayNumber |
     DisplayText |
+    LexedType LexedTypes |
     DisplayNewLine |
     FuncBody |
     Returns |
@@ -61,7 +66,7 @@ data LexedData =
     Return |
     EOI |
     Symbol String |
-    DuoSymbol String String |
+    SymbolWithType String LexedTypes |
     Number Int |
     Operation Operations |
     UnaryOperation UnaryOperations |

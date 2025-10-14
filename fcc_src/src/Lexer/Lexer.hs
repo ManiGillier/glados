@@ -8,7 +8,15 @@
 module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign',
     readCondition, readComputable, readComputables, readIfCondition,
-    readParenthesisComputable, readWhileCondition, readFunctionDefinition) where
+    readParenthesisComputable, readWhileCondition, readFunctionDefinition,
+    readType) where
+
+import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
+    assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
+    functionDefinitionNameSyntax, functionDefinitionReturnTypeSyntax,
+    functionDefinitionWithVariablesSyntax, functionDefinitionParametersSyntax,
+    functionDefinitionEndSyntax, functionDefinitionReturnsVariableSyntax,
+    fcTypes)
 
 import Data.Void (Void)
 
@@ -16,8 +24,6 @@ import ApplicativeAddons
 
 import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..),
     UnaryOperations(..), FuncTypes(..))
-import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
-    assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax, functionDefinitionNameSyntax, functionDefinitionReturnTypeSyntax, functionDefinitionWithVariablesSyntax, functionDefinitionParametersSyntax, functionDefinitionEndSyntax, functionDefinitionReturnsVariableSyntax, fcTypes)
 
 import Text.Megaparsec
 import Text.Megaparsec.Char
@@ -102,12 +108,12 @@ readCondition :: Lexer [LexedData]
 readCondition = readComputables
 
 convertToDuo :: [LexedData] -> LexedData
-convertToDuo [Symbol a, Symbol b] = DuoSymbol a b
+convertToDuo [Symbol a, LexedType b] = SymbolWithType a b
 convertToDuo _ = error "Not supposed to happen..?"
 
 readComboWord :: Lexer LexedData
 readComboWord = convertToDuo <$>
-    lexStringsWithTokens [SString "-", Space, Word, Space, Word]
+    lexStringsWithTokens [SString "-", Space, Word, Space, WordType]
 
 readOptionalComboWords :: Lexer [LexedData]
 readOptionalComboWords = many (readComboWord <* space1)
@@ -115,17 +121,17 @@ readOptionalComboWords = many (readComboWord <* space1)
 readEOI :: Lexer Char
 readEOI = char '.'
 
-tryReadOne :: [[Syntax]] -> Lexer [LexedData]
+tryReadOne :: [([Syntax], LexedData)] -> Lexer LexedData
 tryReadOne [] = error "Nothing to try..?"
-tryReadOne [x] = lexStringsWithTokens x
-tryReadOne (x:xs) = lexStringsWithTokens x <|> tryReadOne xs
+tryReadOne [(x, y)] = lexStringsWithTokens x *> return y
+tryReadOne ((x,y):xs) = (lexStringsWithTokens x *> return y) <|> tryReadOne xs
 
 tryReadStrings :: [String] -> Lexer [LexedData]
-tryReadStrings [] = fail "Nothing to try..?"
+tryReadStrings [] = error "Nothing to try..?"
 tryReadStrings [x] = lexStringsWithTokens [SString x]
 tryReadStrings (x:xs) = lexStringsWithTokens [SString x] <|> tryReadStrings xs
 
-readType :: Lexer [LexedData]
+readType :: Lexer LexedData
 readType = tryReadOne fcTypes
 
 lexSyntax :: [Syntax] -> Lexer ()
@@ -191,7 +197,7 @@ lexStringsWithTokens' t (OptionalSpace : xs) = skipWhitespace *>
 lexStringsWithTokens' t (Placeholder a : xs) =
     lexStringsWithTokens' (t ++ [a]) xs
 lexStringsWithTokens' t (WordType : xs) = readType >>= \toAdd ->
-    lexStringsWithTokens' (t ++ toAdd) xs
+    lexStringsWithTokens' (t ++ [toAdd]) xs
 lexStringsWithTokens' t (MultipleSString x : xs) = tryReadStrings x >>=
     \toAdd -> lexStringsWithTokens' (t ++ toAdd) xs
 

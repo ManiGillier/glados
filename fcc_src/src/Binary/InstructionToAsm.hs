@@ -5,7 +5,7 @@
 -- Creation of a readable binary file
 -}
 
-module Binary.InstructionToAsm (readableAsm, readableAsmToString) where
+module Binary.InstructionToAsm (instructionToListOfAsm, instructionToAsm) where
 
 import DataStruct.Asm
 
@@ -57,8 +57,8 @@ listOfStringToString :: [String] -> String
 listOfStringToString [] = ""
 listOfStringToString (x:xs) = x ++ "\n" ++ listOfStringToString xs
 
-readableAsm :: [Instruction] -> [String]
-readableAsm xs = concatMap translateInstr xs
+instructionToListOfAsm :: [Instruction] -> [String]
+instructionToListOfAsm xs = concatMap translateInstr xs
 
-readableAsmToString :: [Instruction] -> String
-readableAsmToString xs = listOfStringToString (concatMap translateInstr xs)
+instructionToAsm :: [Instruction] -> String
+instructionToAsm xs = listOfStringToString (concatMap translateInstr xs)

@@ -12,6 +12,7 @@ module ByteCode.AsmToBytecode (displayInstruction
 import DataStruct.Asm
 import Data.Int (Int64)
 import Data.Word (Word8)
+import Data.List (isPrefixOf, tails, findIndex)
 import Data.Char
 
 displayInstruction :: Instruction -> String
@@ -41,6 +42,15 @@ intTo8Bytes n =
 stringWord8 :: String -> [Word8]
 stringWord8 str = map (fromIntegral . ord) str
 
+startingPoint :: [Word8]
+startingPoint = [39,0,0,0,0,0,0,0,1,0]
+
+getStartingPoint :: [Word8] -> Int
+getStartingPoint xs = 
+  case findIndex (isPrefixOf startingPoint) (tails xs) of
+    Just i  -> i
+    Nothing -> -1
+
 instructionToByteCode :: [(String, Int64)] -> Instruction -> [Word8]
 instructionToByteCode _ (DataInt val) = 
     [1] ++ intTo8Bytes val
@@ -69,7 +79,7 @@ instructionToByteCode _ (Le ) = [21] ++ instructionEnd
 instructionToByteCode _ (Eq) = [22] ++ instructionEnd
 instructionToByteCode _ (Diff) = [23] ++ instructionEnd
 instructionToByteCode _ (Is) = [24] ++ instructionEnd
-instructionToByteCode _ (PushValue addr) 
+instructionToByteCode _ (PushValue addr)
     = [89] ++ intTo8Bytes addr ++ instructionEnd
 instructionToByteCode _ (PushGlobAddr addr) 
     = [90] ++ intTo8Bytes addr ++ instructionEnd
@@ -102,22 +112,26 @@ magicNumber = [0x45, 0xc, 0x45, 0xc]
 -- list of instructions and return magic number + list of byte
 asmToBytecode :: [(String, Int64)] -> [Instruction] -> [Word8]
 asmToBytecode labelAddr xs =
-    magicNumber ++ 
-    concatMap (instructionToByteCode labelAddr) xs
+    let byteCode = concatMap (instructionToByteCode labelAddr) xs
+    in magicNumber ++ (intTo8Bytes $ fromIntegral $ getStartingPoint byteCode) ++ byteCode
 
--- test :: [Instruction]
--- test = [
---       Label "func_main"
---     , Label ".start"
---     , PushValue 10 -- x = 0
---     , PushValue 0 -- b = 0
---     , PushValue 0 -- c = 0
---     , PushValue 42, PopToStackPtrRel 0 -- x = 42
---     , PushFromStackPtrRel 0, PopToStackPtrRel 8 -- b = x
---     , PushFromStackPtrRel 8, PushFromStackPtrRel 0, Add, PopToStackPtrRel 16 -- c = b + x
---     , PushFromStackPtrRel 16, Aff -- print c ('T')
---     , Ret
---     ]
+test1 :: [Instruction]
+test1 = [
+      Label "func_main"
+    , Label ".start"
+    , PushValue 10 -- x = 0
+    , PushValue 0 -- b = 0
+    , PushValue 0 -- c = 0
+    , PushValue 42, PopToStackPtrRel 0 -- x = 42
+    , PushFromStackPtrRel 0 
+    , PopToStackPtrRel 8 -- b = x
+    , PushFromStackPtrRel 8 
+    , PushFromStackPtrRel 0
+    , Add
+    , PopToStackPtrRel 16 -- c = b + x
+    , PushFromStackPtrRel 16, Aff -- print c ('T')
+    , Ret
+    ]
 
 test :: [Instruction]
 test = [
@@ -142,3 +156,6 @@ test = [
     ,PushValue 0
     ,PopToStackPtrRel (-8)
     ,Ret]
+
+test2 :: [Instruction] 
+test2 = [Label "func_main",Label ".start",PushValue 1,PushValue 42,PushLabel "func_foo",Call,PushValue 2,PushValue 48,PushValue 5,Add,PushLabel "func_foo",Call,PushValue 5,PushLabel "func_bar",Call,Ret,Label "func_foo",PushValue 0,PushFromStackPtrRel (-8),PushFromStackPtrRel (-16),Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,PushValue 1,Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,Aff,Ret,Label "func_bar",PushValue 0,PushValue 48,PopToStackPtrRel 0,PushFromStackPtrRel (-8),PushFromStackPtrRel 0,Add,PopToStackPtrRel 0,PushValue (-1),PushFromStackPtrRel 0,PushLabel "func_foo",Call,Ret]

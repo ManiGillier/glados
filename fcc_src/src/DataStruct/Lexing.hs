@@ -48,26 +48,29 @@ data LexedData =
     ReturnType | -- Type de retour d'une fonction
     WithVariables | -- Variables d'une fonction
     WithParameters | -- Paramètres d'une fonction / Paramètres d'invocation
-    DisplayNumber | -- Afficher un nombre
-    DisplayText | -- Afficher un texte
+    Display | -- Afficher
     LexedType LexedTypes | -- Int/Void/Bool/String
     DisplayNewLine | -- Afficher un \n
     FuncBody | -- Début du corps de la fonction
     Returns | -- La fonction retourne..
     Invoke | -- Invoquer
-    AssignResultTo | -- assigner la valeur de retour 
+    AssignResultTo | -- assigner la valeur de retour
     OpenParenthesis | -- (
     ClosedParenthesis | -- )
     Assign | -- Assigner une variable à une valeur
     If | -- Si
     While | -- Tant que
     Else | -- Sinon (Pas fait)
+    EndIf | -- Fin d'un if
+    EndWhile | -- Fin d'un while
+    EndFunction | -- Fin d'une fonction
     Return | -- Retourner une valeur.
     Symbol String | -- Entrée utilisateur
     SymbolWithType String LexedTypes | -- Combo entrée utilisateur et type
     Number Int | -- Numéro
-    Operation Operations | -- Opération 
+    Operation Operations | -- Opération
     UnaryOperation UnaryOperations | -- Opération unaire
     Comparator Comparators | -- Comparateur
-    Sayonara deriving (Show, Eq) -- Cordialement
+    Sayonara String String deriving (Show, Eq) -- Cordialement Nom Prénom
+
 

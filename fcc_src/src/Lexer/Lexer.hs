@@ -9,14 +9,19 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign',
     readCondition, readComputable, readComputables, readIfCondition,
     readParenthesisComputable, readWhileCondition, readFunctionDefinition,
-    readFunctionType, readMultipleWords, readInvoke) where
+    readFunctionType, readMultipleWords, readInvoke, readQuotedValue,
+    readDisplay, readMainFunctionDefinition, readName, readComment,
+    readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd) where
 
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
     functionDefinitionNameSyntax, functionDefinitionReturnTypeSyntax,
     functionDefinitionWithVariablesSyntax, functionDefinitionParametersSyntax,
     functionDefinitionEndSyntax, functionDefinitionReturnsVariableSyntax,
-    functionTypes, variableTypes, invokeSyntax, invokeAssignSyntax, invokeParametersSyntax)
+    functionTypes, variableTypes, invokeSyntax, invokeAssignSyntax,
+    invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
+    displaySyntax''', mainFunctionSyntax, endMainFunctionSyntax,
+    endFunctionSyntax, endIfSyntax, endWhileSyntax)
 
 import Data.Void (Void)
 
@@ -28,6 +33,7 @@ import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..),
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal, signed)
+import qualified Text.Megaparsec.Char.Lexer as L
 
 type Lexer = Parsec Void String
 
@@ -42,6 +48,17 @@ readValue =
     Number
         <$> signed (return ()) decimal
         <* notFollowedBy (noneOf " .,\t\n()")
+
+readQuotedValue :: Lexer LexedData
+readQuotedValue =
+    Symbol <$> (char '\"' *> manyTill L.charLiteral (char '\"'))
+
+readName :: Lexer LexedData
+readName =
+    Symbol <$> manyTill L.charLiteral (char '\n')
+
+readComment :: Lexer [LexedData]
+readComment = char '*' *> (manyTill L.charLiteral (char '*')) *> return []
 
 readUnaryOperation :: Lexer LexedData
 readUnaryOperation = UnaryOperation <$> choice [
@@ -156,6 +173,8 @@ lexSyntax (Placeholder _ : xs) = lexSyntax xs
 lexSyntax (WordFunctionType : xs) = readFunctionType *> lexSyntax xs
 lexSyntax (WordVariableType : xs) = readVariableType *> lexSyntax xs
 lexSyntax (MultipleWords : xs) = readMultipleWords *> lexSyntax xs
+lexSyntax (QuotedValue : xs) = readQuotedValue *> lexSyntax xs
+lexSyntax (Name : xs) = readName *> lexSyntax xs
 
 lexSyntaxAndReturn :: [Syntax] -> a -> Lexer a
 lexSyntaxAndReturn [] a = return a
@@ -183,6 +202,10 @@ lexSyntaxAndReturn (WordVariableType : xs) a = readVariableType >>= \_ ->
 lexSyntaxAndReturn (MultipleSString (x) : xs) a = tryReadStrings x >>= \_ ->
     lexSyntaxAndReturn xs a
 lexSyntaxAndReturn (MultipleWords : xs) a = readMultipleWords >>= \_ ->
+    lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (QuotedValue : xs) a = readQuotedValue >>= \_ ->
+    lexSyntaxAndReturn xs a
+lexSyntaxAndReturn (Name : xs) a = readName >>= \_ ->
     lexSyntaxAndReturn xs a
 
 lexStringsWithTokens' :: [LexedData] -> [Syntax] -> Lexer [LexedData]
@@ -216,6 +239,10 @@ lexStringsWithTokens' t (MultipleSString x : xs) = tryReadStrings x >>=
     \toAdd -> lexStringsWithTokens' (t ++ toAdd) xs
 lexStringsWithTokens' t (MultipleWords : xs) = readMultipleWords >>=
     \toAdd -> lexStringsWithTokens' (t ++ toAdd) xs
+lexStringsWithTokens' t (QuotedValue : xs) = readQuotedValue >>=
+    \toAdd -> lexStringsWithTokens' (t ++ [toAdd]) xs
+lexStringsWithTokens' t (Name : xs) = readName >>=
+    \toAdd -> lexStringsWithTokens' (t ++ [toAdd]) xs
 
 lexStringsWithTokens :: [Syntax] -> Lexer [LexedData]
 lexStringsWithTokens toLex = lexStringsWithTokens' [] toLex
@@ -223,7 +250,6 @@ lexStringsWithTokens toLex = lexStringsWithTokens' [] toLex
 readAssign :: Lexer [LexedData]
 readAssign = try (lexStringsWithTokens' [Assign] assignSyntax <* readEOI) <|>
     (lexStringsWithTokens' [Assign] assignSyntax' <* readEOI)
-
 readIfCondition :: Lexer [LexedData]
 readIfCondition = lexStringsWithTokens' [If] ifConditionSyntax
 
@@ -258,10 +284,32 @@ readInvoke'' = lexStringsWithTokens' [Invoke] invokeSyntax $++
 readInvoke' :: Lexer [LexedData]
 readInvoke' = lexStringsWithTokens' [Invoke] invokeSyntax $++
     lexStringsWithTokens' [WithParameters] invokeParametersSyntax
- 
+
 readInvoke :: Lexer [LexedData]
 readInvoke = (try readInvoke''' <|> try readInvoke'' <|> try readInvoke' <|>
     lexStringsWithTokens' [Invoke] invokeSyntax) <* readEOI
+
+readDisplay :: Lexer [LexedData]
+readDisplay = (try (lexStringsWithTokens' [Display] displaySyntax) <|>
+    try (lexStringsWithTokens' [Display] displaySyntax') <|>
+    try (lexStringsWithTokens' [Display] displaySyntax'') <|>
+    try (lexStringsWithTokens' [Display] displaySyntax''')) <* readEOI
+
+readMainFunctionDefinition :: Lexer [LexedData]
+readMainFunctionDefinition = lexStringsWithTokens' [FuncDef, FuncType Main, WithVariables]
+    mainFunctionSyntax
+
+readMainFunctionEnd :: Lexer [LexedData]
+readMainFunctionEnd = lexStringsWithTokens' [EndFunction] endMainFunctionSyntax
+
+readFunctionEnd :: Lexer [LexedData]
+readFunctionEnd = lexStringsWithTokens' [EndFunction] endFunctionSyntax
+
+readIfEnd :: Lexer [LexedData]
+readIfEnd = lexStringsWithTokens' [EndIf] endIfSyntax
+
+readWhileEnd :: Lexer [LexedData]
+readWhileEnd = lexStringsWithTokens' [EndWhile] endWhileSyntax
 
 readAssign' :: Lexer [LexedData]
 readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)

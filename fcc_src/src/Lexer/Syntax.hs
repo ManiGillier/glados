@@ -13,7 +13,11 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionDefinitionWithVariablesSyntax,
     functionDefinitionEndSyntax,
     functionDefinitionReturnsVariableSyntax, functionTypes, variableTypes,
-    invokeSyntax, invokeAssignSyntax, invokeParametersSyntax) where
+    invokeSyntax, invokeAssignSyntax, invokeParametersSyntax,
+    displaySyntax, displaySyntax', displaySyntax'', displaySyntax''',
+    mainFunctionSyntax, endMainFunctionSyntax, elseSyntax,
+    endIfSyntax, endWhileSyntax, endFunctionSyntax) where
+
 import DataStruct.Lexing(LexedData(..), LexedTypes(..))
 
 data Syntax =
@@ -30,6 +34,8 @@ data Syntax =
     WordFunctionType |
     MultipleSString [String] |
     MultipleWords |
+    QuotedValue |
+    Name |
     Placeholder LexedData
     deriving (Show, Eq)
 
@@ -73,6 +79,20 @@ ifConditionSyntax :: [Syntax]
 ifConditionSyntax = [SString "Si", Space, Condition, SString ",", Space,
     SString "exécute", Space, SString "le", Space, SString "texte", Space,
     SString ":"]
+
+elseSyntax :: [Syntax]
+elseSyntax = [Space, SString ";", Space, SString "sinon,", Space,
+    SString "exécute", Space, SString "le", Space, SString "texte", Space,
+    SString ":"]
+
+endIfSyntax :: [Syntax]
+endIfSyntax = [SString "Merci."]
+
+endWhileSyntax :: [Syntax]
+endWhileSyntax = endIfSyntax
+
+endFunctionSyntax :: [Syntax]
+endFunctionSyntax = endIfSyntax
 
 whileConditionSyntax :: [Syntax]
 whileConditionSyntax = [SString "Tant", Space, SString "que", Space, Condition,
@@ -122,3 +142,31 @@ invokeAssignSyntax = [SString ",", Space, SString "et", Space,
 invokeParametersSyntax :: [Syntax]
 invokeParametersSyntax = [SString ",", Space, SString "avec les paramètres",
     Space, MultipleWords]
+
+displaySyntax :: [Syntax]
+displaySyntax = [SString "Affiche", Space, Value]
+
+displaySyntax' :: [Syntax]
+displaySyntax' = [SString "Affiche", Space, QuotedValue]
+
+displaySyntax'' :: [Syntax]
+displaySyntax'' = [SString "Affiche", Space, SString "un", Space,
+    SString "retour", Space, SString "à", Space, SString "la", Space,
+    SString "ligne"]
+
+displaySyntax''' :: [Syntax]
+displaySyntax''' = [SString "Affiche", Space, Word]
+
+mainFunctionSyntax :: [Syntax]
+mainFunctionSyntax = [SString "En", Space, SString "sachant", Space,
+    SString "que", Space, SString "les", Space, SString "variables", Space,
+    SString "principales", Space, SString "sont", Space, SString ":", Space,
+    OptionalComboWords, SString ";", Space, SString "pourrais-tu", Space,
+    SString "s'il", Space, SString "te", Space, SString "plaît", Space,
+    SString "commencer", Space, SString "la", Space, SString "lecture", Space,
+    SString "ici", Space, SString "?"]
+
+
+endMainFunctionSyntax :: [Syntax]
+endMainFunctionSyntax = [SString "Merci", Space, SString "d'avance,", Space, SString "Cordialement,",
+    Space, Name, Name]

@@ -15,6 +15,6 @@ def trust(input_path, output_path):
         out.write(final_output)
 
 if __name__ == "__main__":
-    trust('test.lsp', 'test.txt')
+    trust('test.fr', 'test2.txt')
 
 # Trust is actually The Robust Unfolding Syntax Tester

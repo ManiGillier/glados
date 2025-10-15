@@ -61,6 +61,7 @@ data LexedData =
     If | -- Si
     While | -- Tant que
     Else | -- Sinon (Pas fait)
+    Then | -- Après un if/else
     EndIf | -- Fin d'un if
     EndWhile | -- Fin d'un while
     EndFunction | -- Fin d'une fonction

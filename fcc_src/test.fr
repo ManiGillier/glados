@@ -1,0 +1,11 @@
+En sachant que les variables principales sont : 
+    - compteur, entier naturel
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+
+Tant que compteur est inférieure à 100 exécute le code ci-après :
+
+
+Affiche “Fizz”.
+Merci.
+
+oof

@@ -12,7 +12,8 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     readFunctionType, readMultipleWords, readInvoke, readQuotedValue,
     readDisplay, readMainFunctionDefinition, readName, readComment,
     readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd,
-    readReturn) where
+    readReturn, readFunction, readFunctionBody, readCode,
+    readIf, readMainFunction) where
 
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
@@ -22,7 +23,8 @@ import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionTypes, variableTypes, invokeSyntax, invokeAssignSyntax,
     invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
     displaySyntax''', mainFunctionSyntax, endMainFunctionSyntax,
-    endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax, returnSyntax')
+    endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax,
+    returnSyntax', returnSyntax'')
 
 import Data.Void (Void)
 
@@ -251,6 +253,7 @@ lexStringsWithTokens toLex = lexStringsWithTokens' [] toLex
 readAssign :: Lexer [LexedData]
 readAssign = try (lexStringsWithTokens' [Assign] assignSyntax <* readEOI) <|>
     (lexStringsWithTokens' [Assign] assignSyntax' <* readEOI)
+
 readIfCondition :: Lexer [LexedData]
 readIfCondition = lexStringsWithTokens' [If] ifConditionSyntax
 
@@ -313,11 +316,44 @@ readWhileEnd :: Lexer [LexedData]
 readWhileEnd = lexStringsWithTokens' [EndWhile] endWhileSyntax
 
 readReturn :: Lexer [LexedData]
-readReturn = try (lexStringsWithTokens' [Return] returnSyntax) <|>
-    lexStringsWithTokens' [Return] returnSyntax'
+readReturn = (try (lexStringsWithTokens' [Return] returnSyntax) <|>
+    try (lexStringsWithTokens' [Return] returnSyntax') <|>
+    lexStringsWithTokens' [Return] returnSyntax'') <* readEOI
 
 readAssign' :: Lexer [LexedData]
 readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)
     <$> lexStringsWithTokens assignNameSyntax
     <*> lexStringsWithTokens assignValueSyntax
     <* readEOI
+
+readIf :: Lexer [LexedData]
+readIf = (readIfCondition <* skipWhitespace) $++
+    (return [Then]) $++ (readSomeInstructions) $++
+    (readIfEnd)
+
+readWhile :: Lexer [LexedData]
+readWhile = (readWhileCondition <* skipWhitespace) $++
+    (return [Then]) $++ (readSomeInstructions) $++
+    (readWhileEnd)
+
+readFunctionBody :: Lexer [LexedData]
+readFunctionBody =
+    try readAssign <|> try readIf <|> try readWhile <|> try readReturn <|> try readInvoke <|> try readComment <|>
+        readDisplay
+
+readSomeInstructions :: Lexer [LexedData]
+readSomeInstructions = concat <$> some (readFunctionBody <* skipWhitespace)
+
+readFunction :: Lexer [LexedData]
+readFunction = (readFunctionDefinition <* skipWhitespace) $++
+    (readSomeInstructions) $++
+    (readFunctionEnd <* skipWhitespace)
+
+readMainFunction :: Lexer [LexedData]
+readMainFunction = (readMainFunctionDefinition <* skipWhitespace) $++
+    (readSomeInstructions) $++
+    (readMainFunctionEnd <* skipWhitespace)
+
+readCode :: Lexer [LexedData]
+readCode =
+    concat <$> some (try readMainFunction <|> readFunction)

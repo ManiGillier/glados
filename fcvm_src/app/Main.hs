@@ -11,19 +11,19 @@ import Lib
 import FileOpening.FileToBytecode
 import System.IO
 import System.IO.Error
+import Prelude
 import System.Environment
+import Data.Word
 import System.Exit (exitWith, ExitCode(..))
 
 ioErrorReturn :: IOError -> IO ()
 ioErrorReturn _ = exitWith (ExitFailure 84)
 
-truc :: IO ()
-truc = do
-    letruc <- head <$> getArgs
-    withFile letruc ReadMode (hGetContent' fileToByteCode)
+truc :: IO [Word8]
+truc = fileToByteCode =<< (head <$> getArgs)
 
 main :: IO ()
-main = catchIOError truc ioErrorReturn
+main = catchIOError (truc >>= print) ioErrorReturn
 
 -- getArgs >>= \args -> withFile (head args) ReadMode fileToByteCode
 

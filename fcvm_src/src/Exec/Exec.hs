@@ -12,7 +12,7 @@ import Error.ErrorList
 import Data.Word (Word8, Word64)
 import Data.Int (Int64)
 import Data.Char
-import Data.Bits (shiftL, (.|.), shiftR, (.&.))
+import Data.Bits (shiftL, (.|.))
 import Debug.Trace
 
 displayT :: [Word8]
@@ -86,13 +86,15 @@ indexLabel = index 0 0
     index i v (_:xs) = index (i + 1) v xs
 
 pushAddrStack :: Stack -> ByteCode -> Stack
-pushAddrStack st val = st ++ take 8 val
+pushAddrStack st val = take 8 val ++ st
 
 binOp :: (Int64 -> Int64 -> Int64) -> Stack -> MaybeError Stack
+
 binOp _ [_] = Error stackError $ "underflow"
 binOp _ [] = Error stackError $ "underflow"
 binOp f xs = Correct $ int64To8Bytes
     (f (bytesToInt64(take 8 xs)) (bytesToInt64(take 8 $ drop 8 xs)))
+    ++ drop 16 xs
 
 dupl :: Stack -> MaybeError Stack
 dupl [] = Error stackError $ "empty stack"
@@ -105,16 +107,22 @@ negateS (x:xs) = Correct ((-x):xs)
 popStack :: Stack -> Stack
 popStack xs = (drop 8 xs)
 
+sublist :: Int -> Int -> [a] -> [a]
+sublist i j xs = take (j - i) (drop i xs)
+
 popToStackPtrRel :: Stack -> SP -> Int -> Stack
-popToStackPtrRel st sp addr = 
-    let size = length st
-    in (take (addr + sp)  st) ++ (drop (size - 8) st) ++ 
-        (drop (addr + 8 + sp) (take (size - 8) st))
+popToStackPtrRel st sp addr =
+    let val = take 8 st
+        newSt = drop 8 st
+        target = length newSt
+    in sublist 0 (target - 8 - (sp + addr)) newSt ++ val 
+    ++ sublist (target - (sp + addr)) (length newSt) newSt
 
 pushFromStackPtrRel :: Stack -> SP -> Int -> Stack
-pushFromStackPtrRel st sp addr = 
-    let val = take 8 $ drop (addr + sp) st
-    in st ++ val
+pushFromStackPtrRel st sp addr =
+    let target = ((length st) - 8 -(sp + addr))
+        val = sublist target (target + 8) st
+    in val ++ st
 
 isInstruction :: ByteCode -> Int -> Bool
 isInstruction bc pc
@@ -134,25 +142,27 @@ execByteCode bc pc st sp lab
     -- End execution
     | pc >= length bc = Correct $ ""
     -- PushValue & PushLabel & PushRelAddr
-    | bc !! pc == 89 || bc !! pc == 91 && isInstruction bc pc =
-        execByteCode bc (pc + 8) (pushAddrStack st $ drop (pc + 1) bc) sp lab
+    | (bc !! pc == 89 || bc !! pc == 91) && isInstruction bc pc =
+        execByteCode bc (pc + 9) (pushAddrStack st $ drop (pc + 1) bc) sp lab
     -- PopToStackPtrRel
     | bc !! pc == 30 && isInstruction bc pc =
-        execByteCode bc (pc + 8) (popToStackPtrRel st sp 
+        execByteCode bc (pc + 9) (popToStackPtrRel st sp 
         (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp lab
     -- PushFromStackPtrRel
     | bc !! pc == 29 && isInstruction bc pc =
-        execByteCode bc (pc + 8) (pushFromStackPtrRel st sp 
+        execByteCode bc (pc + 9) (pushFromStackPtrRel st sp 
         (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp lab
     -- Add
     | bc !! pc == 13 && isInstruction bc pc = 
         let res = binOp (+) st
         in case res of
-             Correct nst -> execByteCode bc (pc + 8) nst sp lab
+             Correct nst -> execByteCode bc (pc + 1) nst sp lab
              Error err msg -> Error err msg
     -- Call 
     | bc !! pc == 34 && isInstruction bc pc = 
-         execByteCode bc (getPc st lab) (popStack st) ((length st) - 8) lab
+        let newStack = popStack st
+            newSP = length newStack
+        in execByteCode bc (getPc st lab) newStack newSP lab
     -- Aff
     | bc !! pc == 38 && isInstruction bc pc = 
         let val = chr $ fromIntegral $ bytesToInt64 (take 8 st)
@@ -160,5 +170,4 @@ execByteCode bc pc st sp lab
             Correct rest -> Correct (val : rest)
             Error err msg -> Error err msg
     | otherwise =
-        traceShow ("st=", st)
         execByteCode bc (pc + 1) st sp lab

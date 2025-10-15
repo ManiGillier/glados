@@ -5,7 +5,7 @@
 -- linker
 -}
 
-module Linker.LinkAst (link) where
+module Combinor.Ast (combineAst) where
 
 import DataStruct.Ast.Ast (Ast (Ast), CombinedAst (CAst)
                           , MainFunctionDef, FunctionDef)
@@ -23,5 +23,5 @@ getMain ((Ast (Just x) _):xs) = case getMain xs of
   Error _ _ -> Correct x
   Correct _ -> Error alreadyDefFuncErr "main"
 
-link :: [Ast] -> MaybeError CombinedAst
-link l = (\main -> CAst main $ combineFuncs l) <$> getMain l
+combineAst :: [Ast] -> MaybeError CombinedAst
+combineAst l = (\main -> CAst main $ combineFuncs l) <$> getMain l

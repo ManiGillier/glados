@@ -184,8 +184,6 @@ bits64 = 8
 -- TODO: refactor argument & divide func
 execByteCode :: ByteCode -> PC -> Stack -> SP -> CallStack -> LabelIndex -> MaybeError String
 execByteCode bc pc st sp cs lab
-    -- End execution
-    | pc >= length bc = Correct $ ""
     -- PushValue & PushLabel & PushRelAddr
     | (bc !! pc == 89 || bc !! pc == 91) && isInstruction bc pc =
         execByteCode bc (skipVal pc) (pushAddrStack st $ drop (nextIns pc) bc) sp cs lab

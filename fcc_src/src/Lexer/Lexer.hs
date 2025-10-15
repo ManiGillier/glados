@@ -11,7 +11,8 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     readParenthesisComputable, readWhileCondition, readFunctionDefinition,
     readFunctionType, readMultipleWords, readInvoke, readQuotedValue,
     readDisplay, readMainFunctionDefinition, readName, readComment,
-    readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd) where
+    readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd,
+    readReturn) where
 
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
@@ -21,7 +22,7 @@ import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionTypes, variableTypes, invokeSyntax, invokeAssignSyntax,
     invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
     displaySyntax''', mainFunctionSyntax, endMainFunctionSyntax,
-    endFunctionSyntax, endIfSyntax, endWhileSyntax)
+    endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax, returnSyntax')
 
 import Data.Void (Void)
 
@@ -296,8 +297,8 @@ readDisplay = (try (lexStringsWithTokens' [Display] displaySyntax) <|>
     try (lexStringsWithTokens' [Display] displaySyntax''')) <* readEOI
 
 readMainFunctionDefinition :: Lexer [LexedData]
-readMainFunctionDefinition = lexStringsWithTokens' [FuncDef, FuncType Main, WithVariables]
-    mainFunctionSyntax
+readMainFunctionDefinition = lexStringsWithTokens' [FuncDef, FuncType Main,
+    WithVariables] mainFunctionSyntax
 
 readMainFunctionEnd :: Lexer [LexedData]
 readMainFunctionEnd = lexStringsWithTokens' [EndFunction] endMainFunctionSyntax
@@ -310,6 +311,10 @@ readIfEnd = lexStringsWithTokens' [EndIf] endIfSyntax
 
 readWhileEnd :: Lexer [LexedData]
 readWhileEnd = lexStringsWithTokens' [EndWhile] endWhileSyntax
+
+readReturn :: Lexer [LexedData]
+readReturn = try (lexStringsWithTokens' [Return] returnSyntax) <|>
+    lexStringsWithTokens' [Return] returnSyntax'
 
 readAssign' :: Lexer [LexedData]
 readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)

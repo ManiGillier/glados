@@ -16,7 +16,8 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     invokeSyntax, invokeAssignSyntax, invokeParametersSyntax,
     displaySyntax, displaySyntax', displaySyntax'', displaySyntax''',
     mainFunctionSyntax, endMainFunctionSyntax, elseSyntax,
-    endIfSyntax, endWhileSyntax, endFunctionSyntax) where
+    endIfSyntax, endWhileSyntax, endFunctionSyntax,
+    returnSyntax, returnSyntax') where
 
 import DataStruct.Lexing(LexedData(..), LexedTypes(..))
 
@@ -166,7 +167,13 @@ mainFunctionSyntax = [SString "En", Space, SString "sachant", Space,
     SString "commencer", Space, SString "la", Space, SString "lecture", Space,
     SString "ici", Space, SString "?"]
 
-
 endMainFunctionSyntax :: [Syntax]
-endMainFunctionSyntax = [SString "Merci", Space, SString "d'avance,", Space, SString "Cordialement,",
-    Space, Name, Name]
+endMainFunctionSyntax = [SString "Merci", Space, SString "d'avance,", Space,
+    SString "Cordialement,", Space, Name, Name]
+
+returnSyntax :: [Syntax]
+returnSyntax = [SString "Enfin,", Space, SString "renvoie", Word]
+
+returnSyntax' :: [Syntax]
+returnSyntax' = [SString "Enfin,", Space, SString "sors", Space,
+    SString "du", Space, SString "bloc"]

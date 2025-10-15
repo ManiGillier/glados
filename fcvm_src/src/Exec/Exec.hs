@@ -124,9 +124,11 @@ negateS (x:xs) = Correct ((-x):xs)
 popStack :: Stack -> Stack
 popStack xs = (drop 8 xs)
 
+-- get sublist between two index
 sublist :: Int -> Int -> [a] -> [a]
 sublist i j xs = take (j - i) (drop i xs)
 
+-- Check Asm doc
 popToStackPtrRel :: Stack -> SP -> Int -> Stack
 popToStackPtrRel st sp addr =
     let val = take 8 st
@@ -141,11 +143,13 @@ pushFromStackPtrRel st sp addr =
         val = sublist target (target + 8) st
     in val ++ st
 
+-- Check if instruction is valid with 0 before
 isInstruction :: ByteCode -> Int -> Bool
 isInstruction bc pc
     | bc !! (pc - 1) == 0 = True
     | otherwise = False
 
+-- Get programm counter to call label 
 getPc :: Stack -> LabelIndex -> PC
 getPc st labV = fromIntegral $ index (bytesToInt64 (take 8 st)) labV
     where
@@ -154,6 +158,8 @@ getPc st labV = fromIntegral $ index (bytesToInt64 (take 8 st)) labV
             | x == z = y
             | otherwise = index x xs
 
+-- Add new call to the Call Stack and save next instruction
+-- of the current function + cur StackPtr
 updateCall :: PC -> SP ->CallStack -> CallStack
 updateCall pc sp cs = (pc + 1,sp) : cs
 
@@ -162,26 +168,40 @@ restoreStack :: CallStack -> ((PC,SP),CallStack)
 restoreStack [] = ((0,0),[])
 restoreStack ((pc,sp):xs) = ((pc,sp),xs)
 
+-- skip 8bytes bytecode
+skipVal :: PC -> PC
+skipVal pc = pc + 9
+
+-- Increment pc to next instruction
+nextIns :: PC -> PC
+nextIns pc = pc + 1
+
+-- move 64bits
+bits64 :: Int
+bits64 = 8
+
+-- Core exec function
+-- TODO: refactor argument & divide func
 execByteCode :: ByteCode -> PC -> Stack -> SP -> CallStack -> LabelIndex -> MaybeError String
 execByteCode bc pc st sp cs lab
     -- End execution
     | pc >= length bc = Correct $ ""
     -- PushValue & PushLabel & PushRelAddr
     | (bc !! pc == 89 || bc !! pc == 91) && isInstruction bc pc =
-        execByteCode bc (pc + 9) (pushAddrStack st $ drop (pc + 1) bc) sp cs lab
+        execByteCode bc (skipVal pc) (pushAddrStack st $ drop (nextIns pc) bc) sp cs lab
     -- PopToStackPtrRel
     | bc !! pc == 30 && isInstruction bc pc =
-        execByteCode bc (pc + 9) (popToStackPtrRel st sp 
-        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp cs lab
+        execByteCode bc (skipVal pc) (popToStackPtrRel st sp 
+        (fromIntegral $ bytesToInt64 (take bits64 $ drop (nextIns pc) bc))) sp cs lab
     -- PushFromStackPtrRel
     | bc !! pc == 29 && isInstruction bc pc =
-        execByteCode bc (pc + 9) (pushFromStackPtrRel st sp 
-        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp cs lab
+        execByteCode bc (skipVal pc) (pushFromStackPtrRel st sp 
+        (fromIntegral $ bytesToInt64 (take bits64 $ drop (nextIns pc) bc))) sp cs lab
     -- Add
     | bc !! pc == 13 && isInstruction bc pc = 
         let res = binOp (+) st
         in case res of
-             Correct nst -> execByteCode bc (pc + 1) nst sp cs lab
+             Correct nst -> execByteCode bc (nextIns pc) nst sp cs lab
              Error err msg -> Error err msg
     -- Call 
     | bc !! pc == 34 && isInstruction bc pc = 
@@ -197,9 +217,9 @@ execByteCode bc pc st sp cs lab
                 _ -> execByteCode bc npc st nsp ncs lab
     -- Aff
     | bc !! pc == 38 && isInstruction bc pc = 
-        let val = chr $ fromIntegral $ bytesToInt64 (take 8 st)
-        in case execByteCode bc (pc + 1) (popStack st) sp cs lab of
+        let val = chr $ fromIntegral $ bytesToInt64 (take bits64 st)
+        in case execByteCode bc (nextIns pc) (popStack st) sp cs lab of
             Correct rest -> Correct (val : rest)
             Error err msg -> Error err msg
     | otherwise =
-        execByteCode bc (pc + 1) st sp cs lab
+        execByteCode bc (nextIns pc) st sp cs lab

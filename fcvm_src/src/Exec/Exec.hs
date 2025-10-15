@@ -33,10 +33,27 @@ callFoo =
     29,0,0,0,0,0,0,0,0,0,13,0,30,0,0,0,0,0,0,0,8,0,29,0,0,0,0,0,0,0,8,0,
     38,0,89,0,0,0,0,0,0,0,0,0,30,255,255,255,255,255,255,255,248,0,35,0]
 
+callFooBar :: [Word8]
+callFooBar =
+    [69,12,69,12,39,0,0,0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,1,0,
+    89,0,0,0,0,0,0,0,1,0,89,0,0,0,0,0,0,0,42,0,91,0,0,0,0
+    ,0,0,0,2,0,34,0,89,0,0,0,0,0,0,0,2,0,89,0,0,0,0,0,0,0,
+    48,0,89,0,0,0,0,0,0,0,5,0,13,0,91,0,0,0,0,0,0,0,2,0,
+    34,0,89,0,0,0,0,0,0,0,5,0,91,0,0,0,0,0,0,0,3,0,34,0,
+    35,0,39,0,0,0,0,0,0,0,2,0,89,0,0,0,0,0,0,0,0,0,
+    29,255,255,255,255,255,255,255,248,0,29,255,255,255,255,255,255,255,
+    240,0,13,0,30,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,89,0,0,0,0,0,
+    0,0,1,0,13,0,30,0,0,0,0,0,0,0,0,0,29,0,0,0,0,0,0,0,0,0,38,0,35,0,
+    39,0,0,0,0,0,0,0,3,0,89,0,0,0,0,0,0,0,0,0,89,0,0,0,0,0,0,0,48,0,
+    30,0,0,0,0,0,0,0,0,0,29,255,255,255,255,255,255,255,248,0,
+    29,0,0,0,0,0,0,0,0,0,13,0,30,0,0,0,0,0,0,0,0,0,89,255,255,255,255,255,255,
+    255,255,0,29,0,0,0,0,0,0,0,0,0,91,0,0,0,0,0,0,0,2,0,34,0,35,0]
+
 type Stack = [Word8]
 type SP = Int
 type PC = Int
 type LabelIndex = [(Int64, Int64)]
+type CallStack = [(PC, SP)]
 type ByteCode = [Word8]
 
 -- Check file valid format
@@ -48,7 +65,7 @@ execFccByteCode :: ByteCode -> MaybeError String
 execFccByteCode byteCode
     | checkMagicNumber byteCode = 
         let cleanByteCode = drop 4 byteCode
-        in execByteCode cleanByteCode 0 [] 0 (indexLabel cleanByteCode)
+        in execByteCode cleanByteCode 0 [] 0 [] (indexLabel cleanByteCode)
     | otherwise =  Error fileFormatError $ "magic number not found"
 
 bytesToInt64 :: [Word8] -> Int64
@@ -137,37 +154,52 @@ getPc st labV = fromIntegral $ index (bytesToInt64 (take 8 st)) labV
             | x == z = y
             | otherwise = index x xs
 
-execByteCode :: ByteCode -> PC -> Stack -> SP -> LabelIndex -> MaybeError String
-execByteCode bc pc st sp lab
+updateCall :: PC -> SP ->CallStack -> CallStack
+updateCall pc sp cs = (pc + 1,sp) : cs
+
+-- Return last Programm counter, last Stack Ptr and pop CallStack 
+restoreStack :: CallStack -> ((PC,SP),CallStack)
+restoreStack [] = ((0,0),[])
+restoreStack ((pc,sp):xs) = ((pc,sp),xs)
+
+execByteCode :: ByteCode -> PC -> Stack -> SP -> CallStack -> LabelIndex -> MaybeError String
+execByteCode bc pc st sp cs lab
     -- End execution
     | pc >= length bc = Correct $ ""
     -- PushValue & PushLabel & PushRelAddr
     | (bc !! pc == 89 || bc !! pc == 91) && isInstruction bc pc =
-        execByteCode bc (pc + 9) (pushAddrStack st $ drop (pc + 1) bc) sp lab
+        execByteCode bc (pc + 9) (pushAddrStack st $ drop (pc + 1) bc) sp cs lab
     -- PopToStackPtrRel
     | bc !! pc == 30 && isInstruction bc pc =
         execByteCode bc (pc + 9) (popToStackPtrRel st sp 
-        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp lab
+        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp cs lab
     -- PushFromStackPtrRel
     | bc !! pc == 29 && isInstruction bc pc =
         execByteCode bc (pc + 9) (pushFromStackPtrRel st sp 
-        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp lab
+        (fromIntegral $ bytesToInt64 (take 8 $ drop (pc + 1) bc))) sp cs lab
     -- Add
     | bc !! pc == 13 && isInstruction bc pc = 
         let res = binOp (+) st
         in case res of
-             Correct nst -> execByteCode bc (pc + 1) nst sp lab
+             Correct nst -> execByteCode bc (pc + 1) nst sp cs lab
              Error err msg -> Error err msg
     -- Call 
     | bc !! pc == 34 && isInstruction bc pc = 
         let newStack = popStack st
             newSP = length newStack
-        in execByteCode bc (getPc st lab) newStack newSP lab
+        in execByteCode bc (getPc st lab) 
+        newStack newSP (updateCall pc sp cs) lab
+    -- Ret
+    | bc !! pc == 35 && isInstruction bc pc =
+        let ((npc,nsp), ncs) = restoreStack cs
+            in case ((npc,nsp), ncs) of
+                ((0,0),[]) -> Correct $ ""
+                _ -> execByteCode bc npc st nsp ncs lab
     -- Aff
     | bc !! pc == 38 && isInstruction bc pc = 
         let val = chr $ fromIntegral $ bytesToInt64 (take 8 st)
-        in case execByteCode bc (pc + 1) (popStack st) sp lab of
+        in case execByteCode bc (pc + 1) (popStack st) sp cs lab of
             Correct rest -> Correct (val : rest)
             Error err msg -> Error err msg
     | otherwise =
-        execByteCode bc (pc + 1) st sp lab
+        execByteCode bc (pc + 1) st sp cs lab

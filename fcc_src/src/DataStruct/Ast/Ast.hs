@@ -26,6 +26,7 @@ import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
 type FunctionName = String
 
 data UnaryOperator = BinaryNot | BooleanNot | Negate
+  deriving (Eq, Show)
 
 data BinaryOperator =
   BinaryAnd | BinaryOr | BooleanAnd | BooleanOr
@@ -33,15 +34,18 @@ data BinaryOperator =
   | Add | Sub | Multiplication | Division | Modulo
   | Superior | SuperiorOrEq | Inferior | InferiorOrEq
   | Equals | Is | Different
+  deriving (Eq, Show)
 
 data Operation =
   BinaryOperation BinaryOperator Computable Computable
   | UnaryOperation UnaryOperator Computable
+  deriving (Eq, Show)
 
 data Computable =
   Value Var.VariableValue
   | Operation Operation
   | Variable Var.VariableName
+  deriving (Eq, Show)
 
 -- 1 + x - 5
 a :: Computable
@@ -50,6 +54,7 @@ a = Operation $ BinaryOperation Sub
   (Value $ Var.Int 5)
 
 data Condition = Condition Computable
+  deriving (Eq, Show)
 
 data FunctionBodyContent =
   Assign Var.VariableName Computable
@@ -58,14 +63,17 @@ data FunctionBodyContent =
   | Loop Condition FunctionBody
   | Return Computable
   | Show Computable
+  deriving (Eq, Show)
 
 type FunctionBody = [FunctionBodyContent]
 
 data FunctionDef = Function FunctionName Var.ReturnType
   [Var.FuncParam] [Var.VariableDef] FunctionBody
+  deriving (Eq, Show)
 
 data MainFunctionDef = Main [Var.VariableDef] FunctionBody
+  deriving (Eq, Show)
 
-data Ast = Ast (Maybe MainFunctionDef) [FunctionDef]
+data Ast = Ast (Maybe MainFunctionDef) [FunctionDef] deriving (Eq, Show)
 
-data CombinedAst = CAst MainFunctionDef [FunctionDef]
+data CombinedAst = CAst MainFunctionDef [FunctionDef] deriving (Eq, Show)

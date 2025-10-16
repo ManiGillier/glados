@@ -70,6 +70,6 @@ getMyArgs = (execParser $ info (aparser <**> helper) $
 
 debugArgs :: Arguments -> IO ()
 debugArgs (Arguments i o l d) =
-    putStrLn $ "Input file(s) : " ++ (concat i)  ++
+    putStrLn $ "Input file(s) : " ++ (show i) ++
     "; Output name : " ++ (getOutput (Arguments i o l d)) ++ "; LLVM usage : "
     ++ show l ++ "; Debug mode : " ++ show d

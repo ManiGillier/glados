@@ -1,11 +1,28 @@
+Bonjour,
+
 En sachant que les variables principales sont : 
-    - compteur, entier naturel
+    - compteur, de type entier naturel
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
 
 Tant que compteur est inférieure à 100 exécute le code ci-après :
 
+    Si compteur modulo 3 est égale à 0, exécute le texte : 
+        Affiche « Fizz ».
+    Merci.
 
-Affiche “Fizz”.
+    Si compteur modulo 5 est égale à 0, exécute le texte : 
+        Affiche « Buzz ».
+    Merci.
+
+    Si compteur modulo 3 est différent à 0 et compteur modulo 5 est différent à 0, exécute le texte : 
+        Affiche compteur.
+    Merci.
+
+    Affiche un retour à la ligne.
+
 Merci.
 
-oof
+Merci d'avance,
+Cordialement,
+Gillier
+Mani

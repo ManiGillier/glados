@@ -13,7 +13,7 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     readDisplay, readMainFunctionDefinition, readName, readComment,
     readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd,
     readReturn, readFunction, readFunctionBody, readCode,
-    readIf, readMainFunction) where
+    readIf, readMainFunction, readWhile) where
 
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
@@ -24,7 +24,7 @@ import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
     displaySyntax''', mainFunctionSyntax, endMainFunctionSyntax,
     endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax,
-    returnSyntax', returnSyntax'')
+    returnSyntax', returnSyntax'', hiSyntax)
 
 import Data.Void (Void)
 
@@ -54,7 +54,7 @@ readValue =
 
 readQuotedValue :: Lexer LexedData
 readQuotedValue =
-    Symbol <$> (char '\"' *> manyTill L.charLiteral (char '\"'))
+    Text <$> (string "« " *> manyTill L.charLiteral (string " »"))
 
 readName :: Lexer LexedData
 readName =
@@ -133,7 +133,8 @@ convertToDuo _ = error "Not supposed to happen..?"
 
 readComboWord :: Lexer LexedData
 readComboWord = convertToDuo <$>
-    lexStringsWithTokens [SString "-", Space, Word, Space, WordVariableType]
+    lexStringsWithTokens [SString "-", Space, Word, SString ",", Space,
+        SString "de", Space, SString "type", Space, WordVariableType]
 
 readOptionalComboWords :: Lexer [LexedData]
 readOptionalComboWords = many (readComboWord <* space1)
@@ -245,7 +246,7 @@ lexStringsWithTokens' t (MultipleWords : xs) = readMultipleWords >>=
 lexStringsWithTokens' t (QuotedValue : xs) = readQuotedValue >>=
     \toAdd -> lexStringsWithTokens' (t ++ [toAdd]) xs
 lexStringsWithTokens' t (Name : xs) = readName >>=
-    \toAdd -> lexStringsWithTokens' (t ++ [toAdd]) xs
+    \_ -> lexStringsWithTokens' (t) xs
 
 lexStringsWithTokens :: [Syntax] -> Lexer [LexedData]
 lexStringsWithTokens toLex = lexStringsWithTokens' [] toLex
@@ -296,7 +297,7 @@ readInvoke = (try readInvoke''' <|> try readInvoke'' <|> try readInvoke' <|>
 readDisplay :: Lexer [LexedData]
 readDisplay = (try (lexStringsWithTokens' [Display] displaySyntax) <|>
     try (lexStringsWithTokens' [Display] displaySyntax') <|>
-    try (lexStringsWithTokens' [Display] displaySyntax'') <|>
+    try (lexStringsWithTokens' [DisplayNewLine] displaySyntax'') <|>
     try (lexStringsWithTokens' [Display] displaySyntax''')) <* readEOI
 
 readMainFunctionDefinition :: Lexer [LexedData]
@@ -349,6 +350,9 @@ readFunction = (readFunctionDefinition <* skipWhitespace) $++
     (readSomeInstructions) $++
     (readFunctionEnd <* skipWhitespace)
 
+readHi :: Lexer [LexedData]
+readHi = lexStringsWithTokens hiSyntax
+
 readMainFunction :: Lexer [LexedData]
 readMainFunction = (readMainFunctionDefinition <* skipWhitespace) $++
     (readSomeInstructions) $++
@@ -356,4 +360,5 @@ readMainFunction = (readMainFunctionDefinition <* skipWhitespace) $++
 
 readCode :: Lexer [LexedData]
 readCode =
-    concat <$> some (try readMainFunction <|> readFunction)
+    readHi *> space1 *>
+    (concat <$> some (try readMainFunction <|> readFunction))

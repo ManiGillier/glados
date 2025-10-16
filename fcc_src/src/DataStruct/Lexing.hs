@@ -42,7 +42,7 @@ data FuncTypes =
     deriving (Show, Eq)
 
 data LexedData =
-    Hi | -- Bonjour
+    Text String | -- Un texte entre guillemets (pas une variable)
     FuncDef | -- Début de définition d'une fonction
     FuncType FuncTypes | -- Type de fonction Main/Fonction
     ReturnType | -- Type de retour d'une fonction
@@ -71,7 +71,5 @@ data LexedData =
     Number Int | -- Numéro
     Operation Operations | -- Opération
     UnaryOperation UnaryOperations | -- Opération unaire
-    Comparator Comparators | -- Comparateur
-    Sayonara String String deriving (Show, Eq) -- Cordialement Nom Prénom
-
-
+    Comparator Comparators -- Comparateur
+    deriving (Show, Eq) 

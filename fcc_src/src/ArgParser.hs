@@ -42,8 +42,8 @@ aparser = Arguments
         <*> switch (short 'd' <> long "debug" <> help "enable debug mode")
 
 getOutput :: Arguments -> FilePath
-getOutput (Arguments _ _ _ True) = "stdout"
-getOutput (Arguments (i:_) [] _ _) = i
+getOutput (Arguments _ _ _ True) = "/dev/stdout"
+getOutput (Arguments (_:_) "" _ _) = "a.fcp"
 getOutput (Arguments _ o _ _) = o
 
 getMyArgs :: IO Arguments

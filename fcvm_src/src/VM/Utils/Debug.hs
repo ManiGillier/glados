@@ -8,7 +8,8 @@
 module VM.Utils.Debug (
     displayT
     ,callFoo
-    ,callFooBar) 
+    --,callFooBar
+    )
     where 
 
 import Data.Word (Word8)

@@ -5,7 +5,7 @@
 -- example ast
 -}
 
-module Example.Ast (exampleAst) where
+module Examples.Ast (exampleAst) where
 
 import DataStruct.Ast.Ast as Ast
 import DataStruct.Ast.Type as T

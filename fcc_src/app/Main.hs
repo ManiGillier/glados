@@ -8,6 +8,7 @@
 module Main (main) where
 
 import ArgParser (debugArgs, getMyArgs)
+import Error.MaybeError (printMaybeError)
 
 main :: IO ()
-main = getMyArgs >>= debugArgs
+main = getMyArgs >>= (printMaybeError debugArgs)

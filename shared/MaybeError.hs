@@ -7,6 +7,7 @@
 
 module Error.MaybeError ( ErrorType, MaybeError (..), fmap, pure, (<*>), (>>=)
              , printError
+             , printMaybeError
              , toMaybeError
              , toMaybe
              , invertMaybe
@@ -63,6 +64,10 @@ f !<$> (Just a) = \_ -> Correct $ f a
 printError :: MaybeError a -> IO ()
 printError (Error t c) = hPutStrLn stderr (t ++ ": " ++ c)
 printError _ = return ()
+
+printMaybeError :: (a -> IO ()) -> MaybeError a -> IO ()
+printMaybeError _ (Error t c) = hPutStrLn stderr (t ++ ": " ++ c)
+printMaybeError f (Correct a) = f a
 
 toMaybe :: MaybeError a -> Maybe a
 toMaybe (Correct x) = Just x

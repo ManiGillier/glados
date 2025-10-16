@@ -24,6 +24,9 @@ import Options.Applicative
       execParser,
       helper,
       Parser, failureCode )
+import Error.MaybeError (MaybeError (Correct, Error))
+import Error.ErrorList (unsupportedLanguage)
+import Data.Functor ((<&>))
 
 data Arguments = Arguments
     { input     :: ![String] -- Input files's name
@@ -46,11 +49,24 @@ getOutput (Arguments _ _ _ True) = "/dev/stdout"
 getOutput (Arguments (_:_) "" _ _) = "a.fcp"
 getOutput (Arguments _ o _ _) = o
 
-getMyArgs :: IO Arguments
-getMyArgs = execParser $ info (aparser <**> helper) $
+endWith :: Eq a => [a] -> [a] -> Bool
+endWith [] _ = True
+endWith (l:ls) (l':ls')
+  | l:ls == l':ls' = True
+  | otherwise = endWith (l:ls) ls'
+endWith _ [] = False
+
+manageArgErrors :: Arguments -> MaybeError Arguments
+manageArgErrors a@(Arguments [] _ _ _) = Correct a
+manageArgErrors a@(Arguments (x:xs) _ _ _)
+  | endWith ".fr" x = manageArgErrors (a { input=xs }) <&> return a
+  | otherwise = Error unsupportedLanguage x
+
+getMyArgs :: IO (MaybeError Arguments)
+getMyArgs = (execParser $ info (aparser <**> helper) $
   fullDesc <> progDesc
   "This program is a compiler for the Franc C programming language"
-  <> failureCode 84
+  <> failureCode 84) <&> manageArgErrors
 
 debugArgs :: Arguments -> IO ()
 debugArgs (Arguments i o l d) =

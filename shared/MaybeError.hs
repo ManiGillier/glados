@@ -43,6 +43,14 @@ instance Monad MaybeError where
   (>>=) (Correct x) f = f x
   (>>=) (Error errorType str) _ = Error errorType str
 
+instance Foldable MaybeError where
+  foldMap _ (Error _ _) = mempty
+  foldMap f (Correct x) = f x
+
+instance Traversable MaybeError where
+  traverse _ (Error t m) = pure (Error t m)
+  traverse f (Correct a) = Correct <$> f a
+
 toMaybeError :: Maybe a -> (ErrorType,String) -> MaybeError a
 toMaybeError Nothing (err_type,err_str) = Error err_type err_str
 toMaybeError (Just result) _ = Correct result

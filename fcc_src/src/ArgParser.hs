@@ -33,7 +33,7 @@ data Arguments = Arguments
     , output    :: !String   -- Output file's name
     , llvm      :: !Bool     -- Usage of LLVM
     , debug     :: !Bool     -- Debug
-    }
+    } deriving (Show, Eq)
 
 aparser :: Parser Arguments
 aparser = Arguments

@@ -7,33 +7,40 @@
 
 module Main (main) where
 
-import ArgParser (debugArgs, getMyArgs, Arguments (Arguments))
+import ArgParser (debugArgs, getMyArgs, Arguments (Arguments, input))
 import Error.MaybeError (printMaybeError, MaybeError (..))
 import Error.ErrorList (fileError)
-import Control.Exception (try)
+import Control.Exception (try, catch, Exception)
 import Data.Functor ((<&>))
+import System.IO (readFile)
+import GHC.IO.Exception (IOException(IOError))
+import Data.Maybe (fromMaybe)
+import Data.Function ((&))
 
-infixl 1 >>=-
-(>>=-) :: IO (MaybeError Arguments) -> (Arguments -> IO (MaybeError Arguments))
-  -> IO (MaybeError Arguments)
-ioma >>=- f = ioma >>= \ma -> case ma of
-  Correct a -> f a
-  Error et em -> return $ Error et em
+setInput :: Arguments -> [String] -> Arguments
+setInput a s = a { input = s }
 
-maybeReadFile :: String -> IO (MaybeError String)
-maybeReadFile file = ioResult <&>
-  (\r -> case r of
-    Left _ -> Error fileError file
-    Right content -> Correct content
+readAllFiles :: (MaybeError Arguments) -> IO (MaybeError Arguments)
+readAllFiles a = sequence
+  (a <&>
+   (\a' -> (mapM readFile $ input a') <&> setInput a'))
+
+manageIoError :: IOException -> MaybeError a
+manageIoError (IOError _ _ _ _ _ file) = Error fileError (fromMaybe "" file)
+
+checkErrors :: IO (MaybeError a) -> IO (MaybeError a)
+checkErrors x = try x <&>
+  (\err -> case err of
+             Left e -> manageIoError e
+             Right a -> a
   )
-  where ioResult = try (readFile file) :: IO (Either IOError String)
 
-maybeReadAllFiles :: Arguments -> IO (MaybeError Arguments)
-maybeReadAllFiles (Arguments a b c d) = newArgs
-  where files = mapM maybeReadFile a :: IO ([MaybeError String])
-        filesErr = sequence <$> files
-        newArgs = (\aNoIo -> (\newA -> (Arguments newA b c d)) <$> aNoIo)
-          <$> filesErr
+parseArgs :: Arguments -> MaybeError String
+parseArgs = return . show
 
 main :: IO ()
-main = getMyArgs >>=- maybeReadAllFiles >>= (printMaybeError debugArgs)
+main = do
+  args <- getMyArgs
+  readArgs <- checkErrors $ readAllFiles args
+  let parsedArgs = readArgs >>= parseArgs
+  printMaybeError putStrLn parsedArgs

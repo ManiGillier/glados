@@ -24,7 +24,7 @@ import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
     displaySyntax''', mainFunctionSyntax, endMainFunctionSyntax,
     endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax,
-    returnSyntax', returnSyntax'', hiSyntax)
+    returnSyntax', returnSyntax'', hiSyntax, elseSyntax)
 
 import Data.Void (Void)
 
@@ -71,18 +71,34 @@ readUnaryOperation = UnaryOperation <$> choice [
 
 readOperation :: Lexer LexedData
 readOperation = Operation <$> choice [
+    arithmeticOperations,
+    binaryOperations,
+    logicalOperations,
+    bitshiftOperations]
+
+arithmeticOperations :: Lexer Operations
+arithmeticOperations = choice [
     Add      <$ string "plus",
     Subtract <$ string "moins",
     Multiply <$ string "fois",
     Multiply <$ lexSyntax [SString "multiplié", Space, SString "par"],
     Divide   <$ lexSyntax [SString "divisé", Space, SString "par"],
-    Modulo <$ string "modulo",
+    Modulo <$ string "modulo"]
+
+binaryOperations :: Lexer Operations
+binaryOperations = choice [
     BinaryAnd <$ try (lexSyntax [SString "et", Space, SString "binaire"]),
     BinaryOr <$ try (lexSyntax [SString "ou", Space, SString "binaire"]),
     Xor <$ try (lexSyntax [SString "ou", Space, SString "exclusif"]),
-    Xor <$ string "xor",
+    Xor <$ string "xor"]
+
+logicalOperations :: Lexer Operations
+logicalOperations = choice [
     And <$ string "et",
-    Or <$ string "ou",
+    Or <$ string "ou"]
+
+bitshiftOperations :: Lexer Operations
+bitshiftOperations = choice [
     LeftBitshift <$ try (lexSyntax [SString "décalé", Space,
         SString "binairement", Space, SString "à", Space, SString "gauche"]),
     RightBitshift <$ try (lexSyntax [SString "décalé", Space,
@@ -327,8 +343,14 @@ readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)
     <*> lexStringsWithTokens assignValueSyntax
     <* readEOI
 
+readIfElse :: Lexer [LexedData]
+readIfElse = (readIfCondition <* skipWhitespace) $++
+    (return [Then]) $++ (readSomeInstructions) $++
+    (lexStringsWithTokens' [Else] elseSyntax <* skipWhitespace) $++
+    readSomeInstructions $++ readIfEnd
+
 readIf :: Lexer [LexedData]
-readIf = (readIfCondition <* skipWhitespace) $++
+readIf = try readIfElse <|> (readIfCondition <* skipWhitespace) $++
     (return [Then]) $++ (readSomeInstructions) $++
     (readIfEnd)
 
@@ -339,8 +361,8 @@ readWhile = (readWhileCondition <* skipWhitespace) $++
 
 readFunctionBody :: Lexer [LexedData]
 readFunctionBody =
-    try readAssign <|> try readIf <|> try readWhile <|> try readReturn <|> try readInvoke <|> try readComment <|>
-        readDisplay
+    try readAssign <|> try readIf <|> try readWhile <|> try readReturn
+    <|> try readInvoke <|> try readComment <|> readDisplay
 
 readSomeInstructions :: Lexer [LexedData]
 readSomeInstructions = concat <$> some (readFunctionBody <* skipWhitespace)

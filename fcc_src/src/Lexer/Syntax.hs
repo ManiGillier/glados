@@ -82,7 +82,7 @@ ifConditionSyntax = [SString "Si", Space, Condition, SString ",", Space,
     SString ":"]
 
 elseSyntax :: [Syntax]
-elseSyntax = [Space, SString ";", Space, SString "sinon,", Space,
+elseSyntax = [SString ";", Space, SString "sinon,", Space,
     SString "exécute", Space, SString "le", Space, SString "texte", Space,
     SString ":"]
 
@@ -168,7 +168,8 @@ mainFunctionSyntax = [SString "En", Space, SString "sachant", Space,
     SString "ici", Space, SString "?"]
 
 endMainFunctionSyntax :: [Syntax]
-endMainFunctionSyntax = [SString "Merci d'avance,", Space, SString "Cordialement,", Space, Name, Name]
+endMainFunctionSyntax = [SString "Merci d'avance,", Space,
+    SString "Cordialement,", Space, Name, Name]
 
 returnSyntax:: [Syntax]
 returnSyntax = [SString "Enfin,", Space, SString "renvoie", Space, Value]

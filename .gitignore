@@ -2,6 +2,7 @@
 *~
 stack.yaml.lock
 glados
+glados 2
 *.lsp
 /glados.cabal
 ./test/coverage
@@ -16,3 +17,4 @@ test/coverage/
 /fcvm_src/fcvm
 /lisp/glados
 */*.cabal
+.DS_Store

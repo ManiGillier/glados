@@ -1,0 +1,179 @@
+#    -*- mode: org -*-
+
+
+Archived entries from file /home/mani/Documents/Work/Epitech/glados/todo.org
+
+
+* DONE Ajouter MaybeError
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 11:07]--[2025-09-22 Mon 11:24] =>  0:17
+:END:
+
+* DONE Ajouter erreurs dans parsing
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 13:31]--[2025-09-22 Mon 13:39] =>  0:08
+CLOCK: [2025-09-22 Mon 11:24]--[2025-09-22 Mon 12:20] =>  0:56
+:END:
+
+* CANCELED Make lists a valid type
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: CANCELED
+:END:
+- State "CANCELED"   from "TODO"       [2025-09-22 Mon 14:19] \\
+  Would need to rework exec also
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 13:39]--[2025-09-22 Mon 14:19] =>  0:40
+:END:
+
+* DONE Make a list of tests
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-09-22 Mon 14:16]-[2025-09-22 Mon 15:06] =>  0:50
+:END:
+
+* DONE Show prompt only in interactive mode
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-09-25 Thu 17:17
+:ARCHIVE_FILE: ~/Documents/Work/Epitech/glados/tasks.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: tasks
+:ARCHIVE_TODO: DONE
+:END:
+
+* DONE [#A] FIX Variable management is just plain wrong :/
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-10-01 Wed 17:04]--[2025-10-01 Wed 18:00] =>  0:56
+CLOCK: [2025-10-01 Wed 15:59]--[2025-10-01 Wed 16:22] =>  0:23
+:END:
+
+* DONE Computable Management
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+
+* CI/CD [2/2]
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:END:
+** DONE Fix CI Compilation crashes
+DEADLINE: <2025-09-26 Fri 15:00>
+:LOGBOOK:
+CLOCK: [2025-09-27 Sat 13:57]--[2025-09-27 Sat 15:57] =>  2:00
+:END:
+** DONE Separate CI in multiple files
+DEADLINE: <2025-09-26 Fri 18:00>
+:LOGBOOK:
+CLOCK: [2025-09-27 Sat 10:01]--[2025-09-27 Sat 13:57] =>  3:56
+:END:
+
+* DONE Fix coding-style
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-09-27 Sat 16:55]--[2025-09-27 Sat 16:57] =>  0:02
+:END:
+
+* AST
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:END:
+** DONE Separate the AST in multiple files to fix compilation
+:LOGBOOK:
+CLOCK: [2025-09-30 Tue 10:49]--[2025-09-30 Tue 11:23] =>  0:34
+:END:
+
+* DONE Variable management (Read variables)
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-10-01 Wed 14:43]--[2025-10-01 Wed 15:59] =>  1:16
+CLOCK: [2025-10-01 Wed 14:00]--[2025-10-01 Wed 14:35] =>  0:35
+CLOCK: [2025-10-01 Wed 11:45]--[2025-10-01 Wed 12:52] =>  1:07
+:END:
+
+* DONE Merge operation & computable
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-10-01 Wed 10:55]--[2025-10-01 Wed 11:04] =>  0:09
+:END:
+
+* DONE Operation Management
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:ARCHIVE_TODO: DONE
+:END:
+:LOGBOOK:
+CLOCK: [2025-10-01 Wed 11:04]--[2025-10-01 Wed 11:25] =>  0:21
+:END:
+
+* ADMIN
+:PROPERTIES:
+:ARCHIVE_TIME: 2025-10-07 Tue 10:16
+:ARCHIVE_FILE: /home/mani/Documents/Work/Epitech/glados/todo.org
+:ARCHIVE_OLPATH: TASK
+:ARCHIVE_CATEGORY: todo
+:END:
+** DONE Create the second part trello
+:LOGBOOK:
+CLOCK: [2025-09-30 Tue 11:33]--[2025-09-30 Tue 11:55] =>  0:22
+:END:

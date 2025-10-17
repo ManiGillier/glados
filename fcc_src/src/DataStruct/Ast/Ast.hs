@@ -12,18 +12,21 @@ module DataStruct.Ast.Ast (Ast (..)
                           , Operation (..)
                           , Computable (..)
                           , Condition (..)
-                          , FunctionBody (..)
+                          , FunctionBody
+                          , FunctionBodyContent (..)
                           , FunctionDef (..)
                           , MainFunctionDef (..)
+                          , CombinedAst (..)
                           , a) where
 
 import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
                                                 , VariableName
-                               , VariableDef (..), ReturnType (..))
+                               , VariableDef (..), ReturnType (..), FuncParam)
 
 type FunctionName = String
 
 data UnaryOperator = BinaryNot | BooleanNot | Negate
+  deriving (Eq, Show)
 
 data BinaryOperator =
   BinaryAnd | BinaryOr | BooleanAnd | BooleanOr
@@ -31,15 +34,18 @@ data BinaryOperator =
   | Add | Sub | Multiplication | Division | Modulo
   | Superior | SuperiorOrEq | Inferior | InferiorOrEq
   | Equals | Is | Different
+  deriving (Eq, Show)
 
 data Operation =
   BinaryOperation BinaryOperator Computable Computable
   | UnaryOperation UnaryOperator Computable
+  deriving (Eq, Show)
 
 data Computable =
   Value Var.VariableValue
   | Operation Operation
   | Variable Var.VariableName
+  deriving (Eq, Show)
 
 -- 1 + x - 5
 a :: Computable
@@ -48,17 +54,26 @@ a = Operation $ BinaryOperation Sub
   (Value $ Var.Int 5)
 
 data Condition = Condition Computable
+  deriving (Eq, Show)
 
-data FunctionBody =
+data FunctionBodyContent =
   Assign Var.VariableName Computable
   | If Condition FunctionBody (Maybe FunctionBody)
   | Invoke FunctionName [Computable]
   | Loop Condition FunctionBody
   | Return Computable
   | Show Computable
+  deriving (Eq, Show)
 
-data FunctionDef = Function FunctionName Var.ReturnType [Var.VariableDef] FunctionBody
+type FunctionBody = [FunctionBodyContent]
+
+data FunctionDef = Function FunctionName Var.ReturnType
+  [Var.FuncParam] [Var.VariableDef] FunctionBody
+  deriving (Eq, Show)
 
 data MainFunctionDef = Main [Var.VariableDef] FunctionBody
+  deriving (Eq, Show)
 
-data Ast = Ast MainFunctionDef [FunctionDef]
+data Ast = Ast (Maybe MainFunctionDef) [FunctionDef] deriving (Eq, Show)
+
+data CombinedAst = CAst MainFunctionDef [FunctionDef] deriving (Eq, Show)

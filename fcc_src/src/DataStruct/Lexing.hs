@@ -6,7 +6,9 @@
 -}
 
 module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..),
-    UnaryOperations(..), FuncTypes(..), LexedTypes(..)) where
+    UnaryOperations(..), FuncTypes(..), LexedTypes(..), VarValue(..)) where
+
+import Data.Int (Int64)
 
 data UnaryOperations =
     Not |
@@ -41,6 +43,12 @@ data FuncTypes =
     Main | Function
     deriving (Show, Eq)
 
+data VarValue =
+  Bool Bool
+  | String String
+  | Int Int64
+  deriving (Show, Eq)
+
 data LexedData =
     Text String | -- Un texte entre guillemets (pas une variable)
     FuncDef | -- Début de définition d'une fonction
@@ -67,8 +75,8 @@ data LexedData =
     EndFunction | -- Fin d'une fonction
     Return | -- Retourner une valeur.
     Symbol String | -- Entrée utilisateur
-    SymbolWithType String LexedTypes | -- Combo entrée utilisateur et type
-    Number Int | -- Numéro
+    VariableDeclaration String LexedTypes VarValue | -- Déclaration variable
+    Number Int64 | -- Numéro
     Operation Operations | -- Opération
     UnaryOperation UnaryOperations | -- Opération unaire
     Comparator Comparators -- Comparateur

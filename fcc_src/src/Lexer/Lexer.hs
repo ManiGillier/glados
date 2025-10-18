@@ -31,7 +31,7 @@ import Data.Void (Void)
 import ApplicativeAddons
 
 import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..),
-    UnaryOperations(..), FuncTypes(..))
+    UnaryOperations(..), FuncTypes(..), VarValue(..))
 
 import Text.Megaparsec
 import Text.Megaparsec.Char
@@ -143,14 +143,23 @@ readComputables = concat <$> (readComputableAfterOperation $:
 readCondition :: Lexer [LexedData]
 readCondition = readComputables
 
-convertToDuo :: [LexedData] -> LexedData
-convertToDuo [Symbol a, LexedType b] = SymbolWithType a b
-convertToDuo _ = error "Not supposed to happen..?"
+convertToDeclaration :: [LexedData] -> LexedData
+convertToDeclaration [Symbol a, LexedType b, Number c] =
+    VariableDeclaration a b (Int c)
+convertToDeclaration [Symbol a, LexedType b, Text c] =
+    VariableDeclaration a b (String c)
+convertToDeclaration _ = error "Not supposed to happen..?"
 
 readComboWord :: Lexer LexedData
-readComboWord = convertToDuo <$>
-    lexStringsWithTokens [SString "-", Space, Word, SString ",", Space,
-        SString "de", Space, SString "type", Space, WordVariableType]
+readComboWord = convertToDeclaration <$> readVariableDeclaration
+
+readVariableDeclaration :: Lexer [LexedData]
+readVariableDeclaration = try (lexStringsWithTokens [SString "-", Space, Word,
+        SString ",", Space, SString "de", Space, SString "type", Space,
+        WordVariableType, SString ",", Space, SString "valant", Space, Value])
+        <|> lexStringsWithTokens [SString "-", Space, Word, SString ",", Space,
+        SString "de", Space, SString "type", Space, WordVariableType,
+        SString ",", Space, SString "valant", Space, QuotedValue]
 
 readOptionalComboWords :: Lexer [LexedData]
 readOptionalComboWords = many (readComboWord <* space1)

@@ -14,7 +14,7 @@ Tant que compteur est inférieure à 100 exécute le code ci-après :
         Affiche « Buzz ».
     Merci.
 
-    Si compteur modulo 3 est différent à 0 et compteur modulo 5 est différent à 0, exécute le texte : 
+    Si compteur modulo 3 est différent de 0 et compteur modulo 5 est différent de 0, exécute le texte : 
         Affiche compteur.
     Merci.
 

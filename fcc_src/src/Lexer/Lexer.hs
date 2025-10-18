@@ -106,14 +106,14 @@ bitshiftOperations = choice [
 
 readComparator :: Lexer LexedData
 readComparator = Comparator <$> choice [
-    Equal <$ string "égale",
-    Different <$ string "différent",
+    Equal <$ lexSyntax [SString "égale", Space, SString "à"],
+    Different <$ lexSyntax [SString "différent", Space, SString "de"],
     InferiorOrEqual <$ try (lexSyntax [SString "inférieure", Space,
-        SString "ou", Space, SString "égale"]),
+        SString "ou", Space, SString "égale", Space, SString "à"]),
     SuperiorOrEqual <$ try (lexSyntax [SString "supérieure", Space,
-        SString "ou", Space, SString "égale"]),
-    Inferior <$ string "inférieure",
-    Superior <$ string "supérieure"]
+        SString "ou", Space, SString "égale", Space, SString "à"]),
+    Inferior <$ lexSyntax [SString "inférieure", Space, SString "à"],
+    Superior <$ lexSyntax [SString "supérieure", Space, SString "à"]]
 
 readParenthesisComputable :: Lexer [LexedData]
 readParenthesisComputable =
@@ -132,8 +132,8 @@ readComputableAfterOperation =  try
     try readParenthesisComputable <|> (glob readWord)
 
 readComputable :: Lexer [LexedData]
-readComputable = try ((space1 *> string "est" *> space1 *> glob readComparator
-    <* space <* string "à") $++ (space1 *> readComputableAfterOperation)) <|>
+readComputable = try ((space1 *> string "est" *> space1 *> glob readComparator)
+    $++ (space1 *> readComputableAfterOperation)) <|>
     try (space1 *> readOperation $: (space1 *> readComputableAfterOperation))
 
 readComputables :: Lexer [LexedData]

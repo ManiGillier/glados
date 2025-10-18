@@ -11,6 +11,8 @@ module Error.ErrorList
   , alreadyDefVarErr
   , alreadyDefFuncErr
   , noMainErr
+  , unsupportedLanguage
+  , fileError
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -29,3 +31,9 @@ alreadyDefFuncErr = "Redefinition of function"
 
 noMainErr :: ErrorType
 noMainErr = "Undefined reference of main"
+
+unsupportedLanguage :: ErrorType
+unsupportedLanguage = "File extension is from an unsupported language"
+
+fileError :: ErrorType
+fileError = "File error"

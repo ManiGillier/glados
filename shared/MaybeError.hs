@@ -14,6 +14,9 @@ module Error.MaybeError ( ErrorType, MaybeError (..), fmap, pure, (<*>), (>>=)
              , (!<$>)
              , (!>>=)
              , (!>)
+             , isMaybeErr
+             , ifMaybeErr
+             , execMaybeError
              ) where
 
 import System.IO ( hPutStrLn, stderr )
@@ -85,3 +88,15 @@ invertMaybe :: Maybe (MaybeError a) -> MaybeError (Maybe a)
 invertMaybe Nothing = Correct Nothing
 invertMaybe (Just (Correct a)) = Correct (Just a)
 invertMaybe (Just (Error x y)) = Error x y
+
+isMaybeErr :: MaybeError a -> (a -> Bool) -> Bool
+isMaybeErr (Error _ _) _ = False
+isMaybeErr (Correct a) f = f a
+
+ifMaybeErr :: MaybeError a -> (a -> b) -> b -> b
+ifMaybeErr (Error _ _) _ b = b
+ifMaybeErr (Correct a) f _ = f a
+
+execMaybeError :: MaybeError (IO ()) -> IO ()
+execMaybeError (Correct a) = a
+execMaybeError e = printError e

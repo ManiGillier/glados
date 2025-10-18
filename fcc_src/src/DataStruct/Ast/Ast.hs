@@ -17,7 +17,7 @@ module DataStruct.Ast.Ast (Ast (..)
                           , FunctionDef (..)
                           , MainFunctionDef (..)
                           , CombinedAst (..)
-                          , a) where
+                          ) where
 
 import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
                                                 , VariableName
@@ -46,12 +46,6 @@ data Computable =
   | Operation Operation
   | Variable Var.VariableName
   deriving (Eq, Show)
-
--- 1 + x - 5
-a :: Computable
-a = Operation $ BinaryOperation Sub
-  (Operation $ BinaryOperation Add (Value (Var.Int 1)) (Variable "x"))
-  (Value $ Var.Int 5)
 
 data Condition = Condition Computable
   deriving (Eq, Show)

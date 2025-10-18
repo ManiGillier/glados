@@ -36,18 +36,21 @@ data Arguments = Arguments
     } deriving (Show, Eq)
 
 aparser :: Parser Arguments
-aparser = Arguments
+aparser = changeOutput <$> (Arguments
     <$> some (strArgument (metavar "FILESNAME" <> help
         "List of the sourcefiles (.fr)" )) <*> strOption (short 'o' <> long
         "output" <> metavar "FILENAME" <> help "output's file name" <> value ""
         <> showDefault) <*>
         switch (long "llvm" <> help "Enable the use of LLVM")
-        <*> switch (short 'd' <> long "debug" <> help "enable debug mode")
+        <*> switch (short 'd' <> long "debug" <> help "enable debug mode"))
 
 getOutput :: Arguments -> FilePath
 getOutput (Arguments _ _ _ True) = "/dev/stdout"
 getOutput (Arguments (_:_) "" _ _) = "a.fcp"
 getOutput (Arguments _ o _ _) = o
+
+changeOutput :: Arguments -> Arguments
+changeOutput args = args { output = getOutput args }
 
 endWith :: Eq a => [a] -> [a] -> Bool
 endWith [] _ = True

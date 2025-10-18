@@ -7,15 +7,23 @@
 
 module Main (main) where
 
-import ArgParser (debugArgs, getMyArgs, Arguments (Arguments, input))
+import ArgParser (getMyArgs, Arguments (Arguments, input, output))
 import Error.MaybeError (printMaybeError, MaybeError (..))
 import Error.ErrorList (fileError)
-import Control.Exception (try, catch, Exception)
 import Data.Functor ((<&>))
-import System.IO (readFile)
 import GHC.IO.Exception (IOException(IOError))
 import Data.Maybe (fromMaybe)
-import Data.Function ((&))
+
+import DataStruct.Ast.Ast as Ast
+import DataStruct.Ast.Type as T
+import DataStruct.Ast.Variable as V
+import Combinor.Ast (combineAst)
+import Compiler.Ast (compile)
+import ByteCode.AsmToBytecode (asmToBytecode)
+import Binary.InstructionToAsm (instructionToAsm)
+import Data.Word (Word8)
+import DataStruct.Asm (Instruction)
+import Control.Exception (try)
 
 setInput :: Arguments -> [String] -> Arguments
 setInput a s = a { input = s }
@@ -35,12 +43,82 @@ checkErrors x = try x <&>
              Right a -> a
   )
 
-parseArgs :: Arguments -> MaybeError String
-parseArgs = return . show
+-- Lexing :D
+-- TEMPORARY
+-- TODO: Remove when parsing is implemented !
+-- Will make the CodingStyle FAIL !
+parseArgs :: Arguments -> MaybeError [Ast]
+parseArgs _ = Correct $ [
+  Ast
+  -- MAIN --
+  (Just $ Main
+   -- Main Variables
+   []
+   -- Main Content
+   [ Invoke "foo" [Ast.Value $ V.Int 42, Ast.Value $ V.Int 1]
+   , Invoke "foo"
+     [ Ast.Operation $ Ast.BinaryOperation Ast.Add
+       (Ast.Value $ V.Int 48)
+       (Ast.Value $ V.Int 5)
+     , Ast.Value $ V.Int 2
+     ]
+   , Invoke "bar" [Ast.Value $ V.Int 5]
+   ])
+  -- OTHER FUNCS --
+  [ Ast.Function "foo" V.Void
+    -- FOO Params
+    [ V.FuncParam "a" T.Int, V.FuncParam "b" T.Int ]
+    -- FOO Variables
+    [ VariableDef "c" T.Int $ V.Int 0 ]
+    -- FOO Content
+    [ Assign "c" $ Ast.Operation
+      $ Ast.BinaryOperation
+        Ast.Add
+        (Ast.Variable "a")
+        (Ast.Variable "b")
+    , Assign "c" $ Ast.Operation
+      $ Ast.BinaryOperation
+        Ast.Add
+        (Ast.Variable "c")
+        (Ast.Value $ V.Int 1)
+    , Show $ Ast.Variable "c"
+    ]
+  , Ast.Function "bar" V.Void
+    -- BAR PARAMS
+    [V.FuncParam "a" T.Int]
+    -- BAR VARIABLES
+    [VariableDef "b" T.Int $ V.Int 0]
+    -- BAR BODY
+    [ Assign "b" $ Ast.Value $ V.Int 48
+    , Assign "b" $ Ast.Operation
+      $ Ast.BinaryOperation
+        Ast.Add
+        (Ast.Variable "a")
+        (Ast.Variable "b")
+    , Invoke "foo" [ Ast.Variable "b", Ast.Value $ V.Int (-1) ]
+    ]
+  ]
+  ]
+
+w2c :: Word8 -> Char
+w2c w = toEnum c
+  where c = fromEnum w
+
+writeBytecode :: Arguments -> [Word8] -> IO ()
+writeBytecode args l = writeFile (output args) (map w2c l)
+
+getAsm :: Arguments -> MaybeError [Instruction]
+getAsm args = parseArgs args >>= combineAst >>= compile
+
+writeOutput :: (Arguments, [Instruction]) -> IO ()
+writeOutput (a@(Arguments _ outputFile _ isDebug),l)
+    | isDebug = writeFile outputFile $ instructionToAsm l
+    | otherwise = writeBytecode a $ asmToBytecode [] l
 
 main :: IO ()
 main = do
   args <- getMyArgs
   readArgs <- checkErrors $ readAllFiles args
-  let parsedArgs = readArgs >>= parseArgs
-  printMaybeError putStrLn parsedArgs
+  let asm = readArgs >>= getAsm
+  let param = (,) <$> args <*> asm
+  printMaybeError writeOutput param

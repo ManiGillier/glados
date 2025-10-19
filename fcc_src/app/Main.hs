@@ -24,14 +24,14 @@ import Binary.InstructionToAsm (instructionToAsm)
 import Data.Word (Word8)
 import DataStruct.Asm (Instruction)
 import Control.Exception (try)
+import Debug.Trace (trace)
+import Lexer.Lexer (readCode)
+import Text.Megaparsec (parse, errorBundlePretty)
 
-setInput :: Arguments -> [String] -> Arguments
-setInput a s = a { input = s }
-
-readAllFiles :: (MaybeError Arguments) -> IO (MaybeError Arguments)
+readAllFiles :: (MaybeError Arguments) -> IO (MaybeError [(String, String)])
 readAllFiles a = sequence
   (a <&>
-   (\a' -> (mapM readFile $ input a') <&> setInput a'))
+   (\a' -> (mapM (\file -> (,) <$> readFile file <*> return file) $ input a')))
 
 manageIoError :: IOException -> MaybeError a
 manageIoError (IOError _ _ _ _ _ file) = Error fileError (fromMaybe "" file)
@@ -47,8 +47,13 @@ checkErrors x = try x <&>
 -- TEMPORARY
 -- TODO: Remove when parsing is implemented !
 -- Will make the CodingStyle FAIL !
-parseArgs :: Arguments -> MaybeError [Ast]
-parseArgs _ = Correct $ [
+parseArgs :: (String, String) -> MaybeError Ast
+parseArgs (content,name) =
+  trace (case parse readCode name content of
+           Left a -> errorBundlePretty a
+           Right b -> show b
+        ) $ Correct
+  $
   Ast
   -- MAIN --
   (Just $ Main
@@ -98,7 +103,6 @@ parseArgs _ = Correct $ [
     , Invoke "foo" [ Ast.Variable "b", Ast.Value $ V.Int (-1) ]
     ]
   ]
-  ]
 
 w2c :: Word8 -> Char
 w2c w = toEnum c
@@ -106,9 +110,6 @@ w2c w = toEnum c
 
 writeBytecode :: Arguments -> [Word8] -> IO ()
 writeBytecode args l = writeFile (output args) (map w2c l)
-
-getAsm :: Arguments -> MaybeError [Instruction]
-getAsm args = parseArgs args >>= combineAst >>= compile
 
 writeOutput :: (Arguments, [Instruction]) -> IO ()
 writeOutput (a@(Arguments _ outputFile _ isDebug),l)
@@ -119,6 +120,6 @@ main :: IO ()
 main = do
   args <- getMyArgs
   readArgs <- checkErrors $ readAllFiles args
-  let asm = readArgs >>= getAsm
+  let asm = readArgs >>= (mapM parseArgs) >>= combineAst >>= compile
   let param = (,) <$> args <*> asm
   printMaybeError writeOutput param

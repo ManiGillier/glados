@@ -20,6 +20,7 @@ module Error.MaybeError ( ErrorType, MaybeError (..), fmap, pure, (<*>), (>>=)
              ) where
 
 import System.IO ( hPutStrLn, stderr )
+import System.Exit (exitWith, ExitCode (ExitFailure))
 
 type ErrorType = String
 
@@ -78,6 +79,7 @@ printError _ = return ()
 
 printMaybeError :: (a -> IO ()) -> MaybeError a -> IO ()
 printMaybeError _ (Error t c) = hPutStrLn stderr (t ++ ": " ++ c)
+  >> exitWith (ExitFailure 84)
 printMaybeError f (Correct a) = f a
 
 toMaybe :: MaybeError a -> Maybe a

@@ -53,7 +53,7 @@ data Condition = Condition Computable
 data FunctionBodyContent =
   Assign Var.VariableName Computable
   | If Condition FunctionBody (Maybe FunctionBody)
-  | Invoke FunctionName [Computable]
+  | Invoke FunctionName [Computable] (Maybe Var.VariableName)
   | Loop Condition FunctionBody
   | Return Computable
   | Show Computable

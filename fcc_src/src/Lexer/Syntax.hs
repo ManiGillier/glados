@@ -11,8 +11,7 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionDefinitionReturnTypeSyntax,
     functionDefinitionParametersSyntax,
     functionDefinitionWithVariablesSyntax,
-    functionDefinitionEndSyntax,
-    functionDefinitionReturnsVariableSyntax, functionTypes, variableTypes,
+    functionDefinitionEndSyntax, functionTypes, variableTypes,
     invokeSyntax, invokeAssignSyntax, invokeParametersSyntax,
     displaySyntax, displaySyntax', displaySyntax'', displaySyntax''',
     mainFunctionSyntax, endMainFunctionSyntax, elseSyntax,
@@ -29,12 +28,14 @@ data Syntax =
     Condition |
     ComboWord |
     OptionalComboWord |
+    OptionalComboWordsWithValue |
     OptionalComboWords |
     OptionalSpace |
     WordVariableType |
     WordFunctionType |
     MultipleSString [String] |
     MultipleWords |
+    MultipleComputables |
     QuotedValue |
     Name |
     Placeholder LexedData
@@ -70,11 +71,11 @@ assignValueSyntax = [Space, SString "prenne", Space, SString "la", Space,
 assignSyntax :: [Syntax]
 assignSyntax = [SString "J'aimerais", Space, SString "que", Space, Word,
     Space, SString "prenne", Space, SString "la", Space, SString "valeur",
-    Space, Value]
+    Space, Condition]
 
 assignSyntax' :: [Syntax]
 assignSyntax' = [Word, Space, SString "prend", Space, SString "la", Space,
-    SString "valeur", Space, Value]
+    SString "valeur", Space, Condition]
 
 ifConditionSyntax :: [Syntax]
 ifConditionSyntax = [SString "Si", Space, Condition, SString ",", Space,
@@ -119,16 +120,12 @@ functionDefinitionParametersSyntax = [SString "nécessitant", Space,
 functionDefinitionWithVariablesSyntax :: [Syntax]
 functionDefinitionWithVariablesSyntax = [SString "contenant", Space,
     SString "les", Space, SString "variables", Space, SString ":", Space,
-    OptionalComboWords, SString ";", Space]
+    OptionalComboWordsWithValue, SString ";", Space]
 
 functionDefinitionEndSyntax :: [Syntax]
 functionDefinitionEndSyntax = [SString "représenté", Space, SString "par",
     Space, SString "le", Space, SString "code", Space,
     MultipleSString ["ci-après", "suivant", "ci-dessous"]]
-
-functionDefinitionReturnsVariableSyntax :: [Syntax]
-functionDefinitionReturnsVariableSyntax = [SString ",", Space,
-    SString "retournant", Space, Word]
 
 invokeSyntax :: [Syntax]
 invokeSyntax = [SString "J'invoque", Space, SString "le", Space,
@@ -142,7 +139,7 @@ invokeAssignSyntax = [SString ",", Space, SString "et", Space,
 
 invokeParametersSyntax :: [Syntax]
 invokeParametersSyntax = [SString ",", Space, SString "avec les paramètres",
-    Space, MultipleWords]
+    Space, MultipleComputables]
 
 displaySyntax :: [Syntax]
 displaySyntax = [SString "Affiche", Space, Value]
@@ -162,7 +159,8 @@ mainFunctionSyntax :: [Syntax]
 mainFunctionSyntax = [SString "En", Space, SString "sachant", Space,
     SString "que", Space, SString "les", Space, SString "variables", Space,
     SString "principales", Space, SString "sont", Space, SString ":", Space,
-    OptionalComboWords, SString ";", Space, SString "pourrais-tu", Space,
+    OptionalComboWordsWithValue, SString ";", Space, SString "pourrais-tu",
+    Space,
     SString "s'il", Space, SString "te", Space, SString "plaît", Space,
     SString "commencer", Space, SString "la", Space, SString "lecture", Space,
     SString "ici", Space, SString "?"]

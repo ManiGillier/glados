@@ -20,12 +20,13 @@ import Compiler.Condition (compileCondition)
 import Error.MaybeError (MaybeError(Error))
 import Error.ErrorList (ukVarErr)
 
+-- TODO: Assign Return Value of Invoke to the set Variable
 compileFuncBodyContent :: Compiler FunctionBodyContent
 compileFuncBodyContent s (Return comp) = compiler s comp
   where compiler = suffixCompiler [Ret] compileComputable
 compileFuncBodyContent s (Show comp) = compiler s comp
   where compiler = suffixCompiler [Aff] compileComputable
-compileFuncBodyContent s (Invoke name args) = suffixCompiler
+compileFuncBodyContent s (Invoke name args _) = suffixCompiler
         [ PushLabel $ funcLabelPrefix ++ name
         , Call
         ] comps s args

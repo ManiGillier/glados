@@ -13,6 +13,7 @@ module Error.ErrorList
   , noMainErr
   , unsupportedLanguage
   , fileError
+  , multipleMainErr
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -37,3 +38,6 @@ unsupportedLanguage = "File extension is from an unsupported language"
 
 fileError :: ErrorType
 fileError = "File error"
+
+multipleMainErr :: ErrorType
+multipleMainErr = "Multiple main functions were declared."

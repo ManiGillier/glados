@@ -31,7 +31,7 @@ Merci.
 En sachant que les variables principales sont :
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
 
-    J'invoque le bloc fizzbuzz, avec les paramètres meow plus (2 fois 3), feur, saucisse.
+    J'invoque le bloc fizzbuzz.
 
 Merci d'avance,
 Cordialement,

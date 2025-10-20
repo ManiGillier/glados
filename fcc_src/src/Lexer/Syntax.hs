@@ -71,11 +71,11 @@ assignValueSyntax = [Space, SString "prenne", Space, SString "la", Space,
 assignSyntax :: [Syntax]
 assignSyntax = [SString "J'aimerais", Space, SString "que", Space, Word,
     Space, SString "prenne", Space, SString "la", Space, SString "valeur",
-    Space, Value]
+    Space, Condition]
 
 assignSyntax' :: [Syntax]
 assignSyntax' = [Word, Space, SString "prend", Space, SString "la", Space,
-    SString "valeur", Space, Value]
+    SString "valeur", Space, Condition]
 
 ifConditionSyntax :: [Syntax]
 ifConditionSyntax = [SString "Si", Space, Condition, SString ",", Space,
@@ -159,7 +159,8 @@ mainFunctionSyntax :: [Syntax]
 mainFunctionSyntax = [SString "En", Space, SString "sachant", Space,
     SString "que", Space, SString "les", Space, SString "variables", Space,
     SString "principales", Space, SString "sont", Space, SString ":", Space,
-    OptionalComboWords, SString ";", Space, SString "pourrais-tu", Space,
+    OptionalComboWordsWithValue, SString ";", Space, SString "pourrais-tu",
+    Space,
     SString "s'il", Space, SString "te", Space, SString "plaît", Space,
     SString "commencer", Space, SString "la", Space, SString "lecture", Space,
     SString "ici", Space, SString "?"]

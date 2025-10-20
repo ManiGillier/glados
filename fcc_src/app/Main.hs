@@ -28,6 +28,8 @@ import Control.Exception (try)
 import Debug.Trace (trace)
 import Lexer.Lexer (readCode)
 import Text.Megaparsec (parse, errorBundlePretty)
+import DataStruct.Lexing (LexedData)
+import Parser.Parser (buildAst)
 
 readAllFiles :: (MaybeError Arguments) -> IO (MaybeError [(String, String)])
 readAllFiles a = sequence
@@ -44,66 +46,20 @@ checkErrors x = try x <&>
              Right a -> a
   )
 
+lexer :: (String,String) -> MaybeError [LexedData]
+lexer (content,name) = case parse readCode name content of
+  Left a -> Error "Parse error" $ errorBundlePretty a
+  Right a -> Correct a
+
+parser :: [LexedData] -> Ast
+parser = buildAst
+
 -- Lexing :D
 -- TEMPORARY
 -- TODO: Remove when parsing is implemented !
 -- Will make the CodingStyle FAIL !
 parseArgs :: (String, String) -> MaybeError Ast
-parseArgs (content,name) =
-  trace (case parse readCode name content of
-           Left a -> errorBundlePretty a
-           Right b -> show b
-        ) $ Correct
-  $
-  Ast
-  -- MAIN --
-  (Just $ Main
-   -- Main Variables
-   []
-   -- Main Content
-   [ Invoke "foo" [Ast.Value $ V.Int 42, Ast.Value $ V.Int 1] Nothing
-   , Invoke "foo"
-     [ Ast.Operation $ Ast.BinaryOperation Ast.Add
-       (Ast.Value $ V.Int 48)
-       (Ast.Value $ V.Int 5)
-     , Ast.Value $ V.Int 2
-     ] Nothing
-   , Invoke "bar" [Ast.Value $ V.Int 5] Nothing
-   ])
-  -- OTHER FUNCS --
-  [ Ast.Function "foo" V.Void
-    -- FOO Params
-    [ V.FuncParam "a" T.Int, V.FuncParam "b" T.Int ]
-    -- FOO Variables
-    [ VariableDef "c" T.Int $ V.Int 0 ]
-    -- FOO Content
-    [ Assign "c" $ Ast.Operation
-      $ Ast.BinaryOperation
-        Ast.Add
-        (Ast.Variable "a")
-        (Ast.Variable "b")
-    , Assign "c" $ Ast.Operation
-      $ Ast.BinaryOperation
-        Ast.Add
-        (Ast.Variable "c")
-        (Ast.Value $ V.Int 1)
-    , Show $ Ast.Variable "c"
-    ]
-  , Ast.Function "bar" V.Void
-    -- BAR PARAMS
-    [V.FuncParam "a" T.Int]
-    -- BAR VARIABLES
-    [VariableDef "b" T.Int $ V.Int 0]
-    -- BAR BODY
-    [ Assign "b" $ Ast.Value $ V.Int 48
-    , Assign "b" $ Ast.Operation
-      $ Ast.BinaryOperation
-        Ast.Add
-        (Ast.Variable "a")
-        (Ast.Variable "b")
-    , Invoke "foo" [ Ast.Variable "b", Ast.Value $ V.Int (-1) ] Nothing
-    ]
-  ]
+parseArgs l = parser <$> lexer l
 
 writeBytecode :: Arguments -> [Word8] -> IO ()
 writeBytecode args l = B.writeFile (output args) (pack l)

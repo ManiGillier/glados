@@ -30,13 +30,13 @@
 
 <paranthesis> ::= "(" <operators> ")"
 
-<function_definition> ::= "J’aimerais définir le bloc répondant au nom de" <name> ", de type de retour" <type> ", nécessitant comme entrée :" <space> <parameter_list> "; contenant les variables :" <space> <variable_list> "; représenté par le code" <code_call> <define_return>"." <space> <block> <space> "Cordialement," <space> <name> <space> <name>
+<function_definition> ::= "J’aimerais définir le bloc répondant au nom de" <name> ", de type de retour" <type> ", nécessitant comme entrée :" <spaces> <parameter_list> "; contenant les variables :" <spaces> <variable_list> "; représenté par le code" <code_call> <define_return>"." <spaces> <block> <spaces> "Cordialement," <spaces> <name> <spaces> <name>
 
 <code_call> ::= " "suivant" | "ci-après" | "ci-dessous"
 
 <define_return> ::= ", retournant " <name> | ""
 
-<block> ::= <statement_list> "\nMerci."
+<block> ::= <statement_list> <space> "Merci."
 
 <statement_list> ::= <statement> | <statement> <statement_list>
 
@@ -44,13 +44,13 @@
 
 <return_statement> ::= "Enfin, renvoie "<name>"." | "Enfin, sors du bloc."
 
-<condition_statement> ::= "Si " <condition> ", exécute le texte :\n\t" <block>
+<condition_statement> ::= "Si " <condition> ", exécute le texte :" <space> <block>
 
 <expression_statement> ::= <condition_statement> | <operation_statement>
 
 <operation_statement> ::= <name> <operator> <name> | <name> <operation_statement>
 
-<parameter_list> ::= <parameter> <space> | <parameter> <space> <parameter_list>
+<parameter_list> ::= <parameter> <spaces> | <parameter> <spaces> <parameter_list>
 
 <parameter> ::= <type> <name>
 
@@ -58,8 +58,10 @@
 
 <name> ::= <identifier>
 
-<variable_list> ::= <variable> <space> | <variable> <space> <variable_list>
+<variable_list> ::= <variable> <spaces> | <variable> <spaces> <variable_list>
 
 <variable> ::= <name>", de type "<type>", valant "<value>
 
 <space> ::= "\n" | "\t" | "\s"
+
+<spaces> ::= <space> | <space> <spaces>

@@ -170,7 +170,7 @@ endMainFunctionSyntax = [SString "Merci d'avance,", Space,
     SString "Cordialement,", Space, Name, Name]
 
 returnSyntax:: [Syntax]
-returnSyntax = [SString "Enfin,", Space, SString "renvoie", Space, Value]
+returnSyntax = [SString "Enfin,", Space, SString "renvoie", Space, Condition]
 
 returnSyntax' :: [Syntax]
 returnSyntax' = [SString "Enfin,", Space, SString "renvoie", Space, Word]

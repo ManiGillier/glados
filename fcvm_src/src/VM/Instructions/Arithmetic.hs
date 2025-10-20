@@ -5,7 +5,7 @@
 -- Exec
 -}
 
-module VM.Instructions.Arithmetic (binOp, handleOp) where 
+module VM.Instructions.Arithmetic (binOp, handleOp, handleBitshift) where 
 
 import VM.Types
 import VM.Utils.Conversion
@@ -26,3 +26,12 @@ handleOp f state =
         Correct nst -> Correct $ state 
             { vmPC = nextIns (vmPC state), vmStack = nst }
         Error err msg -> Error err msg
+
+handleBitshift ::(Int64 -> Int -> Int64) -> VMState -> VMState
+handleBitshift f state =
+    let stack = (vmStack state)
+        val = (bytesToInt64(take 8 $ drop 8 stack)) 
+        left = bytesToInt64 (take 8 stack)
+        newVal = f val (fromIntegral left)
+        newStack = (int64To8Bytes newVal) ++ (drop 16 stack)
+    in state { vmPC = nextIns (vmPC state), vmStack = newStack }

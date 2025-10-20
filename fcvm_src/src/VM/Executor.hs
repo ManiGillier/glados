@@ -21,8 +21,7 @@ import VM.Utils.Conversion
 import VM.ByteCode
 import VM.Labels 
 import Data.Int (Int64)
-import VM.Utils.Debug
-import Debug.Trace
+import Data.Bits
 
 dispatchInstruction :: Byte -> VMState -> MaybeError String
 dispatchInstruction opcode state = dispatchStackInstruction opcode state
@@ -46,15 +45,30 @@ handleCompInst f state =
         Correct newState -> execByteCode newState
         Error err msg    -> Error err msg
 
+handleCompBoolInst :: (Bool -> Bool -> Bool) -> VMState -> MaybeError String
+handleCompBoolInst f state = 
+    case handleBoolComp f state of
+        Correct newState -> execByteCode newState
+        Error err msg    -> Error err msg
+
 dispatchArithmeticInstruction :: Byte -> VMState -> MaybeError String
 dispatchArithmeticInstruction 13 state = handleArithmInst (+) state
 dispatchArithmeticInstruction 14 state = handleArithmInst (-) state
 dispatchArithmeticInstruction 15 state = handleArithmInst (*) state
 dispatchArithmeticInstruction 16 state = handleArithmInst Prelude.div state
 dispatchArithmeticInstruction 17 state = handleArithmInst Prelude.mod state
+dispatchArithmeticInstruction 6 state = handleArithmInst ((.&.)) state
+dispatchArithmeticInstruction 7 state = handleArithmInst ((.|.)) state
+dispatchArithmeticInstruction 10 state = handleArithmInst (xor) state
+dispatchArithmeticInstruction 11 state = 
+    execByteCode $ handleBitshift (shiftL) state
+dispatchArithmeticInstruction 12 state = 
+    execByteCode $ handleBitshift (shiftR) state
 dispatchArithmeticInstruction op state = dispatchComparInstruction op state
 
 dispatchComparInstruction :: Byte -> VMState -> MaybeError String
+dispatchComparInstruction 8 state = handleCompBoolInst (&&) state
+dispatchComparInstruction 9 state = handleCompBoolInst (||) state
 dispatchComparInstruction 18 state = handleCompInst (>) state
 dispatchComparInstruction 19 state = handleCompInst (>=) state
 dispatchComparInstruction 20 state = handleCompInst (<) state

@@ -5,7 +5,10 @@
 -- Exec
 -}
 
-module VM.Instructions.Comparator (handleComp) where 
+module VM.Instructions.Comparator (
+    handleComp
+    ,handleBoolComp)
+    where
 
 import VM.Types
 import VM.Utils.Conversion
@@ -24,6 +27,21 @@ binComparator f xs = Correct $ int64To8Bytes
 handleComp :: (Int64 -> Int64 -> Bool) -> VMState -> MaybeError VMState
 handleComp f state =
     case binComparator f (vmStack state) of
+        Correct nst -> Correct $ state 
+            { vmPC = nextIns (vmPC state), vmStack = nst }
+        Error err msg -> Error err msg
+
+binBoolComparator :: (Bool -> Bool -> Bool) -> Stack -> MaybeError Stack
+binBoolComparator _ [_] = Error stackError $ "underflow"
+binBoolComparator _ [] = Error stackError $ "underflow"
+binBoolComparator f xs = Correct $ int64To8Bytes
+    (boolToInt64 $ f ((int64ToBool $ bytesToInt64(take 8 $ drop 8 xs)))
+    (int64ToBool $ bytesToInt64(take 8 xs)))
+    ++ drop 16 xs
+
+handleBoolComp :: (Bool -> Bool -> Bool) -> VMState -> MaybeError VMState
+handleBoolComp f state =
+    case binBoolComparator f (vmStack state) of
         Correct nst -> Correct $ state 
             { vmPC = nextIns (vmPC state), vmStack = nst }
         Error err msg -> Error err msg

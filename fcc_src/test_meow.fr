@@ -6,7 +6,7 @@ En sachant que les variables principales sont :
 
 Tant que compteur est inférieure ou égale à 48 plus 9 exécute le code ci-après :
 
-    * On fait un super if ici woohooo *
+    * On fait un super affichage ici woohooo *
     Affiche compteur.
     J'aimerais que compteur prenne la valeur compteur plus 1.
 Merci.

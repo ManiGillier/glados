@@ -24,7 +24,7 @@ import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
     displaySyntax''', mainFunctionSyntax, endMainFunctionSyntax,
     endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax,
-    returnSyntax', returnSyntax'', hiSyntax, elseSyntax)
+    returnSyntax', hiSyntax, elseSyntax)
 
 import Data.Void (Void)
 
@@ -369,8 +369,7 @@ readWhileEnd = lexStringsWithTokens' [EndWhile] endWhileSyntax
 
 readReturn :: Lexer [LexedData]
 readReturn = (try (lexStringsWithTokens' [Return] returnSyntax) <|>
-    try (lexStringsWithTokens' [Return] returnSyntax') <|>
-    lexStringsWithTokens' [Return] returnSyntax'') <* readEOI
+    try (lexStringsWithTokens' [Return] returnSyntax')) <* readEOI
 
 readAssign' :: Lexer [LexedData]
 readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)

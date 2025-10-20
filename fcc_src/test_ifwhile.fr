@@ -1,0 +1,16 @@
+Bonjour,
+
+En sachant que les variables principales sont :
+    - i, de type entier naturel, valant 10
+    - c, de type entier naturel, valant 41
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+
+Tant que i est différent de 0 exécute le code ci-après :
+     Affiche c.
+    J'aimerais que i prenne la valeur i moins 1.     
+Merci.
+
+Merci d'avance,
+Cordialement,
+Gillier
+Mani

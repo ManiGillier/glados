@@ -7,12 +7,14 @@
 
 module Parser.Parser(takeUntil, findMain, getMainCount, parseMain,
   parseVariableDefinitions) where
-import DataStruct.Lexing (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString))
+import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString), Operations (..))
 import Error.MaybeError (MaybeError(Error, Correct))
-import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), Computable (Value), FunctionBodyContent (If))
+import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), Computable (Value), FunctionBodyContent (If), BinaryOperator (BinaryAnd, Modulo))
 import qualified DataStruct.Ast.Type as Type
 import qualified DataStruct.Ast.Variable as Var
 import Error.ErrorList (noMainErr, multipleMainErr)
+import Debug.Trace (trace, traceShowId)
+import GHC.Real (FractionalExponentBase(Base10))
 
 takeUntil :: [LexedData] -> LexedData -> [LexedData]
 takeUntil [] _ = []
@@ -23,11 +25,11 @@ takeUntil (x:xs) stop
 
 getMainCount :: [LexedData] -> Int
 getMainCount [] = 0
-getMainCount (FuncType DataStruct.Lexing.Main : xs) = 1 + getMainCount xs
+getMainCount (FuncType L.Main : xs) = 1 + getMainCount xs
 getMainCount (_ : xs) = getMainCount xs
 
 findMain :: [LexedData] -> [LexedData]
-findMain (FuncDef:FuncType DataStruct.Lexing.Main:xs) =
+findMain (FuncDef:FuncType L.Main:xs) =
   takeUntil xs EndFunction
 findMain (_:xs) = findMain xs
 findMain [] = []
@@ -35,11 +37,11 @@ findMain [] = []
 -- TODO: Remove this error (?)
 parseVariableDefinition :: LexedData -> Var.VariableDef
 parseVariableDefinition (VariableDeclaration name LInt
-    (DataStruct.Lexing.Int x)) = Var.VariableDef name Type.Int (Var.Int x)
+    (L.Int x)) = Var.VariableDef name Type.Int (Var.Int x)
 parseVariableDefinition (VariableDeclaration name LBoolean
-  (DataStruct.Lexing.Bool x)) = Var.VariableDef name Type.Bool (Var.Bool x)
+  (L.Bool x)) = Var.VariableDef name Type.Bool (Var.Bool x)
 parseVariableDefinition (VariableDeclaration name LString
-  (DataStruct.Lexing.String x)) = Var.VariableDef name Type.String
+  (L.String x)) = Var.VariableDef name Type.String
     (Var.String x)
 parseVariableDefinition _ = error "Could not find type."
 
@@ -54,14 +56,58 @@ parseCondition :: [LexedData] -> Condition
 parseCondition = Condition . parseComputable
 
 parseComputable :: [LexedData] -> Computable
-parseComputable _ = Value $ Var.Bool True
+parseComputable l = trace (show l) $ Value $ Var.Bool True
+
+precedence :: Operations -> Int
+precedence Add = 9
+precedence Multiply = 10
+precedence Subtract = 9
+precedence Divide = 10
+precedence L.Modulo = 10
+precedence L.Equal = 6
+precedence L.Different = 6
+precedence L.BinaryAnd = 5
+precedence L.BinaryOr = 3
+precedence L.And = 2
+precedence L.Or = 1
+precedence L.Xor = 4
+precedence LeftBitshift = 8
+precedence RightBitshift = 8
+precedence Inferior = 7
+precedence Superior = 7
+precedence InferiorOrEqual = 7
+precedence SuperiorOrEqual = 7
+
+precedenceGorEq :: Operations -> Operations -> Bool
+precedenceGorEq a b = precedence a >= precedence b
+
+-- Operator -> Stack -> Output
+shuntingYardOperator :: Operations -> [LexedData] -> ([LexedData],[LexedData])
+shuntingYardOperator op1 s@(L.Operation op2:sr)
+  | precedenceGorEq op2 op1 = (s', L.Operation op2 : o')
+  | otherwise = (s,[])
+        where (s',o') = shuntingYardOperator op1 sr
+shuntingYardOperator _ s = (s, [])
+
+-- Input -> Stack -> Output
+shuntingYardAlgorithm :: [LexedData] -> [LexedData] -> [LexedData]
+shuntingYardAlgorithm [] s = s
+shuntingYardAlgorithm (L.Operation op1:xs) s@(L.Operation _:_)
+  = o' ++ shuntingYardAlgorithm xs (L.Operation op1 : s')
+    where (s',o') = shuntingYardOperator op1 s
+shuntingYardAlgorithm (L.Operation op1:xs) s
+  = shuntingYardAlgorithm xs (L.Operation op1 : s)
+shuntingYardAlgorithm (x:xs) s = x : shuntingYardAlgorithm xs s
+
+infixToRPN :: [LexedData] -> [LexedData]
+infixToRPN l = shuntingYardAlgorithm l []
 
 parseFunctionBody :: [LexedData] -> FunctionBody
 parseFunctionBody (WithVariables : xs) = parseFunctionBody xs
 parseFunctionBody ((VariableDeclaration _ _ _) : xs) = parseFunctionBody xs
 parseFunctionBody (WithParameters : xs) = parseFunctionBody xs
 parseFunctionBody (EndFunction : _) = []
-parseFunctionBody (DataStruct.Lexing.If : xs) = DataStruct.Ast.Ast.If
+parseFunctionBody (L.If : xs) = DataStruct.Ast.Ast.If
     (parseCondition (takeUntil xs Then)) [] Nothing : parseFunctionBody xs
 parseFunctionBody (_:xs) = parseFunctionBody xs
 parseFunctionBody [] = []

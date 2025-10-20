@@ -5,7 +5,7 @@
 -- Lexing
 -}
 
-module DataStruct.Lexing(LexedData(..), Comparators(..), Operations(..),
+module DataStruct.Lexing(LexedData(..), Operations(..),
     UnaryOperations(..), FuncTypes(..), LexedTypes(..), VarValue(..)) where
 
 import Data.Int (Int64)
@@ -28,15 +28,17 @@ data Operations =
     Or |
     Xor |
     LeftBitshift |
-    RightBitshift
+    RightBitshift |
+    Equal |
+    Different |
+    Inferior |
+    Superior |
+    InferiorOrEqual |
+    SuperiorOrEqual
     deriving (Show, Eq)
 
 data LexedTypes =
     LInt | LBoolean | LString | LVoid
-    deriving (Show, Eq)
-
-data Comparators =
-    Equal | Different | Inferior | Superior | InferiorOrEqual | SuperiorOrEqual
     deriving (Show, Eq)
 
 data FuncTypes =
@@ -78,6 +80,5 @@ data LexedData =
     VariableDeclaration String LexedTypes VarValue | -- Déclaration variable
     Number Int64 | -- Numéro
     Operation Operations | -- Opération
-    UnaryOperation UnaryOperations | -- Opération unaire
-    Comparator Comparators -- Comparateur
+    UnaryOperation UnaryOperations -- Opération unaire
     deriving (Show, Eq) 

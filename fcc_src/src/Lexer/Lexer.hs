@@ -105,7 +105,7 @@ bitshiftOperations = choice [
         SString "binairement", Space, SString "à", Space, SString "droite"])]
 
 readComparator :: Lexer LexedData
-readComparator = Comparator <$> choice [
+readComparator = Operator <$> choice [
     Equal <$ lexSyntax [SString "égale", Space, SString "à"],
     Different <$ lexSyntax [SString "différent", Space, SString "de"],
     InferiorOrEqual <$ try (lexSyntax [SString "inférieure", Space,

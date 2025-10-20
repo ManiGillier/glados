@@ -7,13 +7,12 @@
 
 module Parser.Parser(takeUntil, findMain, getMainCount, parseMain,
   parseVariableDefinitions) where
-import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString), Operations (..))
+import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString), Operations (..), UnaryOperations (..))
 import Error.MaybeError (MaybeError(Error, Correct))
-import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), FunctionBody, Condition(..), Computable (Value), FunctionBodyContent (If), BinaryOperator (..), Computable(..), Operation (..))
+import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), FunctionBody, Condition(..), Computable (Value), FunctionBodyContent (If), BinaryOperator (..), Computable(..), Operation (..), UnaryOperator (..))
 import qualified DataStruct.Ast.Type as Type
 import qualified DataStruct.Ast.Variable as Var
 import Error.ErrorList (noMainErr, multipleMainErr)
-import Debug.Trace (trace, traceShowId)
 
 takeUntil :: [LexedData] -> LexedData -> [LexedData]
 takeUntil [] _ = []
@@ -55,36 +54,51 @@ parseCondition :: [LexedData] -> Condition
 parseCondition = Condition . parseComputable
 
 parseComputable :: [LexedData] -> Computable
-parseComputable l = traceShowId computable
-  where (computable,_) = rpnToAst $ infixToRPN l
+parseComputable = fst . rpnToAst . infixToRPN
 
-precedence :: Operations -> Int
-precedence L.Add = 9
-precedence Multiply = 10
-precedence Subtract = 9
-precedence Divide = 10
-precedence L.Modulo = 10
-precedence L.Equal = 6
-precedence L.Different = 6
-precedence L.BinaryAnd = 5
-precedence L.BinaryOr = 3
-precedence L.And = 2
-precedence L.Or = 1
-precedence L.Xor = 4
-precedence LeftBitshift = 8
-precedence RightBitshift = 8
-precedence L.Inferior = 7
-precedence L.Superior = 7
-precedence InferiorOrEqual = 7
-precedence SuperiorOrEqual = 7
+precedence :: LexedData -> Int
+precedence (L.Operation L.Add) = 9
+precedence (L.Operation Multiply) = 10
+precedence (L.Operation Subtract) = 9
+precedence (L.Operation Divide) = 10
+precedence (L.Operation L.Modulo) = 10
+precedence (L.Operation L.Equal) = 6
+precedence (L.Operation L.Different) = 6
+precedence (L.Operation L.BinaryAnd) = 5
+precedence (L.Operation L.BinaryOr) = 3
+precedence (L.Operation L.And) = 2
+precedence (L.Operation L.Or) = 1
+precedence (L.Operation L.Xor) = 4
+precedence (L.Operation LeftBitshift) = 8
+precedence (L.Operation RightBitshift) = 8
+precedence (L.Operation L.Inferior) = 7
+precedence (L.Operation L.Superior) = 7
+precedence (L.Operation InferiorOrEqual) = 7
+precedence (L.Operation SuperiorOrEqual) = 7
+precedence (L.UnaryOperation _) = 11
+precedence _ = 0
 
-precedenceGorEq :: Operations -> Operations -> Bool
-precedenceGorEq a b = precedence a >= precedence b
+precedenceCmp :: (Int -> Int -> Bool) -> LexedData -> LexedData -> Bool
+precedenceCmp f a b = precedence a `f` precedence b
 
 -- Operator -> Stack -> Output
-shuntingYardOperator :: Operations -> [LexedData] -> ([LexedData],[LexedData])
-shuntingYardOperator op1 s@(L.Operation op2:sr)
-  | precedenceGorEq op2 op1 = (s', L.Operation op2 : o')
+shuntingYardOperator :: LexedData -> [LexedData] -> ([LexedData],[LexedData])
+shuntingYardOperator op1@(L.Operation _) s@(L.Operation op2:sr)
+  | precedenceCmp (>=) (L.Operation op2) op1 = (s', L.Operation op2 : o')
+  | otherwise = (s,[])
+        where (s',o') = shuntingYardOperator op1 sr
+shuntingYardOperator op1@(L.Operation _) s@(L.UnaryOperation op2:sr)
+  | precedenceCmp (>=) (L.UnaryOperation op2) op1
+        = (s', L.UnaryOperation op2 : o')
+  | otherwise = (s,[])
+        where (s',o') = shuntingYardOperator op1 sr
+shuntingYardOperator op1@(L.UnaryOperation _) s@(L.Operation op2:sr)
+  | precedenceCmp (>) (L.Operation op2) op1 = (s', L.Operation op2 : o')
+  | otherwise = (s,[])
+        where (s',o') = shuntingYardOperator op1 sr
+shuntingYardOperator op1@(L.UnaryOperation _) s@(L.UnaryOperation op2:sr)
+  | precedenceCmp (>) (L.UnaryOperation op2) op1
+        = (s', L.UnaryOperation op2 : o')
   | otherwise = (s,[])
         where (s',o') = shuntingYardOperator op1 sr
 shuntingYardOperator _ s = (s, [])
@@ -100,9 +114,20 @@ shuntingYardAlgorithm :: [LexedData] -> [LexedData] -> [LexedData]
 shuntingYardAlgorithm [] s = s
 shuntingYardAlgorithm (L.Operation op1:xs) s@(L.Operation _:_)
   = o' ++ shuntingYardAlgorithm xs (L.Operation op1 : s')
-    where (s',o') = shuntingYardOperator op1 s
+    where (s',o') = shuntingYardOperator (L.Operation op1) s
+shuntingYardAlgorithm (L.Operation op1:xs) s@(L.UnaryOperation _:_)
+  = o' ++ shuntingYardAlgorithm xs (L.Operation op1 : s')
+    where (s',o') = shuntingYardOperator (L.Operation op1) s
+shuntingYardAlgorithm (L.UnaryOperation op1:xs) s@(L.Operation _:_)
+  = o' ++ shuntingYardAlgorithm xs (L.UnaryOperation op1 : s')
+    where (s',o') = shuntingYardOperator (L.UnaryOperation op1) s
+shuntingYardAlgorithm (L.UnaryOperation op1:xs) s@(L.UnaryOperation _:_)
+  = o' ++ shuntingYardAlgorithm xs (L.UnaryOperation op1 : s')
+    where (s',o') = shuntingYardOperator (L.UnaryOperation op1) s
 shuntingYardAlgorithm (L.Operation op1:xs) s
   = shuntingYardAlgorithm xs (L.Operation op1:s)
+shuntingYardAlgorithm (L.UnaryOperation op1:xs) s
+  = shuntingYardAlgorithm xs (L.UnaryOperation op1:s)
 shuntingYardAlgorithm (OpenParenthesis:xs) s
   = shuntingYardAlgorithm xs (OpenParenthesis:s)
 shuntingYardAlgorithm (ClosedParenthesis:xs) s
@@ -133,12 +158,22 @@ lOpToAstOp L.Superior = Ast.Superior
 lOpToAstOp L.InferiorOrEqual = Ast.InferiorOrEq
 lOpToAstOp L.SuperiorOrEqual = Ast.SuperiorOrEq
 
+unaryLOpToAstOp :: L.UnaryOperations -> Ast.UnaryOperator
+unaryLOpToAstOp L.Not = Ast.BooleanNot
+unaryLOpToAstOp L.BinaryNot = Ast.BinaryNot
+unaryLOpToAstOp L.Negate = Ast.Negate
+
 rpnToAst :: [LexedData] -> (Computable,[LexedData])
 rpnToAst (L.Number x:xs) = (Ast.Value $ Var.Int x,xs)
 rpnToAst (L.Operation op:xs) =
   (Ast.Operation $ Ast.BinaryOperation (lOpToAstOp op) a b , as)
   where (b,bs) = rpnToAst xs
         (a,as) = rpnToAst bs
+rpnToAst (L.UnaryOperation op:xs) =
+  (Ast.Operation $ Ast.UnaryOperation (unaryLOpToAstOp op) a , as)
+  where (a,as) = rpnToAst xs
+rpnToAst (L.Symbol x:xs) = (Ast.Variable x, xs)
+rpnToAst e = error $ "parsing error: " ++ show e
 
 parseFunctionBody :: [LexedData] -> FunctionBody
 parseFunctionBody (WithVariables : xs) = parseFunctionBody xs

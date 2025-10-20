@@ -98,9 +98,7 @@ dispatchControlInstruction op state = dispatchIoInstruction op state
 
 dispatchIoInstruction :: Byte -> VMState -> MaybeError String
 dispatchIoInstruction 38 state = let (char, newState) = handleAff state
-      in case execByteCode newState of
-            Correct rest -> Correct (char : rest)
-            Error err msg -> Error err msg
+      in ((:) char) <$> execByteCode newState
 dispatchIoInstruction _ state =
     execByteCode $ state { vmPC = nextIns (vmPC state) }
 

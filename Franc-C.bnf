@@ -16,7 +16,7 @@
 
 <condition> ::= <name> <operator> <name> | <name> <operator> <paranthesis>
 
-<paranthesis> ::= "(" <operators> ")"
+<paranthesis> ::= "(" <condition> ")"
 
 <function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <name> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée :" <spaces> <parameter_list> ";" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> <variable_list> ";" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <code_call> <define_return> "." <spaces> <block> <spaces> "Cordialement," <spaces> <name> <spaces> <name>
 

@@ -13,6 +13,7 @@ import Error.ErrorList (fileError)
 import Data.Functor ((<&>))
 import GHC.IO.Exception (IOException(IOError))
 import Data.Maybe (fromMaybe)
+import Data.ByteString as B (pack, writeFile)
 
 import DataStruct.Ast.Ast as Ast
 import DataStruct.Ast.Type as T
@@ -104,16 +105,12 @@ parseArgs (content,name) =
     ]
   ]
 
-w2c :: Word8 -> Char
-w2c w = toEnum c
-  where c = fromEnum w
-
 writeBytecode :: Arguments -> [Word8] -> IO ()
-writeBytecode args l = writeFile (output args) (map w2c l)
+writeBytecode args l = B.writeFile (output args) (pack l)
 
 writeOutput :: (Arguments, [Instruction]) -> IO ()
 writeOutput (a@(Arguments _ outputFile _ isDebug),l)
-    | isDebug = writeFile outputFile $ instructionToAsm l
+    | isDebug = Prelude.writeFile outputFile $ instructionToAsm l
     | otherwise = writeBytecode a $ asmToBytecode l
 
 main :: IO ()

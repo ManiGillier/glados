@@ -5,12 +5,13 @@
 -- Exec
 -}
 
-module VM.Instructions.Control (handleCall, handleRet) where 
+module VM.Instructions.Control (handleCall, handleRet, handleZflag) where 
 
 import VM.Types
 import VM.CallStack
 import VM.Stack
 import VM.Labels 
+import VM.Utils.Conversion
 
 handleCall :: VMState -> VMState
 handleCall state =
@@ -27,3 +28,11 @@ handleRet state =
     in case ((npc, nsp), ncs) of
         ((0, 0), []) -> Nothing
         _ -> Just $ state { vmPC = npc, vmSP = nsp, vmCallStack = ncs }
+
+handleZflag :: VMState -> VMState
+handleZflag state = 
+    let stack = (vmStack state)
+        pc = (vmPC state) + 1
+        zflag = bytesToInt64 (drop 8 stack)
+    in state { vmPC = pc, vmStack = popStack stack 
+        ,vmZFlag = fromIntegral zflag }

@@ -68,6 +68,7 @@ dispatchControlInstruction 35 state =
     case handleRet state of
         Nothing      -> Correct ""
         Just newState -> execByteCode newState
+dispatchControlInstruction 24 state = execByteCode $ handleZflag state
 dispatchControlInstruction op state = dispatchIoInstruction op state
 
 dispatchIoInstruction :: Byte -> VMState -> MaybeError String

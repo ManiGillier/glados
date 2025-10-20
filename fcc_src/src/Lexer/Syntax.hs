@@ -11,8 +11,7 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionDefinitionReturnTypeSyntax,
     functionDefinitionParametersSyntax,
     functionDefinitionWithVariablesSyntax,
-    functionDefinitionEndSyntax,
-    functionDefinitionReturnsVariableSyntax, functionTypes, variableTypes,
+    functionDefinitionEndSyntax, functionTypes, variableTypes,
     invokeSyntax, invokeAssignSyntax, invokeParametersSyntax,
     displaySyntax, displaySyntax', displaySyntax'', displaySyntax''',
     mainFunctionSyntax, endMainFunctionSyntax, elseSyntax,
@@ -29,12 +28,14 @@ data Syntax =
     Condition |
     ComboWord |
     OptionalComboWord |
+    OptionalComboWordsWithValue |
     OptionalComboWords |
     OptionalSpace |
     WordVariableType |
     WordFunctionType |
     MultipleSString [String] |
     MultipleWords |
+    MultipleComputables |
     QuotedValue |
     Name |
     Placeholder LexedData
@@ -119,16 +120,12 @@ functionDefinitionParametersSyntax = [SString "nécessitant", Space,
 functionDefinitionWithVariablesSyntax :: [Syntax]
 functionDefinitionWithVariablesSyntax = [SString "contenant", Space,
     SString "les", Space, SString "variables", Space, SString ":", Space,
-    OptionalComboWords, SString ";", Space]
+    OptionalComboWordsWithValue, SString ";", Space]
 
 functionDefinitionEndSyntax :: [Syntax]
 functionDefinitionEndSyntax = [SString "représenté", Space, SString "par",
     Space, SString "le", Space, SString "code", Space,
     MultipleSString ["ci-après", "suivant", "ci-dessous"]]
-
-functionDefinitionReturnsVariableSyntax :: [Syntax]
-functionDefinitionReturnsVariableSyntax = [SString ",", Space,
-    SString "retournant", Space, Word]
 
 invokeSyntax :: [Syntax]
 invokeSyntax = [SString "J'invoque", Space, SString "le", Space,
@@ -142,7 +139,7 @@ invokeAssignSyntax = [SString ",", Space, SString "et", Space,
 
 invokeParametersSyntax :: [Syntax]
 invokeParametersSyntax = [SString ",", Space, SString "avec les paramètres",
-    Space, MultipleWords]
+    Space, MultipleComputables]
 
 displaySyntax :: [Syntax]
 displaySyntax = [SString "Affiche", Space, Value]

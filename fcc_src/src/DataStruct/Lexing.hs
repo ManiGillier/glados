@@ -76,8 +76,10 @@ data LexedData =
     Return | -- Retourner une valeur.
     Symbol String | -- Entrée utilisateur
     VariableDeclaration String LexedTypes VarValue | -- Déclaration variable
+    Parameter String LexedTypes | -- Déclaration paramètres
+    InvokeParameter [LexedData] | -- Computable d'une invocation
     Number Int64 | -- Numéro
     Operation Operations | -- Opération
     UnaryOperation UnaryOperations | -- Opération unaire
     Comparator Comparators -- Comparateur
-    deriving (Show, Eq) 
+    deriving (Show, Eq)

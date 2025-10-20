@@ -60,14 +60,14 @@ parseArgs (content,name) =
    -- Main Variables
    []
    -- Main Content
-   [ Invoke "foo" [Ast.Value $ V.Int 42, Ast.Value $ V.Int 1]
+   [ Invoke "foo" [Ast.Value $ V.Int 42, Ast.Value $ V.Int 1] Nothing
    , Invoke "foo"
      [ Ast.Operation $ Ast.BinaryOperation Ast.Add
        (Ast.Value $ V.Int 48)
        (Ast.Value $ V.Int 5)
      , Ast.Value $ V.Int 2
-     ]
-   , Invoke "bar" [Ast.Value $ V.Int 5]
+     ] Nothing
+   , Invoke "bar" [Ast.Value $ V.Int 5] Nothing
    ])
   -- OTHER FUNCS --
   [ Ast.Function "foo" V.Void
@@ -100,7 +100,7 @@ parseArgs (content,name) =
         Ast.Add
         (Ast.Variable "a")
         (Ast.Variable "b")
-    , Invoke "foo" [ Ast.Variable "b", Ast.Value $ V.Int (-1) ]
+    , Invoke "foo" [ Ast.Variable "b", Ast.Value $ V.Int (-1) ] Nothing
     ]
   ]
 

@@ -1,6 +1,6 @@
 Bonjour,
 
-En sachant que les variables principales sont : 
+En sachant que les variables principales sont :
     - compteur, de type entier naturel, valant 0
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
 
@@ -8,10 +8,10 @@ Tant que compteur est inférieure à 100 exécute le code ci-après :
 
     * On fait un super if ici woohooo *
 
-    Si compteur modulo 3 est égale à 0, exécute le texte : 
+    Si compteur modulo 3 est égale à 0, exécute le texte :
         Affiche « Fizz ».
     ; sinon, exécute le texte :
-        Affiche « Coubeh ». 
+        Affiche « Coubeh ».
     Merci.
 
 Merci.

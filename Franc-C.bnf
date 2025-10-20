@@ -2,7 +2,7 @@
 
 <exclusif_or> ::= "ou" <spaces> "exclusif" | "xor"
 
-<condition> ::= <expression> <operateur_logique> <expression>
+<condition> ::= <name> <logical_operator> <name>
 
 <arithmetic_operator> ::= "plus" | "moins" | "divisé" <spaces> "par" | "module"
 

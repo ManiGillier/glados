@@ -34,6 +34,8 @@
 
 <condition_statement> ::= "Si" <spaces> <condition> "," <spaces> "exécute" <spaces> "le" <spaces> "texte" <spaces> ":" <space> <block>
 
+<loop_statement> ::= "Tant" <spaces> "que" <spaces> <name> <spaces> <comparison_operator> <spaces> <name> <spaces> "exécute" <spaces> "le" <spaces> "code" <spaces> "ci-après" <spaces> ":" <spaces> <block>
+
 <expression_statement> ::= <condition_statement> | <operation_statement>
 
 <operation_statement> ::= <name> <spaces> <operator> <spaces> <name> | <name> <spaces> <operation_statement>

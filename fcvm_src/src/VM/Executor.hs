@@ -13,6 +13,7 @@ import Error.ErrorList
 import VM.Types
 import VM.Instructions.Arithmetic
 import VM.Instructions.Comparator
+import VM.Instructions.Unary
 import VM.Instructions.IO
 import VM.Instructions.Control
 import VM.Instructions.Stack
@@ -60,7 +61,13 @@ dispatchComparInstruction 20 state = handleCompInst (<) state
 dispatchComparInstruction 21 state = handleCompInst (<=) state
 dispatchComparInstruction 22 state = handleCompInst (==) state
 dispatchComparInstruction 23 state = handleCompInst (/=) state
-dispatchComparInstruction op state = dispatchControlInstruction op state
+dispatchComparInstruction op state = dispatchUnaryInstruction op state
+
+dispatchUnaryInstruction :: Byte -> VMState -> MaybeError String
+dispatchUnaryInstruction 3 state = execByteCode $ handleBinNot state
+dispatchUnaryInstruction 4 state = execByteCode $ handleNot state
+dispatchUnaryInstruction 5 state = execByteCode $ handleNegate state
+dispatchUnaryInstruction op state = dispatchControlInstruction op state
 
 dispatchControlInstruction :: Byte -> VMState -> MaybeError String
 dispatchControlInstruction 34 state = execByteCode $ handleCall state
@@ -71,6 +78,8 @@ dispatchControlInstruction 35 state =
 dispatchControlInstruction 24 state = execByteCode $ handleZflag state
 dispatchControlInstruction 36 state = execByteCode $ handleJmp state
 dispatchControlInstruction 37 state = execByteCode $ handleZjmp state
+dispatchControlInstruction 39 state =
+    execByteCode $ state { vmPC = skipVal (vmPC state) }
 dispatchControlInstruction op state = dispatchIoInstruction op state
 
 dispatchIoInstruction :: Byte -> VMState -> MaybeError String

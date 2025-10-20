@@ -13,10 +13,6 @@ import Error.MaybeError
 import Error.ErrorList
 import Data.Int (Int64)
 
-boolToInt64 :: Bool -> Int64
-boolToInt64 True = 1
-boolToInt64 _ = 0
-
 binComparator :: (Int64 -> Int64 -> Bool) -> Stack -> MaybeError Stack
 binComparator _ [_] = Error stackError $ "underflow"
 binComparator _ [] = Error stackError $ "underflow"

@@ -19,63 +19,55 @@ import VM.Utils.Conversion
 import VM.ByteCode
 import VM.Labels 
 import VM.Utils.Debug
+import Debug.Trace
 
 dispatchInstruction :: Byte -> VMState -> MaybeError String
 dispatchInstruction opcode state = dispatchStackInstruction opcode state
 
 dispatchStackInstruction :: Byte -> VMState -> MaybeError String
-dispatchStackInstruction opcode state =
-    case opcode of
-        89 -> execByteCode' $ handlePushValue state
-        91 -> execByteCode' $ handlePushValue state
-        30 -> execByteCode' $ handlePopToStackPtrRel state
-        29 -> execByteCode' $ handlePushFromStackPtrRel state
-        _  -> dispatchArithmeticinstruction opcode state
+dispatchStackInstruction 89 s = execByteCode $ handlePushValue s
+dispatchStackInstruction 91 s = execByteCode $ handlePushValue s
+dispatchStackInstruction 30 s = execByteCode $ handlePopToStackPtrRel s
+dispatchStackInstruction 29 s = execByteCode $ handlePushFromStackPtrRel s
+dispatchStackInstruction op state = dispatchArithmeticinstruction op state
 
 dispatchArithmeticinstruction :: Byte -> VMState -> MaybeError String
-dispatchArithmeticinstruction opcode state =
-    case opcode of
-        13 -> case handleAdd state of
-                Correct newState -> execByteCode' newState
-                Error err msg    -> Error err msg
-        _  -> dispatchControlInstruction opcode state
+dispatchArithmeticinstruction 13 state =
+    case handleAdd state of
+        Correct newState -> execByteCode newState
+        Error err msg    -> Error err msg
+dispatchArithmeticinstruction op state = dispatchControlInstruction op state
 
 dispatchControlInstruction :: Byte -> VMState -> MaybeError String
-dispatchControlInstruction opcode state =
-    case opcode of
-        34 -> execByteCode' $ handleCall state
-        35 -> case handleRet state of
-                Nothing      -> Correct ""
-                Just newState -> execByteCode' newState
-        _ -> dispatchIoInstruction opcode state
+dispatchControlInstruction 34 state = execByteCode $ handleCall state
+dispatchControlInstruction 35 state = 
+    case handleRet state of
+        Nothing      -> Correct ""
+        Just newState -> execByteCode newState
+dispatchControlInstruction op state = dispatchIoInstruction op state
 
 dispatchIoInstruction :: Byte -> VMState -> MaybeError String
-dispatchIoInstruction opcode state =
-    case opcode of
-        38 -> let (char, newState) = handleAff state
-              in case execByteCode' newState of
-                    Correct rest -> Correct (char : rest)
-                    Error err msg -> Error err msg
-        _ -> execByteCode' $ state { vmPC = nextIns (vmPC state) }
+dispatchIoInstruction 38 state = let (char, newState) = handleAff state
+      in case execByteCode newState of
+            Correct rest -> Correct (char : rest)
+            Error err msg -> Error err msg
+dispatchIoInstruction _ state = 
+    execByteCode $ state { vmPC = nextIns (vmPC state) }
 
-execByteCode' :: VMState -> MaybeError String
-execByteCode' state
+execByteCode :: VMState -> MaybeError String
+execByteCode state
     | isInstruction (vmByteCode state) (vmPC state) = 
         let opcode = vmByteCode state !! vmPC state
         in dispatchInstruction opcode state
     | otherwise = 
-        execByteCode' $ state { vmPC = nextIns (vmPC state) }
-
-execByteCode :: ByteCode -> PC -> Stack -> SP -> CallStack -> LabelIndex -> MaybeError String
-execByteCode bc pc st sp cs lab =
-    let state = VMState bc pc st sp cs lab
-    in execByteCode' state
+        execByteCode $ state { vmPC = nextIns (vmPC state) }
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode
     | checkMagicNumber byteCode = 
         let cleanByteCode = drop 4 byteCode
             pc = bytesToInt64 (take 8 cleanByteCode)
-        in execByteCode cleanByteCode 
-            (fromIntegral pc + 8) [] 0 [] (indexLabel cleanByteCode)
+            state = VMState cleanByteCode (fromIntegral pc + 8)
+                [] 0 [] (indexLabel cleanByteCode)
+        in execByteCode state
     | otherwise = Error fileFormatError $ "magic number not found"

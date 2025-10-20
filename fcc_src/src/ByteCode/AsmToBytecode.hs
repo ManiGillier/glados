@@ -158,4 +158,12 @@ test = [
     ,Ret]
 
 test2 :: [Instruction] 
-test2 = [Label "func_main",Label ".start",PushValue 1,PushValue 42,PushLabel "func_foo",Call,PushValue 2,PushValue 48,PushValue 5,Add,PushLabel "func_foo",Call,PushValue 5,PushLabel "func_bar",Call,Ret,Label "func_foo",PushValue 0,PushFromStackPtrRel (-8),PushFromStackPtrRel (-16),Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,PushValue 1,Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,Aff,Ret,Label "func_bar",PushValue 0,PushValue 48,PopToStackPtrRel 0,PushFromStackPtrRel (-8),PushFromStackPtrRel 0,Add,PopToStackPtrRel 0,PushValue (-1),PushFromStackPtrRel 0,PushLabel "func_foo",Call,Ret]
+test2 = [Label "func_main",Label ".start",PushValue 1,PushValue 42,
+    PushLabel "func_foo",Call,PushValue 2,PushValue 48,PushValue 5,
+    Add,PushLabel "func_foo",Call,PushValue 5,PushLabel "func_bar",
+    Call,Ret,Label "func_foo",PushValue 0,PushFromStackPtrRel (-8),
+    PushFromStackPtrRel (-16),Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,
+    PushValue 1,Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,Aff,Ret,
+    Label "func_bar",PushValue 0,PushValue 48,PopToStackPtrRel 0,
+    PushFromStackPtrRel (-8),PushFromStackPtrRel 0,Add,PopToStackPtrRel 0,
+    PushValue (-1),PushFromStackPtrRel 0,PushLabel "func_foo",Call,Ret]

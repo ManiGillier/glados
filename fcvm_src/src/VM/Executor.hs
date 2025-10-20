@@ -87,7 +87,7 @@ execByteCode state
         let opcode = vmByteCode state !! vmPC state
         in dispatchInstruction opcode state
     | otherwise = 
-        traceShow ("st", (vmStack state), "zflag", (vmZFlag state)) execByteCode $ state { vmPC = nextIns (vmPC state) }
+        execByteCode $ state { vmPC = nextIns (vmPC state) }
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode

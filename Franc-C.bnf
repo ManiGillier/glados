@@ -1,22 +1,10 @@
-<multiplication_op> ::= "fois" | "multiplié par"
+<multiplication_op> ::= "fois" | "multiplié" <spaces> "par"
 
-<exclusif_or> ::= "ou exclusif" <|> "xor"
-
-<expr> ::= <term> "plus" <expr>
-        |  <term> "moins" <expr>
-        | <term>
-
-<term> ::= <factor> <multiplication_op> <term>
-        |  <factor> "divisé par" <term>
-        |  <factor> "modulo" <term>
-        |  <factor>
-
-<factor> ::= "(" <expr> ")"
-          |  <const>
-
-<const> ::= integer
+<exclusif_or> ::= "ou" <spaces> "exclusif" | "xor"
 
 <condition> ::= <expression> <operateur_logique> <expression>
+
+<arithmetic_operator> ::= "plus" | "moins" | "divisé" <spaces> "par" | "module"
 
 <comparison_operator> ::= "est" | "égale" | "différente" | "inférieure" | "supérieure" | "inférieure" <spaces> "ou" <spaces> "égale" | "supérieure" <spaces> "ou" <spaces> "égale"
 

@@ -114,7 +114,7 @@ writeBytecode args l = writeFile (output args) (map w2c l)
 writeOutput :: (Arguments, [Instruction]) -> IO ()
 writeOutput (a@(Arguments _ outputFile _ isDebug),l)
     | isDebug = writeFile outputFile $ instructionToAsm l
-    | otherwise = writeBytecode a $ asmToBytecode [] l
+    | otherwise = writeBytecode a $ asmToBytecode l
 
 main :: IO ()
 main = do

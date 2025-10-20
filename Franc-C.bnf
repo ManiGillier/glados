@@ -1,0 +1,51 @@
+<multiplication_op> ::= "fois" | "multiplié par"
+
+<exclusif_or> ::= "ou exclusif" <|> "xor"
+
+<expr> ::= <term> "plus" <expr>
+        |  <term> "moins" <expr>
+        | <term>
+
+<term> ::= <factor> <multiplication_op> <term>
+        |  <factor> "divisé par" <term>
+        |  <factor> "modulo" <term>
+        |  <factor>
+
+<factor> ::= "(" <expr> ")"
+          |  <const>
+
+<const> ::= integer
+
+<condition> ::= <expression> <operateur_logique> <expression>
+
+<comparison_operator> ::= "est" | "égale" | "différente" | "inférieure" | "supérieure" | "inférieure ou égale" | "supérieure ou égale"
+
+<logical_operator> ::= "et" | "ou" | "et binaire" | "ou binaire"
+
+<bitwise_operator> ::= "décalé binairement à gauche" | "décalé binairement à droite"
+
+<operators> ::= <bitwise_operator> | <logical_operator> | <comparison_operator>
+
+<paranthis> ::= "(" <expression> <operators> <expression>  ")"
+
+<function_definition> ::= "J’aimerais définir le bloc répondant au nom de" <name> ", de type de retour" <type> ", nécessitant comme entrée :\n" <parameter_list> "; contenant les variables :\n" <variable_list>
+
+<function_definition> ::= "function" <identifier> "(" <parameter_list> ")" <block>
+
+<block> ::= "{" <statement_list> "}"
+
+<statement_list> ::= <statement> | <statement> <statement_list>
+
+<statement> ::= <expression_statement> | <return_statement> | ...
+
+<parameter_list> ::= <parameter> "\n" | <parameter> "\n" <parameter_list>
+
+<parameter> ::= <type> <name>
+
+<type> ::= "entier naturel" | "booléen" | "chaîne de caractères"
+
+<name> ::= <identifier>
+
+<variable_list> ::= <variable> "\n" | <variable> "\n" <variable_list>
+
+<variable> ::= <name>", de type "<type>", valant "<value>

@@ -108,11 +108,11 @@ instructionToByteCode _ _ = []
 magicNumber :: [Word8]
 magicNumber = [0x45, 0xc, 0x45, 0xc]
 
--- Take list of (key,value) label name & address,
 -- list of instructions and return magic number + list of byte
-asmToBytecode :: [(String, Int64)] -> [Instruction] -> [Word8]
-asmToBytecode labelAddr xs =
-    let byteCode = concatMap (instructionToByteCode labelAddr) xs
+asmToBytecode :: [Instruction] -> [Word8]
+asmToBytecode insTructions =
+    let labelAddr = setAddressToLabel insTructions 0
+        byteCode = concatMap (instructionToByteCode labelAddr) insTructions
     in magicNumber ++ (intTo8Bytes $ fromIntegral $ getStartingPoint byteCode) ++ byteCode
 
 test1 :: [Instruction]

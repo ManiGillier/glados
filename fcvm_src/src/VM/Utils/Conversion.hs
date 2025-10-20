@@ -11,7 +11,9 @@ module VM.Utils.Conversion (
     ,sublist
     ,nextIns
     ,skipVal
-    ,bits64)
+    ,bits64
+    ,boolToInt64
+    ,int64ToBool)
     where 
 
 import Data.Word (Word8, Word64)
@@ -27,6 +29,15 @@ bytesToInt64 bytes =
 int64To8Bytes :: Int64 -> [Word8]
 int64To8Bytes n = 
     [ fromIntegral ((n `div` (256 ^ i)) `mod` 256) | i <- [7, 6..0 :: Int] ]
+
+boolToInt64 :: Bool -> Int64
+boolToInt64 True = 1
+boolToInt64 _ = 0
+
+int64ToBool :: Int64 -> Bool
+int64ToBool x
+    | x > 0 = True
+    | otherwise = False
 
 sublist :: Int -> Int -> [a] -> [a]
 sublist i j xs = take (j - i) (drop i xs)

@@ -78,7 +78,8 @@ instructionToByteCode _ (Lt ) = [20] ++ instructionEnd
 instructionToByteCode _ (Le ) = [21] ++ instructionEnd
 instructionToByteCode _ (Eq) = [22] ++ instructionEnd
 instructionToByteCode _ (Diff) = [23] ++ instructionEnd
-instructionToByteCode _ (Is) = [24] ++ instructionEnd
+instructionToByteCode _ (UpdateZFlag) = [24] ++ instructionEnd
+instructionToByteCode _ (Is) = [99] ++ instructionEnd
 instructionToByteCode _ (PushValue addr)
     = [89] ++ intTo8Bytes addr ++ instructionEnd
 instructionToByteCode _ (PushGlobAddr addr) 
@@ -157,5 +158,46 @@ test = [
     ,PopToStackPtrRel (-8)
     ,Ret]
 
+testIfWhile :: [Instruction]
+testIfWhile = [
+     Label "func_main"
+    ,Label ".start"
+    ,PushValue 10
+    ,Label "loop"
+    ,PushValue 0
+    ,PushFromStackPtrRel 0
+    ,Diff
+    ,UpdateZFlag
+    ,PushLabel "endLoop"
+    ,Zjmp
+    ,PushValue 41
+    ,Aff
+    ,PushValue (-1)
+    ,Add
+    ,PushLabel "loop"
+    ,Jmp
+    ,Label "endLoop"
+    ,Ret
+    ]
+
 test2 :: [Instruction] 
-test2 = [Label "func_main",Label ".start",PushValue 1,PushValue 42,PushLabel "func_foo",Call,PushValue 2,PushValue 48,PushValue 5,Add,PushLabel "func_foo",Call,PushValue 5,PushLabel "func_bar",Call,Ret,Label "func_foo",PushValue 0,PushFromStackPtrRel (-8),PushFromStackPtrRel (-16),Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,PushValue 1,Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,Aff,Ret,Label "func_bar",PushValue 0,PushValue 48,PopToStackPtrRel 0,PushFromStackPtrRel (-8),PushFromStackPtrRel 0,Add,PopToStackPtrRel 0,PushValue (-1),PushFromStackPtrRel 0,PushLabel "func_foo",Call,Ret]
+test2 = [Label "func_main",
+    Label ".start",
+    PushValue 1,
+    PushValue 42,
+    PushLabel "func_foo",
+    Call,
+    PushValue 2,
+    PushValue 48,
+    PushValue 5,
+    Add,
+    PushLabel "func_foo",
+    Call,
+    PushValue 5,
+    PushLabel "func_bar",
+    Call,Ret,Label "func_foo",PushValue 0,PushFromStackPtrRel (-8),
+    PushFromStackPtrRel (-16),Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,
+    PushValue 1,Add,PopToStackPtrRel 0,PushFromStackPtrRel 0,Aff,Ret,
+    Label "func_bar",PushValue 0,PushValue 48,PopToStackPtrRel 0,
+    PushFromStackPtrRel (-8),PushFromStackPtrRel 0,Add,PopToStackPtrRel 0,
+    PushValue (-1),PushFromStackPtrRel 0,PushLabel "func_foo",Call,Ret]

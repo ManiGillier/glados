@@ -5,7 +5,7 @@
 -- Exec
 -}
 
-module VM.Instructions.Arithmetic (binOp, handleAdd) where 
+module VM.Instructions.Arithmetic (binOp, handleOp, handleBitshift) where 
 
 import VM.Types
 import VM.Utils.Conversion
@@ -17,12 +17,21 @@ binOp :: (Int64 -> Int64 -> Int64) -> Stack -> MaybeError Stack
 binOp _ [_] = Error stackError $ "underflow"
 binOp _ [] = Error stackError $ "underflow"
 binOp f xs = Correct $ int64To8Bytes
-    (f (bytesToInt64(take 8 xs)) (bytesToInt64(take 8 $ drop 8 xs)))
+    (f (bytesToInt64(take 8 $ drop 8 xs)) (bytesToInt64(take 8 xs)) )
     ++ drop 16 xs
 
-handleAdd :: VMState -> MaybeError VMState
-handleAdd state =
-    case binOp (+) (vmStack state) of
+handleOp :: (Int64 -> Int64 -> Int64) -> VMState -> MaybeError VMState
+handleOp f state =
+    case binOp f (vmStack state) of
         Correct nst -> Correct $ state 
             { vmPC = nextIns (vmPC state), vmStack = nst }
         Error err msg -> Error err msg
+
+handleBitshift ::(Int64 -> Int -> Int64) -> VMState -> VMState
+handleBitshift f state =
+    let stack = (vmStack state)
+        val = (bytesToInt64(take 8 $ drop 8 stack)) 
+        left = bytesToInt64 (take 8 stack)
+        newVal = f val (fromIntegral left)
+        newStack = (int64To8Bytes newVal) ++ (drop 16 stack)
+    in state { vmPC = nextIns (vmPC state), vmStack = newStack }

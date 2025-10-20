@@ -50,8 +50,11 @@ parseVariableDefinitions (x@(VariableDeclaration _ _ _) : xs) =
 parseVariableDefinitions (_ : xs) = parseVariableDefinitions xs
 parseVariableDefinitions [] = []
 
-parseCondition :: [LexedData] ->  Condition
-parseCondition _ = Condition (Value (Var.Bool True))
+parseCondition :: [LexedData] -> Condition
+parseCondition = Condition . parseComputable
+
+parseComputable :: [LexedData] -> Computable
+parseComputable _ = Value $ Var.Bool True
 
 parseFunctionBody :: [LexedData] -> FunctionBody
 parseFunctionBody (WithVariables : xs) = parseFunctionBody xs

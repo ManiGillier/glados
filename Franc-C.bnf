@@ -18,11 +18,11 @@
 
 <condition> ::= <expression> <operateur_logique> <expression>
 
-<comparison_operator> ::= "est" | "égale" | "différente" | "inférieure" | "supérieure" | "inférieure ou égale" | "supérieure ou égale"
+<comparison_operator> ::= "est" | "égale" | "différente" | "inférieure" | "supérieure" | "inférieure" <spaces> "ou" <spaces> "égale" | "supérieure" <spaces> "ou" <spaces> "égale"
 
-<logical_operator> ::= "et" | "ou" | "et binaire" | "ou binaire"
+<logical_operator> ::= "et" | "ou" | "et" <spaces> "binaire" | "ou" <spaces> "binaire"
 
-<bitwise_operator> ::= "décalé binairement à gauche" | "décalé binairement à droite"
+<bitwise_operator> ::= "décalé" <spaces> "binairement" <spaces> "à" <spaces> "gauche" | "décalé" <spaces> "binairement" <spaces> "à" <spaces> "droite"
 
 <operators> ::= <bitwise_operator> | <logical_operator> | <comparison_operator>
 
@@ -30,11 +30,11 @@
 
 <paranthesis> ::= "(" <operators> ")"
 
-<function_definition> ::= "J’aimerais définir le bloc répondant au nom de" <name> ", de type de retour" <type> ", nécessitant comme entrée :" <spaces> <parameter_list> "; contenant les variables :" <spaces> <variable_list> "; représenté par le code" <code_call> <define_return>"." <spaces> <block> <spaces> "Cordialement," <spaces> <name> <spaces> <name>
+<function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <name> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée :" <spaces> <parameter_list> ";" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> <variable_list> ";" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <code_call> <define_return> "." <spaces> <block> <spaces> "Cordialement," <spaces> <name> <spaces> <name>
 
 <code_call> ::= " "suivant" | "ci-après" | "ci-dessous"
 
-<define_return> ::= ", retournant " <name> | ""
+<define_return> ::= "," <spaces> "retournant" <spaces> <name> | ""
 
 <block> ::= <statement_list> <space> "Merci."
 
@@ -42,25 +42,25 @@
 
 <statement> ::= <expression_statement> | <return_statement>
 
-<return_statement> ::= "Enfin, renvoie "<name>"." | "Enfin, sors du bloc."
+<return_statement> ::= "Enfin," <spaces> "renvoie" <spaces> <name> "." | "Enfin," <spaces> "sors" <spaces> "du" <spaces> "bloc."
 
-<condition_statement> ::= "Si " <condition> ", exécute le texte :" <space> <block>
+<condition_statement> ::= "Si" <spaces> <condition> "," <spaces> "exécute" <spaces> "le" <spaces> "texte" <spaces> ":" <space> <block>
 
 <expression_statement> ::= <condition_statement> | <operation_statement>
 
-<operation_statement> ::= <name> <operator> <name> | <name> <operation_statement>
+<operation_statement> ::= <name> <spaces> <operator> <spaces> <name> | <name> <spaces> <operation_statement>
 
 <parameter_list> ::= <parameter> <spaces> | <parameter> <spaces> <parameter_list>
 
 <parameter> ::= <type> <name>
 
-<type> ::= "entier naturel" | "booléen" | "chaîne de caractères"
+<type> ::= "entier" <spaces> "naturel" | "booléen" | "chaîne" <spaces> "de" <spaces> "caractères"
 
 <name> ::= <identifier>
 
 <variable_list> ::= <variable> <spaces> | <variable> <spaces> <variable_list>
 
-<variable> ::= <name>", de type "<type>", valant "<value>
+<variable> ::= <name> "," <spaces> "de type" <spaces> <type> "," <spaces> "valant" <spaces> <value>
 
 <space> ::= "\n" | "\t" | "\s"
 

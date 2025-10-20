@@ -12,12 +12,14 @@ import Error.MaybeError
 import Error.ErrorList
 import VM.Types
 import VM.Instructions.Arithmetic
+import VM.Instructions.Comparator
 import VM.Instructions.IO
 import VM.Instructions.Control
 import VM.Instructions.Stack
 import VM.Utils.Conversion
 import VM.ByteCode
 import VM.Labels 
+import Data.Int (Int64)
 import VM.Utils.Debug
 import Debug.Trace
 
@@ -29,14 +31,36 @@ dispatchStackInstruction 89 s = execByteCode $ handlePushValue s
 dispatchStackInstruction 91 s = execByteCode $ handlePushValue s
 dispatchStackInstruction 30 s = execByteCode $ handlePopToStackPtrRel s
 dispatchStackInstruction 29 s = execByteCode $ handlePushFromStackPtrRel s
-dispatchStackInstruction op state = dispatchArithmeticinstruction op state
+dispatchStackInstruction op state = dispatchArithmeticInstruction op state
 
-dispatchArithmeticinstruction :: Byte -> VMState -> MaybeError String
-dispatchArithmeticinstruction 13 state =
-    case handleAdd state of
+handleArithmInst :: (Int64 -> Int64 -> Int64) -> VMState -> MaybeError String
+handleArithmInst f state = 
+    case handleOp f state of
         Correct newState -> execByteCode newState
         Error err msg    -> Error err msg
-dispatchArithmeticinstruction op state = dispatchControlInstruction op state
+
+handleCompInst :: (Int64 -> Int64 -> Bool) -> VMState -> MaybeError String
+handleCompInst f state = 
+    case handleComp f state of
+        Correct newState -> execByteCode newState
+        Error err msg    -> Error err msg
+
+dispatchArithmeticInstruction :: Byte -> VMState -> MaybeError String
+dispatchArithmeticInstruction 13 state = handleArithmInst (+) state
+dispatchArithmeticInstruction 14 state = handleArithmInst (-) state
+dispatchArithmeticInstruction 15 state = handleArithmInst (*) state
+dispatchArithmeticInstruction 16 state = handleArithmInst Prelude.div state
+dispatchArithmeticInstruction 17 state = handleArithmInst Prelude.mod state
+dispatchArithmeticInstruction op state = dispatchComparInstruction op state
+
+dispatchComparInstruction :: Byte -> VMState -> MaybeError String
+dispatchComparInstruction 18 state = handleCompInst (>) state
+dispatchComparInstruction 19 state = handleCompInst (>=) state
+dispatchComparInstruction 20 state = handleCompInst (<) state
+dispatchComparInstruction 21 state = handleCompInst (<=) state
+dispatchComparInstruction 22 state = handleCompInst (==) state
+dispatchComparInstruction 23 state = handleCompInst (/=) state
+dispatchComparInstruction op state = dispatchControlInstruction op state
 
 dispatchControlInstruction :: Byte -> VMState -> MaybeError String
 dispatchControlInstruction 34 state = execByteCode $ handleCall state
@@ -68,6 +92,6 @@ execFccByteCode byteCode
         let cleanByteCode = drop 4 byteCode
             pc = bytesToInt64 (take 8 cleanByteCode)
             state = VMState cleanByteCode (fromIntegral pc + 8)
-                [] 0 [] (indexLabel cleanByteCode)
+                [] 0 [] (indexLabel cleanByteCode) 0
         in execByteCode state
     | otherwise = Error fileFormatError $ "magic number not found"

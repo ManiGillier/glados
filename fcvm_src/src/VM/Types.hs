@@ -34,4 +34,5 @@ data VMState = VMState
     , vmSP :: SP
     , vmCallStack :: CallStack
     , vmLabels :: LabelIndex
+    , vmZFlag :: Word8
     }

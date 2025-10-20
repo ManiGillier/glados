@@ -26,19 +26,29 @@
 
 <operators> ::= <bitwise_operator> | <logical_operator> | <comparison_operator>
 
-<paranthis> ::= "(" <expression> <operators> <expression>  ")"
+<condition> ::= <name> <operator> <name> | <name> <operator> <paranthesis>
 
-<function_definition> ::= "J’aimerais définir le bloc répondant au nom de" <name> ", de type de retour" <type> ", nécessitant comme entrée :\n" <parameter_list> "; contenant les variables :\n" <variable_list>
+<paranthesis> ::= "(" <operators> ")"
 
-<function_definition> ::= "function" <identifier> "(" <parameter_list> ")" <block>
+<function_definition> ::= "J’aimerais définir le bloc répondant au nom de" <name> ", de type de retour" <type> ", nécessitant comme entrée :" <space> <parameter_list> "; contenant les variables :" <space> <variable_list> "; représenté par le code" <code_call> <define_return>"." <space> <block>
 
-<block> ::= "{" <statement_list> "}"
+<code_call> ::= " "suivant" | "ci-après" | "ci-dessous"
+
+<define_return> ::= ", retournant " <name> | ""
+
+<block> ::= <statement_list> "\nMerci."
 
 <statement_list> ::= <statement> | <statement> <statement_list>
 
-<statement> ::= <expression_statement> | <return_statement> | ...
+<statement> ::= <expression_statement> | <return_statement>
 
-<parameter_list> ::= <parameter> "\n" | <parameter> "\n" <parameter_list>
+<return_statement> ::= "Enfin, renvoie "<name>"." | "Enfin, sors du bloc."
+
+<condition_statement> ::= "Si " <condition> ", exécute le texte :\n\t" <block>
+
+<expression_statement> ::= <condition_statement> | <operation_statement>
+
+<parameter_list> ::= <parameter> <space> | <parameter> <space> <parameter_list>
 
 <parameter> ::= <type> <name>
 
@@ -46,6 +56,8 @@
 
 <name> ::= <identifier>
 
-<variable_list> ::= <variable> "\n" | <variable> "\n" <variable_list>
+<variable_list> ::= <variable> <space> | <variable> <space> <variable_list>
 
 <variable> ::= <name>", de type "<type>", valant "<value>
+
+<space> ::= "\n" | "\t" | "\s"

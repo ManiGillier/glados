@@ -21,7 +21,8 @@ binComparator :: (Int64 -> Int64 -> Bool) -> Stack -> MaybeError Stack
 binComparator _ [_] = Error stackError $ "underflow"
 binComparator _ [] = Error stackError $ "underflow"
 binComparator f xs = Correct $ int64To8Bytes
-    (boolToInt64 $ f (bytesToInt64(take 8 xs)) (bytesToInt64(take 8 $ drop 8 xs)))
+    (boolToInt64 $ 
+        f (bytesToInt64(take 8 $ drop 8 xs)) (bytesToInt64(take 8 xs)) )
     ++ drop 16 xs
 
 handleComp :: (Int64 -> Int64 -> Bool) -> VMState -> MaybeError VMState

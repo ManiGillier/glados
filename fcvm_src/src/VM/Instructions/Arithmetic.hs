@@ -17,7 +17,7 @@ binOp :: (Int64 -> Int64 -> Int64) -> Stack -> MaybeError Stack
 binOp _ [_] = Error stackError $ "underflow"
 binOp _ [] = Error stackError $ "underflow"
 binOp f xs = Correct $ int64To8Bytes
-    (f (bytesToInt64(take 8 xs)) (bytesToInt64(take 8 $ drop 8 xs)))
+    (f (bytesToInt64(take 8 $ drop 8 xs)) (bytesToInt64(take 8 xs)) )
     ++ drop 16 xs
 
 handleOp :: (Int64 -> Int64 -> Int64) -> VMState -> MaybeError VMState

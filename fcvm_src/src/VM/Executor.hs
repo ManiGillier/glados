@@ -69,6 +69,8 @@ dispatchControlInstruction 35 state =
         Nothing      -> Correct ""
         Just newState -> execByteCode newState
 dispatchControlInstruction 24 state = execByteCode $ handleZflag state
+dispatchControlInstruction 36 state = execByteCode $ handleJmp state
+dispatchControlInstruction 37 state = execByteCode $ handleZjmp state
 dispatchControlInstruction op state = dispatchIoInstruction op state
 
 dispatchIoInstruction :: Byte -> VMState -> MaybeError String
@@ -76,7 +78,7 @@ dispatchIoInstruction 38 state = let (char, newState) = handleAff state
       in case execByteCode newState of
             Correct rest -> Correct (char : rest)
             Error err msg -> Error err msg
-dispatchIoInstruction _ state = 
+dispatchIoInstruction _ state =
     execByteCode $ state { vmPC = nextIns (vmPC state) }
 
 execByteCode :: VMState -> MaybeError String
@@ -85,7 +87,7 @@ execByteCode state
         let opcode = vmByteCode state !! vmPC state
         in dispatchInstruction opcode state
     | otherwise = 
-        execByteCode $ state { vmPC = nextIns (vmPC state) }
+        traceShow ("st", (vmStack state), "zflag", (vmZFlag state)) execByteCode $ state { vmPC = nextIns (vmPC state) }
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode

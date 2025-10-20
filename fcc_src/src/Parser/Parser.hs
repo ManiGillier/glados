@@ -9,7 +9,8 @@ module Parser.Parser(takeUntil, findMain, getMainCount, parseMain,
   parseVariableDefinitions, skipTo,
   extractBodyFunctionFromNextIf,
   extractBodyFunctionFromNextElse,
-  parseFunctions, buildAst, parseVariableDefinitions) where
+  parseFunctions, buildAst, parseVariableDefinitions,
+  parseComputable, extractConditionFromNextWhile) where
 import DataStruct.Lexing (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString, LVoid))
 import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), Computable (Value), FunctionBodyContent (If, Show, Assign, Return, Loop, Invoke), FunctionDef (Function), Ast (Ast))
 import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString), Operations (..), UnaryOperations (..))
@@ -268,12 +269,12 @@ parseInvoke name l x = DataStruct.Ast.Ast.Invoke name (parseInvokeParams x) l
 parseFunctionBody :: [LexedData] -> FunctionBody
 parseFunctionBody (DataStruct.Lexing.If : xs)
     | isThereElse xs = DataStruct.Ast.Ast.If
-    (parseCondition (extractConditionFromNextIf xs))
+    (parseCondition (takeUntil xs Then))
     (parseFunctionBody (extractBodyFunctionFromNextIfWithElse xs))
     (Just (parseFunctionBody (extractBodyFunctionFromNextElse xs))) :
     parseFunctionBody (skipTo EndIf xs)
     | otherwise = DataStruct.Ast.Ast.If
-    (parseCondition (extractConditionFromNextIf xs))
+    (parseCondition (takeUntil xs Then))
     (parseFunctionBody (extractBodyFunctionFromNextIf xs)) Nothing :
     parseFunctionBody (skipTo EndIf xs)
 parseFunctionBody (Display:Text _:xs) = parseFunctionBody xs -- Not implemented
@@ -286,7 +287,7 @@ parseFunctionBody (DataStruct.Lexing.Returns:xs) =
     parseReturn (getAllComputables xs) :
     parseFunctionBody (skipComputables xs)
 parseFunctionBody (DataStruct.Lexing.While:xs) =
-    parseWhile (extractConditionFromNextWhile xs)
+    parseWhile (takeUntil xs Then)
     (extractBodyFunctionFromNextWhile xs) :
     parseFunctionBody (skipTo EndWhile xs)
 parseFunctionBody (DataStruct.Lexing.Invoke :
@@ -301,8 +302,6 @@ parseFunctionBody (WithVariables : xs) = parseFunctionBody xs
 parseFunctionBody ((VariableDeclaration _ _ _) : xs) = parseFunctionBody xs
 parseFunctionBody (WithParameters : xs) = parseFunctionBody xs
 parseFunctionBody (EndFunction : _) = []
-parseFunctionBody (L.If : xs) = Ast.If
-    (parseCondition (takeUntil xs Then)) [] Nothing : parseFunctionBody xs
 parseFunctionBody (_:xs) = parseFunctionBody xs
 parseFunctionBody [] = []
 

@@ -30,7 +30,7 @@ import Data.Void (Void)
 
 import ApplicativeAddons
 
-import DataStruct.Lexing(LexedData(..), Operations(..), Comparators(..),
+import DataStruct.Lexing(LexedData(..), Operations(..),
     UnaryOperations(..), FuncTypes(..), VarValue(..))
 
 import Text.Megaparsec
@@ -105,7 +105,7 @@ bitshiftOperations = choice [
         SString "binairement", Space, SString "à", Space, SString "droite"])]
 
 readComparator :: Lexer LexedData
-readComparator = Comparator <$> choice [
+readComparator = Operation <$> choice [
     Equal <$ lexSyntax [SString "égale", Space, SString "à"],
     Different <$ lexSyntax [SString "différent", Space, SString "de"],
     InferiorOrEqual <$ try (lexSyntax [SString "inférieure", Space,

@@ -38,14 +38,15 @@ handleRet state =
         _ -> Just $ state { vmPC = npc, vmSP = nsp, vmCallStack = ncs }
 
 zfVal :: Int64 -> Word8
-zfVal 0 = 0
-zfVal _ = 1
+zfVal x 
+    | x <= 0 = 0
+    | otherwise = 1
 
 handleZflag :: VMState -> VMState
 handleZflag state = 
     let stack = (vmStack state)
         pc = (vmPC state) + 1
-        zflag = bytesToInt64 (drop 8 stack)
+        zflag = bytesToInt64 (take 8 stack)
     in state { vmPC = pc, vmStack = popStack stack 
         ,vmZFlag = zfVal zflag }
 

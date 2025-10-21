@@ -29,12 +29,13 @@ compileFuncBodyContent s (Show comp) = compiler s comp
 compileFuncBodyContent s (Invoke name args Nothing) = flip apply s
   $ (comps, args)
   @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
+  @> [ PopEmpty ]
   where comps = revCompiler $ mapCompiler compileComputable
 compileFuncBodyContent s (Invoke name args (Just varName))
   | varExist s varName = (getVariable s varName) >>= \varAddr -> flip apply s $
     (comps, args)
     @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
-    @> [PopToStackPtrRel varAddr]
+    @> [ PopToStackPtrRel varAddr ]
   | otherwise = Error ukVarErr name
   where comps = revCompiler $ mapCompiler compileComputable
 compileFuncBodyContent s (If cond body (Just elseBody)) =

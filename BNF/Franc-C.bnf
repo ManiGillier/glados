@@ -1,0 +1,55 @@
+<multiplication_op> ::= "fois" | "multiplié" <spaces> "par"
+
+<exclusif_or> ::= "ou" <spaces> "exclusif" | "xor"
+
+<condition> ::= <name> <spaces> <logical_operator> <spaces> <name>
+
+<arithmetic_operator> ::= "plus" | "moins" | "divisé" <spaces> "par" | "module"
+
+<comparison_operator> ::= "est" | "égale" | "différente" | "inférieure" | "supérieure" | "inférieure" <spaces> "ou" <spaces> "égale" | "supérieure" <spaces> "ou" <spaces> "égale"
+
+<logical_operator> ::= "et" | "ou" | "et" <spaces> "binaire" | "ou" <spaces> "binaire"
+
+<bitwise_operator> ::= "décalé" <spaces> "binairement" <spaces> "à" <spaces> "gauche" | "décalé" <spaces> "binairement" <spaces> "à" <spaces> "droite"
+
+<operators> ::= <bitwise_operator> | <logical_operator> | <comparison_operator>
+
+<condition> ::= <name> <spaces> <operator> <spaces> <name> | <name> <spaces> <operator> <spaces> <paranthesis>
+
+<paranthesis> ::= "(" <condition> ")"
+
+<function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <name> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée :" <spaces> <parameter_list> ";" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> <variable_list> ";" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <spaces> <code_call> "." <spaces> <block> <spaces> "Cordialement," <spaces> <name> <spaces> <name>
+
+<code_call> ::= "suivant" | "ci-après" | "ci-dessous"
+
+<block> ::= <statement_list> <space> "Merci."
+
+<statement_list> ::= <statement> | <statement> <spaces> <statement_list>
+
+<statement> ::= <expression_statement> | <return_statement>
+
+<return_statement> ::= "Enfin," <spaces> "renvoie" <spaces> <name> "." | "Enfin," <spaces> "sors" <spaces> "du" <spaces> "bloc."
+
+<condition_statement> ::= "Si" <spaces> <condition> "," <spaces> "exécute" <spaces> "le" <spaces> "texte" <spaces> ":" <space> <block>
+
+<loop_statement> ::= "Tant" <spaces> "que" <spaces> <name> <spaces> <comparison_operator> <spaces> <name> <spaces> "exécute" <spaces> "le" <spaces> "code" <spaces> "ci-après" <spaces> ":" <spaces> <block>
+
+<expression_statement> ::= <condition_statement> | <operation_statement>
+
+<operation_statement> ::= <name> <spaces> <operator> <spaces> <name> | <name> <spaces> <operation_statement>
+
+<parameter_list> ::= <parameter> | <parameter> <spaces> <parameter_list>
+
+<parameter> ::= <type> <spaces> <name>
+
+<type> ::= "entier" <spaces> "naturel" | "booléen" | "chaîne" <spaces> "de" <spaces> "caractères"
+
+<name> ::= <identifier>
+
+<variable_list> ::= <variable> | <variable> <spaces> <variable_list>
+
+<variable> ::= <name> "," <spaces> "de" <spaces> "type" <spaces> <type> "," <spaces> "valant" <spaces> <value>
+
+<space> ::= "\n" | "\t" | "\s"
+
+<spaces> ::= <space> | <space> <spaces>

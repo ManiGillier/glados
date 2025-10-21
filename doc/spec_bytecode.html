@@ -1,0 +1,251 @@
+<h1 id="spec-of-the-bytecode-of-the-franc">Spec of the Bytecode of the Franc</h1>
+<p>The Bytecode start with the magic number which is (69,12,69,12).</p>
+<p>After that, it takes 8 bytes for the start adress.</p>
+<p>then the instruction which take 1 byte, 8 bytes for an argument if needed, and then a byte of 0 to specify the end of the instruction</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Opération et format</th>
+<th style="text-align:center">Mnémonique / Syntaxe</th>
+<th style="text-align:center">Arguments</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">69,12,69,12</td>
+<td style="text-align:center">Magic Number</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">Magic Number</td>
+</tr>
+<tr>
+<td style="text-align:left">1</td>
+<td style="text-align:center">DataInt</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right">create a variable with a type Int</td>
+</tr>
+<tr>
+<td style="text-align:left">2</td>
+<td style="text-align:center">DataString</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right">create a variable with a type String</td>
+</tr>
+<tr>
+<td style="text-align:left">3</td>
+<td style="text-align:center">BinNot</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">not</td>
+</tr>
+<tr>
+<td style="text-align:left">4</td>
+<td style="text-align:center">BoolNot</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">lnot</td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:center">Negate</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">negate</td>
+</tr>
+<tr>
+<td style="text-align:left">6</td>
+<td style="text-align:center">BinAnd</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">and</td>
+</tr>
+<tr>
+<td style="text-align:left">7</td>
+<td style="text-align:center">BinOr</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">or</td>
+</tr>
+<tr>
+<td style="text-align:left">8</td>
+<td style="text-align:center">BoolAnd</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">land</td>
+</tr>
+<tr>
+<td style="text-align:left">9</td>
+<td style="text-align:center">BoolOr</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">lor</td>
+</tr>
+<tr>
+<td style="text-align:left">10</td>
+<td style="text-align:center">Xor</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">xor</td>
+</tr>
+<tr>
+<td style="text-align:left">11</td>
+<td style="text-align:center">BitShiftLeft (shl)</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">bit shift left</td>
+</tr>
+<tr>
+<td style="text-align:left">12</td>
+<td style="text-align:center">BitShiftRight (shr)</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">bit shift right</td>
+</tr>
+<tr>
+<td style="text-align:left">13</td>
+<td style="text-align:center">Add</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">addition</td>
+</tr>
+<tr>
+<td style="text-align:left">14</td>
+<td style="text-align:center">Sub</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">subtraction</td>
+</tr>
+<tr>
+<td style="text-align:left">15</td>
+<td style="text-align:center">Mult</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">multiplication</td>
+</tr>
+<tr>
+<td style="text-align:left">16</td>
+<td style="text-align:center">Div</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">division</td>
+</tr>
+<tr>
+<td style="text-align:left">17</td>
+<td style="text-align:center">Mod</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">modulo</td>
+</tr>
+<tr>
+<td style="text-align:left">18</td>
+<td style="text-align:center">Gt</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">greater</td>
+</tr>
+<tr>
+<td style="text-align:left">19</td>
+<td style="text-align:center">Ge</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">greater or equal</td>
+</tr>
+<tr>
+<td style="text-align:left">20</td>
+<td style="text-align:center">Lt</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">less</td>
+</tr>
+<tr>
+<td style="text-align:left">21</td>
+<td style="text-align:center">Le</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">less or equal</td>
+</tr>
+<tr>
+<td style="text-align:left">22</td>
+<td style="text-align:center">Eq</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">equal</td>
+</tr>
+<tr>
+<td style="text-align:left">23</td>
+<td style="text-align:center">Diff</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">different</td>
+</tr>
+<tr>
+<td style="text-align:left">24</td>
+<td style="text-align:center">UpdateZFlag</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">pop the stack, if zero set z flag to 1 else 0</td>
+</tr>
+<tr>
+<td style="text-align:left">29</td>
+<td style="text-align:center">PushFromStackPtrRel</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right">push the value stored</td>
+</tr>
+<tr>
+<td style="text-align:left">30</td>
+<td style="text-align:center">PopToStackPtrRel</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right">pop and set to the address</td>
+</tr>
+<tr>
+<td style="text-align:left">31</td>
+<td style="text-align:center">PopEmpty</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">pop</td>
+</tr>
+<tr>
+<td style="text-align:left">33</td>
+<td style="text-align:center">Dupl</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">duplicate the last stack entry</td>
+</tr>
+<tr>
+<td style="text-align:left">34</td>
+<td style="text-align:center">Call</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">Subroutine call</td>
+</tr>
+<tr>
+<td style="text-align:left">35</td>
+<td style="text-align:center">Ret</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">return</td>
+</tr>
+<tr>
+<td style="text-align:left">36</td>
+<td style="text-align:center">Jmp</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">Jump to address</td>
+</tr>
+<tr>
+<td style="text-align:left">37</td>
+<td style="text-align:center">Zjmp</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">Jumpt to adress if value equal 0 eles continue</td>
+</tr>
+<tr>
+<td style="text-align:left">38</td>
+<td style="text-align:center">Aff</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">aff</td>
+</tr>
+<tr>
+<td style="text-align:left">39</td>
+<td style="text-align:center">Label</td>
+<td style="text-align:center">\</td>
+<td style="text-align:right">label</td>
+</tr>
+<tr>
+<td style="text-align:left">89</td>
+<td style="text-align:center">PushValue</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right">push an Int</td>
+</tr>
+<tr>
+<td style="text-align:left">90</td>
+<td style="text-align:center">PushGlobAddr</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right">push an adress</td>
+</tr>
+<tr>
+<td style="text-align:left">91</td>
+<td style="text-align:center">PushRelAddr</td>
+<td style="text-align:center">PushLabel</td>
+<td style="text-align:right">\</td>
+<td>push the label</td>
+</tr>
+<tr>
+<td style="text-align:left">96</td>
+<td style="text-align:center">WriteToStackPtrRel</td>
+<td style="text-align:center">V</td>
+<td style="text-align:right">Write Int to stack ptr + Addr</td>
+</tr>
+</tbody>
+</table>

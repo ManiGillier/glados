@@ -1,3 +1,5 @@
+<header>
+
 <multiplication_op> ::= "fois" | "multiplié" <spaces> "par"
 
 <exclusif_or> ::= "ou" <spaces> "exclusif" | "xor"

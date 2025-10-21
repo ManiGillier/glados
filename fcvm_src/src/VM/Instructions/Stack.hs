@@ -8,7 +8,8 @@
 module VM.Instructions.Stack (
      handlePushValue
     ,handlePopToStackPtrRel
-    ,handlePushFromStackPtrRel)
+    ,handlePushFromStackPtrRel
+    ,handlePopEmpty)
     where
 
 import VM.Types
@@ -19,6 +20,11 @@ handlePushValue :: VMState -> VMState
 handlePushValue state =
     let newStack = pushAddrStack (vmStack state) $ 
             drop (nextIns (vmPC state)) (vmByteCode state)
+    in state { vmPC = skipVal (vmPC state), vmStack = newStack }
+
+handlePopEmpty :: VMState -> VMState
+handlePopEmpty state =
+    let newStack = popStack (vmStack state)
     in state { vmPC = skipVal (vmPC state), vmStack = newStack }
 
 handlePopToStackPtrRel :: VMState -> VMState

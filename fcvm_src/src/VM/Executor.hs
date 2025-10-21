@@ -30,6 +30,7 @@ dispatchStackInstruction :: Byte -> VMState -> MaybeError String
 dispatchStackInstruction 89 s = execByteCode $ handlePushValue s
 dispatchStackInstruction 91 s = execByteCode $ handlePushValue s
 dispatchStackInstruction 30 s = execByteCode $ handlePopToStackPtrRel s
+dispatchStackInstruction 31 s = execByteCode $ handlePopEmpty s
 dispatchStackInstruction 29 s = execByteCode $ handlePushFromStackPtrRel s
 dispatchStackInstruction op state = dispatchArithmeticInstruction op state
 
@@ -114,7 +115,7 @@ execByteCode state
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode
-    | checkMagicNumber byteCode = 
+    | checkMagicNumber byteCode =
         let cleanByteCode = drop 4 byteCode
             pc = bytesToInt64 (take 8 cleanByteCode)
             state = VMState cleanByteCode (fromIntegral pc + 8)

@@ -23,6 +23,7 @@ J'aimerais définir le bloc répondant au nom de fizzbuzz, de type de retour nul
         Merci.
 
         Affiche un retour à la ligne.
+        J'aimerais que compteur prenne la valeur compteur plus 1.
 
     Merci.
 

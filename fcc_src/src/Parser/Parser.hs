@@ -228,6 +228,8 @@ getAllComputables (x@(Number _):xs) = x : getAllComputables xs
 getAllComputables (x@(Symbol _):xs) = x : getAllComputables xs
 getAllComputables (x@(L.UnaryOperation _) : xs) = x : getAllComputables xs
 getAllComputables (x@(L.Operation _) : xs) = x :getAllComputables xs
+getAllComputables (x@(L.OpenParenthesis) : xs) = x :getAllComputables xs
+getAllComputables (x@(L.ClosedParenthesis) : xs) = x :getAllComputables xs
 getAllComputables _ = []
 
 parseDisplay :: [LexedData] -> FunctionBodyContent
@@ -255,6 +257,8 @@ skipComputables ((Number _):xs) = skipComputables xs
 skipComputables ((Symbol _):xs) = skipComputables xs
 skipComputables ((L.UnaryOperation _) : xs) = skipComputables xs
 skipComputables ((L.Operation _) : xs) = skipComputables xs
+skipComputables ((L.OpenParenthesis) : xs) = skipComputables xs
+skipComputables ((L.ClosedParenthesis) : xs) = skipComputables xs
 skipComputables xs = xs
 
 parseInvokeParams :: [LexedData] -> [Computable]
@@ -283,7 +287,7 @@ parseFunctionBody (Display:xs) = parseDisplay (getAllComputables xs)
 parseFunctionBody (DataStruct.Lexing.Assign:Symbol s:xs) =
     parseAssign s (getAllComputables xs) :
     parseFunctionBody (skipComputables xs)
-parseFunctionBody (DataStruct.Lexing.Returns:xs) =
+parseFunctionBody (DataStruct.Lexing.Return:xs) =
     parseReturn (getAllComputables xs) :
     parseFunctionBody (skipComputables xs)
 parseFunctionBody (DataStruct.Lexing.While:xs) =

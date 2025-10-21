@@ -35,4 +35,4 @@ data VMState = VMState
     , vmCallStack :: CallStack
     , vmLabels :: LabelIndex
     , vmZFlag :: Word8
-    }
+    } deriving (Show)

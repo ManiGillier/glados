@@ -22,6 +22,7 @@ import VM.ByteCode
 import VM.Labels 
 import Data.Int (Int64)
 import Data.Bits
+import Debug.Trace (traceShow)
 
 dispatchInstruction :: Byte -> VMState -> MaybeError String
 dispatchInstruction opcode state = dispatchStackInstruction opcode state
@@ -110,8 +111,9 @@ execByteCode state
     | isInstruction (vmByteCode state) (vmPC state) = 
         let opcode = vmByteCode state !! vmPC state
         in dispatchInstruction opcode state
-    | otherwise = 
-        execByteCode $ state { vmPC = nextIns (vmPC state) }
+    | otherwise =
+        -- execByteCode $ state { vmPC = nextIns (vmPC state) }
+        traceShow ("st", (state)) execByteCode $ state { vmPC = nextIns (vmPC state) }
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode

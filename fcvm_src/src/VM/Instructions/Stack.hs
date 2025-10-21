@@ -15,6 +15,7 @@ module VM.Instructions.Stack (
 import VM.Types
 import VM.Stack
 import VM.Utils.Conversion
+import Debug.Trace (traceShow)
 
 handlePushValue :: VMState -> VMState
 handlePushValue state =
@@ -39,4 +40,5 @@ handlePushFromStackPtrRel state =
     let addr = fromIntegral $ bytesToInt64 
             (take bits64 $ drop (nextIns (vmPC state)) (vmByteCode state))
         newStack = pushFromStackPtrRel (vmStack state) (vmSP state) addr
+    -- in traceShow ("st=", newStack) state { vmPC = skipVal (vmPC state), vmStack = newStack }
     in state { vmPC = skipVal (vmPC state), vmStack = newStack }

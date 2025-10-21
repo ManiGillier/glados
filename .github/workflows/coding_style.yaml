@@ -14,7 +14,7 @@ env:
 jobs:
   check_coding_style:
     name: check_coding_style
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker:latest
     steps:
       - id: install

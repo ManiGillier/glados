@@ -15,7 +15,7 @@ env:
 jobs:
   run_tests:
     name: run_tests
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
       - id: checkout

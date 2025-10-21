@@ -16,7 +16,7 @@ env:
 jobs:
   check_program_compilation:
     name: check_program_compilation
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker
     steps:
       - id: checkout

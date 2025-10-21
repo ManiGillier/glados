@@ -1,6 +1,11 @@
 name: Coding Style
 run-name: Checking coding style
-on: [push, pull_request]
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - dev
 
 env:
   MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git
@@ -9,7 +14,7 @@ env:
 jobs:
   check_coding_style:
     name: check_coding_style
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container: epitechcontent/epitest-docker:latest
     steps:
       - id: install

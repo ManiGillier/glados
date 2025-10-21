@@ -1,0 +1,47 @@
+<p>&ltprogram> ::= &ltline></p>
+            | &ltline> &ltprogram></p>
+<p>&ltline> ::= &ltlabel> &quot;:&quot;
+         | &ltinstruction></p>
+<p>&ltinstruction> ::= &quot;db &quot; &ltnumber>
+                | &quot;db &quot; &ltlabel>
+                | &quot;not&quot;
+                | &quot;lnot&quot;
+                | &quot;neg&quot;
+                | &quot;and&quot;
+                | &quot;nor&quot;
+                | &quot;land&quot;
+                | &quot;lor&quot;
+                | &quot;xor&quot;
+                | &quot;shl&quot;
+                | &quot;shr&quot;
+                | &quot;add&quot;
+                | &quot;sub&quot;
+                | &quot;mult&quot;
+                | &quot;div&quot;
+                | &quot;mod&quot;
+                | &quot;gt&quot;
+                | &quot;ge&quot;
+                | &quot;lt&quot;
+                | &quot;le&quot;
+                | &quot;eq&quot;
+                | &quot;diff&quot;
+                | &quot;updz&quot;
+                | &quot;push &quot; &ltnumber>
+                | &quot;push &amp;&quot; &ltnumber>
+                | &quot;push [&quot; &ltnumber> &quot;]&quot;
+                | &quot;push %&quot; &ltlabel>
+                | &quot;push @&quot; &ltaddr>
+                | &quot;pop @&quot; &ltaddr>
+                | &quot;pop&quot;
+                | &quot;wr @&quot; &ltaddr> &quot;\s&quot; &ltnumber>
+                | &quot;dupl&quot;
+                | &quot;call&quot;
+                | &quot;ret&quot;
+                | &quot;jmp&quot;
+                | &quot;zjmp&quot;
+                | &quot;aff&quot;</p>
+<p>&ltaddr> ::= &ltnumber></p>
+<p>&ltlabel> ::= &ltchar> | &ltlabel> &ltchar></p>
+<p>&ltchar> ::= ... Every possible characters from ASCII ...</p>
+<p>&ltnumber> ::= &ltdigit> | &ltnumber> &ltdigit></p>
+<p>&ltdigit> ::= &quot;0&quot; | &quot;1&quot; | &quot;2&quot; | &quot;3&quot; | &quot;4&quot; | &quot;5&quot; | &quot;6&quot; | &quot;7&quot; | &quot;8&quot; | &quot;9&quot;</p>

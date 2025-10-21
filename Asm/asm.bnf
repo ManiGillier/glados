@@ -1,0 +1,55 @@
+<program> ::= <line>
+            | <line> <program>
+
+<line> ::= <label> ":"
+         | <instruction>
+
+<instruction> ::= "db " <number>
+                | "db " <label>
+                | "not"
+                | "lnot"
+                | "neg"
+                | "and"
+                | "nor"
+                | "land"
+                | "lor"
+                | "xor"
+                | "shl"
+                | "shr"
+                | "add"
+                | "sub"
+                | "mult"
+                | "div"
+                | "mod"
+                | "gt"
+                | "ge"
+                | "lt"
+                | "le"
+                | "eq"
+                | "diff"
+                | "updz"
+                | "push " <number>
+                | "push &" <number>
+                | "push [" <number> "]"
+                | "push %" <label>
+                | "push @" <addr>
+                | "pop @" <addr>
+                | "pop"
+                | "wr @" <addr> "\s" <number>
+                | "dupl"
+                | "call"
+                | "ret"
+                | "jmp"
+                | "zjmp"
+                | "aff"
+
+
+<addr> ::= <number>
+
+<label> ::= <char> | <label> <char>
+
+<char> ::= ... Every possible characters from ASCII ...
+
+<number> ::= <digit> | <number> <digit>
+
+<digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"

@@ -1,7 +1,5 @@
 <header> ::= "Bonjour," <spaces>
 
-<footer> ::=
-
 <main> ::=
 
 <multiplication_op> ::= "fois" | "multiplié" <spaces> "par"

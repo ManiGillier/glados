@@ -40,15 +40,15 @@
 
 <parameter_list> ::= <parameter> | <parameter> <spaces> <parameter_list>
 
-<parameter> ::= <type> <name>
+<parameter> ::= <type> <spaces> <name>
 
 <type> ::= "entier" <spaces> "naturel" | "booléen" | "chaîne" <spaces> "de" <spaces> "caractères"
 
 <name> ::= <identifier>
 
-<variable_list> ::= <variable> <spaces> | <variable> <spaces> <variable_list>
+<variable_list> ::= <variable> | <variable> <spaces> <variable_list>
 
-<variable> ::= <name> "," <spaces> "de type" <spaces> <type> "," <spaces> "valant" <spaces> <value>
+<variable> ::= <name> "," <spaces> "de" <spaces> "type" <spaces> <type> "," <spaces> "valant" <spaces> <value>
 
 <space> ::= "\n" | "\t" | "\s"
 

@@ -11,7 +11,7 @@ import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
                      , (<@)
                      , (@>)
-                     , apply, takeLabel, varExist, getVariable, revCompiler)
+                     , apply, takeLabel, varExist, getVariable, revCompiler, compileMaybe)
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))
@@ -22,14 +22,20 @@ import Error.ErrorList (ukVarErr)
 
 -- TODO: Assign Return Value of Invoke to the set Variable
 compileFuncBodyContent :: Compiler FunctionBodyContent
-compileFuncBodyContent s (Return comp) = compiler s comp
-  where compiler = suffixCompiler [Ret] compileComputable
+compileFuncBodyContent s (Return comp) = flip apply s $
+  (compileComputable, comp) @> [ PopToStackPtrRel (-8), Ret]
 compileFuncBodyContent s (Show comp) = compiler s comp
   where compiler = suffixCompiler [Aff] compileComputable
-compileFuncBodyContent s (Invoke name args _) = suffixCompiler
-        [ PushLabel $ funcLabelPrefix ++ name
-        , Call
-        ] comps s args
+compileFuncBodyContent s (Invoke name args Nothing) = flip apply s
+  $ (comps, args)
+  @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
+  where comps = revCompiler $ mapCompiler compileComputable
+compileFuncBodyContent s (Invoke name args (Just varName))
+  | varExist s varName = (getVariable s varName) >>= \varAddr -> flip apply s $
+    (comps, args)
+    @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
+    @> [PopToStackPtrRel varAddr]
+  | otherwise = Error ukVarErr name
   where comps = revCompiler $ mapCompiler compileComputable
 compileFuncBodyContent s (If cond body (Just elseBody)) =
   flip apply s''

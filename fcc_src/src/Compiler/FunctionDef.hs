@@ -57,7 +57,7 @@ compileFuncDef s (Function name _ ps vs body)
     .+ (compileFuncBody, body) @> [Ret])
     where duplParam = checkDuplicatesParams ps
           s' = s { functionNames = name : functionNames s
-                 , var = computeParams 0 ps }
+                 , var = computeParams (-8) ps }
 
 compileMainDef :: Compiler MainFunctionDef
 compileMainDef s (Main vs body) = flip apply s'

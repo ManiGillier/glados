@@ -15,7 +15,7 @@ import System.Environment
 import Data.Word
 import System.Exit (exitWith, ExitCode(..))
 import VM.Executor (execFccByteCode)
-import Error.MaybeError (printMaybeError)
+import Error.MaybeError
 
 ioErrorReturn :: IOError -> IO ()
 ioErrorReturn _ = exitWith (ExitFailure 84)

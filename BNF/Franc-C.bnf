@@ -46,7 +46,7 @@
 
 <parameter_list> ::= <parameter> | <parameter> <spaces> <parameter_list>
 
-<parameter> ::= <type> <spaces> <name>
+<parameter> ::= <type> > "," <spaces> "de" <spaces> "type" <spaces> <name>
 
 <type> ::= "entier" <spaces> "naturel" | "booléen" | "chaîne" <spaces> "de" <spaces> "caractères"
 

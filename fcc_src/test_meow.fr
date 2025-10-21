@@ -1,17 +1,26 @@
 Bonjour,
 
+J'aimerais définir le bloc répondant au nom de fib, de type de retour entier naturel,
+nécessitant comme entrée :
+            - nombre, de type entier naturel
+; contenant les variables :
+; représenté par le code ci-dessous.
+
+Affiche nombre.
+
+Enfin, renvoie 50.
+
+Merci.
+
 En sachant que les variables principales sont :
-    - compteur, de type entier naturel, valant 48
+    - compteur, de type entier naturel, valant 49
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
 
-Tant que compteur est inférieure ou égale à 48 plus 9 exécute le code ci-après :
-
-    * On fait un super affichage ici woohooo *
-    Affiche compteur.
-    J'aimerais que compteur prenne la valeur compteur plus 1.
-Merci.
+  J'invoque le bloc fib, et j'assigne la valeur de retour à la variable compteur,
+  avec les paramètres 48.
+  Affiche compteur.
 
 Merci d'avance,
 Cordialement,
-Gillier
 Mani
+Gillier

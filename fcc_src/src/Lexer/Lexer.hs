@@ -22,7 +22,7 @@ import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionDefinitionEndSyntax,
     functionTypes, variableTypes, invokeSyntax, invokeAssignSyntax,
     invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
-    displaySyntax''', mainFunctionSyntax, endMainFunctionSyntax,
+    mainFunctionSyntax, endMainFunctionSyntax,
     endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax,
     returnSyntax', hiSyntax, elseSyntax)
 
@@ -348,8 +348,7 @@ readInvoke = (try readInvoke''' <|> try readInvoke'' <|> try readInvoke' <|>
 readDisplay :: Lexer [LexedData]
 readDisplay = (try (lexStringsWithTokens' [Display] displaySyntax) <|>
     try (lexStringsWithTokens' [Display] displaySyntax') <|>
-    try (lexStringsWithTokens' [DisplayNewLine] displaySyntax'') <|>
-    try (lexStringsWithTokens' [Display] displaySyntax''')) <* readEOI
+    try (lexStringsWithTokens' [DisplayNewLine] displaySyntax'')) <* readEOI
 
 readMainFunctionDefinition :: Lexer [LexedData]
 readMainFunctionDefinition = lexStringsWithTokens' [FuncDef, FuncType Main,

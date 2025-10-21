@@ -13,7 +13,7 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     functionDefinitionWithVariablesSyntax,
     functionDefinitionEndSyntax, functionTypes, variableTypes,
     invokeSyntax, invokeAssignSyntax, invokeParametersSyntax,
-    displaySyntax, displaySyntax', displaySyntax'', displaySyntax''',
+    displaySyntax, displaySyntax', displaySyntax'',
     mainFunctionSyntax, endMainFunctionSyntax, elseSyntax,
     endIfSyntax, endWhileSyntax, endFunctionSyntax,
     returnSyntax, returnSyntax', hiSyntax) where
@@ -47,10 +47,10 @@ fcIntType = [SString "entier", Space, SString "naturel"]
 fcBoolType :: [Syntax]
 fcBoolType = [SString "booléen"]
 
+
 fcStringType :: [Syntax]
 fcStringType = [SString "chaîne", Space, SString "de", Space,
     SString "caractères"]
-
 fcVoidType :: [Syntax]
 fcVoidType = [SString "nul"]
 
@@ -142,7 +142,7 @@ invokeParametersSyntax = [SString ",", Space, SString "avec les paramètres",
     Space, MultipleComputables]
 
 displaySyntax :: [Syntax]
-displaySyntax = [SString "Affiche", Space, Value]
+displaySyntax = [SString "Affiche", Space, Condition]
 
 displaySyntax' :: [Syntax]
 displaySyntax' = [SString "Affiche", Space, QuotedValue]
@@ -151,9 +151,6 @@ displaySyntax'' :: [Syntax]
 displaySyntax'' = [SString "Affiche", Space, SString "un", Space,
     SString "retour", Space, SString "à", Space, SString "la", Space,
     SString "ligne"]
-
-displaySyntax''' :: [Syntax]
-displaySyntax''' = [SString "Affiche", Space, Word]
 
 mainFunctionSyntax :: [Syntax]
 mainFunctionSyntax = [SString "En", Space, SString "sachant", Space,

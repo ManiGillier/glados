@@ -1,8 +1,8 @@
-<header>
+<header> ::= "Bonjour," <spaces>
 
-<footer>
+<footer> ::=
 
-<main>
+<main> ::=
 
 <multiplication_op> ::= "fois" | "multiplié" <spaces> "par"
 

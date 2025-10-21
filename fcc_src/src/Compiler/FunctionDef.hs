@@ -54,7 +54,7 @@ compileFuncDef s (Function name _ ps vs body)
   | isJust duplParam = Error alreadyDefVarErr $ fromJust duplParam
   | otherwise = removeVar <$> (flip apply s' $
     [Label $ funcLabelPrefix ++ name] <@ (mapCompiler compileVarDef, vs)
-    .+ (compileFuncBody, body) @> [PopToStackPtrRel (-8), Ret])
+    .+ (compileFuncBody, body) @> [Ret])
     where duplParam = checkDuplicatesParams ps
           s' = s { functionNames = name : functionNames s
                  , var = computeParams (-8) ps }

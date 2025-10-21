@@ -19,7 +19,7 @@ En sachant que les variables principales sont :
     - compteur, de type entier naturel, valant 512
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
 
-J'invoque le bloc afficher_nombre, avec les paramètres compteur.
+J'invoque le bloc afficher_nombre, avec les paramètres 5.
 
 Merci d'avance,
 Cordialement,

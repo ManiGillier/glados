@@ -271,7 +271,7 @@ parseFunctionBody :: [LexedData] -> FunctionBody
 parseFunctionBody (DataStruct.Lexing.If : xs)
     | isThereElse xs = DataStruct.Ast.Ast.If
     (parseCondition (takeUntil xs Then))
-    (parseFunctionBody (extractBodyFunctionFromNextIfWithElse xs))
+    (parseFunctionBody (takeUntil (skipComputables xs) Else))
     (Just (parseFunctionBody (extractBodyFunctionFromNextElse xs))) :
     parseFunctionBody (skipTo EndIf xs)
     | otherwise = DataStruct.Ast.Ast.If

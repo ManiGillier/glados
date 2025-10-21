@@ -33,9 +33,9 @@ dispatchStackInstruction 30 s = execByteCode $ handlePopToStackPtrRel s
 dispatchStackInstruction 29 s = execByteCode $ handlePushFromStackPtrRel s
 dispatchStackInstruction op state = dispatchArithmeticInstruction op state
 
-handleArithmInst :: (Int64 -> Int64 -> Int64) -> VMState -> MaybeError String
-handleArithmInst f state = 
-    case handleOp f state of
+handleArithmInst :: (Int64 -> Int64 -> Int64) -> VMState -> Bool -> MaybeError String
+handleArithmInst f state safe = 
+    case handleOp f state safe of
         Correct newState -> execByteCode newState
         Error err msg    -> Error err msg
 
@@ -52,14 +52,14 @@ handleCompBoolInst f state =
         Error err msg    -> Error err msg
 
 dispatchArithmeticInstruction :: Byte -> VMState -> MaybeError String
-dispatchArithmeticInstruction 13 state = handleArithmInst (+) state
-dispatchArithmeticInstruction 14 state = handleArithmInst (-) state
-dispatchArithmeticInstruction 15 state = handleArithmInst (*) state
-dispatchArithmeticInstruction 16 state = handleArithmInst Prelude.div state
-dispatchArithmeticInstruction 17 state = handleArithmInst Prelude.mod state
-dispatchArithmeticInstruction 6 state = handleArithmInst ((.&.)) state
-dispatchArithmeticInstruction 7 state = handleArithmInst ((.|.)) state
-dispatchArithmeticInstruction 10 state = handleArithmInst (xor) state
+dispatchArithmeticInstruction 13 state = handleArithmInst (+) state True
+dispatchArithmeticInstruction 14 state = handleArithmInst (-) state True
+dispatchArithmeticInstruction 15 state = handleArithmInst (*) state True
+dispatchArithmeticInstruction 16 state = handleArithmInst Prelude.div state False
+dispatchArithmeticInstruction 17 state = handleArithmInst Prelude.mod state False
+dispatchArithmeticInstruction 6 state = handleArithmInst ((.&.)) state False
+dispatchArithmeticInstruction 7 state = handleArithmInst ((.|.)) state False
+dispatchArithmeticInstruction 10 state = handleArithmInst (xor) state False
 dispatchArithmeticInstruction 11 state = 
     execByteCode $ handleBitshift (shiftL) state
 dispatchArithmeticInstruction 12 state = 
@@ -98,7 +98,7 @@ dispatchControlInstruction op state = dispatchIoInstruction op state
 
 dispatchIoInstruction :: Byte -> VMState -> MaybeError String
 dispatchIoInstruction 38 state = let (char, newState) = handleAff state
-      in ((:) char) <$> execByteCode newState
+    in ((:) char) <$> execByteCode newState
 dispatchIoInstruction _ state =
     execByteCode $ state { vmPC = nextIns (vmPC state) }
 

@@ -8,6 +8,7 @@
 module Error.ErrorList (
    fileFormatError,
    stackError
+   ,divError
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -17,3 +18,6 @@ fileFormatError = "*** UNROCONIZED FILE FORMAT"
 
 stackError:: ErrorType
 stackError = "*** STACK ERROR"
+
+divError:: ErrorType
+divError = "*** 0 CAN'T BE USE in this operation"

@@ -66,7 +66,7 @@ assignNameSyntax = [SString "J'aimerais", Space, SString "que", Space, Word]
 
 assignValueSyntax :: [Syntax]
 assignValueSyntax = [Space, SString "prenne", Space, SString "la", Space,
-    SString "valeur", Space, Value]
+    SString "valeur", Space, Condition]
 
 assignSyntax :: [Syntax]
 assignSyntax = [SString "J'aimerais", Space, SString "que", Space, Word,

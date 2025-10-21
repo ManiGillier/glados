@@ -16,8 +16,6 @@ import Data.Maybe (fromMaybe)
 import Data.ByteString as B (pack, writeFile)
 
 import DataStruct.Ast.Ast as Ast
-import DataStruct.Ast.Type as T
-import DataStruct.Ast.Variable as V
 import Combinor.Ast (combineAst)
 import Compiler.Ast (compile)
 import ByteCode.AsmToBytecode (asmToBytecode)
@@ -25,7 +23,7 @@ import Binary.InstructionToAsm (instructionToAsm)
 import Data.Word (Word8)
 import DataStruct.Asm (Instruction)
 import Control.Exception (try)
-import Debug.Trace (trace, traceShowId)
+import Debug.Trace (traceShowId)
 import Lexer.Lexer (readCode)
 import Text.Megaparsec (parse, errorBundlePretty)
 import DataStruct.Lexing (LexedData)
@@ -51,7 +49,7 @@ lexer (content,name) = case parse readCode name content of
   Left a -> Error "Parse error" $ errorBundlePretty a
   Right a -> Correct a
 
-parser :: [LexedData] -> Ast
+parser :: [LexedData] -> MaybeError Ast
 parser = buildAst
 
 -- Lexing :D
@@ -59,7 +57,7 @@ parser = buildAst
 -- TODO: Remove when parsing is implemented !
 -- Will make the CodingStyle FAIL !
 parseArgs :: (String, String) -> MaybeError Ast
-parseArgs l = parser <$> (traceShowId $ lexer l)
+parseArgs l = (traceShowId $ lexer l) >>= parser
 
 writeBytecode :: Arguments -> [Word8] -> IO ()
 writeBytecode args l = B.writeFile (output args) (pack l)
@@ -73,6 +71,7 @@ main :: IO ()
 main = do
   args <- getMyArgs
   readArgs <- checkErrors $ readAllFiles args
-  let asm = (traceShowId $ readArgs >>= (mapM parseArgs)) >>= combineAst >>= compile
+  let asm = (traceShowId $ readArgs >>= (mapM parseArgs)) >>=
+        combineAst >>= compile
   let param = (,) <$> args <*> asm
   printMaybeError writeOutput param

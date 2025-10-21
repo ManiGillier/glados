@@ -416,4 +416,4 @@ readMainFunction = (readMainFunctionDefinition <* skipWhitespace) $++
 readCode :: Lexer [LexedData]
 readCode =
     readHi *> space1 *>
-    (concat <$> some (try readMainFunction <|> readFunction))
+    (concat <$> manyTill (readMainFunction <|> readFunction) eof)

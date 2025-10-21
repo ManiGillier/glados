@@ -1,33 +1,14 @@
 Bonjour,
 
-J'aimerais définir le bloc répondant au nom de fizzbuzz, de type de retour nul, nécessitant comme entrée :
-    - meow, de type entier naturel
-; contenant les variables :
-    - compteur, de type entier naturel, valant 0
-; représenté par le code ci-après.
+En sachant que les variables principales sont :
+; pourrais-tu s'il te plaît commencer la lecture ici ?
 
+    J'invoque le bloc fizzbuzz.
 
-
-    Tant que compteur est inférieure à 100 exécute le code ci-après :
-
-        Si compteur modulo 3 est égale à 0, exécute le texte :
-            Affiche « Fizz ».
-        Merci.
-
-        Si compteur modulo 5 est égale à 0, exécute le texte :
-            Affiche « Buzz ».
-        Merci.
-
-        Si compteur modulo 3 est différent de 0 et compteur modulo 5 est différent de 0, exécute le texte :
-            Affiche compteur.
-        Merci.
-
-        Affiche un retour à la ligne.
-        J'aimerais que compteur prenne la valeur compteur plus 1.
-
-    Merci.
-
-Merci.
+Merci d'avance,
+Cordialement,
+Gillier
+Mani
 
 En sachant que les variables principales sont :
 ; pourrais-tu s'il te plaît commencer la lecture ici ?

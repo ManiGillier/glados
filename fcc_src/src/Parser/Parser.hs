@@ -9,16 +9,17 @@ module Parser.Parser(takeUntil, findMain, getMainCount, parseMain,
   parseVariableDefinitions, skipTo,
   extractBodyFunctionFromNextIf,
   extractBodyFunctionFromNextElse,
-  parseFunctions, buildAst, parseVariableDefinitions,
+  parseFunctions, buildAst,
   parseComputable, extractConditionFromNextWhile) where
-import DataStruct.Lexing (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString, LVoid))
-import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), Computable (Value), FunctionBodyContent (If, Show, Assign, Return, Loop, Invoke), FunctionDef (Function), Ast (Ast))
-import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), LexedTypes (LInt, LBoolean, LString), Operations (..), UnaryOperations (..))
+import DataStruct.Lexing (LexedData(..), FuncTypes(..), LexedTypes (LInt, LBoolean, LString, LVoid))
+import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), FunctionBodyContent (If, Show, Assign, Return, Loop, Invoke), FunctionDef (Function), Ast (Ast))
+import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), Operations (..), UnaryOperations (..))
 import Error.MaybeError (MaybeError(Error, Correct))
-import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), FunctionBody, Condition(..), Computable (Value), FunctionBodyContent (If), BinaryOperator (..), Computable(..), Operation (..), UnaryOperator (..))
+import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), BinaryOperator (..), Computable(..), Operation (..), UnaryOperator (..))
 import qualified DataStruct.Ast.Type as Type
 import qualified DataStruct.Ast.Variable as Var
 import DataStruct.Ast.Variable (FuncParam(FuncParam))
+import Error.ErrorList (alreadyDefFuncErr)
 
 takeUntil :: [LexedData] -> LexedData -> [LexedData]
 takeUntil [] _ = []
@@ -181,10 +182,6 @@ rpnToAst (L.UnaryOperation op:xs) =
 rpnToAst (L.Symbol x:xs) = (Ast.Variable x, xs)
 rpnToAst e = error $ "parsing error: " ++ show e
 
-extractConditionFromNextIf :: [LexedData] -> [LexedData]
-extractConditionFromNextIf (DataStruct.Lexing.If : xs) = takeUntil xs Then
-extractConditionFromNextIf (_ : xs) = extractConditionFromNextIf xs
-extractConditionFromNextIf [] = []
 
 extractConditionFromNextWhile :: [LexedData] -> [LexedData]
 extractConditionFromNextWhile (DataStruct.Lexing.While : xs) =
@@ -316,7 +313,6 @@ parseMain' xs = Ast.Main
 parseMain :: [LexedData] -> Maybe MainFunctionDef
 parseMain xs
     | count == 1 = Just (parseMain' (findMain xs))
-    | count == 0 = Nothing
     | otherwise = Nothing
     where
       count = getMainCount xs
@@ -355,5 +351,8 @@ parseFunctions (FuncDef : FuncType DataStruct.Lexing.Function : Symbol s :
 parseFunctions (_:xs) = parseFunctions xs
 parseFunctions [] = []
 
-buildAst :: [LexedData] -> Ast
-buildAst xs = Ast (parseMain xs) (parseFunctions xs)
+buildAst :: [LexedData] -> MaybeError Ast
+buildAst xs
+    | count > 1 = Error alreadyDefFuncErr "main"
+    | otherwise = Correct (Ast (parseMain xs) (parseFunctions xs))
+    where count = getMainCount xs

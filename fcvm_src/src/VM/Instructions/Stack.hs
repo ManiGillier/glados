@@ -26,7 +26,7 @@ handlePushValue state =
 handlePopEmpty :: VMState -> VMState
 handlePopEmpty state =
     let newStack = popStack (vmStack state)
-    in state { vmPC = skipVal (vmPC state), vmStack = newStack }
+    in state { vmPC = nextIns (vmPC state), vmStack = newStack }
 
 handlePopToStackPtrRel :: VMState -> VMState
 handlePopToStackPtrRel state =

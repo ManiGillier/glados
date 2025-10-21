@@ -11,7 +11,7 @@ import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
                      , (<@)
                      , (@>)
-                     , apply, takeLabel, varExist, getVariable, revCompiler, compileMaybe)
+                     , apply, takeLabel, varExist, getVariable, revCompiler)
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))

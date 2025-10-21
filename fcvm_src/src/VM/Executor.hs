@@ -55,8 +55,10 @@ dispatchArithmeticInstruction :: Byte -> VMState -> MaybeError String
 dispatchArithmeticInstruction 13 state = handleArithmInst (+) state True
 dispatchArithmeticInstruction 14 state = handleArithmInst (-) state True
 dispatchArithmeticInstruction 15 state = handleArithmInst (*) state True
-dispatchArithmeticInstruction 16 state = handleArithmInst Prelude.div state False
-dispatchArithmeticInstruction 17 state = handleArithmInst Prelude.mod state False
+dispatchArithmeticInstruction 16 state =
+    handleArithmInst Prelude.div state False
+dispatchArithmeticInstruction 17 state = 
+    handleArithmInst Prelude.mod state False
 dispatchArithmeticInstruction 6 state = handleArithmInst ((.&.)) state False
 dispatchArithmeticInstruction 7 state = handleArithmInst ((.|.)) state False
 dispatchArithmeticInstruction 10 state = handleArithmInst (xor) state False

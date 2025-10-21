@@ -1,6 +1,8 @@
 <header> ::= "Bonjour," <spaces>
 
-<main> ::=
+<main> ::= "En" <spaces> "sachant" <spaces> "que" <spaces> "les" <spaces> "variables" <spaces> "principales" <spaces> "sont" <spaces> ":" <main_parameter> <spaces> ";" <spaces> "pourrais-tu" <spaces> "s'il" <spaces> "te" <spaces> "plaît" <spaces> "commencer" <spaces> "la" <spaces> "lecture" <spaces> "ici" <spaces> "?" <spaces> <block> <spaces> "Merci" <spaces> "d'avance," <spaces> "Cordialement," <spaces> <name> <spaces> <name>
+
+<main_parameter> ::= <name>"," <spaces> "de" <spaces> "type" <spaces> <type> "," <spaces> "valant" <spaces> <value> | <name>"," <spaces> "de" <spaces> "type" <spaces> <type> "," <spaces> "valant" <spaces> <value> <spaces> <main_parameter>
 
 <multiplication_op> ::= "fois" | "multiplié" <spaces> "par"
 
@@ -26,7 +28,7 @@
 
 <code_call> ::= "suivant" | "ci-après" | "ci-dessous"
 
-<block> ::= <statement_list> <space> "Merci."
+<block> ::= <statement_list>
 
 <statement_list> ::= <statement> | <statement> <spaces> <statement_list>
 

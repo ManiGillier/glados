@@ -61,12 +61,9 @@ getStartingPoint xs =
     Nothing -> -1
 
 instructionToByteCode :: [(String, Int64)] -> Instruction -> [Word8]
-instructionToByteCode _ (DataInt val) = 
-    [1] ++ intTo8Bytes val
-instructionToByteCode _ (DataString str) = 
-    [2] ++ stringWord8 str
-instructionToByteCode _ (BinNot) = 
-    [3]
+instructionToByteCode _ (DataInt val) = [1] ++ intTo8Bytes val
+instructionToByteCode _ (DataString str) = [2] ++ stringWord8 str
+instructionToByteCode _ (BinNot) = [3]
 instructionToByteCode _ (BoolNot) = [4]
 instructionToByteCode _ (Negate) = [5]
 instructionToByteCode _ (BinAnd) = [6]
@@ -89,21 +86,16 @@ instructionToByteCode _ (Eq) = [22]
 instructionToByteCode _ (Diff) = [23]
 instructionToByteCode _ (UpdateZFlag) = [24]
 instructionToByteCode _ (Is) = [99]
-instructionToByteCode _ (PushValue addr)
-    = [89] ++ intTo8Bytes addr
-instructionToByteCode _ (PushGlobAddr addr) 
-    = [90] ++ intTo8Bytes addr
-instructionToByteCode _ (PushRelAddr addr) 
-    = [91] ++ intTo8Bytes addr
-instructionToByteCode labAddrs (PushLabel labName) =
-    [91] ++ intTo8Bytes (getAddressLabel labName labAddrs)
-instructionToByteCode _ (PushFromStackPtrRel addr) 
-    = [29] ++ intTo8Bytes addr
-instructionToByteCode _ (PopToStackPtrRel addr) 
-    = [30] ++ intTo8Bytes addr
+instructionToByteCode _ (PushValue addr) = [89] ++ intTo8Bytes addr
+instructionToByteCode _ (PushGlobAddr addr) = [90] ++ intTo8Bytes addr
+instructionToByteCode _ (PushRelAddr addr) = [91] ++ intTo8Bytes addr
+instructionToByteCode labAddrs (PushLabel labName) = [91]
+    ++ intTo8Bytes (getAddressLabel labName labAddrs)
+instructionToByteCode _ (PushFromStackPtrRel addr) = [29] ++ intTo8Bytes addr
+instructionToByteCode _ (PopToStackPtrRel addr) = [30] ++ intTo8Bytes addr
 instructionToByteCode _ (PopEmpty) = [31]
-instructionToByteCode _ (WriteToStackPtrRel addr val) =
-    [96] ++ intTo8Bytes addr ++ intTo8Bytes val
+instructionToByteCode _ (WriteToStackPtrRel addr val) = [96] 
+    ++ intTo8Bytes addr ++ intTo8Bytes val
 instructionToByteCode _ (Dupl) = [33]
 instructionToByteCode _ (Call) = [34]
 instructionToByteCode _ (Ret) = [35]

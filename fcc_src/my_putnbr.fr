@@ -8,7 +8,7 @@ nécessitant comme entrée :
 ; représenté par le code suivant.
 
     Si nombre est inférieure à 0, exécute le texte :
-        Affiche 45.
+        Affiche '-'.
         J'aimerais que nombre prenne la valeur nombre multiplié par -1.
     Merci.
 
@@ -16,7 +16,7 @@ nécessitant comme entrée :
         J'invoque le bloc afficher_nombre, avec les paramètres (nombre divisé par 10).
     Merci.
 
-    Affiche ((nombre modulo 10) plus 48).
+    Affiche ((nombre modulo 10) plus '0').
 
 Merci.
 

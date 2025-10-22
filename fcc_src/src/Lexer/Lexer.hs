@@ -37,6 +37,7 @@ import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal, signed)
 import qualified Text.Megaparsec.Char.Lexer as L
+import Data.Int (Int64)
 
 type Lexer = Parsec Void String
 
@@ -46,11 +47,16 @@ skipWhitespace = space
 readWord :: Lexer LexedData
 readWord = Symbol <$> some (noneOf " .,\t\n()")
 
+readCharValue :: Lexer Char
+readCharValue = (char '\'' *> anySingleBut '\'' <* char '\'')
+
+readDecimal :: Lexer Int64
+readDecimal =
+    signed (return ()) decimal <* notFollowedBy (noneOf " .,\t\n()")
+
 readValue :: Lexer LexedData
 readValue =
-    Number
-        <$> signed (return ()) decimal
-        <* notFollowedBy (noneOf " .,\t\n()")
+  Number <$> (try readDecimal <|> fromIntegral <$> fromEnum <$> readCharValue)
 
 readQuotedValue :: Lexer LexedData
 readQuotedValue =

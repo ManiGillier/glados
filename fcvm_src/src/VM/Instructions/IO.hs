@@ -11,7 +11,6 @@ import VM.Types
 import VM.Utils.Conversion
 import VM.Stack
 import Data.Char
-import Debug.Trace (traceShow)
 
 handleAff :: VMState -> (Char, VMState)
 handleAff state =
@@ -19,4 +18,3 @@ handleAff state =
         newStack = popStack (vmStack state)
         newState = state { vmPC = nextIns (vmPC state), vmStack = newStack }
     in (val, newState)
-    -- in traceShow ("curst=", (vmStack state), "new=", (vmStack newState)) (val, newState)

@@ -19,10 +19,8 @@ import VM.Instructions.Control
 import VM.Instructions.Stack
 import VM.Utils.Conversion
 import VM.ByteCode
-import VM.Labels 
 import Data.Int (Int64)
 import Data.Bits
-import Debug.Trace (traceShow)
 
 dispatchInstruction :: Byte -> VMState -> MaybeError String
 dispatchInstruction opcode state = dispatchStackInstruction opcode state
@@ -96,8 +94,6 @@ dispatchControlInstruction 35 state =
 dispatchControlInstruction 24 state = execByteCode $ handleZflag state
 dispatchControlInstruction 36 state = execByteCode $ handleJmp state
 dispatchControlInstruction 37 state = execByteCode $ handleZjmp state
-dispatchControlInstruction 39 state =
-    execByteCode $ state { vmPC = skipVal (vmPC state) }
 dispatchControlInstruction op state = dispatchIoInstruction op state
 
 dispatchIoInstruction :: Byte -> VMState -> MaybeError String
@@ -107,20 +103,17 @@ dispatchIoInstruction _ state =
     execByteCode $ state { vmPC = nextIns (vmPC state) }
 
 execByteCode :: VMState -> MaybeError String
-execByteCode state
-    | isInstruction (vmByteCode state) (vmPC state) = 
-        let opcode = vmByteCode state !! vmPC state
-        in dispatchInstruction opcode state
-    | otherwise =
-        -- execByteCode $ state { vmPC = nextIns (vmPC state) }
-        traceShow ("st", (state)) execByteCode $ state { vmPC = nextIns (vmPC state) }
+execByteCode state =
+    -- traceShow ("st", state) $
+    let opcode = vmByteCode state !! vmPC state
+    in dispatchInstruction opcode state
+
+initVmState :: [Word8] -> VMState
+initVmState byteCode = 
+    let cleanByteCode = drop 4 byteCode
+    in VMState cleanByteCode 8 [] 0 [] 1
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode
-    | checkMagicNumber byteCode =
-        let cleanByteCode = drop 4 byteCode
-            pc = bytesToInt64 (take 8 cleanByteCode)
-            state = VMState cleanByteCode (fromIntegral pc + 8)
-                [] 0 [] (indexLabel cleanByteCode) 0
-        in execByteCode state
+    | checkMagicNumber byteCode = execByteCode $ initVmState byteCode
     | otherwise = Error fileFormatError $ "magic number not found"

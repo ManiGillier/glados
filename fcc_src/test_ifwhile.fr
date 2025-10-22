@@ -1,0 +1,21 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de afficher_nombre, de type de retour nul, nécessitant comme entrée :
+- nombre, de type entier naturel ; contenant les variables : ; représenté par le code suivant.
+
+  Si nombre est inférieure à 55, exécute le texte :
+     J'invoque le bloc afficher_nombre, avec les paramètres nombre plus 1.
+     Affiche nombre.
+  Merci.
+
+Merci.
+
+En sachant que les variables principales sont :
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+
+J'invoque le bloc afficher_nombre, avec les paramètres 48.
+
+Merci d'avance,
+Cordialement,
+Gillier
+Mani

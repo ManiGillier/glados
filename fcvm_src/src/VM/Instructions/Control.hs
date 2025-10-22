@@ -16,7 +16,6 @@ module VM.Instructions.Control (
 import VM.Types
 import VM.CallStack
 import VM.Stack
-import VM.Labels 
 import VM.Utils.Conversion
 import Data.Int (Int64)
 import Data.Word (Word8)
@@ -25,7 +24,7 @@ handleCall :: VMState -> VMState
 handleCall state =
     let newStack = popStack (vmStack state)
         newSP = length newStack
-        newPC = getPc (vmStack state) (vmLabels state)
+        newPC = fromIntegral $ bytesToInt64 $ take 8 (vmStack state)
         newCallStack = updateCall (vmPC state) (vmSP state) (vmCallStack state)
     in state { vmPC = newPC, vmStack = newStack, 
         vmSP = newSP, vmCallStack = newCallStack }
@@ -55,13 +54,14 @@ handleZjmp state =
     let stack = (vmStack state)
         zflag = (vmZFlag state)
         pc = (vmPC state)
+        newPc = fromIntegral $ bytesToInt64 $ take 8 stack
     in case zflag of 
-        0 -> state {vmStack = popStack stack, 
-            vmPC = getPc stack (vmLabels state) }
+        0 -> state {vmStack = popStack stack, vmPC = newPc }
         _ -> state {vmStack = popStack stack, vmPC = pc + 1}
 
 handleJmp :: VMState -> VMState
 handleJmp state =
     let stack = (vmStack state)
+        newPc = fromIntegral $ bytesToInt64 $ take 8 stack
     in state {vmStack = popStack stack, 
-        vmPC = getPc stack (vmLabels state) }
+        vmPC = newPc }

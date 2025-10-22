@@ -11,6 +11,7 @@ import VM.Types
 import VM.Utils.Conversion
 import Error.MaybeError
 import Error.ErrorList
+import VM.ByteCode
 import Data.Int (Int64)
 
 binOp :: (Int64 -> Int64 -> Int64) -> Stack -> Bool -> MaybeError Stack

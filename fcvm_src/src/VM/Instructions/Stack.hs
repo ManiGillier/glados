@@ -14,6 +14,7 @@ module VM.Instructions.Stack (
 
 import VM.Types
 import VM.Stack
+import VM.ByteCode
 import VM.Utils.Conversion
 
 handlePushValue :: VMState -> VMState

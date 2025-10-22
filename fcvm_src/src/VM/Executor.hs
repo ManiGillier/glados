@@ -17,7 +17,6 @@ import VM.Instructions.Unary
 import VM.Instructions.IO
 import VM.Instructions.Control
 import VM.Instructions.Stack
-import VM.Utils.Conversion
 import VM.ByteCode
 import Data.Int (Int64)
 import Data.Bits
@@ -109,9 +108,7 @@ execByteCode state =
     in dispatchInstruction opcode state
 
 initVmState :: [Word8] -> VMState
-initVmState byteCode = 
-    let cleanByteCode = drop 4 byteCode
-    in VMState cleanByteCode 8 [] 0 [] 1
+initVmState byteCode = VMState (drop 4 byteCode) 8 [] 0 [] 1 []
 
 execFccByteCode :: [Word8] -> MaybeError String
 execFccByteCode byteCode

@@ -5,7 +5,7 @@
 -- Exec
 -}
 
-module VM.ByteCode (checkMagicNumber, isInstruction) where 
+module VM.ByteCode (checkMagicNumber, isInstruction, nextIns, skipVal) where 
 
 import VM.Types
 
@@ -17,3 +17,9 @@ isInstruction :: ByteCode -> Int -> Bool
 isInstruction bc pc
     | bc !! (pc - 1) == 0 = True
     | otherwise = False
+
+nextIns :: PC -> PC
+nextIns pc = pc + 1
+
+skipVal :: PC -> PC
+skipVal pc = pc + 9

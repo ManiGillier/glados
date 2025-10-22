@@ -13,6 +13,7 @@ module VM.Instructions.Unary (
 
 import VM.Types
 import VM.Utils.Conversion
+import VM.ByteCode
 import VM.Stack
 import Data.Bits (Bits(complement))
 

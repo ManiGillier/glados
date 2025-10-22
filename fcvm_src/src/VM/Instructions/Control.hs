@@ -37,9 +37,8 @@ handleRet state =
         _ -> Just $ state { vmPC = npc, vmSP = nsp, vmCallStack = ncs }
 
 zfVal :: Int64 -> Word8
-zfVal x 
-    | x <= 0 = 0
-    | otherwise = 1
+zfVal 0 = 0
+zfVal _ = 1
 
 handleZflag :: VMState -> VMState
 handleZflag state = 

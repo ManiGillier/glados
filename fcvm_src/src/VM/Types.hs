@@ -32,4 +32,5 @@ data VMState = VMState
     , vmSP :: SP
     , vmCallStack :: CallStack
     , vmZFlag :: Word8
+    , vmBuffer :: String
     } deriving (Show)

@@ -21,9 +21,14 @@ nécessitant comme entrée :
 Merci.
 
 En sachant que les variables principales sont :
+    - feur, de type entier naturel, valant -1
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
 
     J'invoque le bloc afficher_nombre, avec les paramètres 200000000000.
+    Affiche 10.
+    Si feur, exécute le texte :
+        Affiche 48.
+    Merci.
 
 Merci d'avance,
 Cordialement,

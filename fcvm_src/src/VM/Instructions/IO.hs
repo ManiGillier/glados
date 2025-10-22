@@ -11,6 +11,7 @@ import VM.Types
 import VM.Utils.Conversion
 import VM.Stack
 import Data.Char
+import VM.ByteCode
 
 handleAff :: VMState -> (Char, VMState)
 handleAff state =

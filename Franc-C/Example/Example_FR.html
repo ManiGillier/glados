@@ -1,0 +1,60 @@
+<h1 id="exemple-d-un-fizzbuzz-">Exemple d&#39;un fizzbuzz :</h1>
+<p>++Voici un <code>Fizzbuzz</code>, ce code imprime <code>Fizz</code>, <code>Buzz</code>, ou affiche le nombre en fonction de sa valeur.++</p>
+<pre><code class="lang-fr">Bonjour,
+
+J'aimerais <span class="hljs-keyword">d</span>éfinir le bloc répondant au nom <span class="hljs-keyword">de</span> fizzbuzz, <span class="hljs-keyword">de</span> <span class="hljs-keyword">type</span> <span class="hljs-keyword">de</span> retour nul, <span class="hljs-keyword">n</span>écessitant comme entré<span class="hljs-keyword">e</span> :
+; contenant les variables :
+    - compteur, <span class="hljs-keyword">de</span> <span class="hljs-keyword">type</span> entier naturel, valant 0
+; représenté par le code <span class="hljs-keyword">ci</span>-après.
+
+
+
+    Tant <span class="hljs-keyword">que</span> compteur <span class="hljs-keyword">est</span> <span class="hljs-keyword">inf</span>érieure à 100 <span class="hljs-keyword">ex</span>écute le code <span class="hljs-keyword">ci</span>-après :
+
+        Si compteur modulo 3 <span class="hljs-keyword">est</span> égale à 0, <span class="hljs-keyword">ex</span>écute le texte :
+            Affiche « Fizz ».
+        Merci.
+
+        Si compteur modulo 5 <span class="hljs-keyword">est</span> égale à 0, <span class="hljs-keyword">ex</span>écute le texte :
+            Affiche « Buzz ».
+        Merci.
+
+        Si compteur modulo 3 <span class="hljs-keyword">est</span> différent <span class="hljs-keyword">de</span> 0 et compteur modulo 5 <span class="hljs-keyword">est</span> différent <span class="hljs-keyword">de</span> 0, <span class="hljs-keyword">ex</span>écute le texte :
+            Affiche compteur.
+        Merci.
+
+        Affiche un retour à <span class="hljs-keyword">la</span> ligne.
+
+    Merci.
+
+Merci.
+</code></pre>
+<p>++D&#39;abord la fonction est définie avec une variable nommée &quot;compteur&quot; qui est une entier naturel valant zéro.++</p>
+<pre><code>Bonjour,
+
+J<span class="hljs-symbol">'aimerais</span> définir le bloc répondant au nom de fizzbuzz, de <span class="hljs-keyword">type</span> <span class="hljs-type">de </span>retour nul, nécessitant comme entrée :
+; contenant les variables :
+    - <span class="hljs-type">compteur</span>, de <span class="hljs-keyword">type</span> <span class="hljs-type">entier </span>naturel, valant <span class="hljs-number">0</span>
+; représenté par le code ci-après.
+</code></pre><p>++Ici une boucle est créé, et le code a l&#39;interieur de la boucle sera executé tant que compteur (créé précedemment) sera inferieur à 100.++</p>
+<pre><code>    Tant <span class="hljs-keyword">que</span> compteur <span class="hljs-keyword">est</span> <span class="hljs-keyword">inf</span>érieure à 100 <span class="hljs-keyword">ex</span>écute le code <span class="hljs-keyword">ci</span>-après :
+</code></pre><p>++Le bloc ci dessous est le code qui sera executé 100 fois.++
+++La première condition <code>Si compteur modulo 3 est égale à 0, exécute le texte :</code> signifie que si la variable compteur est un multiple de 3 alors le texte inferieur <code>Affiche « Fizz »</code> s&#39;active, et affiche la suite de caractères &quot;Fizz&quot;. Puis le bloc conditionnel se terminera avec la formule de politesse <code>Merci.</code>++</p>
+<p>++La seconde condition <code>Si compteur modulo 5 est égale à 0, exécute le texte :</code> activera le texte <code>Affiche « Fizz ».</code> seulement si la variable compteur est un multiple de 5, et dans ce cas affichera &quot;Buzz&quot;.++</p>
+<p>++La dernière condition <code>Si compteur modulo 3 est différent de 0 et compteur modulo 5 est différent de 0, exécute le texte :</code> ne s&#39;activera que dans le cas où le nombre n&#39;est ni un multiple de 3 ni de 5, et executera le text <code>Affiche compteur.</code> qui imprimera a l&#39;écran la valeur de la variable compteur, qui est toujours un entier natural++</p>
+<pre><code>        Si compteur modulo 3 <span class="hljs-keyword">est</span> égale à 0, <span class="hljs-keyword">ex</span>écute le texte :
+                    Affiche « Fizz ».
+        Merci.
+        Si compteur modulo 5 <span class="hljs-keyword">est</span> égale à 0, <span class="hljs-keyword">ex</span>écute le texte :
+                    Affiche « Buzz ».
+        Merci.
+        Si compteur modulo 3 <span class="hljs-keyword">est</span> différent <span class="hljs-keyword">de</span> 0 et compteur modulo 5 <span class="hljs-keyword">est</span> différent <span class="hljs-keyword">de</span> 0, <span class="hljs-keyword">ex</span>écute le texte :
+            Affiche compteur.
+        Merci.
+</code></pre><p>++Enfin le bloc de code ci dessous imprime un retour a la ligne a la fin de chaque boucle++</p>
+<pre><code>
+        Affiche un retour à la ligne.
+</code></pre><p>++Pour finir les deux lignes ci dessous arrêtent premièrement la boucle et secondement la fonction avec les formules de politesse <code>Merci.</code>++</p>
+<pre><code>    Merci.
+Merci.
+</code></pre>

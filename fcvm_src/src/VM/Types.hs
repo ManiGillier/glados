@@ -20,6 +20,7 @@ module VM.Types (
     ,VMState(..)) 
     where 
 
+import System.IO (Handle, stdout, stdin, stderr)
 import Data.Word (Word8)
 
 type Stack = [Word8]
@@ -28,13 +29,15 @@ type PC = Int
 type CallStack = [(PC, SP)]
 type ByteCode = [Word8]
 type Byte = Word8
-type Fd = Word8
+type Fd = Handle
 type IOBuffer = [(Fd, String)]
 
-stdinFd, stdoutFd, stderrFd :: Fd
-stdinFd  = 0
-stdoutFd = 1
-stderrFd = 2
+stdinFd :: Fd
+stdoutFd :: Fd
+stderrFd :: Fd
+stdinFd  = stdin
+stdoutFd = stdout
+stderrFd = stderr
 
 data VMState = VMState
     { vmByteCode :: ByteCode

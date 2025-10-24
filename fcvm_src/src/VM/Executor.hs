@@ -5,7 +5,9 @@
 -- Exec
 -}
 
-module VM.Executor (execFccByteCode) where 
+module VM.Executor ( execFccByteCode, execAllByteCodes
+                   , printVMIO
+                   ) where
 
 import Data.Word
 import Error.ErrorList
@@ -19,6 +21,14 @@ import VM.Instructions.Stack
 import VM.ByteCode
 import Data.Bits
 import Debug.Trace
+import VM.Types (IOBuffer, VMState (vmIO), Fd)
+import Data.String (String)
+import System.IO (hPutStr, hFlush)
+import Data.ByteString (map, takeWhile)
+import Data.List (iterate)
+import Data.Bool (not)
+import Control.Monad (mapM_)
+import Debug.Trace (traceShowId)
 
 dispatchInstructions :: Byte -> VMState -> VMState
 dispatchInstructions 89 s = handlePushValue s
@@ -62,21 +72,32 @@ isEnd state =
 
 execByteCode :: VMState -> VMState
 execByteCode state
-    | vmDebug state = traceShow state $ nextState
     | isEnd state   = state
+    | vmDebug state = traceShow state $ nextState
     | otherwise     = nextState
   where
     opcode = vmByteCode state !! vmPC state
-    nextState = dispatchInstructions opcode state
+    nextState = dispatchInstructions opcode $ state { vmIO = [] }
+
+execAllByteCodes :: VMState -> [VMState]
+execAllByteCodes state = Prelude.takeWhile (not . isEnd)
+  $ iterate execByteCode state
 
 initVmState :: [Word8] -> VMState
 initVmState byteCode = 
     VMState (drop 4 byteCode) 8 [] 0 [] 1 [] False False
 
+printSingleVMIO :: (Fd, String) -> IO ()
+printSingleVMIO (file, content) = hPutStr file content
+  >> hFlush file
+
+printVMIO :: [VMState] -> IO ()
+printVMIO states = mapM_ (\state -> mapM_ printSingleVMIO $ vmIO state) states
+
 -- Call this function once to init VMstate and check formart error 
 -- after give the return value to execByteCode and fmap it
 execFccByteCode :: [Word8] -> VMState
 execFccByteCode byteCode
-    | checkMagicNumber byteCode = execByteCode $ initVmState byteCode
+    | checkMagicNumber byteCode = initVmState byteCode
     | otherwise = (initVmState byteCode)
         { vmIO = [(stderrFd, fileFormatError)] }

@@ -18,5 +18,5 @@ handleAff state =
     let val = chr $ fromIntegral $ bytesToInt64 (take bits64 (vmStack state))
         newStack = popStack (vmStack state)
         newState = state { vmPC = nextIns (vmPC state), vmStack = newStack, 
-            vmIO = (vmIO state) ++ [(stdoutFd, [val])]}
+            vmIO = [(stdoutFd, [val])]}
     in newState

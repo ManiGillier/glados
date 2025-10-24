@@ -14,8 +14,9 @@ import Prelude
 import System.Environment
 import Data.Word
 import System.Exit (exitWith, ExitCode(..))
-import VM.Executor (execFccByteCode)
+import VM.Executor (execFccByteCode, execAllByteCodes, printVMIO)
 import Error.MaybeError
+import Data.Functor ((<&>))
 
 ioErrorReturn :: IOError -> IO ()
 ioErrorReturn _ = exitWith (ExitFailure 84)
@@ -24,7 +25,7 @@ truc :: IO [Word8]
 truc = fileToByteCode =<< (head <$> getArgs)
 
 main :: IO ()
-main = putStrLn "hello"
+main = truc <&> execFccByteCode <&> execAllByteCodes >>= printVMIO
 
 -- main :: IO ()
 -- main = catchIOError (printMaybeError putStrLn =<<

@@ -13,7 +13,7 @@ module Error.ErrorList (
 
 import Error.MaybeError (ErrorType)
 
-fileFormatError :: ErrorType
+fileFormatError :: String
 fileFormatError = "*** UNROCONIZED FILE FORMAT"
 
 stackError:: ErrorType

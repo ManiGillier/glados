@@ -29,12 +29,12 @@ handleCall state =
     in state { vmPC = newPC, vmStack = newStack, 
         vmSP = newSP, vmCallStack = newCallStack }
 
-handleRet :: VMState -> Maybe VMState
+handleRet :: VMState -> VMState
 handleRet state =
     let ((npc, nsp), ncs) = restoreStack (vmCallStack state)
     in case ((npc, nsp), ncs) of
-        ((0, 0), []) -> Nothing
-        _ -> Just $ state { vmPC = npc, vmSP = nsp, vmCallStack = ncs }
+        ((0, 0), []) -> state { vmEnd = True }
+        _ -> state { vmPC = npc, vmSP = nsp, vmCallStack = ncs }
 
 zfVal :: Int64 -> Word8
 zfVal 0 = 0

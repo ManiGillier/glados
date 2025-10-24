@@ -24,5 +24,8 @@ truc :: IO [Word8]
 truc = fileToByteCode =<< (head <$> getArgs)
 
 main :: IO ()
-main = catchIOError (printMaybeError putStrLn =<<
-       (execFccByteCode <$> truc)) ioErrorReturn
+main = putStrLn "hello"
+
+-- main :: IO ()
+-- main = catchIOError (printMaybeError putStrLn =<<
+--        (execFccByteCode <$> truc)) ioErrorReturn

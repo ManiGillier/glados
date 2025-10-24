@@ -8,7 +8,6 @@
 module VM.Executor (execFccByteCode) where 
 
 import Data.Word
-import Error.MaybeError
 import Error.ErrorList
 import VM.Types
 import VM.Instructions.Arithmetic
@@ -18,99 +17,66 @@ import VM.Instructions.IO
 import VM.Instructions.Control
 import VM.Instructions.Stack
 import VM.ByteCode
-import Data.Int (Int64)
 import Data.Bits
+import Debug.Trace
 
-dispatchInstruction :: Byte -> VMState -> MaybeError String
-dispatchInstruction opcode state = dispatchStackInstruction opcode state
+dispatchInstructions :: Byte -> VMState -> VMState
+dispatchInstructions 89 s = handlePushValue s
+dispatchInstructions 91 s = handlePushValue s
+dispatchInstructions 30 s = handlePopToStackPtrRel s
+dispatchInstructions 31 s = handlePopEmpty s
+dispatchInstructions 29 s = handlePushFromStackPtrRel s
+dispatchInstructions 13 state = handleOp (+) state True
+dispatchInstructions 14 state = handleOp (-) state True
+dispatchInstructions 15 state = handleOp (*) state True
+dispatchInstructions 16 state = handleOp Prelude.div state False
+dispatchInstructions 17 state = handleOp Prelude.mod state False
+dispatchInstructions 6 state = handleOp ((.&.)) state False
+dispatchInstructions 7 state = handleOp ((.|.)) state False
+dispatchInstructions 10 state = handleOp (xor) state False
+dispatchInstructions 11 state = handleBitshift (shiftL) state
+dispatchInstructions 12 state = handleBitshift (shiftR) state
+dispatchInstructions 8 state = handleBoolComp (&&) state
+dispatchInstructions 9 state = handleBoolComp (||) state
+dispatchInstructions 18 state = handleComp (>) state
+dispatchInstructions 19 state = handleComp (>=) state
+dispatchInstructions 20 state = handleComp (<) state
+dispatchInstructions 21 state = handleComp (<=) state
+dispatchInstructions 22 state = handleComp (==) state
+dispatchInstructions 23 state = handleComp (/=) state
+dispatchInstructions 3 state = handleBinNot state
+dispatchInstructions 4 state = handleNot state
+dispatchInstructions 5 state = handleNegate state
+dispatchInstructions 34 state = handleCall state
+dispatchInstructions 35 state = handleRet state
+dispatchInstructions 24 state = handleZflag state
+dispatchInstructions 36 state = handleJmp state
+dispatchInstructions 37 state = handleZjmp state
+dispatchInstructions 38 state = handleAff state
+dispatchInstructions _ state = state { vmPC = nextIns (vmPC state) }
 
-dispatchStackInstruction :: Byte -> VMState -> MaybeError String
-dispatchStackInstruction 89 s = execByteCode $ handlePushValue s
-dispatchStackInstruction 91 s = execByteCode $ handlePushValue s
-dispatchStackInstruction 30 s = execByteCode $ handlePopToStackPtrRel s
-dispatchStackInstruction 31 s = execByteCode $ handlePopEmpty s
-dispatchStackInstruction 29 s = execByteCode $ handlePushFromStackPtrRel s
-dispatchStackInstruction op state = dispatchArithmeticInstruction op state
+isEnd :: VMState -> Bool
+isEnd state =
+    let end = (vmEnd state)
+    in end
 
-handleArithmInst :: (Int64 -> Int64 -> Int64) -> VMState -> Bool -> MaybeError String
-handleArithmInst f state safe = 
-    case handleOp f state safe of
-        Correct newState -> execByteCode newState
-        Error err msg    -> Error err msg
-
-handleCompInst :: (Int64 -> Int64 -> Bool) -> VMState -> MaybeError String
-handleCompInst f state = 
-    case handleComp f state of
-        Correct newState -> execByteCode newState
-        Error err msg    -> Error err msg
-
-handleCompBoolInst :: (Bool -> Bool -> Bool) -> VMState -> MaybeError String
-handleCompBoolInst f state = 
-    case handleBoolComp f state of
-        Correct newState -> execByteCode newState
-        Error err msg    -> Error err msg
-
-dispatchArithmeticInstruction :: Byte -> VMState -> MaybeError String
-dispatchArithmeticInstruction 13 state = handleArithmInst (+) state True
-dispatchArithmeticInstruction 14 state = handleArithmInst (-) state True
-dispatchArithmeticInstruction 15 state = handleArithmInst (*) state True
-dispatchArithmeticInstruction 16 state =
-    handleArithmInst Prelude.div state False
-dispatchArithmeticInstruction 17 state = 
-    handleArithmInst Prelude.mod state False
-dispatchArithmeticInstruction 6 state = handleArithmInst ((.&.)) state False
-dispatchArithmeticInstruction 7 state = handleArithmInst ((.|.)) state False
-dispatchArithmeticInstruction 10 state = handleArithmInst (xor) state False
-dispatchArithmeticInstruction 11 state = 
-    execByteCode $ handleBitshift (shiftL) state
-dispatchArithmeticInstruction 12 state = 
-    execByteCode $ handleBitshift (shiftR) state
-dispatchArithmeticInstruction op state = dispatchComparInstruction op state
-
-dispatchComparInstruction :: Byte -> VMState -> MaybeError String
-dispatchComparInstruction 8 state = handleCompBoolInst (&&) state
-dispatchComparInstruction 9 state = handleCompBoolInst (||) state
-dispatchComparInstruction 18 state = handleCompInst (>) state
-dispatchComparInstruction 19 state = handleCompInst (>=) state
-dispatchComparInstruction 20 state = handleCompInst (<) state
-dispatchComparInstruction 21 state = handleCompInst (<=) state
-dispatchComparInstruction 22 state = handleCompInst (==) state
-dispatchComparInstruction 23 state = handleCompInst (/=) state
-dispatchComparInstruction op state = dispatchUnaryInstruction op state
-
-dispatchUnaryInstruction :: Byte -> VMState -> MaybeError String
-dispatchUnaryInstruction 3 state = execByteCode $ handleBinNot state
-dispatchUnaryInstruction 4 state = execByteCode $ handleNot state
-dispatchUnaryInstruction 5 state = execByteCode $ handleNegate state
-dispatchUnaryInstruction op state = dispatchControlInstruction op state
-
-dispatchControlInstruction :: Byte -> VMState -> MaybeError String
-dispatchControlInstruction 34 state = execByteCode $ handleCall state
-dispatchControlInstruction 35 state = 
-    case handleRet state of
-        Nothing      -> Correct ""
-        Just newState -> execByteCode newState
-dispatchControlInstruction 24 state = execByteCode $ handleZflag state
-dispatchControlInstruction 36 state = execByteCode $ handleJmp state
-dispatchControlInstruction 37 state = execByteCode $ handleZjmp state
-dispatchControlInstruction op state = dispatchIoInstruction op state
-
-dispatchIoInstruction :: Byte -> VMState -> MaybeError String
-dispatchIoInstruction 38 state = let (char, newState) = handleAff state
-    in ((:) char) <$> execByteCode newState
-dispatchIoInstruction _ state =
-    execByteCode $ state { vmPC = nextIns (vmPC state) }
-
-execByteCode :: VMState -> MaybeError String
-execByteCode state =
-    -- traceShow ("st", state) $
-    let opcode = vmByteCode state !! vmPC state
-    in dispatchInstruction opcode state
+execByteCode :: VMState -> VMState
+execByteCode state
+    | vmDebug state = traceShow state $ nextState
+    | isEnd state   = state
+    | otherwise     = nextState
+  where
+    opcode = vmByteCode state !! vmPC state
+    nextState = dispatchInstructions opcode state
 
 initVmState :: [Word8] -> VMState
-initVmState byteCode = VMState (drop 4 byteCode) 8 [] 0 [] 1 []
+initVmState byteCode = 
+    VMState (drop 4 byteCode) 8 [] 0 [] 1 [] False False
 
-execFccByteCode :: [Word8] -> MaybeError String
+-- Call this function once to init VMstate and check formart error 
+-- after give the return value to execByteCode and fmap it
+execFccByteCode :: [Word8] -> VMState
 execFccByteCode byteCode
     | checkMagicNumber byteCode = execByteCode $ initVmState byteCode
-    | otherwise = Error fileFormatError $ "magic number not found"
+    | otherwise = (initVmState byteCode)
+        { vmIO = [(stderrFd, fileFormatError)] }

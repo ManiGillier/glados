@@ -21,14 +21,8 @@ import VM.Instructions.Stack
 import VM.ByteCode
 import Data.Bits
 import Debug.Trace
-import VM.Types (IOBuffer, VMState (vmIO), Fd)
-import Data.String (String)
 import System.IO (hPutStr, hFlush)
-import Data.ByteString (map, takeWhile)
-import Data.List (iterate)
-import Data.Bool (not)
-import Control.Monad (mapM_)
-import Debug.Trace (traceShowId)
+import System.Exit
 
 dispatchInstructions :: Byte -> VMState -> VMState
 dispatchInstructions 89 s = handlePushValue s
@@ -87,15 +81,18 @@ initVmState :: [Word8] -> VMState
 initVmState byteCode = 
     VMState (drop 4 byteCode) 8 [] 0 [] 1 [] False False
 
+printWFlush :: Fd -> String -> IO ()
+printWFlush file content = hPutStr file content >> hFlush file
+
 printSingleVMIO :: (Fd, String) -> IO ()
-printSingleVMIO (file, content) = hPutStr file content
-  >> hFlush file
+printSingleVMIO (file, content)
+    | file == stderrFd = printWFlush file ("\n" ++ content ++ "\n") 
+        >> exitWith (ExitFailure 84)
+    | otherwise = printWFlush file content
 
 printVMIO :: [VMState] -> IO ()
 printVMIO states = mapM_ (\state -> mapM_ printSingleVMIO $ vmIO state) states
 
--- Call this function once to init VMstate and check formart error 
--- after give the return value to execByteCode and fmap it
 execFccByteCode :: [Word8] -> VMState
 execFccByteCode byteCode
     | checkMagicNumber byteCode = initVmState byteCode

@@ -24,7 +24,7 @@ import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     invokeParametersSyntax, displaySyntax, displaySyntax', displaySyntax'',
     mainFunctionSyntax, endMainFunctionSyntax,
     endFunctionSyntax, endIfSyntax, endWhileSyntax, returnSyntax,
-    returnSyntax', hiSyntax, elseSyntax)
+    returnSyntax', hiSyntax, elseSyntax, equalSyntax, differentSyntax, inferiorOrEqualSyntax, superiorOrEqualSyntax, inferiorSyntax, superiorSyntax, equalSyntax')
 
 import Data.Void (Void)
 
@@ -47,16 +47,39 @@ skipWhitespace = space
 readWord :: Lexer LexedData
 readWord = Symbol <$> some (noneOf " .,\t\n()")
 
+escapeList :: Lexer Char
+escapeList = choice [
+    '\n' <$ char 'n',
+    '\t'  <$ char 't',
+    '\r'  <$ char 'r',
+    '\\' <$ char '\\',
+    '\'' <$ char '\'',
+    '"'  <$ char '"',
+    '\0' <$ char '0']
+
+charLiteral :: Lexer Char
+charLiteral =
+      (char '\\' *> escapeList)
+  <|> anySingleBut '\'' 
+
 readCharValue :: Lexer Char
-readCharValue = (char '\'' *> anySingleBut '\'' <* char '\'')
+readCharValue = between (char '\'') (char '\'') charLiteral
 
 readDecimal :: Lexer Int64
 readDecimal =
     signed (return ()) decimal <* notFollowedBy (noneOf " .,\t\n()")
 
+readBoolean :: Lexer Int64
+readBoolean = choice [
+    1 <$ try (string "vraie"),
+    1 <$ string "vrai",
+    0 <$ try (string "fausse"),
+    0 <$ string "faux"]
+
 readValue :: Lexer LexedData
 readValue =
-  Number <$> (try readDecimal <|> fromIntegral <$> fromEnum <$> readCharValue)
+  Number <$> (try readDecimal <|> fromIntegral <$> fromEnum <$> readCharValue
+        <|> readBoolean)
 
 readQuotedValue :: Lexer LexedData
 readQuotedValue =
@@ -112,14 +135,13 @@ bitshiftOperations = choice [
 
 readComparator :: Lexer LexedData
 readComparator = Operation <$> choice [
-    Equal <$ lexSyntax [SString "égale", Space, SString "à"],
-    Different <$ lexSyntax [SString "différent", Space, SString "de"],
-    InferiorOrEqual <$ try (lexSyntax [SString "inférieure", Space,
-        SString "ou", Space, SString "égale", Space, SString "à"]),
-    SuperiorOrEqual <$ try (lexSyntax [SString "supérieure", Space,
-        SString "ou", Space, SString "égale", Space, SString "à"]),
-    Inferior <$ lexSyntax [SString "inférieure", Space, SString "à"],
-    Superior <$ lexSyntax [SString "supérieure", Space, SString "à"]]
+    Equal <$ try (lexSyntax equalSyntax),
+    Different <$ try (lexSyntax differentSyntax),
+    InferiorOrEqual <$ try (lexSyntax inferiorOrEqualSyntax),
+    SuperiorOrEqual <$ try (lexSyntax superiorOrEqualSyntax),
+    Inferior <$ try (lexSyntax inferiorSyntax),
+    Superior <$ try (lexSyntax superiorSyntax),
+    Equal <$ lexSyntax equalSyntax']
 
 readParenthesisComputable :: Lexer [LexedData]
 readParenthesisComputable =
@@ -138,7 +160,7 @@ readComputableAfterOperation =  try
     try readParenthesisComputable <|> (glob readWord)
 
 readComputable :: Lexer [LexedData]
-readComputable = try ((space1 *> string "est" *> space1 *> glob readComparator)
+readComputable = try ((space1 *> glob readComparator)
     $++ (space1 *> readComputableAfterOperation)) <|>
     try (space1 *> readOperation $: (space1 *> readComputableAfterOperation))
 

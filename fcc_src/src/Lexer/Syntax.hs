@@ -16,7 +16,9 @@ module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     displaySyntax, displaySyntax', displaySyntax'',
     mainFunctionSyntax, endMainFunctionSyntax, elseSyntax,
     endIfSyntax, endWhileSyntax, endFunctionSyntax,
-    returnSyntax, returnSyntax', hiSyntax) where
+    returnSyntax, returnSyntax', hiSyntax, equalSyntax,
+    equalSyntax', superiorOrEqualSyntax, superiorSyntax, inferiorOrEqualSyntax,
+    inferiorSyntax, differentSyntax) where
 
 import DataStruct.Lexing(LexedData(..), LexedTypes(..))
 
@@ -46,7 +48,6 @@ fcIntType = [SString "entier", Space, SString "naturel"]
 
 fcBoolType :: [Syntax]
 fcBoolType = [SString "booléen"]
-
 
 fcStringType :: [Syntax]
 fcStringType = [SString "chaîne", Space, SString "de", Space,
@@ -175,3 +176,29 @@ returnSyntax' = [SString "Enfin,", Space, SString "sors", Space,
 
 hiSyntax :: [Syntax]
 hiSyntax = [SString "Bonjour,"]
+
+equalSyntax :: [Syntax]
+equalSyntax = [SString "est", Space, SString "égale", Space, SString "à"]
+
+differentSyntax :: [Syntax]
+differentSyntax = [SString "est", Space, SString "différent", Space,
+    SString "de"]
+
+inferiorOrEqualSyntax :: [Syntax]
+inferiorOrEqualSyntax = [SString "est", Space, SString "inférieure", Space,
+        SString "ou", Space, SString "égale", Space, SString "à"]
+
+superiorOrEqualSyntax :: [Syntax]
+superiorOrEqualSyntax = [SString "est", Space, SString "supérieure", Space,
+        SString "ou", Space, SString "égale", Space, SString "à"]
+
+inferiorSyntax :: [Syntax]
+inferiorSyntax = [SString "est", Space, SString "inférieure", Space,
+    SString "à"]
+
+superiorSyntax :: [Syntax]
+superiorSyntax = [SString "est", Space, SString "supérieure", Space,
+    SString "à"]
+
+equalSyntax' :: [Syntax]
+equalSyntax' = [SString "est"]

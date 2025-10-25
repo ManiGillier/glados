@@ -43,8 +43,8 @@ findMain [] = []
 parseVariableDefinition :: LexedData -> Var.VariableDef
 parseVariableDefinition (VariableDeclaration name LInt
     (L.Int x)) = Var.VariableDef name Type.Int (Var.Int x)
-parseVariableDefinition (VariableDeclaration name LBoolean
-  (L.Bool x)) = Var.VariableDef name Type.Bool (Var.Bool x)
+parseVariableDefinition (VariableDeclaration name LBoolean (L.Int x)) =
+    Var.VariableDef name Type.Int (Var.Int x)
 parseVariableDefinition (VariableDeclaration name LString
   (L.String x)) = Var.VariableDef name Type.String
     (Var.String x)
@@ -206,13 +206,6 @@ extractBodyFunctionFromNextElse (DataStruct.Lexing.Else : xs) =
     takeUntil xs EndIf
 extractBodyFunctionFromNextElse (_ : xs) = extractBodyFunctionFromNextElse xs
 extractBodyFunctionFromNextElse [] = []
-
-extractBodyFunctionFromNextIfWithElse :: [LexedData] -> [LexedData]
-extractBodyFunctionFromNextIfWithElse (DataStruct.Lexing.Then : xs) =
-    takeUntil xs Else
-extractBodyFunctionFromNextIfWithElse (_ : xs) =
-    extractBodyFunctionFromNextIf xs
-extractBodyFunctionFromNextIfWithElse [] = []
 
 skipTo :: LexedData -> [LexedData] -> [LexedData]
 skipTo _ [] = []

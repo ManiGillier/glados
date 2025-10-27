@@ -13,7 +13,6 @@ import DataStruct.Asm (Instruction (..))
 import Error.MaybeError (MaybeError (..))
 import Compiler.Type
 import Error.ErrorList (ukVarErr)
-import Compiler.Type (revCompiler, mapCompiler, baseContext, Context (functionNames))
 
 testCompiler :: Compiler [Instruction]
 testCompiler s l = Correct (s, l)

@@ -12,18 +12,17 @@ import Compiler.Type (baseContext, Context (Context))
 import Error.MaybeError (MaybeError(..))
 import DataStruct.Asm as Asm
 import DataStruct.Ast.Ast as Ast
-import DataStruct.Ast.Variable as Var
 import Error.ErrorList (ukVarErr)
 import Data.Int (Int64)
 
 vi :: Int64 -> Ast.Computable
-vi i = Ast.Value $ Var.Int i
+vi = Ast.Value
 
 vi' :: Int64 -> Instruction
 vi' = Asm.PushValue
 
 v :: Ast.Computable
-v = Ast.Value $ Var.Int 42
+v = Ast.Value 42
 
 v' :: Instruction
 v' = Asm.PushValue 42
@@ -35,10 +34,10 @@ functionBodyTest = TestList
  , "Show" ~: compileFuncBody baseContext
    [Show v] ~?= Correct (baseContext, [v',Aff])
  , "Invoke" ~: compileFuncBody baseContext
-   [Invoke "f" [v]]
+   [Invoke "f" [v] Nothing]
    ~?= Correct (baseContext, [v',PushLabel "func_f", Call])
  , "Invoke with args" ~: compileFuncBody baseContext
-   [Invoke "f" [v, vi 41, vi 40]]
+   [Invoke "f" [v, vi 41, vi 40] Nothing]
    ~?= Correct (baseContext,
                 [ vi' 40 -- last arg
                 , vi' 41 -- middle arg
@@ -77,7 +76,7 @@ functionBodyTest = TestList
    ~?= Correct (Context [("x", (0, 8))] 0 [], [ v', PopToStackPtrRel 0])
  , "assign multiple variable" ~: compileFuncBody
    (Context [("x", (0, 8)),("y", (8, 8))] 0 [])
-   [Assign "x" v, Assign "y" (Ast.Value $ Var.Int 41)]
+   [Assign "x" v, Assign "y" (Ast.Value 41)]
    ~?= Correct (Context [("x", (0, 8)),("y",(8,8))] 0 [],
                 [ v', PopToStackPtrRel 0
                 , Asm.PushValue 41, PopToStackPtrRel 8

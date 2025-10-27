@@ -11,7 +11,7 @@ module Compiler.Operation ( compileOperation
 import DataStruct.Ast.Ast as Ast
 import DataStruct.Asm as Asm
 import Compiler.Type ( combine, Compiler, getVariable )
-import Error.MaybeError (MaybeError(Correct, Error))
+import Error.MaybeError (MaybeError(..))
 
 getUnOp :: UnaryOperator -> Instruction
 getUnOp Ast.BinaryNot = Asm.BinNot

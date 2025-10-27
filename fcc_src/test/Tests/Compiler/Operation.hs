@@ -14,13 +14,12 @@ import Test.HUnit ( (~:)
 import Compiler.Operation
 import DataStruct.Ast.Ast as Ast
 import DataStruct.Asm as Asm
-import DataStruct.Ast.Variable as Var
 import Error.MaybeError (MaybeError(..))
 import Compiler.Type (baseContext, Context (Context))
-import Error.ErrorList (ukVarErr, supportErr)
+import Error.ErrorList (ukVarErr)
 
 v :: Ast.Computable
-v = Ast.Value $ Var.Int 42
+v = Ast.Value 42
 
 v' :: Instruction
 v' = Asm.PushValue 42
@@ -33,17 +32,14 @@ operationTest = TestList $
     , "Simple variable" ~: compileComputable (Context [("x", (0, 8))] 0 [])
       (Ast.Variable "x") ~?= Correct ((Context [("x", (0, 8))] 0 [])
                                      , [PushFromStackPtrRel 0])
-    , "Simple int value" ~: compileComputable baseContext (Ast.Value $ Var.Int 10)
+    , "Simple int value" ~: compileComputable baseContext (Ast.Value 10)
       ~?= Correct (baseContext, [PushValue 10])
-    , "False value" ~: compileComputable baseContext (Ast.Value $ Var.Bool False)
+    , "False value" ~: compileComputable baseContext (Ast.Value 0)
       ~?= Correct (baseContext, [PushValue 0])
-    , "True value" ~: compileComputable baseContext (Ast.Value $ Var.Bool True)
+    , "True value" ~: compileComputable baseContext (Ast.Value 1)
       ~?= Correct (baseContext, [PushValue 1])
-    , "String value (unsupported)" ~: compileComputable baseContext
-      (Ast.Value $ Var.String "str")
-      ~?= Error supportErr "String \"str\""
     , "Operation" ~: compileComputable baseContext
-      (Ast.Operation $ Ast.UnaryOperation Ast.Negate (Ast.Value $ Var.Int 1))
+      (Ast.Operation $ Ast.UnaryOperation Ast.Negate (Ast.Value 1))
       ~?= Correct (baseContext, [PushValue 1, Asm.Negate])
     ]
   , "unary operation" ~:

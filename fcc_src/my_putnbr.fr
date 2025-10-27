@@ -13,7 +13,7 @@ nécessitant comme entrée :
     Merci.
 
     Si nombre est supérieure à 9, exécute le texte :
-        J'invoque le bloc afficher_nombre, avec les paramètres (nombre divisé par 0).
+        J'invoque le bloc afficher_nombre, avec les paramètres (nombre divisé par 10).
     Merci.
 
     Affiche ((nombre modulo 10) plus '0').

@@ -1,0 +1,28 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de fizzbuzz,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+; représenté par le code suivant.
+    Si (nombre modulo 3 est égale à 0) et (nombre modulo 5 est égale à 0), exécute le texte :
+        Affiche « FizzBuzz ».
+        Enfin, renvoie 0.
+    Merci.
+    Si nombre modulo 5 est égale à 0, exécute le texte :
+        Affiche « Fizz ».
+        Enfin, renvoie 0.
+    Merci.
+    Si nombre modulo 3 est égale à 0, exécute le texte :
+        Affiche « Buzz ».
+        Enfin, renvoie 0.
+    Merci.
+    J'invoque le bloc afficher_nombre, avec les paramètres nombre.
+    Enfin, renvoie 0.
+Merci.
+
+Merci d'avance,
+Cordialement,
+Gillier
+Mani

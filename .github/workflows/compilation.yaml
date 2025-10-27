@@ -2,8 +2,6 @@ name: Compilation
 run-name: Checking compilation
 on:
   pull_request:
-    types:
-      - opened
     branches:
       - dev
 

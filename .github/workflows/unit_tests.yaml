@@ -3,7 +3,10 @@ run-name: Testing program
 on:
   push:
     branches:
-      - main
+      - dev
+  pull_requests:
+    branches:
+      - dev
 
 env:
   MIRROR_URL: git@github.com:EpitechPGE3-2025/G-FUN-500-TLS-5-1-glados-1.git

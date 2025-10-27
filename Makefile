@@ -14,6 +14,7 @@ PART_2_COMPILER_DIR	:= fcc_src
 PART_2_VM_DIR	:= fcvm_src
 
 all:
+	$(RM) $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
 	$(MAKE) $(PART_1) $(PART_2_COMPILER) $(PART_2_VM)
 
 re:
@@ -32,15 +33,15 @@ install:
 
 $(PART_1):
 	$(RM) $@
-	$(MAKE) -C $(PART_1_DIR) $(PART_1)
+	$(MAKE) -j -C $(PART_1_DIR)
 	ln -s $(PART_1_DIR)/$(PART_1) $@
 $(PART_2_COMPILER):
 	$(RM) $@
-	$(MAKE) -C $(PART_2_COMPILER_DIR) $(PART_2_COMPILER)
+	$(MAKE) -j -C $(PART_2_COMPILER_DIR)
 	ln -s $(PART_2_COMPILER_DIR)/$(PART_2_COMPILER) $@
 $(PART_2_VM):
 	$(RM) $@
-	$(MAKE) -C $(PART_2_VM_DIR) $(PART_2_VM)
+	$(MAKE) -j -C $(PART_2_VM_DIR)
 	ln -s $(PART_2_VM_DIR)/$(PART_2_VM) $@
 
 tests_run:

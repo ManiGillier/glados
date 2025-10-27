@@ -19,7 +19,6 @@ import VM.Stack
 import VM.Utils.Conversion
 import Data.Int (Int64)
 import Data.Word (Word8)
-import Debug.Trace (traceShowId)
 
 takeEnd :: Int -> [a] -> [a]
 takeEnd i l = drop (length l - i) l
@@ -31,15 +30,22 @@ handleCall state =
         newPC = fromIntegral $ bytesToInt64 $ take 8 (vmStack state)
         newCallStack = updateCall (vmPC state) (vmSP state) (vmCallStack state)
     in state { vmPC = newPC, vmStack = newStack, 
-        vmSP = newSP, vmCallStack = newCallStack }
+        vmSP = newSP, vmCallStack = newCallStack, 
+        vmCallSackSize = (vmCallSackSize state + 1)}
+
+getReturnValue :: Stack -> Int64
+getReturnValue [] = (-1)
+getReturnValue st = bytesToInt64 (drop (length st - 8) st)
 
 handleRet :: VMState -> VMState
 handleRet state =
     let ((npc, nsp), ncs) = restoreStack (vmCallStack state)
     in case ((npc, nsp), ncs) of
-        ((0, 0), []) -> state { vmEnd = True }
+        ((0, 0), []) -> state { vmEnd = False,
+            vmRetVal = (Just $ getReturnValue (vmStack state))}
         _ -> state { vmPC = npc, vmSP = nsp, vmCallStack = ncs,
-                    vmStack = takeEnd (vmSP state) $ vmStack state }
+                    vmStack = takeEnd (vmSP state) $ vmStack state,
+                    vmCallSackSize = (vmCallSackSize state - 1)}
 
 zfVal :: Int64 -> Word8
 zfVal 0 = 0

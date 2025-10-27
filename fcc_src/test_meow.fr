@@ -19,7 +19,7 @@ En sachant que les variables principales sont :
   J'invoque le bloc fib, et j'assigne la valeur de retour à la variable compteur,
   avec les paramètres 48.
   Affiche compteur.
-  Enfin, renvoie 1.
+  Enfin, renvoie (-5).
 
 Merci d'avance,
 Cordialement,

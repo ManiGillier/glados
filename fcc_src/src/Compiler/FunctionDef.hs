@@ -12,7 +12,7 @@ module Compiler.FunctionDef ( compileFuncDef
 import Compiler.Type (Compiler, Context (functionNames, var)
                      , apply, mapCompiler
                      , (.+), (<@), (@>))
-import DataStruct.Ast.Ast (FunctionDef (..), MainFunctionDef (..))
+import DataStruct.Ast.Ast (FunctionDef (..), MainFunctionDef (..), IsReturning)
 import Compiler.VariableDef (compileVarDef)
 import Compiler.FunctionBody (compileFuncBody)
 import DataStruct.Asm (Instruction (..), Addr)
@@ -48,13 +48,17 @@ removeVar :: (Context, [Instruction])
   -> (Context, [Instruction])
 removeVar (c, i) = (c { var = [] }, i)
 
+returnStatement :: IsReturning -> [Instruction]
+returnStatement True = [PushValue 0, PopToStackPtrRel (-8), Ret]
+returnStatement False = [Ret]
+
 compileFuncDef :: Compiler FunctionDef
-compileFuncDef s (Function name _ ps vs body)
+compileFuncDef s (Function name isReturning ps vs body)
   | elem name $ functionNames s = Error alreadyDefFuncErr name
   | isJust duplParam = Error alreadyDefVarErr $ fromJust duplParam
   | otherwise = removeVar <$> (flip apply s' $
     [Label $ funcLabelPrefix ++ name] <@ (mapCompiler compileVarDef, vs)
-    .+ (compileFuncBody, body) @> [Ret])
+    .+ (compileFuncBody, body) @> returnStatement isReturning)
     where duplParam = checkDuplicatesParams ps
           s' = s { functionNames = name : functionNames s
                  , var = computeParams (-8) ps }

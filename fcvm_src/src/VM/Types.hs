@@ -6,7 +6,8 @@
 -}
 
 module VM.Types (
-    Stack()
+     Stack()
+    ,StackSize()
     ,SP()
     ,PC()
     ,CallStack()
@@ -22,8 +23,10 @@ module VM.Types (
 
 import System.IO (Handle, stdout, stdin, stderr)
 import Data.Word (Word8)
+import Data.Int (Int64)
 
 type Stack = [Word8]
+type StackSize = Int64
 type SP = Int
 type PC = Int
 type CallStack = [(PC, SP)]
@@ -43,11 +46,14 @@ data VMState = VMState
     { vmByteCode :: ByteCode
     , vmPC :: PC
     , vmStack :: Stack
+    , vmSackSize :: StackSize
+    , vmCallSackSize :: StackSize
     , vmSP :: SP
     , vmCallStack :: CallStack
     , vmZFlag :: Word8
     , vmIO :: IOBuffer
     , vmEnd :: Bool
+    , vmRetVal :: Maybe Int64
     , vmDebug :: Bool
     }
 
@@ -62,6 +68,9 @@ instance Show VMState where
         , "Stack: " ++ show (vmStack s)
         , "CallStack: " ++ show (vmCallStack s)
         , "IO Buffer: " ++ show (vmIO s)
+        , "Return Value: " ++ show (vmRetVal s)
+        , "Stack size: " ++ show (vmSackSize s)
+        , "Call stack size: " ++ show (vmCallSackSize s)
         , "ByteCode (len=" ++ show (length (vmByteCode s)) ++ ")"
         , "ByteCode:" ++ show (vmByteCode s)
         ]

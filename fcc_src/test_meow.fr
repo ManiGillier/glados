@@ -8,7 +8,7 @@ nécessitant comme entrée :
 
 Affiche nombre.
 
-Enfin, renvoie 50.
+Enfin, renvoie 51.
 
 Merci.
 
@@ -19,6 +19,7 @@ En sachant que les variables principales sont :
   J'invoque le bloc fib, et j'assigne la valeur de retour à la variable compteur,
   avec les paramètres 48.
   Affiche compteur.
+  Enfin, renvoie 1.
 
 Merci d'avance,
 Cordialement,

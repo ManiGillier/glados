@@ -74,6 +74,9 @@ functionBodyTest = TestList
  , "assign variable" ~: compileFuncBody (Context [("x", (0, 8))] 0 [])
    [Assign "x" v]
    ~?= Correct (Context [("x", (0, 8))] 0 [], [ v', PopToStackPtrRel 0])
+ , "show str" ~: compileFuncBody (Context [] 0 [])
+   [ShowStr "Hello, World!"]
+   ~?= Correct (Context [] 0 [], [Affs "Hello, World!"])
  , "assign multiple variable" ~: compileFuncBody
    (Context [("x", (0, 8)),("y", (8, 8))] 0 [])
    [Assign "x" v, Assign "y" (Ast.Value 41)]

@@ -60,6 +60,7 @@ data FunctionBodyContent =
   | Loop Condition FunctionBody
   | Return Computable
   | Show Computable
+  | ShowStr String
   deriving (Eq, Show)
 
 type FunctionBody = [FunctionBodyContent]

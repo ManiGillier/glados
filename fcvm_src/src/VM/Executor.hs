@@ -5,7 +5,8 @@
 -- Exec
 -}
 
-module VM.Executor ( execFccByteCode, execAllByteCodes
+module VM.Executor ( execFccByteCode, execAllByteCodes,
+                     execByteCode
                    , printVMIO
                    ) where
 
@@ -66,7 +67,6 @@ isEnd state =
 
 execByteCode :: VMState -> VMState
 execByteCode state
-    | isEnd state   = state
     | vmDebug state = traceShow state $ nextState
     | otherwise     = nextState
   where

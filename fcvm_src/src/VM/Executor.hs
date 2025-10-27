@@ -96,7 +96,9 @@ printSingleVMIO (file, content)
     | otherwise = printWFlush file content
 
 exitIfFinished :: Maybe Int64 -> IO ()
-exitIfFinished (Just x) = exitWith $ ExitFailure $ fromEnum x
+exitIfFinished (Just x) = exitWith $ case fromEnum x of
+  0 -> ExitSuccess
+  x' -> ExitFailure (x' `mod` 256)
 exitIfFinished Nothing = return ()
 
 printVMIO :: [VMState] -> IO ()

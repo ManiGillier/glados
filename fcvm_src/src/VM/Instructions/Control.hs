@@ -34,7 +34,7 @@ handleCall state =
 
 getReturnValue :: Stack -> Int64
 getReturnValue [] = (-1)
-getReturnValue st = bytesToInt64 (take 8 st)
+getReturnValue st = bytesToInt64 (drop (length st - 8) st)
 
 handleRet :: VMState -> VMState
 handleRet state =

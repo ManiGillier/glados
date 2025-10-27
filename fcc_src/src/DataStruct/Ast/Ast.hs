@@ -17,11 +17,14 @@ module DataStruct.Ast.Ast (Ast (..)
                           , FunctionDef (..)
                           , MainFunctionDef (..)
                           , CombinedAst (..)
+                          , IsReturning
                           ) where
 
-import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
-                                                , VariableName
-                               , VariableDef (..), FuncParam)
+import qualified DataStruct.Ast.Variable as Var ( VariableName
+                                                , VariableDef (..)
+                                                , FuncParam
+                                                )
+import Data.Int (Int64)
 
 type FunctionName = String
 
@@ -42,7 +45,7 @@ data Operation =
   deriving (Eq, Show)
 
 data Computable =
-  Value Var.VariableValue
+  Value Int64
   | Operation Operation
   | Variable Var.VariableName
   deriving (Eq, Show)

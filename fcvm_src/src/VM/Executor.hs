@@ -25,6 +25,8 @@ import Data.Bits
 import Debug.Trace
 import System.IO (hPutStr, hFlush)
 import System.Exit
+import Data.Int (Int64)
+import Data.Maybe (isJust)
 
 dispatchInstructions :: Byte -> VMState -> VMState
 dispatchInstructions 89 s = handlePushValue s
@@ -69,6 +71,8 @@ isEnd state =
 
 execByteCode :: VMState -> VMState
 execByteCode state
+    | isEnd state   = state
+    | isJust $ vmRetVal state = state { vmEnd = True }
     | vmDebug state = traceShow state $ nextState
     | isStackOverFlow state = 
          state { vmIO = [(stderrFd, stackOverFlowError)]}
@@ -95,8 +99,16 @@ printSingleVMIO (file, content)
         >> exitWith (ExitFailure 84)
     | otherwise = printWFlush file content
 
+exitIfFinished :: Maybe Int64 -> IO ()
+exitIfFinished (Just x) = exitWith $ case fromEnum x of
+  0 -> ExitSuccess
+  x' -> ExitFailure (x' `mod` 256)
+exitIfFinished Nothing = return ()
+
 printVMIO :: [VMState] -> IO ()
-printVMIO states = mapM_ (\state -> mapM_ printSingleVMIO $ vmIO state) states
+printVMIO states = mapM_
+  (\state -> (mapM_ printSingleVMIO $ vmIO state)
+    >> (exitIfFinished $ vmRetVal state)) states
 
 execFccByteCode :: [Word8] -> VMState
 execFccByteCode byteCode

@@ -93,3 +93,14 @@ testModZero =
         op = execByteCode push2
         err = (vmIO op)
      in assertEqual "Mod 20 / 0" [(stderrFd, "*** 0 CAN'T BE USE in this operation")] err
+
+testOpAnd:: Test
+testOpAnd =
+  TestCase $
+    let pushInst = baseInst ++ [PushValue 10000, PushValue 1000, Mod, Ret]
+        state = execFccByteCode (asmToBytecode pushInst)
+        push = execByteCode state
+        push2 = execByteCode push
+        op = execByteCode push2
+        stack = (vmStack op)
+     in assertEqual "Mod 20 / 2" stackW10 stack

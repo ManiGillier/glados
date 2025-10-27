@@ -30,7 +30,8 @@ handleCall state =
         newPC = fromIntegral $ bytesToInt64 $ take 8 (vmStack state)
         newCallStack = updateCall (vmPC state) (vmSP state) (vmCallStack state)
     in state { vmPC = newPC, vmStack = newStack, 
-        vmSP = newSP, vmCallStack = newCallStack }
+        vmSP = newSP, vmCallStack = newCallStack, 
+        vmCallSackSize = (vmCallSackSize state + 1)}
 
 getReturnValue :: Stack -> Int64
 getReturnValue [] = (-1)
@@ -43,7 +44,8 @@ handleRet state =
         ((0, 0), []) -> state { vmEnd = True,
             vmRetVal = (Just $ getReturnValue (vmStack state))}
         _ -> state { vmPC = npc, vmSP = nsp, vmCallStack = ncs,
-                    vmStack = takeEnd (vmSP state) $ vmStack state }
+                    vmStack = takeEnd (vmSP state) $ vmStack state,
+                    vmCallSackSize = (vmCallSackSize state - 1)}
 
 zfVal :: Int64 -> Word8
 zfVal 0 = 0

@@ -20,6 +20,11 @@ tests = TestList
     ,testDivZero
     ,testMod
     ,testModZero
+    ,testOpAnd
+    ,testOpXor
+    ,testOpOr
+    ,testRBt
+    ,testLBt
   ]
 
 main :: IO ()

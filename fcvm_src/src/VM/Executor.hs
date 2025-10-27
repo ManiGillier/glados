@@ -19,6 +19,7 @@ import VM.Instructions.Unary
 import VM.Instructions.IO
 import VM.Instructions.Control
 import VM.Instructions.Stack
+import VM.Stack
 import VM.ByteCode
 import Data.Bits
 import Debug.Trace
@@ -69,6 +70,8 @@ isEnd state =
 execByteCode :: VMState -> VMState
 execByteCode state
     | vmDebug state = traceShow state $ nextState
+    | isStackOverFlow state = 
+         state { vmIO = [(stderrFd, stackOverFlowError)]}
     | otherwise     = nextState
   where
     opcode = vmByteCode state !! vmPC state
@@ -80,7 +83,7 @@ execAllByteCodes state = Prelude.takeWhile (not . isEnd)
 
 initVmState :: [Word8] -> VMState
 initVmState byteCode = 
-    VMState (drop 4 byteCode) 8 (replicate 8 0)
+    VMState (drop 4 byteCode) 8 (replicate 8 0) 1 0
         8 [] 1 [] False Nothing False
 
 printWFlush :: Fd -> String -> IO ()

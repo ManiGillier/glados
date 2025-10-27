@@ -17,16 +17,13 @@ import Data.List (isPrefixOf, tails, findIndex)
 import Data.Char
 
 instructionSize :: Instruction -> Int
-instructionSize (DataInt _) = 1 + 8
-instructionSize (DataString str) = 1 + length str
 instructionSize (PushValue _) = 1 + 8
-instructionSize (PushGlobAddr _) = 1 + 8
 instructionSize (PushRelAddr _) = 1 + 8
 instructionSize (PushLabel _) = 1 + 8
 instructionSize (PushFromStackPtrRel _) = 1 + 8
 instructionSize (PopToStackPtrRel _) = 1 + 8
-instructionSize (WriteToStackPtrRel _ _) = 1 + 8 + 8
 instructionSize (Label _) = 0
+instructionSize (Affs str) = 1 + 8 + length str
 instructionSize _ = 1
 
 setAddrLabel :: [Instruction] -> Int64 -> [(String, Int64)]
@@ -38,14 +35,14 @@ setAddrLabel (inst:xs) offset =
         _ -> setAddrLabel xs (offset + fromIntegral (instructionSize inst))
 
 getAddressLabel :: String -> [(String, Int64)] -> Int64
-getAddressLabel _ [] = (-1) 
+getAddressLabel _ [] = (-1)
 getAddressLabel name ((x, y):xs)
     | name == x = y
     | otherwise = getAddressLabel name xs
 
 -- Convert 64-bits Integer to 8 bytes
-intTo8Bytes :: Int64 -> [Word8]
-intTo8Bytes n = 
+intTo8Bytes :: Integral a => a -> [Word8]
+intTo8Bytes n =
     [ fromIntegral ((n `div` (256 ^ i)) `mod` 256) | i <- [7, 6..0 :: Int] ]
 
 stringWord8 :: String -> [Word8]
@@ -55,14 +52,12 @@ startingPoint :: [Word8]
 startingPoint = [39,0,0,0,0,0,0,0,1,0]
 
 getStartingPoint :: [Word8] -> Int
-getStartingPoint xs = 
+getStartingPoint xs =
   case findIndex (isPrefixOf startingPoint) (tails xs) of
     Just i  -> i
     Nothing -> -1
 
 instructionToByteCode :: [(String, Int64)] -> Instruction -> [Word8]
-instructionToByteCode _ (DataInt val) = [1] ++ intTo8Bytes val
-instructionToByteCode _ (DataString str) = [2] ++ stringWord8 str
 instructionToByteCode _ (BinNot) = [3]
 instructionToByteCode _ (BoolNot) = [4]
 instructionToByteCode _ (Negate) = [5]
@@ -85,23 +80,20 @@ instructionToByteCode _ (Le ) = [21]
 instructionToByteCode _ (Eq) = [22]
 instructionToByteCode _ (Diff) = [23]
 instructionToByteCode _ (UpdateZFlag) = [24]
-instructionToByteCode _ (Is) = [99]
 instructionToByteCode _ (PushValue addr) = [89] ++ intTo8Bytes addr
-instructionToByteCode _ (PushGlobAddr addr) = [90] ++ intTo8Bytes addr
 instructionToByteCode _ (PushRelAddr addr) = [91] ++ intTo8Bytes addr
 instructionToByteCode labAddrs (PushLabel labName) = [91]
     ++ intTo8Bytes (getAddressLabel labName labAddrs)
 instructionToByteCode _ (PushFromStackPtrRel addr) = [29] ++ intTo8Bytes addr
 instructionToByteCode _ (PopToStackPtrRel addr) = [30] ++ intTo8Bytes addr
 instructionToByteCode _ (PopEmpty) = [31]
-instructionToByteCode _ (WriteToStackPtrRel addr val) = [96] 
-    ++ intTo8Bytes addr ++ intTo8Bytes val
-instructionToByteCode _ (Dupl) = [33]
 instructionToByteCode _ (Call) = [34]
 instructionToByteCode _ (Ret) = [35]
 instructionToByteCode _ (Jmp) = [36]
 instructionToByteCode _ (Zjmp) = [37]
 instructionToByteCode _ (Aff) = [38]
+instructionToByteCode _ (Affs str) = [39] ++ intTo8Bytes (length str)
+  ++ stringWord8 str
 instructionToByteCode _ _ = []
 
 -- Magic number definition
@@ -113,5 +105,6 @@ asmToBytecode :: [Instruction] -> [Word8]
 asmToBytecode insTructions =
     let labelAddr = setAddrLabel insTructions 8
         byteCode = concatMap (instructionToByteCode labelAddr) insTructions
-    in magicNumber ++
-        (intTo8Bytes $ fromIntegral $ getStartingPoint byteCode) ++ byteCode
+    in magicNumber
+        ++ (intTo8Bytes $ (fromIntegral $ getStartingPoint byteCode :: Int64))
+        ++ byteCode

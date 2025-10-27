@@ -105,9 +105,6 @@ operationTest = TestList $
     , "Eq" ~: compileOperation baseContext
       (Ast.BinaryOperation Ast.Equals v v)
       ~?= Correct (baseContext, v':v':[Asm.Eq])
-    , "Is" ~: compileOperation baseContext
-      (Ast.BinaryOperation Ast.Is v v)
-      ~?= Correct (baseContext, v':v':[Asm.Is])
     , "Diff" ~: compileOperation baseContext
       (Ast.BinaryOperation Ast.Different v v)
       ~?= Correct (baseContext, v':v':[Asm.Diff])

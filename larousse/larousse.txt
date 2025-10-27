@@ -1,0 +1,11 @@
+fizzbuzz -> fizzbuzz
+putnbr -> Afficher nombre
+min -> min
+max -> max
+printComb -> imprimer peigne
+printCombN -> imprimer peigne N
+printComb2 -> imprimer peigne 2
+pow -> carré de
+isAMultipleOfTwelve -> douze
+sqrt -> Racine entière
+putnnbr -> Afficher n nombre

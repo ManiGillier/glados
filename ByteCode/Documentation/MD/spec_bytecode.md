@@ -11,14 +11,14 @@ then the instruction which take 1 byte, 8 bytes for an argument if needed, and t
 |     69,12,69,12             |    Magic Number              |   \               |   Magic Number      |
 |     1                       |    DataInt                   |   V               |   create a variable with a type Int |
 |     2                       |    DataString                |   V               |   create a variable with a type String
-|     3                       |    BinNot                    |   \               |   not    |
-|     4                       |    BoolNot                   |   \               |   lnot   |
+|     3                       |    BinNot                    |   \               |   not (inverse the bits)    |
+|     4                       |    BoolNot                   |   \               |   logical not   |
 |     5                       |    Negate                    |   \               |   negate |
-|     6                       |    BinAnd                    |   \               |   and    |
-|     7                       |    BinOr                     |   \               |   or     |
-|     8                       |    BoolAnd                   |   \               |   land   |
-|     9                       |    BoolOr                    |   \               |   lor    |
-|     10                      |    Xor                       |   \               |   xor    |
+|     6                       |    BinAnd                    |   \               |   and (if both bit in 2 operand exist return 1)  |
+|     7                       |    BinOr                     |   \               |   or  (return 1 if it exist in one of both operand) |
+|     8                       |    BoolAnd                   |   \               |   logical and   |
+|     9                       |    BoolOr                    |   \               |   lgical or    |
+|     10                      |    Xor                       |   \               |   xor (return 1 if it exist in only one of both operand) |
 |     11                      |    BitShiftLeft (shl)        |   \               |   bit shift left    |
 |     12                      |    BitShiftRight (shr)       |   \               |   bit shift right    |
 |     13                      |    Add                       |   \               |   addition    |
@@ -40,11 +40,11 @@ then the instruction which take 1 byte, 8 bytes for an argument if needed, and t
 |     34                      |    Call                      |   \               |   Subroutine call   |
 |     35                      |    Ret                       |   \               |   return    |
 |     36                      |    Jmp                       |   \               |   Jump to address    |
-|     37                      |    Zjmp                      |   \               |   Jumpt to adress if value equal 0 eles continue |
+|     37                      |    Zjmp                      |   \               |   Jump to adress if value equal 0 else continue |
 |     38                      |    Aff                       |   \               |   aff    |
 |     39                      |    Label                     |   \               |   label  |
 |     89                      |    PushValue                 |   V               |   push an Int   |
 |     90                      |    PushGlobAddr              |   V               |   push an adress   |
 |     91                      |    PushRelAddr | PushLabel   |   \               |   push the label |
-|     96                      |    WriteToStackPtrRel        |   V               |   Write Int to stack ptr + Addr     |
+
 

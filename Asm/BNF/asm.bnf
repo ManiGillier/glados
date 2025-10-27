@@ -35,7 +35,6 @@
                 | "push @" <addr>
                 | "pop @" <addr>
                 | "pop"
-                | "wr @" <addr> "\s" <number>
                 | "dupl"
                 | "call"
                 | "ret"
@@ -50,6 +49,6 @@
 
 <char> ::= ... Every possible characters from ASCII ...
 
-<number> ::= <digit> | <number> <digit>
+<number> ::= ["-"] <digit> | ["-"] <number> <digit>
 
 <digit> ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"

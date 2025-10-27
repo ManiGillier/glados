@@ -2,9 +2,7 @@
             | &ltline> &ltprogram></p>
 <p>&ltline> ::= &ltlabel> &quot;:&quot;
          | &ltinstruction></p>
-<p>&ltinstruction> ::= &quot;db &quot; &ltnumber>
-                | &quot;db &quot; &ltlabel>
-                | &quot;not&quot;
+<p>&ltinstruction> ::= &quot;not&quot;
                 | &quot;lnot&quot;
                 | &quot;neg&quot;
                 | &quot;and&quot;
@@ -27,18 +25,17 @@
                 | &quot;diff&quot;
                 | &quot;updz&quot;
                 | &quot;push &quot; &ltnumber>
-                | &quot;push &amp;&quot; &ltnumber>
                 | &quot;push [&quot; &ltnumber> &quot;]&quot;
                 | &quot;push %&quot; &ltlabel>
                 | &quot;push @&quot; &ltaddr>
                 | &quot;pop @&quot; &ltaddr>
                 | &quot;pop&quot;
-                | &quot;dupl&quot;
                 | &quot;call&quot;
                 | &quot;ret&quot;
                 | &quot;jmp&quot;
                 | &quot;zjmp&quot;
                 | &quot;aff&quot;</p>
+                | &quot;affs&quot;</p>
 <p>&ltaddr> ::= &ltnumber></p>
 <p>&ltlabel> ::= &ltchar> | &ltlabel> &ltchar></p>
 <p>&ltchar> ::= ... Every possible characters from ASCII ...</p>

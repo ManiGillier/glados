@@ -4,9 +4,7 @@
 <line> ::= <label> ":"
          | <instruction>
 
-<instruction> ::= "db " <number>
-                | "db " <label>
-                | "not"
+<instruction> ::= "not"
                 | "lnot"
                 | "neg"
                 | "and"
@@ -29,18 +27,17 @@
                 | "diff"
                 | "updz"
                 | "push " <number>
-                | "push &" <number>
                 | "push [" <number> "]"
                 | "push %" <label>
                 | "push @" <addr>
                 | "pop @" <addr>
                 | "pop"
-                | "dupl"
                 | "call"
                 | "ret"
                 | "jmp"
                 | "zjmp"
                 | "aff"
+                | "affs"
 
 
 <addr> ::= <number>

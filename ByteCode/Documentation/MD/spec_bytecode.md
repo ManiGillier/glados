@@ -9,8 +9,6 @@ then the instruction which take 1 byte, 8 bytes for an argument if needed, and t
 |     Opération et format     |     Mnémonique / Syntaxe     |     Arguments     |     Description     |
 |     :------------------     |     :------------------:     |     :-------:     |     ----------:     |
 |     69,12,69,12             |    Magic Number              |   \               |   Magic Number      |
-|     1                       |    DataInt                   |   V               |   create a variable with a type Int |
-|     2                       |    DataString                |   V               |   create a variable with a type String
 |     3                       |    BinNot                    |   \               |   not (inverse the bits)    |
 |     4                       |    BoolNot                   |   \               |   logical not   |
 |     5                       |    Negate                    |   \               |   negate |
@@ -36,15 +34,13 @@ then the instruction which take 1 byte, 8 bytes for an argument if needed, and t
 |     29                      |    PushFromStackPtrRel       |   V               |   push the value stored   |
 |     30                      |    PopToStackPtrRel          |   V               |   pop and set to the address   |
 |     31                      |    PopEmpty                  |   \               |   pop    |
-|     33                      |    Dupl                      |   \               |   duplicate the last stack entry   |
 |     34                      |    Call                      |   \               |   Subroutine call   |
 |     35                      |    Ret                       |   \               |   return    |
 |     36                      |    Jmp                       |   \               |   Jump to address    |
 |     37                      |    Zjmp                      |   \               |   Jump to adress if value equal 0 else continue |
-|     38                      |    Aff                       |   \               |   aff    |
-|     39                      |    Label                     |   \               |   label  |
+|     38                      |    Aff                       |   \               |   display a char    |
+|     39                      |    Affs                      |   V               |   display a string  |
 |     89                      |    PushValue                 |   V               |   push an Int   |
-|     90                      |    PushGlobAddr              |   V               |   push an adress   |
 |     91                      |    PushRelAddr | PushLabel   |   \               |   push the label |
 
 

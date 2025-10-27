@@ -23,7 +23,7 @@ import Error.ErrorList (ukVarErr)
 -- TODO: Assign Return Value of Invoke to the set Variable
 compileFuncBodyContent :: Compiler FunctionBodyContent
 compileFuncBodyContent s (Return comp) = flip apply s $
-  (compileComputable, comp) @> [ Ret]
+  (compileComputable, comp) @> [ PopToStackPtrRel (-8), Ret ]
 compileFuncBodyContent s (Show comp) = compiler s comp
   where compiler = suffixCompiler [Aff] compileComputable
 compileFuncBodyContent s (ShowStr str) = Correct (s, [Affs str])
@@ -36,8 +36,8 @@ compileFuncBodyContent s (Invoke name args (Just varName))
   | varExist s varName = (getVariable s varName) >>= \varAddr -> flip apply s $
     (comps, args)
     @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
-    @> [ PopToStackPtrRel varAddr ]
-  | otherwise = Error ukVarErr name
+    @> [ PopToStackPtrRel varAddr ] @> replicate (length args) PopEmpty
+  | otherwise = Error ukVarErr varName
   where comps = revCompiler $ mapCompiler compileComputable
 compileFuncBodyContent s (If cond body (Just elseBody)) =
   flip apply s''

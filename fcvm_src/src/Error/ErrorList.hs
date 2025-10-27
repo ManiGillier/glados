@@ -9,12 +9,16 @@ module Error.ErrorList (
    fileFormatError,
    stackError
    ,divError
+   ,stackOverFlowError
 ) where
 
 import Error.MaybeError (ErrorType)
 
 fileFormatError :: String
 fileFormatError = "*** UNROCONIZED FILE FORMAT"
+
+stackOverFlowError :: String
+stackOverFlowError = "*** STACK OVERFLOW"
 
 stackError:: ErrorType
 stackError = "*** STACK ERROR"

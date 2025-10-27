@@ -13,7 +13,8 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     readDisplay, readMainFunctionDefinition, readName, readComment,
     readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd,
     readReturn, readFunction, readFunctionBody, readCode,
-    readIf, readMainFunction, readWhile, charLiteral, escapeList) where
+    readIf, readMainFunction, readWhile, charLiteral, escapeList,
+    readCharValue) where
 
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
@@ -67,7 +68,7 @@ readCharValue = between (char '\'') (char '\'') charLiteral
 
 readDecimal :: Lexer Int64
 readDecimal =
-    signed (return ()) decimal <* notFollowedBy (noneOf " .,\t\n()")
+    signed (empty) decimal <* notFollowedBy (noneOf " .,\t\n()")
 
 readBoolean :: Lexer Int64
 readBoolean = choice [

@@ -13,7 +13,7 @@ import Test.HUnit
 
 import Lexer.Syntax
 import Lexer.Lexer
-import DataStruct.Lexing (LexedData(Symbol, Number))
+import DataStruct.Lexing (LexedData(Symbol, Number, Text))
 import Data.Either (isLeft)
 
 lexerTest :: Test
@@ -49,5 +49,23 @@ lexerTest = TestList
     "readValue Test 11 (Char 6)" ~: (parse (readValue) "" "'\"'' !") ~?=
         Right (Number 34),
     "readValue Test 12 (Char 7)" ~: (parse (readValue) "" "'\0' !") ~?=
-        Right (Number 0)
+        Right (Number 0),
+    "readValue Test 13 (Invalid)" ~: (isLeft (parse (readValue) "" "meow")) ~?
+        "Expected a parsing error",
+    "readCharValue Test 1" ~: (parse (readCharValue) "" "'\0' !") ~?=
+        Right '\0',
+    "escapeList Test 1" ~: (parse (escapeList) "" "0 !") ~?=
+        Right '\0',
+    "escapeList Test 2" ~: (parse (escapeList) "" "n !") ~?=
+        Right '\n',
+    "escapeList Test 3" ~: (parse (escapeList) "" "t !") ~?=
+        Right '\t',
+    "escapeList Test 4" ~: (parse (escapeList) "" "r !") ~?=
+        Right '\r',
+    "escapeList Test 5" ~: (parse (escapeList) "" "\" !") ~?=
+        Right '\"',
+    "readQuotedValue Test 1" ~: (parse (readQuotedValue) ""
+        "« J'aime les glaces. »") ~?= Right (Text "J'aime les glaces."),
+    "readName Test 2" ~: (parse (readName) "" "Mani Gillier Le Goat\n") ~?=
+        Right (Symbol "Mani Gillier Le Goat")
   ]

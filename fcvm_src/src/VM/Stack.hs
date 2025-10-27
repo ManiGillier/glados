@@ -9,7 +9,8 @@ module VM.Stack (
      pushAddrStack
     ,popStack
     ,popToStackPtrRel
-    ,pushFromStackPtrRel) 
+    ,pushFromStackPtrRel
+    ,isStackOverFlow) 
     where 
 
 import VM.Types
@@ -34,3 +35,12 @@ pushFromStackPtrRel st sp addr =
     let target = ((length st) - 8 -(sp + addr))
         val = sublist target (target + 8) st
     in val ++ st
+
+maxStackSize :: StackSize
+maxStackSize = 1000000
+
+isStackOverFlow :: VMState -> Bool
+isStackOverFlow state
+    | ((vmSackSize state) >= maxStackSize) 
+        || ((vmCallSackSize state) >= maxStackSize) = True
+    | otherwise = False

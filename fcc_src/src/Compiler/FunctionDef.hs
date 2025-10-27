@@ -24,7 +24,7 @@ import Error.ErrorList (alreadyDefFuncErr, alreadyDefVarErr)
 import Data.Maybe (fromJust, isJust)
 
 computeParam :: Addr -> FuncParam -> Variable
-computeParam addr (FuncParam name _) = (name,addr - 8)
+computeParam addr (FuncParam name) = (name,addr - 8)
 
 computeParams :: Addr -> [FuncParam] -> VariableStorage
 computeParams _ [] = []
@@ -39,7 +39,7 @@ prioritizeJust _ _ = Nothing
 checkDuplicatesParams :: [FuncParam] -> Maybe VariableName
 checkDuplicatesParams [] = Nothing
 checkDuplicatesParams [_] = Nothing
-checkDuplicatesParams (x0'@(FuncParam x0 _):x1'@(FuncParam x1 _):xs)
+checkDuplicatesParams (x0'@(FuncParam x0):x1'@(FuncParam x1):xs)
   | x0 == x1 = Just x0
   | otherwise = checkDuplicatesParams (x0':xs)
                 `prioritizeJust` checkDuplicatesParams (x1':xs)

@@ -14,7 +14,6 @@ import Error.ErrorList (noMainErr, alreadyDefFuncErr)
 import DataStruct.Ast.Ast (Ast(Ast)
                           , MainFunctionDef (Main)
                           , CombinedAst (CAst), FunctionDef (Function))
-import DataStruct.Ast.Variable (ReturnType(Void))
 
 combineAstTest :: Test
 combineAstTest = TestList
@@ -29,24 +28,24 @@ combineAstTest = TestList
          ]
     ~?= Error alreadyDefFuncErr "main"
   , "Different funcs" ~:
-    combineAst [ Ast (Just $ Main [] []) [Function "foo" Void [] [] []]
-         , Ast Nothing [Function "bar" Void [] [] []]
+    combineAst [ Ast (Just $ Main [] []) [Function "foo" False [] [] []]
+         , Ast Nothing [Function "bar" False [] [] []]
          ]
     ~?= Correct (CAst (Main [] [])
-                [ Function "foo" Void [] [] []
-                , Function "bar" Void [] [] []
+                [ Function "foo" False [] [] []
+                , Function "bar" False [] [] []
                 ])
   , "Duplicate funcs" ~:
-    combineAst [ Ast (Just $ Main [] []) [Function "foo" Void [] [] []]
-         , Ast Nothing [Function "foo" Void [] [] []]
+    combineAst [ Ast (Just $ Main [] []) [Function "foo" False [] [] []]
+         , Ast Nothing [Function "foo" False [] [] []]
          ]
     ~?= Correct (CAst (Main [] [])
-                [ Function "foo" Void [] [] []
-                , Function "foo" Void [] [] []
+                [ Function "foo" False [] [] []
+                , Function "foo" False [] [] []
                 ])
   , "Duplicate funcs no main" ~:
-    combineAst [ Ast Nothing [Function "foo" Void [] [] []]
-         , Ast Nothing [Function "foo" Void [] [] []]
+    combineAst [ Ast Nothing [Function "foo" False [] [] []]
+         , Ast Nothing [Function "foo" False [] [] []]
          ]
     ~?= Error noMainErr ""
   ]

@@ -37,6 +37,7 @@ data Operations =
     SuperiorOrEqual
     deriving (Show, Eq)
 
+-- TODO: Remove LString
 data LexedTypes =
     LInt | LBoolean | LString | LVoid
     deriving (Show, Eq)

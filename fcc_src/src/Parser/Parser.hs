@@ -11,12 +11,11 @@ module Parser.Parser(takeUntil, findMain, getMainCount, parseMain,
   extractBodyFunctionFromNextElse,
   parseFunctions, buildAst,
   parseComputable, extractConditionFromNextWhile) where
-import DataStruct.Lexing (LexedData(..), FuncTypes(..), LexedTypes (LInt, LBoolean, LString, LVoid))
+import DataStruct.Lexing (LexedData(..), FuncTypes(..), LexedTypes (LInt, LBoolean, LVoid))
 import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), FunctionBodyContent (If, Show, Assign, Return, Loop, Invoke), FunctionDef (Function), Ast (Ast))
 import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), Operations (..), UnaryOperations (..))
 import Error.MaybeError (MaybeError(Error, Correct))
-import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), BinaryOperator (..), Computable(..), Operation (..), UnaryOperator (..))
-import qualified DataStruct.Ast.Type as Type
+import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), BinaryOperator (..), Computable(..), Operation (..), UnaryOperator (..), IsReturning)
 import qualified DataStruct.Ast.Variable as Var
 import DataStruct.Ast.Variable (FuncParam(FuncParam))
 import Error.ErrorList (alreadyDefFuncErr)
@@ -42,13 +41,10 @@ findMain [] = []
 -- TODO: Remove this error (?)
 parseVariableDefinition :: LexedData -> Var.VariableDef
 parseVariableDefinition (VariableDeclaration name LInt
-    (L.Int x)) = Var.VariableDef name Type.Int (Var.Int x)
+    (L.Int x)) = Var.VariableDef name x
 parseVariableDefinition (VariableDeclaration name LBoolean (L.Int x)) =
-    Var.VariableDef name Type.Int (Var.Int x)
-parseVariableDefinition (VariableDeclaration name LString
-  (L.String x)) = Var.VariableDef name Type.String
-    (Var.String x)
-parseVariableDefinition _ = error "Could not find type."
+    Var.VariableDef name x
+parseVariableDefinition t = error $ "Could not find type: " ++ show t ++ "."
 
 parseVariableDefinitions :: [LexedData] -> [Var.VariableDef]
 parseVariableDefinitions (WithVariables : xs) = parseVariableDefinitions xs
@@ -171,7 +167,7 @@ unaryLOpToAstOp L.BinaryNot = Ast.BinaryNot
 unaryLOpToAstOp L.Negate = Ast.Negate
 
 rpnToAst :: [LexedData] -> (Computable,[LexedData])
-rpnToAst (L.Number x:xs) = (Ast.Value $ Var.Int x,xs)
+rpnToAst (L.Number x:xs) = (Ast.Value x,xs)
 rpnToAst (L.Operation op:xs) =
   (Ast.Operation $ Ast.BinaryOperation (lOpToAstOp op) a b , as)
   where (b,bs) = rpnToAst xs
@@ -310,20 +306,24 @@ parseMain xs
     where
       count = getMainCount xs
 
-convertReturnType :: LexedTypes -> Var.ReturnType
-convertReturnType LBoolean = Var.Value Type.Bool
-convertReturnType LInt = Var.Value Type.Int
-convertReturnType LString = Var.Value Type.String
-convertReturnType LVoid = Var.Void
+
+convertReturnType :: LexedTypes -> IsReturning
+convertReturnType LBoolean = True
+convertReturnType LInt = True
+-- convertReturnType LString = Var.Value Type.String
+convertReturnType LVoid = False
+convertReturnType _ = False
 
 -- TODO: Change the '_' :sob:
+{-
 convertVariableType :: LexedTypes -> Type.VariableType
 convertVariableType LBoolean = Type.Bool
 convertVariableType LInt = Type.Int
 convertVariableType _ = Type.String
+-}
 
 parseParam :: String -> LexedTypes -> Var.FuncParam
-parseParam x t = FuncParam x (convertVariableType t)
+parseParam x _ = FuncParam x
 
 parseParams :: [LexedData] -> [Var.FuncParam]
 parseParams (WithParameters : xs) = parseParams xs

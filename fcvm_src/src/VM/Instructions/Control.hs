@@ -40,7 +40,7 @@ handleRet :: VMState -> VMState
 handleRet state =
     let ((npc, nsp), ncs) = restoreStack (vmCallStack state)
     in case ((npc, nsp), ncs) of
-        ((0, 0), []) -> state { vmEnd = True,
+        ((0, 0), []) -> state { vmEnd = False,
             vmRetVal = (Just $ getReturnValue (vmStack state))}
         _ -> state { vmPC = npc, vmSP = nsp, vmCallStack = ncs,
                     vmStack = takeEnd (vmSP state) $ vmStack state }

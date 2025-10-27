@@ -15,7 +15,7 @@ import DataStruct.Lexing (LexedData(..), FuncTypes(..), LexedTypes (LInt, LBoole
 import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), FunctionBodyContent (If, Show, Assign, Return, Loop, Invoke), FunctionDef (Function), Ast (Ast))
 import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), Operations (..), UnaryOperations (..))
 import Error.MaybeError (MaybeError(Error, Correct))
-import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), BinaryOperator (..), Computable(..), Operation (..), UnaryOperator (..), IsReturning)
+import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), BinaryOperator (..), Computable(..), Operation (..), UnaryOperator (..), IsReturning, FunctionBodyContent (ShowStr))
 import qualified DataStruct.Ast.Variable as Var
 import DataStruct.Ast.Variable (FuncParam(FuncParam))
 import Error.ErrorList (alreadyDefFuncErr)
@@ -256,6 +256,19 @@ parseInvokeParams _ = []
 parseInvoke :: String -> Maybe String -> [LexedData] -> FunctionBodyContent
 parseInvoke name l x = DataStruct.Ast.Ast.Invoke name (parseInvokeParams x) l
 
+escapedCharacter :: Char -> Char
+escapedCharacter 'n' = '\n'
+escapedCharacter 't' = '\t'
+escapedCharacter '0' = '\0'
+escapedCharacter 'r' = '\r'
+escapedCharacter 'a' = '\a'
+escapedCharacter x  = x
+
+transformString :: String -> String
+transformString ('\\':c: xs) = '\n' : escapedCharacter c : transformString xs
+transformString (x:xs) = x : transformString xs
+transformString [] = []
+
 parseFunctionBody :: [LexedData] -> FunctionBody
 parseFunctionBody (DataStruct.Lexing.If : xs)
     | isThereElse xs = DataStruct.Ast.Ast.If
@@ -267,8 +280,11 @@ parseFunctionBody (DataStruct.Lexing.If : xs)
     (parseCondition (takeUntil xs Then))
     (parseFunctionBody (extractBodyFunctionFromNextIf xs)) Nothing :
     parseFunctionBody (skipTo EndIf xs)
-parseFunctionBody (Display:Text _:xs) = parseFunctionBody xs -- Not implemented
+parseFunctionBody (Display:Text s:xs) = ShowStr (transformString s) :
+    parseFunctionBody xs
 parseFunctionBody (Display:xs) = parseDisplay (getAllComputables xs)
+    : parseFunctionBody (skipComputables xs)
+parseFunctionBody (DisplayNewLine:xs) = Show (Value 10)
     : parseFunctionBody (skipComputables xs)
 parseFunctionBody (DataStruct.Lexing.Assign:Symbol s:xs) =
     parseAssign s (getAllComputables xs) :

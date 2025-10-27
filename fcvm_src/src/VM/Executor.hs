@@ -80,7 +80,8 @@ execAllByteCodes state = Prelude.takeWhile (not . isEnd)
 
 initVmState :: [Word8] -> VMState
 initVmState byteCode = 
-    VMState (drop 4 byteCode) 8 [] 0 [] 1 [] False False
+    VMState (drop 4 byteCode) 8 (replicate 8 0)
+        8 [] 1 [] False Nothing False
 
 printWFlush :: Fd -> String -> IO ()
 printWFlush file content = hPutStr file content >> hFlush file

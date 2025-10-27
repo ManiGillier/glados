@@ -22,6 +22,7 @@ module VM.Types (
 
 import System.IO (Handle, stdout, stdin, stderr)
 import Data.Word (Word8)
+import Data.Int (Int64)
 
 type Stack = [Word8]
 type SP = Int
@@ -48,6 +49,7 @@ data VMState = VMState
     , vmZFlag :: Word8
     , vmIO :: IOBuffer
     , vmEnd :: Bool
+    , vmRetVal :: Maybe Int64
     , vmDebug :: Bool
     }
 
@@ -62,6 +64,7 @@ instance Show VMState where
         , "Stack: " ++ show (vmStack s)
         , "CallStack: " ++ show (vmCallStack s)
         , "IO Buffer: " ++ show (vmIO s)
+        , "Return Value: " ++ show (vmRetVal s)
         , "ByteCode (len=" ++ show (length (vmByteCode s)) ++ ")"
         , "ByteCode:" ++ show (vmByteCode s)
         ]

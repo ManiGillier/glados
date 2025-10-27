@@ -17,7 +17,7 @@ import DataStruct.Ast.Ast ( FunctionBody
 import DataStruct.Asm (Instruction (..))
 import Compiler.Config (funcLabelPrefix)
 import Compiler.Condition (compileCondition)
-import Error.MaybeError (MaybeError(Error))
+import Error.MaybeError (MaybeError(Error, Correct))
 import Error.ErrorList (ukVarErr)
 
 -- TODO: Assign Return Value of Invoke to the set Variable
@@ -26,6 +26,7 @@ compileFuncBodyContent s (Return comp) = flip apply s $
   (compileComputable, comp) @> [ Ret]
 compileFuncBodyContent s (Show comp) = compiler s comp
   where compiler = suffixCompiler [Aff] compileComputable
+compileFuncBodyContent s (ShowStr str) = Correct (s, [Affs str])
 compileFuncBodyContent s (Invoke name args Nothing) = flip apply s
   $ (comps, args)
   @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]

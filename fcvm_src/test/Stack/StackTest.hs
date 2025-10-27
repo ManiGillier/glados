@@ -14,6 +14,9 @@ baseInst =
     Label ".start"
   ]
 
+retVal :: [Word8]
+retVal = replicate 8 0
+
 stackW10 :: [Word8]
 stackW10 = int64To8Bytes 10
 
@@ -24,7 +27,7 @@ testPushValue =
         state = execFccByteCode (asmToBytecode pushInst)
         push = execByteCode state
         stack = (vmStack push)
-     in assertEqual "push val 10" stackW10 stack
+     in assertEqual "push val 10" (stackW10 ++ retVal) stack
 
 testPushLabel :: Test
 testPushLabel =
@@ -33,7 +36,7 @@ testPushLabel =
         state = execFccByteCode (asmToBytecode pushInst)
         push = execByteCode state
         stack = (vmStack push)
-     in assertEqual "pushlabel loop" (int64To8Bytes 8) stack
+     in assertEqual "pushlabel loop" (int64To8Bytes 8 ++ retVal) stack
 
 testPopEmpty :: Test
 testPopEmpty =
@@ -43,7 +46,7 @@ testPopEmpty =
         push = execByteCode state
         pop = execByteCode push
         stack = (vmStack pop)
-     in assertEqual "pop val 10" [] stack
+     in assertEqual "pop val 10" retVal stack
 
 testPushFromStPtrR :: Test
 testPushFromStPtrR =
@@ -53,7 +56,7 @@ testPushFromStPtrR =
         push = execByteCode state
         pushFromRel = execByteCode push
         stack = (vmStack pushFromRel)
-     in assertEqual "pushFromStackPtrRel 0 with one elem" (stackW10 ++ stackW10) stack
+     in assertEqual "pushFromStackPtrRel 0 with one elem" (stackW10 ++ stackW10 ++ retVal) stack
 
 testPopFromStPtrR :: Test
 testPopFromStPtrR =
@@ -64,4 +67,4 @@ testPopFromStPtrR =
         push2 = execByteCode push
         pop = execByteCode push2
         stack = (vmStack pop)
-     in assertEqual "popFromStackPtrRel 8 with one elem" (int64To8Bytes 42) stack
+     in assertEqual "popFromStackPtrRel 8 with one elem" (int64To8Bytes 42 ++ retVal) stack

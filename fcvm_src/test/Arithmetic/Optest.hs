@@ -14,8 +14,11 @@ baseInst =
     Label ".start"
   ]
 
+retVal :: [Word8]
+retVal = replicate 8 0
+
 stackW10 :: [Word8]
-stackW10 = int64To8Bytes 10
+stackW10 = int64To8Bytes 10 ++ retVal
 
 testAdd :: Test
 testAdd =

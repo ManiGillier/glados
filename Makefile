@@ -53,6 +53,7 @@ fclean:
 	$(MAKE) -C $(PART_1_DIR) fclean
 	$(MAKE) -C $(PART_2_COMPILER_DIR) fclean
 	$(MAKE) -C $(PART_2_VM_DIR) fclean
+	find . -type d -name "a.fcp" -exec rm -r {} +
 
 .PHONY: $(PART_1) $(PART_2_COMPILER) $(PART_2_VM) all install \
 	tests_run re

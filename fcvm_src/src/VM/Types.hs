@@ -9,13 +9,18 @@ module VM.Types (
     Stack()
     ,SP()
     ,PC()
-    -- ,LabelIndex()
     ,CallStack()
     ,ByteCode()
     ,Byte()
+    ,Fd()
+    ,IOBuffer()
+    ,stdoutFd
+    ,stderrFd
+    ,stdinFd
     ,VMState(..)) 
     where 
 
+import System.IO (Handle, stdout, stdin, stderr)
 import Data.Word (Word8)
 
 type Stack = [Word8]
@@ -24,6 +29,15 @@ type PC = Int
 type CallStack = [(PC, SP)]
 type ByteCode = [Word8]
 type Byte = Word8
+type Fd = Handle
+type IOBuffer = [(Fd, String)]
+
+stdinFd :: Fd
+stdoutFd :: Fd
+stderrFd :: Fd
+stdinFd  = stdin
+stdoutFd = stdout
+stderrFd = stderr
 
 data VMState = VMState
     { vmByteCode :: ByteCode
@@ -32,5 +46,22 @@ data VMState = VMState
     , vmSP :: SP
     , vmCallStack :: CallStack
     , vmZFlag :: Word8
-    , vmBuffer :: String
-    } deriving (Show)
+    , vmIO :: IOBuffer
+    , vmEnd :: Bool
+    , vmDebug :: Bool
+    }
+
+instance Show VMState where
+    show s = unlines
+        [ "=== VM State ==="
+        , "PC: " ++ show (vmPC s)
+        , "SP: " ++ show (vmSP s)
+        , "ZFlag: " ++ show (vmZFlag s)
+        , "End: " ++ show (vmEnd s)
+        , "Debug: " ++ show (vmDebug s)
+        , "Stack: " ++ show (vmStack s)
+        , "CallStack: " ++ show (vmCallStack s)
+        , "IO Buffer: " ++ show (vmIO s)
+        , "ByteCode (len=" ++ show (length (vmByteCode s)) ++ ")"
+        , "ByteCode:" ++ show (vmByteCode s)
+        ]

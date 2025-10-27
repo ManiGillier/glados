@@ -7,22 +7,24 @@
 
 module Main (main) where
 
-import FileOpening.FileToBytecode
+import FileOpening.FileToBytecode ( fileToByteCode )
 import System.IO
-import System.IO.Error
 import Prelude
 import System.Environment
-import Data.Word
 import System.Exit (exitWith, ExitCode(..))
-import VM.Executor (execFccByteCode)
-import Error.MaybeError
+import VM.Executor (execFccByteCode, execAllByteCodes, printVMIO)
+import Data.Functor ((<&>))
+import Data.Maybe (listToMaybe)
 
-ioErrorReturn :: IOError -> IO ()
-ioErrorReturn _ = exitWith (ExitFailure 84)
+printArgError :: IO ()
+printArgError = hPutStrLn stderr "ERROR: You must provide a file as argument."
 
-truc :: IO [Word8]
-truc = fileToByteCode =<< (head <$> getArgs)
+getFirstArg :: IO String
+getFirstArg = getArgs >>=
+  (\args -> case listToMaybe args of
+      Nothing -> printArgError >> exitWith (ExitFailure 84)
+      Just arg' -> return arg')
 
 main :: IO ()
-main = catchIOError (printMaybeError putStrLn =<<
-       (execFccByteCode <$> truc)) ioErrorReturn
+main = getFirstArg >>= fileToByteCode <&>
+  execFccByteCode <&> execAllByteCodes >>= printVMIO

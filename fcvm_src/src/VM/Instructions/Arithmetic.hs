@@ -24,17 +24,18 @@ binOp f xs safe =
         else
             Correct $ int64To8Bytes (f val1 val2 ) ++ drop 16 xs
 
-handleOp :: (Int64 -> Int64 -> Int64) -> VMState -> Bool -> MaybeError VMState
+handleOp :: (Int64 -> Int64 -> Int64) -> VMState -> Bool -> VMState
 handleOp f state safe =
     case binOp f (vmStack state) safe of
-        Correct nst -> Correct $ state 
+        Correct nst -> state 
             { vmPC = nextIns (vmPC state), vmStack = nst }
-        Error err msg -> Error err msg
+        Error err msg -> state
+            { vmIO = (vmIO state) ++ [(stderrFd, err ++ msg)]}
 
 handleBitshift ::(Int64 -> Int -> Int64) -> VMState -> VMState
 handleBitshift f state =
     let stack = (vmStack state)
-        val = (bytesToInt64(take 8 $ drop 8 stack)) 
+        val = bytesToInt64 (take 8 $ drop 8 stack)
         left = bytesToInt64 (take 8 stack)
         newVal = f val (fromIntegral left)
         newStack = (int64To8Bytes newVal) ++ (drop 16 stack)

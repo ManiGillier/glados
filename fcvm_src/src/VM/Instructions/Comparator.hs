@@ -25,12 +25,13 @@ binComparator f xs = Correct $ int64To8Bytes
         f (bytesToInt64(take 8 $ drop 8 xs)) (bytesToInt64(take 8 xs)) )
     ++ drop 16 xs
 
-handleComp :: (Int64 -> Int64 -> Bool) -> VMState -> MaybeError VMState
+handleComp :: (Int64 -> Int64 -> Bool) -> VMState -> VMState
 handleComp f state =
     case binComparator f (vmStack state) of
-        Correct nst -> Correct $ state 
+        Correct nst -> state 
             { vmPC = nextIns (vmPC state), vmStack = nst }
-        Error err msg -> Error err msg
+        Error err msg -> state 
+            { vmIO = (vmIO state) ++ [(stderrFd, err ++ msg)]}
 
 binBoolComparator :: (Bool -> Bool -> Bool) -> Stack -> MaybeError Stack
 binBoolComparator _ [_] = Error stackError $ "underflow"
@@ -40,9 +41,10 @@ binBoolComparator f xs = Correct $ int64To8Bytes
     (int64ToBool $ bytesToInt64(take 8 xs)))
     ++ drop 16 xs
 
-handleBoolComp :: (Bool -> Bool -> Bool) -> VMState -> MaybeError VMState
+handleBoolComp :: (Bool -> Bool -> Bool) -> VMState -> VMState
 handleBoolComp f state =
     case binBoolComparator f (vmStack state) of
-        Correct nst -> Correct $ state 
+        Correct nst -> state 
             { vmPC = nextIns (vmPC state), vmStack = nst }
-        Error err msg -> Error err msg
+        Error err msg -> state
+            { vmIO = (vmIO state) ++ [(stderrFd, err ++ msg)]}

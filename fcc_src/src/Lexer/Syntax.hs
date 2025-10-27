@@ -143,15 +143,15 @@ invokeParametersSyntax = [SString ",", Space, SString "avec les paramètres",
     Space, MultipleComputables]
 
 displaySyntax :: [Syntax]
-displaySyntax = [SString "Affiche", Space, Condition]
+displaySyntax = [SString "Affiche", Space, QuotedValue]
 
 displaySyntax' :: [Syntax]
-displaySyntax' = [SString "Affiche", Space, QuotedValue]
-
-displaySyntax'' :: [Syntax]
-displaySyntax'' = [SString "Affiche", Space, SString "un", Space,
+displaySyntax' = [SString "Affiche", Space, SString "un", Space,
     SString "retour", Space, SString "à", Space, SString "la", Space,
     SString "ligne"]
+
+displaySyntax'' :: [Syntax]
+displaySyntax'' = [SString "Affiche", Space, Condition]
 
 mainFunctionSyntax :: [Syntax]
 mainFunctionSyntax = [SString "En", Space, SString "sachant", Space,

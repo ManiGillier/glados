@@ -7,6 +7,10 @@
 COMPILED_NAME	:= fcvm
 NAME	:= fcvm
 
+all:
+	$(RM) $(NAME)
+	$(MAKE) $(NAME)
+
 $(NAME):
 	$(RM) $(NAME)
 	stack build --allow-different-user

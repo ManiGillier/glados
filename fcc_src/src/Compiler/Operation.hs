@@ -10,10 +10,8 @@ module Compiler.Operation ( compileOperation
 
 import DataStruct.Ast.Ast as Ast
 import DataStruct.Asm as Asm
-import DataStruct.Ast.Variable (VariableValue (..))
 import Compiler.Type ( combine, Compiler, getVariable )
-import Error.MaybeError (MaybeError(Correct, Error))
-import Error.ErrorList (supportErr)
+import Error.MaybeError (MaybeError(..))
 
 getUnOp :: UnaryOperator -> Instruction
 getUnOp Ast.BinaryNot = Asm.BinNot
@@ -38,7 +36,6 @@ getBinOp Ast.SuperiorOrEq = Asm.Ge
 getBinOp Ast.Inferior = Asm.Lt
 getBinOp Ast.InferiorOrEq = Asm.Le
 getBinOp Ast.Equals = Asm.Eq
-getBinOp Ast.Is = Asm.Is
 getBinOp Ast.Different = Asm.Diff
 
 compileUnOp :: Compiler UnaryOperator
@@ -49,10 +46,7 @@ compileBinOp s op = Correct (s, [getBinOp op])
 
 compileComputable :: Compiler Computable
 -- Computable Value
-compileComputable s (Value (Int x)) = Correct $ (s, [PushValue x])
-compileComputable s (Value (Bool False)) = Correct $ (s, [PushValue 0])
-compileComputable s (Value (Bool True)) = Correct $ (s, [PushValue 1])
-compileComputable _ (Value v) = Error supportErr (show v)
+compileComputable s (Value x) = Correct $ (s, [PushValue x])
 -- Computable Variable
 compileComputable s (Ast.Variable name) =
   (\addr -> (s,[PushFromStackPtrRel addr])) <$> getVariable s name

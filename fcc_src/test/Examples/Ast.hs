@@ -8,7 +8,6 @@
 module Examples.Ast (exampleAst) where
 
 import DataStruct.Ast.Ast as Ast
-import DataStruct.Ast.Type as T
 import DataStruct.Ast.Variable as V
 
 exampleAst :: Ast
@@ -18,21 +17,21 @@ exampleAst = Ast
    -- Main Variables
    []
    -- Main Content
-   [ Invoke "foo" [Ast.Value $ V.Int 42, Ast.Value $ V.Int 1]
+   [ Invoke "foo" [Ast.Value 42, Ast.Value 1] Nothing
    , Invoke "foo"
      [ Ast.Operation $ Ast.BinaryOperation Ast.Add
-       (Ast.Value $ V.Int 48)
-       (Ast.Value $ V.Int 5)
-     , Ast.Value $ V.Int 2
-     ]
-   , Invoke "bar" [Ast.Value $ V.Int 5]
+       (Ast.Value 48)
+       (Ast.Value 5)
+     , Ast.Value 2
+     ] Nothing
+   , Invoke "bar" [Ast.Value 5] Nothing
    ])
   -- OTHER FUNCS --
-  [ Ast.Function "foo" V.Void
+  [ Ast.Function "foo" False
     -- FOO Params
-    [ V.FuncParam "a" T.Int, V.FuncParam "b" T.Int ]
+    [ V.FuncParam "a", V.FuncParam "b" ]
     -- FOO Variables
-    [ VariableDef "c" T.Int $ V.Int 0 ]
+    [ VariableDef "c" 0 ]
     -- FOO Content
     [ Assign "c" $ Ast.Operation
       $ Ast.BinaryOperation
@@ -43,21 +42,21 @@ exampleAst = Ast
       $ Ast.BinaryOperation
         Ast.Add
         (Ast.Variable "c")
-        (Ast.Value $ V.Int 1)
+        (Ast.Value 1)
     , Show $ Ast.Variable "c"
     ]
-  , Ast.Function "bar" V.Void
+  , Ast.Function "bar" False
     -- BAR PARAMS
-    [V.FuncParam "a" T.Int]
+    [V.FuncParam "a"]
     -- BAR VARIABLES
-    [VariableDef "b" T.Int $ V.Int 0]
+    [VariableDef "b" 0]
     -- BAR BODY
-    [ Assign "b" $ Ast.Value $ V.Int 48
+    [ Assign "b" $ Ast.Value 48
     , Assign "b" $ Ast.Operation
       $ Ast.BinaryOperation
         Ast.Add
         (Ast.Variable "a")
         (Ast.Variable "b")
-    , Invoke "foo" [ Ast.Variable "b", Ast.Value $ V.Int (-1) ]
+    , Invoke "foo" [ Ast.Variable "b", Ast.Value (-1) ] Nothing
     ]
   ]

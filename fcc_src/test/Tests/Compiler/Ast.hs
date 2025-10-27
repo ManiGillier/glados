@@ -14,13 +14,12 @@ import Test.HUnit (Test (TestList), (~:), (~?=))
 import Compiler.Ast (compile)
 import Error.MaybeError (MaybeError(Correct))
 import DataStruct.Ast.Variable as Var
-import DataStruct.Ast.Type as T
 
 astTest :: Test
 astTest = TestList
   [ "simple test" ~:
-    compile (CAst (Main [Var.VariableDef "x" T.Int $ Var.Int 42] [])
-              [Function "foo" Var.Void [] [] []])
+    compile (CAst (Main [Var.VariableDef "x" 42] [])
+              [Function "foo" False [] [] []])
     ~?= Correct [ Asm.Label "func_main"
                 , Asm.Label ".start"
                 , PushValue 42

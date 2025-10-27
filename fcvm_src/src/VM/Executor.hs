@@ -58,6 +58,7 @@ dispatchInstructions 24 state = handleZflag state
 dispatchInstructions 36 state = handleJmp state
 dispatchInstructions 37 state = handleZjmp state
 dispatchInstructions 38 state = handleAff state
+dispatchInstructions 39 state = handleAffs state
 dispatchInstructions _ state = state { vmPC = nextIns (vmPC state) }
 
 isEnd :: VMState -> Bool

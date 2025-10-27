@@ -42,6 +42,10 @@ functionBodyTest = TestList
    ~?= Correct ((Context [("x", (0, 8))] 0 []),
                 [v',PushValue 0, PushLabel "func_f", Call
                 , PopToStackPtrRel 0, PopEmpty])
+ , "Invoke with assign incorrect var" ~:
+   compileFuncBody baseContext
+   [Invoke "f" [v] (Just "x")]
+   ~?= Error ukVarErr "x"
  , "Invoke with args" ~: compileFuncBody baseContext
    [Invoke "f" [v, vi 41, vi 40] Nothing]
    ~?= Correct (baseContext,

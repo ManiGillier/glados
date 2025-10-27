@@ -42,6 +42,11 @@ functionDefTest = TestList
     , "no params" ~: compileFuncDef baseContext
       (Function "f" False [] [] [])
       ~?= Correct (f, [Asm.Label "func_f", Ret])
+    , "return x" ~: compileFuncDef baseContext
+      (Function "f" True [] [] [])
+      ~?= Correct (f, [ Asm.Label "func_f"
+                      , PushValue 0, PopToStackPtrRel (-8)
+                      , Ret])
     , "multiple params" ~: compileFuncDef baseContext
       (Function "f" False [ Var.FuncParam "x"
                              , Var.FuncParam "y"] []

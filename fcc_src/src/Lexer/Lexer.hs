@@ -14,7 +14,9 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd,
     readReturn, readFunction, readFunctionBody, readCode,
     readIf, readMainFunction, readWhile, charLiteral, escapeList,
-    readCharValue) where
+    readCharValue, readUnaryOperation, readOperation, readComparator,
+    readComputableAfterOperationWithUnaryOperation,
+    readComboWordWithValue) where
 
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,

@@ -375,8 +375,8 @@ readInvoke = (try readInvoke''' <|> try readInvoke'' <|> try readInvoke' <|>
 
 readDisplay :: Lexer [LexedData]
 readDisplay = (try (lexStringsWithTokens' [Display] displaySyntax) <|>
-    try (lexStringsWithTokens' [Display] displaySyntax') <|>
-    try (lexStringsWithTokens' [DisplayNewLine] displaySyntax'')) <* readEOI
+    try (lexStringsWithTokens' [DisplayNewLine] displaySyntax') <|>
+    try (lexStringsWithTokens' [Display] displaySyntax'')) <* readEOI
 
 readMainFunctionDefinition :: Lexer [LexedData]
 readMainFunctionDefinition = lexStringsWithTokens' [FuncDef, FuncType Main,

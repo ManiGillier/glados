@@ -32,8 +32,6 @@ data Instruction =
   -- Label definition (bin output = [])
   Label !LabelName
   -- Unary
-  | DataInt !Int64
-  | DataString !String
   | BinNot
   | BoolNot
   | Negate
@@ -56,21 +54,15 @@ data Instruction =
   | Le -- Less or equal
   | Eq
   | Diff
-  | Is
   | UpdateZFlag -- Pops stack, if zero set z flag to 1 else 0
   -- Push (Push 4 byte to the stack)
   | PushValue !Int64
-  | PushGlobAddr !Int64
   | PushRelAddr !Int64
   | PushLabel !LabelName -- Same bytecode as PushRelAddr
   | PushFromStackPtrRel !Addr -- Push the value stored here
   -- Pop (Pop 4 bytes from the stack)
   | PopToStackPtrRel !Addr -- Pop and set to the address :D
   | PopEmpty
-  -- Stack writing
-  | WriteToStackPtrRel !Addr !Int64 -- Write Int to stack ptr + Addr
-  -- Both
-  | Dupl -- Duplicates last stack entry
   -- Function (modified stack)
   | Call -- Remember stack pointer :D
   | Ret -- Retrieve caller stack pointer :D
@@ -79,6 +71,7 @@ data Instruction =
   | Zjmp -- Pops test from stack (if == 0, jump else continue)
   -- Debug functions (to remove later)
   | Aff -- Shows single char from addr popped from stack
+  | Affs !String
   deriving (Show, Eq)
 
 -- Addr is the address added to the address of the stack pointer !

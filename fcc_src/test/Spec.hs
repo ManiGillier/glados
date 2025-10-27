@@ -20,5 +20,5 @@ tests = TestList [ "Compiler" ~: compilerTest
                  , "Lexer" ~: lexerTest
                  ]
 
-main :: IO Counts
-main = runTestTT tests
+main :: IO ()
+main = runTestTTAndExit tests

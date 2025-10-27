@@ -36,7 +36,7 @@ data BinaryOperator =
   | Xor | BitShiftLeft | BitShiftRight
   | Add | Sub | Multiplication | Division | Modulo
   | Superior | SuperiorOrEq | Inferior | InferiorOrEq
-  | Equals | Is | Different
+  | Equals | Different
   deriving (Eq, Show)
 
 data Operation =
@@ -60,6 +60,7 @@ data FunctionBodyContent =
   | Loop Condition FunctionBody
   | Return Computable
   | Show Computable
+  | ShowStr String
   deriving (Eq, Show)
 
 type FunctionBody = [FunctionBodyContent]

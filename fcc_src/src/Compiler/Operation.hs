@@ -36,7 +36,6 @@ getBinOp Ast.SuperiorOrEq = Asm.Ge
 getBinOp Ast.Inferior = Asm.Lt
 getBinOp Ast.InferiorOrEq = Asm.Le
 getBinOp Ast.Equals = Asm.Eq
-getBinOp Ast.Is = Asm.Is
 getBinOp Ast.Different = Asm.Diff
 
 compileUnOp :: Compiler UnaryOperator

@@ -11,8 +11,6 @@ import DataStruct.Asm
 
 translateInstr :: Instruction -> [String]
 translateInstr (Label l)     = [l ++ ":"]
-translateInstr (DataInt i)   = ["    db " ++ show i]
-translateInstr (DataString s)= ["    db " ++ show s]
 translateInstr BinNot        = ["    not"]
 translateInstr BoolNot       = ["    lnot"]
 translateInstr Negate        = ["    neg"]
@@ -34,24 +32,20 @@ translateInstr Lt           = ["    lt"]
 translateInstr Le           = ["    le"]
 translateInstr Eq           = ["    eq"]
 translateInstr Diff         = ["    diff"]
-translateInstr Is           = ["    is"]
 translateInstr UpdateZFlag  = ["    updz"]
 translateInstr (PushValue v)            = ["    push " ++ show v]
-translateInstr (PushGlobAddr v)         = ["    push &" ++ show v]
 translateInstr (PushRelAddr v)          = ["    push [" ++ show v ++ "]"]
 translateInstr (PushLabel l)            = ["    push %" ++ l]
 translateInstr (PushFromStackPtrRel a)  =
   ["    push @" ++ show a]
 translateInstr (PopToStackPtrRel a)     = ["    pop @" ++ show a]
 translateInstr PopEmpty               = ["    pop"]
-translateInstr (WriteToStackPtrRel a v) =
-  ["    wr @" ++ show a ++ " " ++ show v]
-translateInstr Dupl                   = ["    dupl"]
 translateInstr Call                   = ["    call"]
 translateInstr Ret                    = ["    ret"]
 translateInstr Jmp                    = ["    jmp"]
 translateInstr Zjmp                   = ["    zjmp"]
 translateInstr Aff                    = ["    aff"]
+translateInstr (Affs str)             = ["    affs" ++ show str]
 
 listOfStringToString :: [String] -> String
 listOfStringToString [] = ""

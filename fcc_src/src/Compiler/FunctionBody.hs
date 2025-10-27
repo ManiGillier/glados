@@ -37,7 +37,7 @@ compileFuncBodyContent s (Invoke name args (Just varName))
     (comps, args)
     @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
     @> [ PopToStackPtrRel varAddr ] @> replicate (length args) PopEmpty
-  | otherwise = Error ukVarErr name
+  | otherwise = Error ukVarErr varName
   where comps = revCompiler $ mapCompiler compileComputable
 compileFuncBodyContent s (If cond body (Just elseBody)) =
   flip apply s''

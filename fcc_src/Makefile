@@ -17,7 +17,7 @@ $(NAME):
 
 tests_run:
 	mkdir -p test/coverage
-	stack clean --allow-different-user
+#	stack clean --allow-different-user
 	stack test --coverage --allow-different-user
 	stack hpc report --all --destdir test/coverage --allow-different-user
 

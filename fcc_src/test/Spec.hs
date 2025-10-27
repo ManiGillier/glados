@@ -18,5 +18,5 @@ tests = TestList [ "Compiler" ~: compilerTest
                  , "Combinor" ~: combineAstTest
                  ]
 
-main :: IO Counts
-main = runTestTT tests
+main :: IO ()
+main = runTestTTAndExit tests

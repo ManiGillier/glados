@@ -37,7 +37,7 @@ functionDefTest = TestList
        [Var.VariableDef "y" 84]
        [Assign "x" $ v 42])
       ~?= Correct (f, [ Asm.Label "func_f", PushValue 84
-                      , v' 42, PopToStackPtrRel (-8) -- Assign x
+                      , v' 42, PopToStackPtrRel (-16) -- Assign x
                       , Ret])
     , "no params" ~: compileFuncDef baseContext
       (Function "f" False [] [] [])
@@ -47,8 +47,8 @@ functionDefTest = TestList
                              , Var.FuncParam "y"] []
         [Assign "x" $ v 42, Assign "y" $ v 41])
       ~?= Correct (f, [ Asm.Label "func_f"
-                      , v' 42, PopToStackPtrRel (-8) -- Assign x
-                      , v' 41, PopToStackPtrRel (-16) -- Assign y
+                      , v' 42, PopToStackPtrRel (-16) -- Assign x
+                      , v' 41, PopToStackPtrRel (-24) -- Assign y
                       , Ret])
     , "duplicate param" ~: compileFuncDef baseContext
       (Function "f" False [ Var.FuncParam "x"

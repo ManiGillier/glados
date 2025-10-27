@@ -7,6 +7,7 @@ import Tests.Compiler.FunctionBody (functionBodyTest)
 import Tests.Compiler.FunctionDef (functionDefTest)
 import Tests.Compiler.Ast (astTest)
 import Tests.Combinor.Ast (combineAstTest)
+import Tests.Lexer.Lexer (lexerTest)
 
 tests :: Test
 tests = TestList [ "Compiler" ~: compilerTest
@@ -16,6 +17,7 @@ tests = TestList [ "Compiler" ~: compilerTest
                  , "FunctionDef" ~: functionDefTest
                  , "Ast" ~: astTest
                  , "Combinor" ~: combineAstTest
+                 , "Lexer" ~: lexerTest
                  ]
 
 main :: IO Counts

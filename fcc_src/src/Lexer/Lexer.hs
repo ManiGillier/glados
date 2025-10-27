@@ -13,7 +13,7 @@ module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
     readDisplay, readMainFunctionDefinition, readName, readComment,
     readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd,
     readReturn, readFunction, readFunctionBody, readCode,
-    readIf, readMainFunction, readWhile) where
+    readIf, readMainFunction, readWhile, charLiteral, escapeList) where
 
 import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
@@ -51,8 +51,8 @@ escapeList :: Lexer Char
 escapeList = choice [
     '\n' <$ char 'n',
     '\t'  <$ char 't',
-    '\r'  <$ char 'r',
     '\\' <$ char '\\',
+    '\r'  <$ char 'r',
     '\'' <$ char '\'',
     '"'  <$ char '"',
     '\0' <$ char '0']
@@ -60,7 +60,7 @@ escapeList = choice [
 charLiteral :: Lexer Char
 charLiteral =
       (char '\\' *> escapeList)
-  <|> anySingleBut '\'' 
+  <|> anySingleBut '\''
 
 readCharValue :: Lexer Char
 readCharValue = between (char '\'') (char '\'') charLiteral

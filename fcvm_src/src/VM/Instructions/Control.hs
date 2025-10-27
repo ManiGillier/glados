@@ -20,6 +20,9 @@ import VM.Utils.Conversion
 import Data.Int (Int64)
 import Data.Word (Word8)
 
+takeEnd :: Int -> [a] -> [a]
+takeEnd i l = drop (length l - i) l
+
 handleCall :: VMState -> VMState
 handleCall state =
     let newStack = popStack (vmStack state)
@@ -37,9 +40,10 @@ handleRet :: VMState -> VMState
 handleRet state =
     let ((npc, nsp), ncs) = restoreStack (vmCallStack state)
     in case ((npc, nsp), ncs) of
-        ((0, 0), []) -> state { vmEnd = True ,
+        ((0, 0), []) -> state { vmEnd = True,
             vmRetVal = (Just $ getReturnValue (vmStack state))}
-        _ -> state { vmPC = npc, vmSP = nsp, vmCallStack = ncs }
+        _ -> state { vmPC = npc, vmSP = nsp, vmCallStack = ncs,
+                    vmStack = takeEnd (vmSP state) $ vmStack state }
 
 zfVal :: Int64 -> Word8
 zfVal 0 = 0
@@ -59,7 +63,7 @@ handleZjmp state =
         zflag = (vmZFlag state)
         pc = (vmPC state)
         newPc = fromIntegral $ bytesToInt64 $ take 8 stack
-    in case zflag of 
+    in case zflag of
         0 -> state {vmStack = popStack stack, vmPC = newPc }
         _ -> state {vmStack = popStack stack, vmPC = pc + 1}
 

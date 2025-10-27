@@ -21,7 +21,7 @@ module DataStruct.Ast.Ast (Ast (..)
 
 import qualified DataStruct.Ast.Variable as Var (VariableValue (..)
                                                 , VariableName
-                               , VariableDef (..), ReturnType (..), FuncParam)
+                               , VariableDef (..), FuncParam)
 
 type FunctionName = String
 
@@ -61,7 +61,9 @@ data FunctionBodyContent =
 
 type FunctionBody = [FunctionBodyContent]
 
-data FunctionDef = Function FunctionName Var.ReturnType
+type IsReturning = Bool
+
+data FunctionDef = Function FunctionName IsReturning
   [Var.FuncParam] [Var.VariableDef] FunctionBody
   deriving (Eq, Show)
 

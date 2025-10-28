@@ -33,7 +33,8 @@ import Error.MaybeError (MaybeError (..))
 data Context = Context
   { var :: !VariableStorage
   , labelCount :: !Int
-  , functionNames :: ![FunctionName]
+  , functionDefs :: ![FunctionName]
+  , functionCalls :: ![FunctionName]
   }
   deriving (Show, Eq)
 
@@ -46,7 +47,7 @@ takeLabel prefix c = (c { labelCount = n + 1 },name)
         name = prefix ++ "_" ++ (show n)
 
 baseContext :: Context
-baseContext = Context [] 0 []
+baseContext = Context [] 0 [] []
 
 type Compiler a = Context -> a -> MaybeError (Context, [Instruction])
 

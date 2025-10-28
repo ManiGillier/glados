@@ -4,12 +4,25 @@ import Stack.StackTest
 import Arithmetic.Optest
 import Comparator.Comptest
 import Unary.UnaryTest
+import Control.ControlTest
+import VM.Executor
+import VM.Types
+import IO.IoTest
+import Error.ErrorList
+
+testBcFormat :: Test
+testBcFormat =
+    TestCase $
+        let state = execFccByteCode []
+            err = (vmIO state)
+         in assertEqual "wrong file format" [(stderrFd, fileFormatError)] err
 
 tests :: Test
 tests = TestList
   [
+    testBcFormat
     -- Stack test
-     testPushValue
+    ,testPushValue
     ,testPopEmpty
     ,testPushFromStPtrR
     ,testPopFromStPtrR
@@ -56,6 +69,10 @@ tests = TestList
     ,testBinNot2
     ,testNot
     ,testNot2
+    -- Control
+    ,controlTest
+    -- IO
+    ,ioTest
   ]
 
 main :: IO ()

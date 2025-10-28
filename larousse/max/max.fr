@@ -12,8 +12,3 @@ nécessitant comme entrée :
     Merci.
     Enfin, renvoie nombre.
 Merci.
-
-Merci d'avance,
-Cordialement,
-Gillier
-Mani

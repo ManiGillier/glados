@@ -1,0 +1,25 @@
+<h1 id="explanation-of-the-asm-of-the-franc">Explanation of the Asm of the Franc</h1>
+<p>The Asm of the Franc is a stack-oriented/stack-based assembly.</p>
+<p>In Every file, a &quot;.start&quot; label need to be there</p>
+<p>The labels always end with &#39;:&#39;</p>
+<p>The Instructions are always put after a label and must should a tab (4 spaces) before them.</p>
+<h2 id="list-of-instruction-and-their-description">List of instruction and their description</h2>
+<h3 id="label">Label</h3>
+<p>label : Name of the function + &#39;:&#39;</p>
+<h3 id="unary-operation">Unary Operation</h3>
+<p>not: Inverse the bit(s).<br>lnot: Logical not, inverse the value of a boolean.<br>neg: Negate the value.  </p>
+<h3 id="binary-operation">Binary Operation</h3>
+<p>and : Copies a bit if it exist in both operands (value)<br>nor: Copies a bit if it exist in either operands (value)<br>land: Logical and, <!-- if both of the value are true then return true else false -->
+land: If both value are True return True else return False<br>lor: logical or,<br>xor: Copies a bit if it exist in only one operands (value)<br>shl: Move the bits to the left one time (0101 -&gt; 1010)<br>shr: Move the bits to the right one time (1010 -&gt; 0101)<br>add: Addition <!-- Pop the first (on top) element and add the value to the second element   -->
+sub: Subtraction<br>mult: Multiplication<br>div: Division<br>mod: Modulo<br>gt: Greater than<br>ge: Greater or equal<br>lt: Less than<br>le: Less or equal<br>eq: Equal<br>diff: Different<br>updz: Update the Zflags (true or false) this is used before Zjmp  </p>
+<h3 id="push">Push</h3>
+<p>push: Push the value in the stack<br>push []: Push the relative adress given as an arguments<br>push %: Push the label given as an arguments<br>push @: -- Push the value from the position given of the stack  </p>
+<h3 id="pop">Pop</h3>
+<p>pop @: Pop given as an arguments<br>pop: Pop the stack  </p>
+<h3 id="function">Function</h3>
+<p>call: Call the function given previously by push %<br>ret: Return  </p>
+<h3 id="jumps">Jumps</h3>
+<p>jmp: Go to the label given previously by push %<br>zjmp: If value equal 0 go to the label given previously by push % else continue  </p>
+<h3 id="display">Display</h3>
+<p>aff: Display a char<br>affs: Display a string  </p>
+<!-- zflag : il retient en mémoire le Z flags si true ou false qui est utilisé pour zjmp -->

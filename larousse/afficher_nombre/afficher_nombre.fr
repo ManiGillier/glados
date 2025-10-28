@@ -19,8 +19,3 @@ nécessitant comme entrée :
     Affiche ((nombre modulo 10) plus '0').
 
 Merci.
-
-Merci d'avance,
-Cordialement,
-Gillier
-Mani

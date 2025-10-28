@@ -46,7 +46,7 @@ data VMState = VMState
     { vmByteCode :: ByteCode
     , vmPC :: PC
     , vmStack :: Stack
-    , vmSackSize :: StackSize
+    , vmStackSize :: StackSize
     , vmCallSackSize :: StackSize
     , vmSP :: SP
     , vmCallStack :: CallStack
@@ -69,7 +69,7 @@ instance Show VMState where
         , "CallStack: " ++ show (vmCallStack s)
         , "IO Buffer: " ++ show (vmIO s)
         , "Return Value: " ++ show (vmRetVal s)
-        , "Stack size: " ++ show (vmSackSize s)
+        , "Stack size: " ++ show (vmStackSize s)
         , "Call stack size: " ++ show (vmCallSackSize s)
         , "ByteCode (len=" ++ show (length (vmByteCode s)) ++ ")"
         , "ByteCode:" ++ show (vmByteCode s)

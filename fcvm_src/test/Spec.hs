@@ -2,6 +2,7 @@ import Test.HUnit
 
 import Stack.StackTest
 import Arithmetic.Optest
+import Comparator.Comptest
 
 tests :: Test
 tests = TestList
@@ -25,6 +26,28 @@ tests = TestList
     ,testOpOr
     ,testRBt
     ,testLBt
+    ,testEmptySt
+    -- Comparators 
+    ,testAndTrue
+    ,testAndFalse
+    ,testAndTrueneg
+    ,testOrTrue
+    ,testOrFalse
+    ,testOrTrueNeg
+    ,testBoolStEmpty
+    ,testGrEF
+    ,testGrET
+    ,testGrF
+    ,testGrT
+    ,testLtEF
+    ,testLtET
+    ,testLtF
+    ,testLtT
+    ,testCompStEmpty
+    ,testEqTrue
+    ,testEqFalse
+    ,testDiffFalse
+    ,testDiffTrue
   ]
 
 main :: IO ()

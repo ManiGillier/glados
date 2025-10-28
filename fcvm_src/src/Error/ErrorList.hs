@@ -10,6 +10,7 @@ module Error.ErrorList (
    stackError
    ,divError
    ,stackOverFlowError
+   ,stackUnderFlowError
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -22,6 +23,9 @@ stackOverFlowError = "*** STACK OVERFLOW"
 
 stackError:: ErrorType
 stackError = "*** STACK ERROR"
+
+stackUnderFlowError:: String
+stackUnderFlowError = "*** STACK ERROR"
 
 divError:: ErrorType
 divError = "*** 0 CAN'T BE USE in this operation"

@@ -1,5 +1,5 @@
 import Test.HUnit
-import qualified System.Exit as Exit
+
 import Stack.StackTest
 import Arithmetic.Optest
 
@@ -28,6 +28,4 @@ tests = TestList
   ]
 
 main :: IO ()
-main = do
-    result <- runTestTT tests
-    if failures result > 0 then Exit.exitFailure else Exit.exitSuccess
+main = runTestTTAndExit tests

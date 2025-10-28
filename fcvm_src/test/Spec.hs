@@ -3,6 +3,7 @@ import Test.HUnit
 import Stack.StackTest
 import Arithmetic.Optest
 import Comparator.Comptest
+import Unary.UnaryTest
 
 tests :: Test
 tests = TestList
@@ -48,6 +49,13 @@ tests = TestList
     ,testEqFalse
     ,testDiffFalse
     ,testDiffTrue
+    -- Unary
+    ,testNegate1
+    ,testNegate2
+    ,testBinNot
+    ,testBinNot2
+    ,testNot
+    ,testNot2
   ]
 
 main :: IO ()

@@ -1,0 +1,13 @@
+Bonjour,
+
+En sachant que les variables principales sont :
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    J'invoque le bloc fizzbuzz, avec les paramètres 15.
+    J'invoque le bloc fizzbuzz, avec les paramètres 12.
+    J'invoque le bloc fizzbuzz, avec les paramètres 5.
+    J'invoque le bloc fizzbuzz, avec les paramètres 1.
+
+Merci d'avance,
+Cordialement,
+Gillier
+Mani

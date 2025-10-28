@@ -13,8 +13,8 @@ import Test.HUnit
 
 import Lexer.Syntax
 import Lexer.Lexer
-import DataStruct.Lexing (LexedData(Symbol, Number, Text, UnaryOperation, Operation, OpenParenthesis, ClosedParenthesis, VariableDeclaration), UnaryOperations (BinaryNot, Not, Negate), Operations (Add, Subtract, Multiply, Divide, Modulo, BinaryAnd, BinaryOr, Xor, RightBitshift, LeftBitshift, And, Or, Equal, Different, InferiorOrEqual, SuperiorOrEqual, Inferior, Superior), LexedTypes (LInt), VarValue(..))
-import Data.Either (isLeft)
+import DataStruct.Lexing (LexedData(Symbol, Number, Text, UnaryOperation, Operation, OpenParenthesis, ClosedParenthesis, VariableDeclaration, Parameter, LexedType, InvokeParameter, Assign, If, While, FuncDef, FuncType, ReturnType, WithParameters, WithVariables, Invoke, AssignResultTo, Display, DisplayNewLine, EndFunction, EndIf, EndWhile, Return, Then, Else), UnaryOperations (BinaryNot, Not, Negate), Operations (Add, Subtract, Multiply, Divide, Modulo, BinaryAnd, BinaryOr, Xor, RightBitshift, LeftBitshift, And, Or, Equal, Different, InferiorOrEqual, SuperiorOrEqual, Inferior, Superior), LexedTypes (LInt, LBoolean, LVoid), VarValue(..), FuncTypes (Function, Main))
+import Data.Either (isLeft, isRight)
 
 lexerTest :: Test
 lexerTest = TestList
@@ -155,5 +155,234 @@ lexerTest = TestList
                 Number 1],
     "readComboWordWithValue Test 1" ~: (parse (readComboWordWithValue) ""
         "- compteur, de type entier naturel, valant 49") ~?=
-            Right (VariableDeclaration "compteur" LInt (Int 49))
- ]
+            Right (VariableDeclaration "compteur" LInt (Int 49)),
+    "readOptionalComboWords Test 1" ~: (parse (readOptionalComboWordsWithValues) ""
+        "- meow, de type entier naturel, valant 727 - feur, de type entier naturel, valant 69 ") ~?=
+            Right ([VariableDeclaration "meow" LInt (Int 727),
+                VariableDeclaration "feur" LInt (Int 69)]),
+    "readOptionalComboWords Test 2" ~: (parse (readOptionalComboWordsWithValues) ""
+        "") ~?=
+            Right ([]),
+    "readComboWord Test 1" ~: (parse (readComboWord) ""
+        "- meow, de type booléen") ~?= Right (Parameter "meow" LBoolean),
+    "readOptionalComboWords Test 1" ~: (parse (readOptionalComboWords) ""
+        "- meow, de type booléen  - feur, de type entier naturel ") ~?=
+            Right [Parameter "meow" LBoolean,Parameter "feur" LInt],
+    "readOptionalComboWords Test 2" ~: (parse (readOptionalComboWords) ""
+        "") ~?=
+            Right [],
+    "tryReadOne Test 1" ~: parse (tryReadOne [([SString "69"], Symbol "waw"),
+        ([SString "727"], Symbol "ok"), ([SString "feur"], Symbol "woohoo")])
+        "" "feur" ~?= Right (Symbol "woohoo"),
+    "tryReadStrings Test 1" ~:
+        isRight (parse (tryReadStrings ["feur", "coubeh", "yes"]) "" "yes")
+        ~? "Expected to be parsed correctly",
+    "tryReadStrings Test 2" ~:
+        isRight (parse (tryReadStrings ["feur", "coubeh", "yes"]) "" "coubeh")
+        ~? "Expected to be parsed correctly",
+    "tryReadStrings Test 3" ~:
+        isLeft (parse (tryReadStrings ["feur", "coubeh", "yes"]) "" "meow")
+        ~? "Expected to fail",
+    "readFunctionType Test 1" ~:
+        parse (readFunctionType) "" "nul" ~?= Right (LexedType LVoid),
+    "readMultipleWords Test 1" ~:
+        parse (readMultipleWords) "" "meow, feur, coubeh, xd" ~?=
+            Right ([Symbol "meow", Symbol "feur", Symbol "coubeh",
+                Symbol "xd"]),
+    "readMultipleComputables Test 1" ~:
+        parse (readMultipleComputables) ""
+            "meow, feur, coubeh, 2 plus (1 fois 2)" ~?=
+            Right ([InvokeParameter [Symbol "meow"],
+                InvokeParameter [Symbol "feur"],
+                InvokeParameter [Symbol "coubeh"],
+                InvokeParameter [Number 2, Operation Add, OpenParenthesis,
+                Number 1, Operation Multiply, Number 2, ClosedParenthesis]]),
+    "readAssign Test 1" ~:
+        parse (readAssign) "" "x prend la valeur 69." ~?=
+            Right [Assign, Symbol "x", Number 69],
+    "readAssign Test 2" ~:
+        parse (readAssign) "" "J'aimerais que x prenne la valeur 68 fois 2." ~?=
+            Right [Assign, Symbol "x", Number 68, Operation Multiply, Number 2],
+    "readIf Test 1" ~:
+        parse (readIfCondition) ""
+        "Si x est égale à (2 fois 5), exécute le texte :"
+        ~?= Right [If, Symbol "x", Operation Equal, OpenParenthesis, Number 2,
+                Operation Multiply, Number 5, ClosedParenthesis],
+    "readWhile Test 1" ~:
+        parse (readWhileCondition) ""
+        "Tant que x est égale à (2 fois 5) exécute le code ci-après :"
+        ~?= Right [While, Symbol "x", Operation Equal, OpenParenthesis, Number 2,
+                Operation Multiply, Number 5, ClosedParenthesis],
+    "readFunctionDefinition Test 1" ~:
+        parse (readFunctionDefinition) ""
+        "J'aimerais définir le bloc répondant au nom de meow, de type \
+        \de retour entier naturel, nécessitant comme entrée : \
+        \- feur, de type booléen ; contenant les variables : \
+        \- ok, de type entier naturel, valant 727 ; \
+        \représenté par le code suivant."
+         ~?= Right [FuncDef,FuncType Function,Symbol "meow",
+                    ReturnType,LexedType LInt,
+                    WithParameters,Parameter "feur" LBoolean,
+                    WithVariables,VariableDeclaration "ok" LInt (Int 727)],
+    "readFunctionDefinition Test 1" ~:
+        parse (readFunctionDefinition) ""
+        "J'aimerais définir le bloc répondant au nom de meow, de type \
+        \de retour entier naturel, nécessitant comme entrée : \
+        \- feur, de type booléen ; contenant les variables : \
+        \- ok, de type entier naturel, valant 727 ; \
+        \représenté par le code suivant."
+         ~?= Right [FuncDef,FuncType Function,Symbol "meow",
+                    ReturnType,LexedType LInt,
+                    WithParameters,Parameter "feur" LBoolean,
+                    WithVariables,VariableDeclaration "ok" LInt (Int 727)],
+    "readInvoke Test 1" ~:
+        parse (readInvoke) "" "J'invoque le bloc meow." ~?= Right [Invoke,Symbol "meow"],
+    "readInvoke Test 2" ~:
+        parse (readInvoke) ""
+            "J'invoque le bloc meow, avec les paramètres x, 12 plus 5, y." ~?=
+            Right [Invoke,Symbol "meow",WithParameters,
+            InvokeParameter [Symbol "x"],
+            InvokeParameter [Number 12,Operation Add,Number 5],
+            InvokeParameter [Symbol "y"]],
+    "readInvoke Test 3" ~:
+        parse (readInvoke) ""
+        "J'invoque le bloc meow, et j'assigne la valeur de retour \
+        \à la variable z." ~?= Right [Invoke,Symbol "meow",AssignResultTo,
+        Symbol "z"],
+    "readInvoke Test 4" ~:
+        parse (readInvoke) "" "J'invoque le bloc meow, et j'assigne la valeur \
+        \de retour à la variable x, avec les paramètres jaime, miauler." ~?=
+            Right [Invoke,Symbol "meow",AssignResultTo,Symbol "x",
+            WithParameters,InvokeParameter [Symbol "jaime"],
+            InvokeParameter [Symbol "miauler"]],
+    "readDisplay Test 1" ~:
+        parse (readDisplay) "" "Affiche 68 plus 1." ~?= Right [Display,
+            Number 68, Operation Add, Number 1],
+    "readDisplay Test 2" ~:
+        parse (readDisplay) "" "Affiche « meow »." ~?=
+            Right [Display, Text "meow"],
+    "readDisplay Test 3" ~:
+        parse (readDisplay) "" "Affiche un retour à la ligne." ~?=
+            Right [DisplayNewLine],
+    "readMainFunction Test 1" ~:
+        parse (readMainFunctionDefinition) ""
+        "En sachant que les variables principales sont : ; \
+        \pourrais-tu s'il te plaît commencer la lecture ici ?"
+        ~?= Right [FuncDef, FuncType Main, WithVariables],
+    "readMainFunctionEnd Test 1" ~:
+        parse (readMainFunctionEnd) ""
+        "Merci d'avance, Cordialement, TheBest\nMeower\n" ~?=
+            Right [EndFunction],
+    "readFunctionEnd Test 1" ~:
+        parse (readFunctionEnd) "" "Merci." ~?=
+            Right [EndFunction],
+    "readIfEnd Test 1" ~:
+        parse (readIfEnd) "" "Merci." ~?=
+            Right [EndIf],
+    "readWhileEnd Test 1" ~:
+        parse (readWhileEnd) "" "Merci." ~?=
+            Right [EndWhile],
+    "readReturn Test 1" ~:
+        parse (readReturn) "" "Enfin, renvoie 69." ~?=
+            Right [Return, Number 69],
+    "readReturn Test 2" ~:
+        parse (readReturn) "" "Enfin, sors du bloc." ~?=
+            Right [Return],
+    "readIf Test 1" ~:
+        parse (readIf) ""
+        "Si x est égale à 5, exécute le texte : Affiche 69. Merci." ~?=
+            Right [If,Symbol "x",Operation Equal,Number 5,Then,
+            Display,Number 69,EndIf],
+    "readIf Test 2" ~:
+        parse (readIf) ""
+        "Si x est égale à 5, exécute le texte : Affiche 69. ; \
+        \sinon, exécute le texte : Affiche 727. Merci." ~?=
+        Right [If,Symbol "x",Operation Equal,Number 5,Then,
+            Display,Number 69,Else,Display,Number 727,EndIf],
+    "readWhile Test 1" ~:
+        parse (readWhile) ""
+        "Tant que x est égale à 5 exécute le code ci-après : Affiche 69. Merci." ~?=
+            Right [While,Symbol "x",Operation Equal,Number 5,Then,
+            Display,Number 69,EndWhile],
+    "readFunction Test 1" ~:
+        parse (readFunction) ""
+        "J'aimerais définir le bloc répondant au nom de meow, de type \
+        \de retour entier naturel, nécessitant comme entrée : \
+        \- feur, de type booléen ; contenant les variables : \
+        \- ok, de type entier naturel, valant 727 ; \
+        \représenté par le code suivant. Affiche 69. Merci."
+         ~?= Right [FuncDef,FuncType Function,Symbol "meow",
+                    ReturnType,LexedType LInt,
+                    WithParameters,Parameter "feur" LBoolean,
+                    WithVariables,VariableDeclaration "ok" LInt (Int 727),
+                    Display, Number 69, EndFunction],
+    "readHi Test 1" ~:
+        isRight (parse (readHi) "" "Bonjour,") ~? "Not supposed to fail",
+    "readMainFunction Test 1" ~:
+        parse (readMainFunction) ""
+        "En sachant que les variables principales sont : ; \
+        \pourrais-tu s'il te plaît commencer la lecture ici ? Affiche 727. \
+        \Merci d'avance, Cordialement, TheBest\nJett EUW\n"
+        ~?= Right [FuncDef, FuncType Main, WithVariables,
+        Display, Number 727, EndFunction],
+    "readCode Test 1" ~:
+        parse (readCode) ""
+        "Bonjour, En sachant que les variables principales sont : ; \
+        \pourrais-tu s'il te plaît commencer la lecture ici ? Affiche 727. \
+        \Merci d'avance, Cordialement, TheBest\nJett EUW\n \
+        \J'aimerais définir le bloc répondant au nom de meow, de type \
+        \de retour entier naturel, nécessitant comme entrée : \
+        \- feur, de type booléen ; contenant les variables : \
+        \- ok, de type entier naturel, valant 727 ; \
+        \représenté par le code suivant. Affiche 69. Merci."
+        ~?= Right [FuncDef,FuncType Main,WithVariables,
+            Display,Number 727,EndFunction,
+            FuncDef,FuncType Function,Symbol "meow",
+            ReturnType,LexedType LInt,
+            WithParameters,Parameter "feur" LBoolean,
+            WithVariables,VariableDeclaration "ok" LInt (Int 727),
+            Display,Number 69,EndFunction],
+    "lexSyntax Test 1" ~:
+        parse (lexSyntax [Word] *> getInput) "" "meow, feur" ~?=
+            Right ", feur",
+    "lexSyntax Test 2" ~:
+        parse (lexSyntax [Word]) "" "meow, feur" ~?= Right (),
+    "lexSyntax Test 3" ~:
+        parse (lexSyntax [Value, Space, Condition] *> getInput) "" "69 x plus 3 feur" ~?=
+            Right " feur",
+   "lexSyntax Test 4" ~:
+        parse (lexSyntax [OptionalComboWords] *> getInput) "" "j'adore le fromage" ~?=
+            Right "j'adore le fromage",
+   "lexSyntax Test 5" ~:
+        parse (lexSyntax [OptionalComboWords] *> getInput) ""
+            "- x, de type booléen meow" ~?= Right "meow",
+   "lexSyntax Test 6" ~:
+        parse (lexSyntax [OptionalComboWordsWithValue] *> getInput) ""
+            "- x, de type booléen, valant 69 \
+            \- y, de type entier naturel, valant 727 OWO" ~?= Right "OWO",
+    "lexSyntax Test 7" ~:
+        parse (lexSyntax [ComboWord, OptionalSpace] *> getInput) "" "- x, de type booléen ok"
+            ~?= Right "ok",
+    "lexSyntax Test 8" ~:
+        parse (lexSyntax [MultipleSString ["Wow", "xD", "Feur"], Space, Name,
+            Placeholder (Symbol "x")] *> getInput)
+            "" "xD lol\nneed u by my side" ~?= Right "need u by my side",
+    "lexSyntax Test 9" ~:
+        parse (lexSyntax [WordFunctionType, Space, WordVariableType, Space,
+            QuotedValue, Placeholder (Symbol "x")] *> getInput)
+            "" "nul entier naturel « yay » allez" ~?= Right " allez",
+    "lexSyntax Test 10" ~:
+        parse (lexSyntax [MultipleComputables] *> getInput)
+            "" "2 plus 1, x, 4 i<3osu" ~?= Right " i<3osu",
+    "lexSyntax Test 11" ~:
+        parse (lexSyntax [MultipleWords] *> getInput)
+            "" "fromage, beurre, pizza, omelette xD" ~?= Right " xD",
+    "lexStringsWithTokens' Test 1" ~:
+        parse (lexStringsWithTokens' []
+            [ComboWord, OptionalSpace, Placeholder (Number 69)])
+            "" "- x, de type entier naturel " ~?= Right [Parameter "x" LInt, Number 69],
+    "lexStringsWithTokens' Test 2" ~:
+        parse (lexStringsWithTokens' []
+            [MultipleWords])
+            "" "x, feur, meow" ~?= Right [Symbol "x", Symbol "feur", Symbol "meow"]
+  ]

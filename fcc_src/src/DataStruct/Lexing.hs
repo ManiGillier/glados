@@ -84,4 +84,4 @@ data LexedData =
     Number Int64 | -- Numéro
     Operation Operations | -- Opération
     UnaryOperation UnaryOperations -- Opération unaire
-    deriving (Show, Eq) 
+    deriving (Show, Eq)

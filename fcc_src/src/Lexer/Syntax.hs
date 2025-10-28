@@ -29,7 +29,6 @@ data Syntax =
     Value |
     Condition |
     ComboWord |
-    OptionalComboWord |
     OptionalComboWordsWithValue |
     OptionalComboWords |
     OptionalSpace |

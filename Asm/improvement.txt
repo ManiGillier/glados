@@ -1,0 +1,17 @@
+⚙️ Optional improvements to your BNF
+
+If you want to make it even more robust:
+
+Whitespace:
+Allow optional whitespace between tokens (e.g., <ws> ::= " " | "\t" | <ws> <ws>).
+Then use <ws> between grammar elements for flexibility.
+
+Comments:
+Add a comment rule like:
+<comment> ::= ";" <any_char_sequence>
+<line> ::= <comment> | <label> ":" | <instruction> | <instruction> <comment>
+
+
+Line termination:
+If lines are separated by newlines, you can model that with:
+<program> ::= <line> "\n" | <line> "\n" <program>

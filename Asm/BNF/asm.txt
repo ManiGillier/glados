@@ -1,5 +1,5 @@
-<program> ::= <line>
-            | <line> <program>
+<program> ::= <line> "\n"
+            | <line> "\n" <program>
 
 <line> ::= <label> ":"
          | <instruction>
@@ -27,7 +27,6 @@
                 | "diff"
                 | "updz"
                 | "push " <number>
-                | "push [" <number> "]"
                 | "push %" <label>
                 | "push @" <addr>
                 | "pop @" <addr>

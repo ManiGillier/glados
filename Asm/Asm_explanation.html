@@ -1,0 +1,212 @@
+<h1 id="explanation-of-the-asm-of-the-franc-c">Explanation of the Asm of the Franc-C</h1>
+<p>The Asm of the Franc-C is a stack-based assembly.</p>
+<p>In Every file, a &quot;.start&quot; label need to be there</p>
+<p>The Instructions are always put after a label and must should a tab (4 spaces) before them.</p>
+<h2 id="list-of-instruction-and-their-description">List of instruction and their description</h2>
+<h3 id="label">Label</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Opération</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Label:</td>
+<td style="text-align:right">Name of the label</td>
+</tr>
+</tbody>
+</table>
+<h3 id="unary-operation">Unary Operation</h3>
+<h4 id="pop-the-first-element-on-top-of-the-stack-do-the-operation-and-push-the-result">Pop the first element on top of the stack, do the operation and push the result</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Opération</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">not:</td>
+<td style="text-align:right">Inverse the bit(s).</td>
+</tr>
+<tr>
+<td style="text-align:left">lnot:</td>
+<td style="text-align:right">Logical not, inverse the value of a boolean.</td>
+</tr>
+<tr>
+<td style="text-align:left">neg:</td>
+<td style="text-align:right">Negate the value.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="binary-operation">Binary Operation</h3>
+<h4 id="pop-the-2-firsts-elements-on-top-of-the-stack-do-the-operation-and-push-the-result">Pop the 2 firsts elements on top of the stack, do the operation and push the result</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Opération</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">and:</td>
+<td style="text-align:right">Copies the bits if it exist in the 2 on top of the stack</td>
+</tr>
+<tr>
+<td style="text-align:left">nor:</td>
+<td style="text-align:right">Copies the bits if it exist in one the 2 on top of the stack</td>
+</tr>
+<tr>
+<td style="text-align:left">land:</td>
+<td style="text-align:right">logical and</td>
+<td>&lt;!-- If both value are True return True else return False</td>
+<td>--&gt;</td>
+</tr>
+<tr>
+<td style="text-align:left">lor:</td>
+<td style="text-align:right">logical or</td>
+</tr>
+<tr>
+<td style="text-align:left">xor:</td>
+<td style="text-align:right">Copies a bit if it exist in only in one the 2 on top of the stack</td>
+</tr>
+<tr>
+<td style="text-align:left">shl:</td>
+<td style="text-align:right">Move the bits to the left one time (0101 -&gt; 1010)</td>
+</tr>
+<tr>
+<td style="text-align:left">shr:</td>
+<td style="text-align:right">Move the bits to the right one time (1010 -&gt; 0101)</td>
+</tr>
+<tr>
+<td style="text-align:left">add:</td>
+<td style="text-align:right">Addition</td>
+</tr>
+<tr>
+<td style="text-align:left">sub:</td>
+<td style="text-align:right">Subtraction</td>
+</tr>
+<tr>
+<td style="text-align:left">mult:</td>
+<td style="text-align:right">Multiplication</td>
+</tr>
+<tr>
+<td style="text-align:left">div:</td>
+<td style="text-align:right">Division</td>
+</tr>
+<tr>
+<td style="text-align:left">mod:</td>
+<td style="text-align:right">Modulo</td>
+</tr>
+<tr>
+<td style="text-align:left">gt:</td>
+<td style="text-align:right">Greater than</td>
+</tr>
+<tr>
+<td style="text-align:left">ge:</td>
+<td style="text-align:right">Greater or equal</td>
+</tr>
+<tr>
+<td style="text-align:left">lt:</td>
+<td style="text-align:right">Less than</td>
+</tr>
+<tr>
+<td style="text-align:left">le:</td>
+<td style="text-align:right">Less or equal</td>
+</tr>
+<tr>
+<td style="text-align:left">eq:</td>
+<td style="text-align:right">Equal</td>
+</tr>
+<tr>
+<td style="text-align:left">diff:</td>
+<td style="text-align:right">Different</td>
+</tr>
+</tbody>
+</table>
+<h3 id="push-and-pop">Push And Pop</h3>
+<!-- #### Push : Add an element on the top of the stack, Pop: delete an element on the top of the stack -->
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Opération</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">push:</td>
+<td style="text-align:right">Push the value in the stack</td>
+</tr>
+<tr>
+<td style="text-align:left">push %:</td>
+<td style="text-align:right">Push the adress of the label given as an arguments</td>
+</tr>
+<tr>
+<td style="text-align:left">push @:</td>
+<td style="text-align:right">Push the value from the position as an arguments</td>
+</tr>
+<tr>
+<td style="text-align:left">pop @:</td>
+<td style="text-align:right">Pop the element at the position given as an arguments</td>
+</tr>
+<tr>
+<td style="text-align:left">pop:</td>
+<td style="text-align:right">Pop the stack</td>
+</tr>
+</tbody>
+</table>
+<h3 id="function">Function</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Opération</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">updz:</td>
+<td style="text-align:right">Update the Zflags (true or false) this is used before Zjmp</td>
+</tr>
+<tr>
+<td style="text-align:left">call:</td>
+<td style="text-align:right">Call the top stack function</td>
+</tr>
+<tr>
+<td style="text-align:left">ret:</td>
+<td style="text-align:right">Resume previous function back or end the programm</td>
+</tr>
+<tr>
+<td style="text-align:left">jmp:</td>
+<td style="text-align:right">Go to the top stack adress</td>
+</tr>
+<tr>
+<td style="text-align:left">zjmp:</td>
+<td style="text-align:right">If Zflag equal 0 go to the top stack adreselse continue</td>
+</tr>
+</tbody>
+</table>
+<h3 id="display">Display</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Opération</th>
+<th style="text-align:right">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">aff:</td>
+<td style="text-align:right">Display top stack char and pop it</td>
+</tr>
+<tr>
+<td style="text-align:left">affs:</td>
+<td style="text-align:right">Display top stack string given as an argument</td>
+</tr>
+</tbody>
+</table>

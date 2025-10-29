@@ -1,10 +1,8 @@
-# Explanation of the Asm of the Franc
+# Explanation of the Asm of the Franc-C
 
-The Asm of the Franc is a stack-oriented/stack-based assembly.
+The Asm of the Franc-C is a stack-based assembly.
 
 In Every file, a ".start" label need to be there
-
-The labels always end with ':'
 
 The Instructions are always put after a label and must should a tab (4 spaces) before them.
 
@@ -12,18 +10,22 @@ The Instructions are always put after a label and must should a tab (4 spaces) b
 
 ### Label
 
-label : Name of the function + ':'
+label : Name of the label
 
 ### Unary Operation
 
+pop do the math and push
+
 not: Inverse the bit(s).  
 lnot: Logical not, inverse the value of a boolean.  
-neg: Negate the value.  
+neg: Negate the value.
 
 ### Binary Operation
 
-and : Copies a bit if it exist in both operands (value)  
-nor: Copies a bit if it exist in either operands (value)  
+pop the 2 on top of stack do the math and push the result
+
+and : Copies a bits if it exist in both operands (value)  
+nor: Copies a bits if it exist in either operands (value)  
 land: Logical and, <!-- if both of the value are true then return true else false -->
 land: If both value are True return True else return False  
 lor: logical or,  
@@ -46,28 +48,27 @@ updz: Update the Zflags (true or false) this is used before Zjmp
 ### Push
 
 push: Push the value in the stack  
-push []: Push the relative adress given as an arguments  
-push %: Push the label given as an arguments  
-push @: -- Push the value from the position given of the stack  
+push %: Push the adress of the label given as an arguments  
+push @: -- Push the value from the position as an arguments  
 
 ### Pop
 
-pop @: Pop given as an arguments  
+pop @: Pop the element at the position given as an arguments  
 pop: Pop the stack  
 
 ### Function
 
-call: Call the function given previously by push %  
-ret: Return  
+call: Call the top stack function  
+ret: Resume previous function back or end the programm  
 
 ### Jumps
 
-jmp: Go to the label given previously by push %  
-zjmp: If value equal 0 go to the label given previously by push % else continue  
+jmp: Go to the top stack adress  
+zjmp: If Zflag equal 0 go to the top stack adreselse continue  
 
 ### Display
 
-aff: Display a char  
-affs: Display a string  
+aff: Display top stack char and pop it  
+affs: Display top stack string given as an argument   
 
 <!-- zflag : il retient en mémoire le Z flags si true ou false qui est utilisé pour zjmp -->

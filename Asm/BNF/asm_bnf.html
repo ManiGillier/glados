@@ -1,5 +1,5 @@
-<p>&ltprogram> ::= &ltline></p>
-            | &ltline> &ltprogram></p>
+<p>&ltprogram> ::= &ltline> "\n"</p>
+            | &ltline> "\n" &ltprogram></p>
 <p>&ltline> ::= &ltlabel> &quot;:&quot;
          | &ltinstruction></p>
 <p>&ltinstruction> ::= &quot;not&quot;
@@ -25,7 +25,6 @@
                 | &quot;diff&quot;
                 | &quot;updz&quot;
                 | &quot;push &quot; &ltnumber>
-                | &quot;push [&quot; &ltnumber> &quot;]&quot;
                 | &quot;push %&quot; &ltlabel>
                 | &quot;push @&quot; &ltaddr>
                 | &quot;pop @&quot; &ltaddr>

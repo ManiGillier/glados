@@ -41,6 +41,6 @@ then the instruction which take 1 byte, 8 bytes for an argument if needed, and t
 |     38                      |    Aff                       |   \               |   display a char    |
 |     39                      |    Affs                      |   V               |   display a string  |
 |     89                      |    PushValue                 |   V               |   push an Int   |
-|     91                      |    PushRelAddr | PushLabel   |   \               |   push the label |
+|     91                      |    PushLabel                 |   \               |   push the label |
 
 

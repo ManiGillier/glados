@@ -11,7 +11,7 @@ import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
                      , (<@)
                      , (@>)
-                     , apply, takeLabel, varExist, getVariable, revCompiler, Context (functionCalls))
+                     , apply, takeLabel, varExist, getVariable, revCompiler, callToContext)
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))
@@ -27,13 +27,13 @@ compileFuncBodyContent s (Return comp) = flip apply s $
 compileFuncBodyContent s (Show comp) = compiler s comp
   where compiler = suffixCompiler [Aff] compileComputable
 compileFuncBodyContent s (ShowStr str) = Correct (s, [Affs str])
-compileFuncBodyContent s (Invoke name args Nothing) = flip apply s'
+compileFuncBodyContent s (Invoke name args r@Nothing) = flip apply s'
   $ (comps, args)
   @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
   @> replicate (length args + 1) PopEmpty
   where comps = revCompiler $ mapCompiler compileComputable
-        s' = s { functionCalls = name : functionCalls s }
-compileFuncBodyContent s (Invoke name args (Just varName))
+        s' = callToContext s name args r
+compileFuncBodyContent s (Invoke name args r@(Just varName))
   | varExist s varName = (getVariable s varName)
     >>= \varAddr -> flip apply s' $
     (comps, args)
@@ -41,7 +41,7 @@ compileFuncBodyContent s (Invoke name args (Just varName))
     @> [ PopToStackPtrRel varAddr ] @> replicate (length args) PopEmpty
   | otherwise = Error ukVarErr varName
   where comps = revCompiler $ mapCompiler compileComputable
-        s' = s { functionCalls = name : functionCalls s }
+        s' = callToContext s name args r
 compileFuncBodyContent s (If cond body (Just elseBody)) =
   flip apply s''
   $ (compileCondition, cond) @> [PushLabel label,Zjmp]

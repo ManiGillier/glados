@@ -23,20 +23,54 @@ module Compiler.Type (Context (..)
                      , apply
                      , revCompiler
                      , compileMaybe
+                     , funcToContext
+                     , isFuncAlreadyDefined
+                     , mainFuncContext
+                     , callToContext
+                     , FunctionContext (..)
+                     , funcNameToContext
+                     , f2c
                      ) where
 import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable', varExist')
 import DataStruct.Asm (Instruction, VariableName, Addr, LabelName)
-import DataStruct.Ast.Ast (FunctionName)
+import DataStruct.Ast.Ast (FunctionName, IsReturning, FunctionDef (Function))
 import Error.MaybeError (MaybeError (..))
+import Data.Maybe (isJust)
+
+data FunctionContext = FunctionContext { funcName :: !FunctionName
+                                       , returning :: !IsReturning
+                                       }
+  deriving (Show, Eq)
+
+mainFuncContext :: FunctionContext
+mainFuncContext = FunctionContext "main" True
 
 data Context = Context
   { var :: !VariableStorage
   , labelCount :: !Int
-  , functionDefs :: ![FunctionName]
-  , functionCalls :: ![FunctionName]
+  , functionDefs :: ![FunctionContext]
+  , functionCalls :: ![FunctionContext]
   }
   deriving (Show, Eq)
+
+funcNameToContext :: FunctionName -> FunctionContext
+funcNameToContext name = FunctionContext name True
+
+f2c :: [FunctionName] -> [FunctionContext]
+f2c = map funcNameToContext
+
+isFuncAlreadyDefined :: Context -> FunctionName -> Bool
+isFuncAlreadyDefined c name = elem name funcContext
+  where funcContext = map funcName $ functionDefs c
+
+funcToContext :: Context -> FunctionDef -> Context
+funcToContext c (Function name isreturning _ _ _) =
+  c { functionDefs = (FunctionContext name isreturning) : functionDefs c }
+
+callToContext :: Context -> FunctionName -> [a] -> Maybe b -> Context
+callToContext c name _ r = c { functionCalls = context : functionCalls c }
+  where context = FunctionContext name (isJust r)
 
 varExist :: Context -> VariableName -> Bool
 varExist = varExist' . var

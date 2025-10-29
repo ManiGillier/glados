@@ -7,18 +7,19 @@
 
 module Compiler.Security ( checkFunctionCall
   ) where
-import Compiler.Type (Context (Context))
+import Compiler.Type (Context (Context), FunctionContext (..))
 import DataStruct.Asm (Instruction)
 import Error.MaybeError (MaybeError (..))
-import DataStruct.Ast.Ast (FunctionName)
 import Error.ErrorList (undefinedFunctionErr)
 
-callsToUndefinedFunction :: [FunctionName] -> [FunctionName]
+callsToUndefinedFunction :: [FunctionContext] -> [FunctionContext]
   -> Maybe String
 callsToUndefinedFunction _ [] = Nothing
 callsToUndefinedFunction defs (call:calls)
-  | elem call defs = callsToUndefinedFunction defs calls
-  | otherwise = Just call
+  | elem name names = callsToUndefinedFunction defs calls
+  | otherwise = Just name
+  where name = funcName call
+        names = map funcName defs
 
 checkFunctionCall :: (Context, [Instruction])
   -> MaybeError (Context, [Instruction])

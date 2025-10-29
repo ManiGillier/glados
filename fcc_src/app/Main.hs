@@ -23,7 +23,6 @@ import Binary.InstructionToAsm (instructionToAsm)
 import Data.Word (Word8)
 import DataStruct.Asm (Instruction)
 import Control.Exception (try)
-import Debug.Trace (traceShowId)
 import Lexer.Lexer (readCode)
 import Text.Megaparsec (parse, errorBundlePretty)
 import DataStruct.Lexing (LexedData)
@@ -57,7 +56,7 @@ parser = buildAst
 -- TODO: Remove when parsing is implemented !
 -- Will make the CodingStyle FAIL !
 parseArgs :: (String, String) -> MaybeError Ast
-parseArgs l = (traceShowId $ lexer l) >>= parser
+parseArgs l = lexer l >>= parser
 
 writeBytecode :: Arguments -> [Word8] -> IO ()
 writeBytecode args l = B.writeFile (output args) (pack l)
@@ -71,7 +70,7 @@ main :: IO ()
 main = do
   args <- getMyArgs
   readArgs <- checkErrors $ readAllFiles args
-  let asm = (traceShowId $ readArgs >>= (mapM parseArgs)) >>=
+  let asm = (readArgs >>= (mapM parseArgs)) >>=
         combineAst >>= compile
   let param = (,) <$> args <*> asm
   printMaybeError writeOutput param

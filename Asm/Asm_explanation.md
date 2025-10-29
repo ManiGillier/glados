@@ -31,11 +31,11 @@ The Instructions are always put after a label and must should a tab (4 spaces) b
 
 |   Opération   |   Description     |
 | :------------ | --------------:   |
-| and:          | Copies the bits if it exist in the 2 on top of the stack |
-| nor:          | Copies the bits if it exist in one the 2 on top of the stack |
-| land:         | logical and | <!-- If both value are True return True else return False | -->
+| and:          | Copies the bits if it exist in the 2 elements on top of the stack |
+| nor:          | Copies the bits if it exist in one the 2 elements on top of the stack |
+| land:         | logical and |
 | lor:          | logical or |
-| xor:          | Copies a bit if it exist in only in one the 2 on top of the stack |
+| xor:          | Copies a bit if it exist in only in one the 2 elements on top of the stack |
 | shl:          | Move the bits to the left one time (0101 -> 1010)|
 | shr:          | Move the bits to the right one time (1010 -> 0101)|
 | add:          | Addition |

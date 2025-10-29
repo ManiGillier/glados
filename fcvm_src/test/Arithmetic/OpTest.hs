@@ -1,11 +1,11 @@
-module Arithmetic.Optest (testAdd, testSub, testMul, testDivZero, testDiv, testMod, testModZero, testOpAnd, testOpOr, testOpXor, testLBt, testRBt, testEmptySt) where
+module Arithmetic.OpTest (testOp) where
 
 import ByteCode.AsmToBytecode
 import Data.Word
 import DataStruct.Asm
+import Error.ErrorList
 import Test.HUnit hiding (Label)
 import VM.Executor
-import Error.ErrorList
 import VM.Types
 import VM.Utils.Conversion
 
@@ -161,3 +161,21 @@ testEmptySt =
         push = execByteCode state
         err = (vmIO push)
      in assertEqual "stack undeerflow" [(stderrFd, stackUnderFlowError)] err
+
+testOp :: Test
+testOp =
+  TestList $
+    [ testAdd,
+      testSub,
+      testMul,
+      testDiv,
+      testDivZero,
+      testMod,
+      testModZero,
+      testOpAnd,
+      testOpXor,
+      testOpOr,
+      testRBt,
+      testLBt,
+      testEmptySt
+    ]

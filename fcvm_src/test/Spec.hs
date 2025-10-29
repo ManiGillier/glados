@@ -1,17 +1,18 @@
 import Test.HUnit
 
 import Stack.StackTest
-import Arithmetic.Optest
-import Comparator.Comptest
+import Arithmetic.OpTest
+import Comparator.CompTest
 import Unary.UnaryTest
 import Control.ControlTest
 import VM.Executor
 import VM.Types
 import IO.IoTest
 import Error.ErrorList
+import Loop.LoopTest
 
-testBcFormat :: Test
-testBcFormat =
+testFileFormat :: Test
+testFileFormat =
     TestCase $
         let state = execFccByteCode []
             err = (vmIO state)
@@ -20,59 +21,22 @@ testBcFormat =
 tests :: Test
 tests = TestList
   [
-    testBcFormat
+    -- File format
+    testFileFormat
     -- Stack test
-    ,testPushValue
-    ,testPopEmpty
-    ,testPushFromStPtrR
-    ,testPopFromStPtrR
-    ,testPushLabel
+    ,testStack
     -- Arithmetic op
-    ,testAdd
-    ,testSub
-    ,testMul
-    ,testDiv
-    ,testDivZero
-    ,testMod
-    ,testModZero
-    ,testOpAnd
-    ,testOpXor
-    ,testOpOr
-    ,testRBt
-    ,testLBt
-    ,testEmptySt
+    ,testOp
     -- Comparators 
-    ,testAndTrue
-    ,testAndFalse
-    ,testAndTrueneg
-    ,testOrTrue
-    ,testOrFalse
-    ,testOrTrueNeg
-    ,testBoolStEmpty
-    ,testGrEF
-    ,testGrET
-    ,testGrF
-    ,testGrT
-    ,testLtEF
-    ,testLtET
-    ,testLtF
-    ,testLtT
-    ,testCompStEmpty
-    ,testEqTrue
-    ,testEqFalse
-    ,testDiffFalse
-    ,testDiffTrue
+    ,testCompar
     -- Unary
-    ,testNegate1
-    ,testNegate2
-    ,testBinNot
-    ,testBinNot2
-    ,testNot
-    ,testNot2
+    ,testUnary
     -- Control
     ,controlTest
     -- IO
     ,ioTest
+    -- Loop
+    -- ,testLoop
   ]
 
 main :: IO ()

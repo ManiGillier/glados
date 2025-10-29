@@ -10,6 +10,7 @@ import DataStruct.Asm
 import Test.HUnit hiding (Label)
 import VM.Executor
 import VM.Types
+import VM.Utils.Conversion (int64To8Bytes)
 
 baseInst :: [Instruction]
 baseInst =
@@ -91,7 +92,8 @@ testRet =
         ret = execByteCode state
         ret1 = execByteCode ret
         end = (vmEnd ret1)
-     in assertEqual "ret:" end True
+        stack = (vmStack ret1)
+     in assertEqual "ret:" end True >> assertEqual "stack empy" stack (replicate 8 0)
 
 testCallRetFunc :: Test
 testCallRetFunc =
@@ -111,9 +113,13 @@ testCallRetFunc =
         pushla = execByteCode push
         call = execByteCode pushla
         ret = execByteCode call
+        retaf = execByteCode ret
         cs = (vmCallStack call)
+        stack = (vmStack retaf)
         csAftRet = (vmCallStack ret)
-     in assertEqual "call" [(27, 8)] cs >> assertEqual "ret" [] csAftRet
+     in assertEqual "call" [(27, 8)] cs >> assertEqual "ret" [] csAftRet 
+        >> assertEqual "stack empy" stack (int64To8Bytes 1 ++ replicate 8 0)
+
 
 testRetVal :: Test
 testRetVal =

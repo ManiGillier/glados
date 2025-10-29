@@ -55,7 +55,7 @@ data VMState = VMState
     , vmEnd :: Bool
     , vmRetVal :: Maybe Int64
     , vmDebug :: Bool
-    }
+    } deriving (Eq)
 
 instance Show VMState where
     show s = unlines

@@ -1,16 +1,14 @@
-module Comparator.Comptest (testAndTrue, testAndTrueneg, testAndFalse,
-testOrTrue, testOrFalse, testOrTrueNeg, testBoolStEmpty, testGrEF, testGrET, testGrF, testGrT,
-testLtEF, testLtET, testLtF, testLtT, testCompStEmpty, testEqTrue, testEqFalse, testDiffFalse, testDiffTrue) where
+module Comparator.CompTest (testCompar) where
 
 import ByteCode.AsmToBytecode
+import Data.Int (Int64)
 import Data.Word
 import DataStruct.Asm
+import Error.ErrorList
 import Test.HUnit hiding (Label)
 import VM.Executor
 import VM.Types
 import VM.Utils.Conversion
-import Data.Int (Int64)
-import Error.ErrorList 
 
 baseInst :: [Instruction]
 baseInst =
@@ -24,39 +22,38 @@ retVal = replicate 8 0
 stackW1 :: [Word8]
 stackW1 = int64To8Bytes 1 ++ retVal
 
-
 stackW0 :: [Word8]
 stackW0 = int64To8Bytes 0 ++ retVal
 
 testComp :: Int64 -> Int64 -> Instruction -> Stack
 testComp a b op =
-    let pushInst = baseInst ++ [PushValue a, PushValue b, op , Ret]
-        state = execFccByteCode (asmToBytecode pushInst)
-        push = execByteCode state
-        push2 = execByteCode push
-        res = execByteCode push2
-        stack = (vmStack res)
-    in stack
+  let pushInst = baseInst ++ [PushValue a, PushValue b, op, Ret]
+      state = execFccByteCode (asmToBytecode pushInst)
+      push = execByteCode state
+      push2 = execByteCode push
+      res = execByteCode push2
+      stack = (vmStack res)
+   in stack
 
 testAndTrue :: Test
 testAndTrue =
   TestCase $
-     assertEqual "And: 5 && 5" stackW1 (testComp 5 5 BoolAnd)
+    assertEqual "And: 5 && 5" stackW1 (testComp 5 5 BoolAnd)
 
 testAndFalse :: Test
 testAndFalse =
   TestCase $
-     assertEqual "And: 5 && 0" stackW0 (testComp 5 0 BoolAnd)
+    assertEqual "And: 5 && 0" stackW0 (testComp 5 0 BoolAnd)
 
 testAndTrueneg :: Test
 testAndTrueneg =
   TestCase $
-     assertEqual "And: 5 && -1" stackW0 (testComp 5 (-1) BoolAnd)
+    assertEqual "And: 5 && -1" stackW0 (testComp 5 (-1) BoolAnd)
 
-testOrTrue:: Test
+testOrTrue :: Test
 testOrTrue =
   TestCase $
-     assertEqual "And: 5 || 5" stackW1 (testComp 5 5 BoolOr)
+    assertEqual "And: 5 || 5" stackW1 (testComp 5 5 BoolOr)
 
 testOrFalse :: Test
 testOrFalse =
@@ -145,3 +142,28 @@ testDiffFalse :: Test
 testDiffFalse =
   TestCase $
     assertEqual "Diff: 2 != 3" stackW1 (testComp 2 3 Diff)
+
+testCompar :: Test
+testCompar =
+  TestList $
+    [ testAndTrue,
+      testAndFalse,
+      testAndTrueneg,
+      testOrTrue,
+      testOrFalse,
+      testOrTrueNeg,
+      testBoolStEmpty,
+      testGrEF,
+      testGrET,
+      testGrF,
+      testGrT,
+      testLtEF,
+      testLtET,
+      testLtF,
+      testLtT,
+      testCompStEmpty,
+      testEqTrue,
+      testEqFalse,
+      testDiffFalse,
+      testDiffTrue
+    ]

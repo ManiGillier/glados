@@ -8,7 +8,7 @@
 module Tests.Compiler.FunctionBody (functionBodyTest) where
 import Test.HUnit (Test (TestList), (~:), (~?=))
 import Compiler.FunctionBody (compileFuncBody)
-import Compiler.Type (baseContext, Context (Context))
+import Compiler.Type (baseContext, Context (Context), f2c)
 import Error.MaybeError (MaybeError(..))
 import DataStruct.Asm as Asm
 import DataStruct.Ast.Ast as Ast
@@ -35,13 +35,13 @@ functionBodyTest = TestList
    [Show v] ~?= Correct (baseContext, [v',Aff])
  , "Invoke" ~: compileFuncBody baseContext
    [Invoke "f" [v] Nothing]
-   ~?= Correct ((Context [] 0 [] ["f"]),
+   ~?= Correct ((Context [] 0 [] $ f2c ["f"]),
                 [ v',PushValue 0, PushLabel "func_f", Call
                 , PopEmpty, PopEmpty])
  , "Invoke with assign" ~: compileFuncBody
-   (Context [("x", (0, 8))] 0 [] ["a", "b"])
+   (Context [("x", (0, 8))] 0 [] $ f2c ["a", "b"])
    [Invoke "f" [v] (Just "x")]
-   ~?= Correct ((Context [("x", (0, 8))] 0 [] ["f", "a", "b"]),
+   ~?= Correct ((Context [("x", (0, 8))] 0 [] $ f2c ["f", "a", "b"]),
                 [v',PushValue 0, PushLabel "func_f", Call
                 , PopToStackPtrRel 0, PopEmpty])
  , "Invoke with assign incorrect var" ~:
@@ -50,7 +50,7 @@ functionBodyTest = TestList
    ~?= Error ukVarErr "x"
  , "Invoke with args" ~: compileFuncBody baseContext
    [Invoke "f" [v, vi 41, vi 40] Nothing]
-   ~?= Correct ((Context [] 0 [] ["f"]),
+   ~?= Correct ((Context [] 0 [] $ f2c ["f"]),
                 [ vi' 40 -- last arg
                 , vi' 41 -- middle arg
                 , v' -- first arg

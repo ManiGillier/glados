@@ -8,17 +8,17 @@
 module Tests.Compiler.Security ( securityTest ) where
 import Test.HUnit
 import Compiler.Security (checkFunctionCall)
-import Compiler.Type (Context(Context))
+import Compiler.Type (Context(Context), f2c)
 import Error.MaybeError (MaybeError(Correct, Error))
 import Error.ErrorList (undefinedFunctionErr)
 
 normalContext :: Context
-normalContext = Context [] 0 ["main", "putnbr", "test"]
-  ["putnbr", "test", "putnbr"]
+normalContext = Context [] 0 (f2c ["main", "putnbr", "test"])
+  $ f2c ["putnbr", "test", "putnbr"]
 
 errorContext :: Context
-errorContext = Context [] 0 ["main", "test"]
-  ["test", "putnbr", "test"]
+errorContext = Context [] 0 (f2c ["main", "test"])
+  $ f2c ["test", "putnbr", "test"]
 
 securityTest :: Test
 securityTest = TestList $

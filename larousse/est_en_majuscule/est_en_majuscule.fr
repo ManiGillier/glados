@@ -6,7 +6,7 @@ nécessitant comme entrée :
     - nombre, de type entier naturel
 ; contenant les variables :
 ; représenté par le code suivant.
-    Si (nombre est inférieure ou égale à 'z') et (nombre est supérieure ou égale à 'a'), exécute le texte :
+    Si (nombre est inférieure ou égale à 'Z') et (nombre est supérieure ou égale à 'A'), exécute le texte :
         Enfin, renvoie 1.
     Merci.
     Enfin, renvoie 0.

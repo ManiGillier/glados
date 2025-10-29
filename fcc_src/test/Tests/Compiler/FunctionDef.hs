@@ -19,7 +19,7 @@ import Error.ErrorList (alreadyDefFuncErr, alreadyDefVarErr)
 import Data.Int (Int64)
 
 f :: Context
-f = Context [] 0 ["f"]
+f = Context [] 0 ["f"] []
 
 v :: Int64 -> Ast.Computable
 v i = Ast.Value i
@@ -85,7 +85,7 @@ functionDefTest = TestList
   , "main function def" ~:
     [ "simple main" ~: compileMainDef baseContext
       (Main [Var.VariableDef "x" 10] [Assign "x" $ v 42])
-      ~?= Correct (Context [("x", (0,8))] 0 ["main"],
+      ~?= Correct (Context [("x", (0,8))] 0 ["main"] [],
                    [ Label "func_main", Label ".start"
                    , v' 10
                    , v' 42, PopToStackPtrRel 0

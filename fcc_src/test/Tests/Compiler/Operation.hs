@@ -29,8 +29,8 @@ operationTest = TestList $
   [ "computable" ~:
     [ "Variable not existing" ~: compileComputable baseContext (Ast.Variable "x")
       ~?= Error ukVarErr "x"
-    , "Simple variable" ~: compileComputable (Context [("x", (0, 8))] 0 [])
-      (Ast.Variable "x") ~?= Correct ((Context [("x", (0, 8))] 0 [])
+    , "Simple variable" ~: compileComputable (Context [("x", (0, 8))] 0 [] [])
+      (Ast.Variable "x") ~?= Correct ((Context [("x", (0, 8))] 0 [] [])
                                      , [PushFromStackPtrRel 0])
     , "Simple int value" ~: compileComputable baseContext (Ast.Value 10)
       ~?= Correct (baseContext, [PushValue 10])

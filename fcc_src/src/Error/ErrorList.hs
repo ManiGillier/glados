@@ -13,6 +13,7 @@ module Error.ErrorList
   , noMainErr
   , unsupportedLanguage
   , fileError
+  , undefinedFunctionErr
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -38,3 +39,5 @@ unsupportedLanguage = "File extension is from an unsupported language"
 fileError :: ErrorType
 fileError = "File error"
 
+undefinedFunctionErr :: ErrorType
+undefinedFunctionErr = "Undefined use of function"

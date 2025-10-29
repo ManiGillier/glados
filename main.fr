@@ -3,7 +3,7 @@ Bonjour,
 En sachant que les variables principales sont :
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
 
-Affiche un retour à la ligne.
+J'invoque le bloc afficher_nombre, avec les paramètres 10.
 
 Merci d'avance,
 Cordialement,

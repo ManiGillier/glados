@@ -7,6 +7,7 @@ import Tests.Compiler.FunctionBody (functionBodyTest)
 import Tests.Compiler.FunctionDef (functionDefTest)
 import Tests.Compiler.Ast (astTest)
 import Tests.Combinor.Ast (combineAstTest)
+import Tests.Compiler.Security (securityTest)
 
 tests :: Test
 tests = TestList [ "Compiler" ~: compilerTest
@@ -15,6 +16,7 @@ tests = TestList [ "Compiler" ~: compilerTest
                  , "FunctionBody" ~: functionBodyTest
                  , "FunctionDef" ~: functionDefTest
                  , "Ast" ~: astTest
+                 , "Security" ~: securityTest
                  , "Combinor" ~: combineAstTest
                  ]
 

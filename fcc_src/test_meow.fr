@@ -1,14 +1,40 @@
 Bonjour,
 
-J'aimerais définir le bloc répondant au nom de fib, de type de retour entier naturel,
+J'aimerais définir le bloc répondant au nom de feur, de type de retour entier naturel,
 nécessitant comme entrée :
-            - nombre, de type entier naturel
+            - xd, de type entier naturel
+; contenant les variables :
+          - incroyable, de type entier naturel, valant 727
+; représenté par le code ci-dessous.
+
+  Affiche incroyable.
+
+  Si incroyable est égale à 0, exécute le texte :
+    incroyable prend la valeur 69.
+  ; sinon, exécute le texte :
+    incroyable prend la valeur 69420.
+  Merci.
+
+  Tant que incroyable est inférieure à 1000 exécute le code ci-après :
+      Si incroyable est inférieure à 100, exécute le texte :
+          Affiche « try to stop the feeling ».
+      Merci.
+  Merci.
+
+  Enfin, renvoie 51.
+
+Merci.
+
+J'aimerais définir le bloc répondant au nom de meow, de type de retour entier naturel,
+nécessitant comme entrée :
+            - lol, de type entier naturel
 ; contenant les variables :
 ; représenté par le code ci-dessous.
 
-Affiche nombre.
-
-Enfin, renvoie 51.
+    Affiche « le glados c trop cool ».
+    Affiche un retour à la ligne.
+    J'invoque le bloc feur.
+    J'invoque le bloc feur, et j'assigne la valeur de retour à la variable lol.
 
 Merci.
 

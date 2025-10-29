@@ -34,7 +34,8 @@ compileFuncBodyContent s (Invoke name args Nothing) = flip apply s'
   where comps = revCompiler $ mapCompiler compileComputable
         s' = s { functionCalls = name : functionCalls s }
 compileFuncBodyContent s (Invoke name args (Just varName))
-  | varExist s varName = (getVariable s varName) >>= \varAddr -> flip apply s' $
+  | varExist s varName = (getVariable s varName)
+    >>= \varAddr -> flip apply s' $
     (comps, args)
     @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
     @> [ PopToStackPtrRel varAddr ] @> replicate (length args) PopEmpty

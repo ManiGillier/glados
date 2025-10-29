@@ -180,8 +180,6 @@ readCondition = readComputables
 convertToDeclaration :: [LexedData] -> LexedData
 convertToDeclaration [Symbol a, LexedType b, Number c] =
     VariableDeclaration a b (Int c)
-convertToDeclaration [Symbol a, LexedType b, Text c] =
-    VariableDeclaration a b (String c)
 convertToDeclaration _ = error "Not supposed to happen..?"
 
 convertToParam :: [LexedData] -> LexedData
@@ -195,9 +193,6 @@ readVariableDeclaration :: Lexer [LexedData]
 readVariableDeclaration = try (lexStringsWithTokens [SString "-", Space, Word,
         SString ",", Space, SString "de", Space, SString "type", Space,
         WordVariableType, SString ",", Space, SString "valant", Space, Value])
-        <|> lexStringsWithTokens [SString "-", Space, Word, SString ",", Space,
-        SString "de", Space, SString "type", Space, WordVariableType,
-        SString ",", Space, SString "valant", Space, QuotedValue]
 
 readOptionalComboWordsWithValues :: Lexer [LexedData]
 readOptionalComboWordsWithValues = many (readComboWordWithValue <* space1)

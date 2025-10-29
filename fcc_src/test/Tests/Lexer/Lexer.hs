@@ -230,7 +230,7 @@ lexerTest = TestList
         \de retour entier naturel, nécessitant comme entrée : \
         \- feur, de type booléen ; contenant les variables : \
         \- ok, de type entier naturel, valant 727 ; \
-        \représenté par le code suivant."
+        \représenté par le code ci-dessous."
          ~?= Right [FuncDef,FuncType Function,Symbol "meow",
                     ReturnType,LexedType LInt,
                     WithParameters,Parameter "feur" LBoolean,

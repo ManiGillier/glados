@@ -9,9 +9,9 @@ module Compiler.FunctionDef ( compileFuncDef
                             , compileMainDef
                             ) where
 
-import Compiler.Type (Compiler, Context (functionNames, var)
+import Compiler.Type (Compiler, Context (..)
                      , apply, mapCompiler
-                     , (.+), (<@), (@>))
+                     , (.+), (<@), (@>), funcToContext, isFuncAlreadyDefined, mainFuncContext)
 import DataStruct.Ast.Ast (FunctionDef (..), MainFunctionDef (..), IsReturning)
 import Compiler.VariableDef (compileVarDef)
 import Compiler.FunctionBody (compileFuncBody)
@@ -53,15 +53,14 @@ returnStatement True = [PushValue 0, PopToStackPtrRel (-8), Ret]
 returnStatement False = [Ret]
 
 compileFuncDef :: Compiler FunctionDef
-compileFuncDef s (Function name isReturning ps vs body)
-  | elem name $ functionNames s = Error alreadyDefFuncErr name
+compileFuncDef s f@(Function name isReturning ps vs body)
+  | isFuncAlreadyDefined s name = Error alreadyDefFuncErr name
   | isJust duplParam = Error alreadyDefVarErr $ fromJust duplParam
   | otherwise = removeVar <$> (flip apply s' $
     [Label $ funcLabelPrefix ++ name] <@ (mapCompiler compileVarDef, vs)
     .+ (compileFuncBody, body) @> returnStatement isReturning)
     where duplParam = checkDuplicatesParams ps
-          s' = s { functionNames = name : functionNames s
-                 , var = computeParams (-8) ps }
+          s' = (funcToContext s f) { var = computeParams (-8) ps }
 
 compileMainDef :: Compiler MainFunctionDef
 compileMainDef s (Main vs body) = flip apply s'
@@ -69,5 +68,5 @@ compileMainDef s (Main vs body) = flip apply s'
   <@ (mapCompiler compileVarDef, vs)
   .+ (compileFuncBody, body)
   @> [Ret]
-    where s' = s { functionNames = "main" : functionNames s
+    where s' = s { functionDefs = mainFuncContext : functionDefs s
                  , var = [] }

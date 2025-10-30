@@ -10,7 +10,9 @@ module VM.Stack (
     ,popStack
     ,popToStackPtrRel
     ,pushFromStackPtrRel
-    ,isStackOverFlow) 
+    ,isStackOverFlow
+    ,isUnderFlow
+    ) 
     where 
 
 import VM.Types
@@ -41,6 +43,11 @@ maxStackSize = 1000000
 
 isStackOverFlow :: VMState -> Bool
 isStackOverFlow state
-    | ((vmSackSize state) >= maxStackSize) 
+    | ((vmStackSize state) >= maxStackSize) 
         || ((vmCallSackSize state) >= maxStackSize) = True
+    | otherwise = False
+
+isUnderFlow :: VMState -> Bool
+isUnderFlow state
+    | (vmStackSize state) <= 1 = True
     | otherwise = False

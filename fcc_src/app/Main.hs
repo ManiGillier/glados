@@ -51,10 +51,6 @@ lexer (content,name) = case parse readCode name content of
 parser :: [LexedData] -> MaybeError Ast
 parser = buildAst
 
--- Lexing :D
--- TEMPORARY
--- TODO: Remove when parsing is implemented !
--- Will make the CodingStyle FAIL !
 parseArgs :: (String, String) -> MaybeError Ast
 parseArgs l = lexer l >>= parser
 

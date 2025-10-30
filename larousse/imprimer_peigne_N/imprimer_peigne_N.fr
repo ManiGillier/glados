@@ -1,14 +1,97 @@
 Bonjour,
 
+J'aimerais définir le bloc répondant au nom de puissance, de type de retour entier naturel, nécessitant comme entrée :
+    - alimenté, de type entier naturel
+    - puissance, de type entier naturel
+; contenant les variables :
+    - àRenvoyer, de type entier naturel, valant 0
+    - i, de type entier naturel, valant 1
+; représenté par le code suivant.
+    J'aimerais que àRenvoyer prenne la valeur alimenté.
+    Tant que i est inférieure à puissance exécute le code ci-après :
+        J'aimerais que àRenvoyer prenne la valeur àRenvoyer fois alimenté.
+        J'aimerais que i prenne la valeur i plus 1.
+    Merci.
+    Si puissance est égale à 0, exécute le texte :
+        Enfin, renvoie 1.
+    Merci.
+    Enfin, renvoie àRenvoyer.
+Merci.
+
+J'aimerais définir le bloc répondant au nom de compter_chiffre, de type de retour entier naturel, nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+    - i, de type entier naturel, valant 0
+; représenté par le code suivant.
+    Tant que nombre est supérieure à 0 exécute le code ci-après :
+        J'aimerais que i prenne la valeur i plus 1.
+        J'aimerais que nombre prenne la valeur nombre divisé par 10.
+    Merci.
+    Enfin, renvoie i.
+Merci.
+
+J'aimerais définir le bloc répondant au nom de plus_gros_nombre_atteignable, de type de retour entier naturel, nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+    - àRenvoyer, de type entier naturel, valant 0
+    - i, de type entier naturel, valant 0
+    - valeurTemporaire, de type entier naturel, valant 0
+; représenté par le code suivant.
+    J'aimerais que i prenne la valeur nombre moins 1.
+    Tant que i est supérieure ou égale à 0 exécute le code ci-après :
+        J'invoque le bloc puissance, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres 10, i.
+        J'aimerais que àRenvoyer prenne la valeur àRenvoyer plus (9 fois valeurTemporaire).
+        J'aimerais que i prenne la valeur i moins 1.
+    Merci.
+    Enfin, renvoie àRenvoyer.
+Merci.
+
+J'aimerais définir le bloc répondant au nom de petiteCompositionZero, de type de retour entier naturel, nécessitant comme entrée :
+    - chiffre, de type entier naturel
+    - combien, de type entier naturel
+; contenant les variables :
+    - nouveauChiffre, de type entier naturel, valant 0
+    - dernierStocké, de type entier naturel, valant 0
+    - i, de type entier naturel, valant 0
+; représenté par le code suivant.
+    J'aimerais que nouveauChiffre prenne la valeur chiffre divisé par 10.
+    J'aimerais que dernierStocké prenne la valeur chiffre modulo 10.
+
+    Tant que i est inférieure à (combien moins 2) exécute le code ci-après :
+        Si (nouveauChiffre modulo 10) est inférieure à dernierStocké, exécute le texte :
+            J'aimerais que dernierStocké prenne la valeur nouveauChiffre modulo 10.
+            J'aimerais que nouveauChiffre prenne la valeur nouveauChiffre divisé par 10.
+        ; sinon, exécute le texte :
+            Enfin, renvoie 0.
+        Merci.
+        J'aimerais que i prenne la valeur i plus 1.
+    Merci.
+    Enfin, renvoie dernierStocké est supérieure à 0.
+Merci.
+
+
 J'aimerais définir le bloc répondant au nom de petiteComposition, de type de retour entier naturel, nécessitant comme entrée :
     - chiffre, de type entier naturel
     - combien, de type entier naturel
 ; contenant les variables :
-    - nouveauChiffre, de type entier naturel, valant chiffre divisé par 10
-    - dernierStocké, de type entier naturel, valant chiffre modulo 10
+    - nouveauChiffre, de type entier naturel, valant 0
+    - dernierStocké, de type entier naturel, valant 0
     - i, de type entier naturel, valant 0
 ; représenté par le code suivant.
-    
+    J'aimerais que nouveauChiffre prenne la valeur chiffre divisé par 10.
+    J'aimerais que dernierStocké prenne la valeur chiffre modulo 10.
+
+    Tant que i est inférieure à (combien moins 1) exécute le code ci-après :
+        Si (nouveauChiffre modulo 10) est inférieure à dernierStocké, exécute le texte :
+            J'aimerais que dernierStocké prenne la valeur nouveauChiffre modulo 10.
+            J'aimerais que nouveauChiffre prenne la valeur nouveauChiffre divisé par 10.
+        ; sinon, exécute le texte :
+            Enfin, renvoie 0.
+        Merci.
+        J'aimerais que i prenne la valeur i plus 1.
+    Merci.
+    Enfin, renvoie 1.
+Merci.
 
 J'aimerais définir le bloc répondant au nom de verifier_la_composition, de type de retour entier naturel, nécessitant comme entrée :
     - chiffre, de type entier naturel
@@ -45,7 +128,7 @@ J'aimerais définir le bloc répondant au nom de est_de_composition_maximale, de
     - maxAtteignable, de type entier naturel, valant 0
     - i, de type entier naturel, valant 0
 ; représenté par le code suivant.
-    J'invoque le bloc plus_grand_nombre_atteignable, et j'assigne la valeur de retour à la variable maxAtteignable, avec les paramètres nombre.
+    J'invoque le bloc plus_gros_nombre_atteignable, et j'assigne la valeur de retour à la variable maxAtteignable, avec les paramètres combien.
     Tant que i est inférieure à combien exécute le code ci-après :
         J'aimerais que chiffreAttendu prenne la valeur (maxAtteignable modulo 10) moins aSupprimer.
         Si chiffreAttendu est égale à (chiffre modulo 10), exécute le texte :
@@ -87,9 +170,9 @@ nécessitant comme entrée :
     - plusGrandNombreAtteignable, de type entier naturel, valant 0
     - valeurTemporaire, de type entier naturel, valant 0
 ; représenté par le code suivant.
-    J'invoque le bloc plus_grand_nombre_atteignable, et j'assigne la valeur de retour à la variable plusGrandNombreAtteignable, avec les paramètres nombre.
+    J'invoque le bloc plus_gros_nombre_atteignable, et j'assigne la valeur de retour à la variable plusGrandNombreAtteignable, avec les paramètres nombre.
 
-    Tant que i est inférieure ou égale à plus_grand_nombre_atteignable exécute le code ci-après :
+    Tant que i est inférieure ou égale à plusGrandNombreAtteignable exécute le code ci-après :
         J'invoque le bloc verifier_la_composition, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres i, nombre.
         Si valeurTemporaire est vraie, exécute le texte :
             J'invoque le bloc affichage, avec les paramètres i, nombre.

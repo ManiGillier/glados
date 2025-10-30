@@ -20,16 +20,16 @@ void my_put_nbr(long int n)
     return;
 }
 
-int power(int powered, int power)
+int puissance(int puissancé, int puissance)
 {
-    int toReturn = powered;
+    int àRenvoyer = puissancé;
     int i = 1;
 
-    while (i < power) {
-        toReturn = toReturn * powered;
+    while (i < puissance) {
+        àRenvoyer = àRenvoyer * puissancé;
         i++;
     }
-    return power == 0 ? 1 : toReturn;
+    return puissance == 0 ? 1 : àRenvoyer;
 }
 
 
@@ -46,14 +46,14 @@ int compter_chiffres(int number)
 
 int plus_grand_nombre_atteignable(int n)
 {
-    int toReturn = 0;
+    int àRenvoyer = 0;
     int i = n - 1;
 
     while (i >= 0) {
-        toReturn = toReturn + (9 * power(10, i));
+        àRenvoyer = àRenvoyer + (9 * puissance(10, i));
         i--;
     }
-    return toReturn;
+    return àRenvoyer;
 }
 
 int petiteCompositionZero(int chiffre, int combien)

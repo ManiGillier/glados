@@ -17,6 +17,7 @@ module Error.ErrorList
   , assignementFromVoidFunc
   , returnValueInVoidFunction
   , functionArgumentMissmatch
+  , returnVoidOnNonVoid
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -27,6 +28,9 @@ functionArgumentMissmatch =
 
 returnValueInVoidFunction :: ErrorType
 returnValueInVoidFunction = "Returning a value in a void function"
+
+returnVoidOnNonVoid :: ErrorType
+returnVoidOnNonVoid = "Returning void in a non-void function"
 
 assignementFromVoidFunc :: ErrorType
 assignementFromVoidFunc = "Assigning return value of void function"

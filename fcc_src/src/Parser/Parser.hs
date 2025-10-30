@@ -363,7 +363,7 @@ parseFunctions :: [LexedData] -> [FunctionDef]
 parseFunctions (FuncDef : FuncType DataStruct.Lexing.Function : Symbol s :
     ReturnType : LexedType t : xs) =
     parseFunction s t (takeUntil xs EndFunction) :
-    parseFunctions (skipTo EndIf xs)
+    parseFunctions (skipTo EndFunction xs)
 parseFunctions (_:xs) = parseFunctions xs
 parseFunctions [] = []
 

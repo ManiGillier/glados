@@ -192,7 +192,7 @@ readComboWordWithValue = convertToDeclaration <$> readVariableDeclaration
 readVariableDeclaration :: Lexer [LexedData]
 readVariableDeclaration = try (lexStringsWithTokens [SString "-", Space, Word,
         SString ",", Space, SString "de", Space, SString "type", Space,
-        WordVariableType, SString ",", Space, SString "valant", Space, Condition])
+        WordVariableType, SString ",", Space, SString "valant", Space, Value])
 
 readOptionalComboWordsWithValues :: Lexer [LexedData]
 readOptionalComboWordsWithValues = many (readComboWordWithValue <* space1)

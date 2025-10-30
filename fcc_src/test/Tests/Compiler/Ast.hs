@@ -12,8 +12,9 @@ import DataStruct.Asm as Asm
 
 import Test.HUnit (Test (TestList), (~:), (~?=))
 import Compiler.Ast (compile)
-import Error.MaybeError (MaybeError(Correct))
+import Error.MaybeError (MaybeError(Correct, Error))
 import DataStruct.Ast.Variable as Var
+import Error.ErrorList (functionArgumentMissmatch)
 
 astTest :: Test
 astTest = TestList
@@ -27,4 +28,7 @@ astTest = TestList
                 , Asm.Label "func_foo"
                 , Ret
                 ]
+  , "fail test" ~:
+    compile (CAst (Main [] [Invoke "main" [Value 10] Nothing]) [])
+    ~?= Error functionArgumentMissmatch "main: got 1 but expected 0"
   ]

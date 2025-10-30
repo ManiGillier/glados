@@ -13,7 +13,7 @@ import DataStruct.Asm as Asm
 import DataStruct.Ast.Variable as Var
 
 import Compiler.FunctionDef (compileFuncDef, compileMainDef)
-import Compiler.Type (Context (..), baseContext, f2c, f2cf)
+import Compiler.Type (Context (..), baseContext, f2c, f2cf, FunctionContext (FunctionContext))
 import Error.MaybeError (MaybeError(Error, Correct))
 import Error.ErrorList (alreadyDefFuncErr, alreadyDefVarErr)
 import Data.Int (Int64)
@@ -39,9 +39,10 @@ functionDefTest = TestList
       (Function "f" False [Var.FuncParam "x"]
        [Var.VariableDef "y" 84]
        [Assign "x" $ v 42])
-      ~?= Correct (f, [ Asm.Label "func_f", PushValue 84
-                      , v' 42, PopToStackPtrRel (-16) -- Assign x
-                      , Ret])
+      ~?= Correct ((Context [] 0 [FunctionContext "f" False 1] [])
+                  , [ Asm.Label "func_f", PushValue 84
+                    , v' 42, PopToStackPtrRel (-16) -- Assign x
+                    , Ret])
     , "no params" ~: compileFuncDef baseContext
       (Function "f" False [] [] [])
       ~?= Correct (f, [Asm.Label "func_f", Ret])
@@ -52,12 +53,13 @@ functionDefTest = TestList
                       , Ret])
     , "multiple params" ~: compileFuncDef baseContext
       (Function "f" False [ Var.FuncParam "x"
-                             , Var.FuncParam "y"] []
+                          , Var.FuncParam "y"] []
         [Assign "x" $ v 42, Assign "y" $ v 41])
-      ~?= Correct (f, [ Asm.Label "func_f"
-                      , v' 42, PopToStackPtrRel (-16) -- Assign x
-                      , v' 41, PopToStackPtrRel (-24) -- Assign y
-                      , Ret])
+      ~?= Correct ((Context [] 0 [FunctionContext "f" False 2] [])
+                  , [ Asm.Label "func_f"
+                    , v' 42, PopToStackPtrRel (-16) -- Assign x
+                    , v' 41, PopToStackPtrRel (-24) -- Assign y
+                    , Ret])
     , "duplicate param" ~: compileFuncDef baseContext
       (Function "f" False [ Var.FuncParam "x"
                              , Var.FuncParam "x"] []

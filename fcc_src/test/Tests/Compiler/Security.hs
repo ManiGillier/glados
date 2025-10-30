@@ -30,20 +30,20 @@ securityTest = TestList $
     [ "No function" ~: getFunctionDefFromName [] "test"
       ~?= Nothing
     , "Function found" ~: getFunctionDefFromName (f2c ["a", "test", "b"])
-      "test" ~?= Just (FunctionContext "test" True)
+      "test" ~?= Just (FunctionContext "test" True 0)
     ]
   , "returnValueCheckSingle" ~:
     [ "function non void not assigned" ~:
-      returnValueCheckSingle (f2c ["test"]) (FunctionContext "test" False)
+      returnValueCheckSingle (f2c ["test"]) (FunctionContext "test" False 0)
       ~?= Nothing
     , "function non void assigned" ~:
-      returnValueCheckSingle (f2c ["test"]) (FunctionContext "test" True)
+      returnValueCheckSingle (f2c ["test"]) (FunctionContext "test" True 0)
       ~?= Nothing
     , "function void not assigned" ~:
-      returnValueCheckSingle (f2cf ["test"]) (FunctionContext "test" False)
+      returnValueCheckSingle (f2cf ["test"]) (FunctionContext "test" False 0)
       ~?= Nothing
     , "function void assigned" ~:
-      returnValueCheckSingle (f2cf ["test"]) (FunctionContext "test" True)
+      returnValueCheckSingle (f2cf ["test"]) (FunctionContext "test" True 0)
       ~?= Just "test"
     ]
   , "Assignement from void function" ~: checkFunctionCall

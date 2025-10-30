@@ -25,6 +25,8 @@ dependencies:
 - HUnit
 - optparse-applicative
 - bytestring
+- directory
+- filepath
 
 ghc-options:
 - -Wall

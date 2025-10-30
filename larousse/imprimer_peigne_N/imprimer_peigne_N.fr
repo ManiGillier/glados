@@ -1,0 +1,100 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de petiteComposition, de type de retour entier naturel, nécessitant comme entrée :
+    - chiffre, de type entier naturel
+    - combien, de type entier naturel
+; contenant les variables :
+    - nouveauChiffre, de type entier naturel, valant chiffre divisé par 10
+    - dernierStocké, de type entier naturel, valant chiffre modulo 10
+    - i, de type entier naturel, valant 0
+; représenté par le code suivant.
+    
+
+J'aimerais définir le bloc répondant au nom de verifier_la_composition, de type de retour entier naturel, nécessitant comme entrée :
+    - chiffre, de type entier naturel
+    - combien, de type entier naturel
+; contenant les variables :
+    - valeurTemporaire, de type entier naturel, valant 0
+    - secondeValeurTemporaire, de type entier naturel, valant 0
+    - troisièmeValeurTemporaire, de type entier naturel, valant 0
+; représenté par le code suivant.
+    J'invoque le bloc compter_chiffre, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres chiffre.
+    J'invoque le bloc petiteCompositionZero, et j'assigne la valeur de retour à la variable secondeValeurTemporaire, avec les paramètres chiffre, combien.
+    J'invoque le bloc petiteComposition, et j'assigne la valeur de retour à la variable troisièmeValeurTemporaire, avec les paramètres chiffre, combien.
+
+    Si combien moins valeurTemporaire est supérieure à 1, exécute le texte :
+        Enfin, renvoie 0.
+    Merci.
+
+    Si combien moins valeurTemporaire est égale à 1, exécute le texte :
+        Enfin, renvoie secondeValeurTemporaire.
+    Merci.
+
+    Enfin, renvoie troisièmeValeurTemporaire.
+Merci.
+
+
+
+J'aimerais définir le bloc répondant au nom de est_de_composition_maximale, de type de retour entier naturel, nécessitant comme entrée :
+    - chiffre, de type entier naturel
+    - combien, de type entier naturel
+; contenant les variables :
+    - valeurTemporaire, de type entier naturel, valant 0
+    - aSupprimer, de type entier naturel, valant 0
+    - chiffreAttendu, de type entier naturel, valant 0
+    - maxAtteignable, de type entier naturel, valant 0
+    - i, de type entier naturel, valant 0
+; représenté par le code suivant.
+    J'invoque le bloc plus_grand_nombre_atteignable, et j'assigne la valeur de retour à la variable maxAtteignable, avec les paramètres nombre.
+    Tant que i est inférieure à combien exécute le code ci-après :
+        J'aimerais que chiffreAttendu prenne la valeur (maxAtteignable modulo 10) moins aSupprimer.
+        Si chiffreAttendu est égale à (chiffre modulo 10), exécute le texte :
+            J'aimerais que aSupprimer prenne la valeur aSupprimer plus 1.
+            J'aimerais que chiffre prenne la valeur chiffre divisé par 10.
+            J'aimerais que maxAtteignable prenne la valeur maxAtteignable divisé par 10.
+        ; sinon, exécute le texte :
+            Enfin, renvoie 0.
+        Merci.
+        J'aimerais que i prenne la valeur i plus 1.
+    Merci.
+    Enfin, renvoie 1.
+Merci.
+
+
+J'aimerais définir le bloc répondant au nom de affichage, de type de retour nul, nécessitant comme entrée :
+    - nombre, de type entier naturel
+    - combien, de type entier naturel
+; contenant les variables :
+    - valeurTemporaire, de type entier naturel, valant 0
+; représenté par le code suivant.
+    J'invoque le bloc compter_chiffres, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres nombre.
+    Si valeurTemporaire est différent de combien, exécute le texte :
+        J'invoque le bloc afficher_nombre, avec les paramètres 0.
+    Merci.
+    J'invoque le bloc est_de_composition_maximale, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres nombre, combien.
+    Si valeurTemporaire est fausse, exécute le texte :
+        Affiche ','.
+        Affiche ' '.
+    Merci.
+Merci.
+
+J'aimerais définir le bloc répondant au nom de imprimer_peigne_N,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+    - i, de type entier naturel, valant 0
+    - plusGrandNombreAtteignable, de type entier naturel, valant 0
+    - valeurTemporaire, de type entier naturel, valant 0
+; représenté par le code suivant.
+    J'invoque le bloc plus_grand_nombre_atteignable, et j'assigne la valeur de retour à la variable plusGrandNombreAtteignable, avec les paramètres nombre.
+
+    Tant que i est inférieure ou égale à plus_grand_nombre_atteignable exécute le code ci-après :
+        J'invoque le bloc verifier_la_composition, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres i, nombre.
+        Si valeurTemporaire est vraie, exécute le texte :
+            J'invoque le bloc affichage, avec les paramètres i, nombre.
+        Merci.
+        J'aimerais que i prenne la valeur i plus 1.
+    Merci.
+    Enfin, renvoie 0.
+Merci.

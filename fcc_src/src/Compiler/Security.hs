@@ -6,7 +6,9 @@
 -}
 
 module Compiler.Security ( checkFunctionCall
-  ) where
+                         , getFunctionDefFromName
+                         , returnValueCheckSingle
+                         ) where
 import Compiler.Type (Context (Context), FunctionContext (..))
 import DataStruct.Asm (Instruction)
 import Error.MaybeError (MaybeError (..))

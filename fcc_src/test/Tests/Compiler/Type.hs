@@ -101,6 +101,9 @@ compilerTest = TestList
   , "show context" ~: show (Context [] 0 (f2c ["test"]) [])
     ~?= "Context {var = [], labelCount = 0, functionDefs = [<\"test\">], "
     ++  "functionCalls = []}"
+  , "show context 2" ~: show (Context [] 0 (f2cf ["test"]) [])
+    ~?= "Context {var = [], labelCount = 0, functionDefs = [\"test\"], "
+    ++  "functionCalls = []}"
   , "eq context" ~: (Context [("x", (0, 8))] 1 (f2c ["test"]) [])
     == (Context [("x", (0, 8))] 1 (f2c ["test"]) [])
     ~?= True

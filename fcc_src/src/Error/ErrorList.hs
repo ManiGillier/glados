@@ -14,9 +14,13 @@ module Error.ErrorList
   , unsupportedLanguage
   , fileError
   , undefinedFunctionErr
+  , assignementFromVoidFunc
 ) where
 
 import Error.MaybeError (ErrorType)
+
+assignementFromVoidFunc :: ErrorType
+assignementFromVoidFunc = "Assigning return value of void function"
 
 ukVarErr :: ErrorType
 ukVarErr = "Unknown variable"

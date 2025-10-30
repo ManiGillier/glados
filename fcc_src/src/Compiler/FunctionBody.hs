@@ -11,34 +11,42 @@ import Compiler.Type (Compiler, suffixCompiler, mapCompiler
                      , (.+)
                      , (<@)
                      , (@>)
-                     , apply, takeLabel, varExist, getVariable, revCompiler)
+                     , apply, takeLabel, varExist, getVariable, revCompiler, callToContext, FunctionContext (FunctionContext), Context (functionDefs))
 import DataStruct.Ast.Ast ( FunctionBody
                           , FunctionBodyContent (..))
 import DataStruct.Asm (Instruction (..))
 import Compiler.Config (funcLabelPrefix)
 import Compiler.Condition (compileCondition)
 import Error.MaybeError (MaybeError(Error, Correct))
-import Error.ErrorList (ukVarErr)
+import Error.ErrorList (ukVarErr, returnValueInVoidFunction, returnVoidOnNonVoid)
 
 -- TODO: Assign Return Value of Invoke to the set Variable
 compileFuncBodyContent :: Compiler FunctionBodyContent
-compileFuncBodyContent s (Return comp) = flip apply s $
-  (compileComputable, comp) @> [ PopToStackPtrRel (-8), Ret ]
+compileFuncBodyContent s (Return comp) = case functionDefs s of
+  (FunctionContext name False _:_) -> Error returnValueInVoidFunction name
+  __ -> flip apply s $
+    (compileComputable, comp) @> [ PopToStackPtrRel (-8), Ret ]
+compileFuncBodyContent s ReturnVoid = case functionDefs s of
+  (FunctionContext name True _:_) -> Error returnVoidOnNonVoid name
+  __ -> Correct (s, [Ret])
 compileFuncBodyContent s (Show comp) = compiler s comp
   where compiler = suffixCompiler [Aff] compileComputable
 compileFuncBodyContent s (ShowStr str) = Correct (s, [Affs str])
-compileFuncBodyContent s (Invoke name args Nothing) = flip apply s
+compileFuncBodyContent s (Invoke name args r@Nothing) = flip apply s'
   $ (comps, args)
   @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
   @> replicate (length args + 1) PopEmpty
   where comps = revCompiler $ mapCompiler compileComputable
-compileFuncBodyContent s (Invoke name args (Just varName))
-  | varExist s varName = (getVariable s varName) >>= \varAddr -> flip apply s $
+        s' = callToContext s name args r
+compileFuncBodyContent s (Invoke name args r@(Just varName))
+  | varExist s varName = (getVariable s varName)
+    >>= \varAddr -> flip apply s' $
     (comps, args)
     @> [ PushValue 0, PushLabel $ funcLabelPrefix ++ name, Call ]
     @> [ PopToStackPtrRel varAddr ] @> replicate (length args) PopEmpty
   | otherwise = Error ukVarErr varName
   where comps = revCompiler $ mapCompiler compileComputable
+        s' = callToContext s name args r
 compileFuncBodyContent s (If cond body (Just elseBody)) =
   flip apply s''
   $ (compileCondition, cond) @> [PushLabel label,Zjmp]

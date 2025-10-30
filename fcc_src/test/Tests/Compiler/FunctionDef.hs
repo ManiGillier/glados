@@ -13,13 +13,16 @@ import DataStruct.Asm as Asm
 import DataStruct.Ast.Variable as Var
 
 import Compiler.FunctionDef (compileFuncDef, compileMainDef)
-import Compiler.Type (Context (..), baseContext)
+import Compiler.Type (Context (..), baseContext, f2c, f2cf, FunctionContext (FunctionContext))
 import Error.MaybeError (MaybeError(Error, Correct))
 import Error.ErrorList (alreadyDefFuncErr, alreadyDefVarErr)
 import Data.Int (Int64)
 
 f :: Context
-f = Context [] 0 ["f"]
+f = Context [] 0 (f2cf ["f"]) []
+
+fr :: Context
+fr = Context [] 0 (f2c ["f"]) []
 
 v :: Int64 -> Ast.Computable
 v i = Ast.Value i
@@ -36,25 +39,27 @@ functionDefTest = TestList
       (Function "f" False [Var.FuncParam "x"]
        [Var.VariableDef "y" 84]
        [Assign "x" $ v 42])
-      ~?= Correct (f, [ Asm.Label "func_f", PushValue 84
-                      , v' 42, PopToStackPtrRel (-16) -- Assign x
-                      , Ret])
+      ~?= Correct ((Context [] 0 [FunctionContext "f" False 1] [])
+                  , [ Asm.Label "func_f", PushValue 84
+                    , v' 42, PopToStackPtrRel (-16) -- Assign x
+                    , Ret])
     , "no params" ~: compileFuncDef baseContext
       (Function "f" False [] [] [])
       ~?= Correct (f, [Asm.Label "func_f", Ret])
     , "return x" ~: compileFuncDef baseContext
       (Function "f" True [] [] [])
-      ~?= Correct (f, [ Asm.Label "func_f"
+      ~?= Correct (fr, [ Asm.Label "func_f"
                       , PushValue 0, PopToStackPtrRel (-8)
                       , Ret])
     , "multiple params" ~: compileFuncDef baseContext
       (Function "f" False [ Var.FuncParam "x"
-                             , Var.FuncParam "y"] []
+                          , Var.FuncParam "y"] []
         [Assign "x" $ v 42, Assign "y" $ v 41])
-      ~?= Correct (f, [ Asm.Label "func_f"
-                      , v' 42, PopToStackPtrRel (-16) -- Assign x
-                      , v' 41, PopToStackPtrRel (-24) -- Assign y
-                      , Ret])
+      ~?= Correct ((Context [] 0 [FunctionContext "f" False 2] [])
+                  , [ Asm.Label "func_f"
+                    , v' 42, PopToStackPtrRel (-16) -- Assign x
+                    , v' 41, PopToStackPtrRel (-24) -- Assign y
+                    , Ret])
     , "duplicate param" ~: compileFuncDef baseContext
       (Function "f" False [ Var.FuncParam "x"
                              , Var.FuncParam "x"] []
@@ -85,7 +90,7 @@ functionDefTest = TestList
   , "main function def" ~:
     [ "simple main" ~: compileMainDef baseContext
       (Main [Var.VariableDef "x" 10] [Assign "x" $ v 42])
-      ~?= Correct (Context [("x", (0,8))] 0 ["main"],
+      ~?= Correct (Context [("x", (0,8))] 0 (f2c ["main"]) [],
                    [ Label "func_main", Label ".start"
                    , v' 10
                    , v' 42, PopToStackPtrRel 0

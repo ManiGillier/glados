@@ -1,0 +1,13 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de douze,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+; représenté par le code suivant.
+    Si (nombre modulo 12) est égale à 0, exécute le texte :
+        Enfin, renvoie (nombre divisé par 12).
+        Merci.
+    Enfin, renvoie -12.
+Merci.

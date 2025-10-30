@@ -1,0 +1,10 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de carré_de,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+; représenté par le code suivant.
+    Enfin, renvoie (nombre fois nombre).
+Merci.

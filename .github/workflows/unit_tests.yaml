@@ -31,9 +31,13 @@ jobs:
         name: Compilation
         run: |
           make STACK_ROOT=$STACK_ROOT
-      - id: functional_tests_run
-        name: Run gay_sex.py
+      - id: functional_tests_run_lisp
+        name: Run lisp_tester.py
         run: |
           cd lisp
-          python3 gay_sex.py
+          python3 lisp_tester.py
           cd -
+      - id: functional_tests_run_franc_c
+        name: Run academie-franc-c-aise.py
+        run: |
+            python3 academie-franc-c-aise.py

@@ -7,7 +7,7 @@
 
 module Main (main) where
 
-import ArgParser (getMyArgs, Arguments (Arguments, input, output))
+import ArgParser (getMyArgs, Arguments (Arguments, input, output, larousse))
 import Error.MaybeError (printMaybeError, MaybeError (..))
 import Error.ErrorList (fileError)
 import Data.Functor ((<&>))
@@ -27,6 +27,7 @@ import Lexer.Lexer (readCode)
 import Text.Megaparsec (parse, errorBundlePretty)
 import DataStruct.Lexing (LexedData)
 import Parser.Parser (buildAst)
+import LarousseGetter (getLarousse)
 
 readAllFiles :: (MaybeError Arguments) -> IO (MaybeError [(String, String)])
 readAllFiles a = sequence
@@ -62,10 +63,16 @@ writeOutput (a@(Arguments _ outputFile _ isDebug),l)
     | isDebug = Prelude.writeFile outputFile $ instructionToAsm l
     | otherwise = writeBytecode a $ asmToBytecode l
 
+addLarousse :: Arguments -> IO Arguments
+addLarousse args
+  | larousse args = getLarousse <&> \la -> args { input = input args ++ la }
+  | otherwise = return args
+
 main :: IO ()
 main = do
   args <- getMyArgs
-  readArgs <- checkErrors $ readAllFiles args
+  args' <- sequenceA $ args <&> addLarousse
+  readArgs <- checkErrors $ readAllFiles args'
   let asm = (readArgs >>= (mapM parseArgs)) >>=
         combineAst >>= compile
   let param = (,) <$> args <*> asm

@@ -8,7 +8,7 @@ J'aimerais définir le bloc répondant au nom de puissance, de type de retour en
     - i, de type entier naturel, valant 1
 ; représenté par le code suivant.
     J'aimerais que àRenvoyer prenne la valeur alimenté.
-    Tant que i est inférieure à puissance exécute le code ci-après :
+    Tant que i est inférieure à puissance moins 1 exécute le code ci-après : *Tant que i est inférieure à puissance exécute le code ci-après :*
         J'aimerais que àRenvoyer prenne la valeur àRenvoyer fois alimenté.
         J'aimerais que i prenne la valeur i plus 1.
     Merci.
@@ -18,7 +18,7 @@ J'aimerais définir le bloc répondant au nom de puissance, de type de retour en
     Enfin, renvoie àRenvoyer.
 Merci.
 
-J'aimerais définir le bloc répondant au nom de compter_chiffre, de type de retour entier naturel, nécessitant comme entrée :
+J'aimerais définir le bloc répondant au nom de compter_chiffres, de type de retour entier naturel, nécessitant comme entrée :
     - nombre, de type entier naturel
 ; contenant les variables :
     - i, de type entier naturel, valant 0
@@ -30,7 +30,7 @@ J'aimerais définir le bloc répondant au nom de compter_chiffre, de type de ret
     Enfin, renvoie i.
 Merci.
 
-J'aimerais définir le bloc répondant au nom de plus_gros_nombre_atteignable, de type de retour entier naturel, nécessitant comme entrée :
+J'aimerais définir le bloc répondant au nom de trèsGrosNombre, de type de retour entier naturel, nécessitant comme entrée :
     - nombre, de type entier naturel
 ; contenant les variables :
     - àRenvoyer, de type entier naturel, valant 0
@@ -101,7 +101,7 @@ J'aimerais définir le bloc répondant au nom de verifier_la_composition, de typ
     - secondeValeurTemporaire, de type entier naturel, valant 0
     - troisièmeValeurTemporaire, de type entier naturel, valant 0
 ; représenté par le code suivant.
-    J'invoque le bloc compter_chiffre, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres chiffre.
+    J'invoque le bloc compter_chiffres, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres chiffre.
     J'invoque le bloc petiteCompositionZero, et j'assigne la valeur de retour à la variable secondeValeurTemporaire, avec les paramètres chiffre, combien.
     J'invoque le bloc petiteComposition, et j'assigne la valeur de retour à la variable troisièmeValeurTemporaire, avec les paramètres chiffre, combien.
 
@@ -128,7 +128,7 @@ J'aimerais définir le bloc répondant au nom de est_de_composition_maximale, de
     - maxAtteignable, de type entier naturel, valant 0
     - i, de type entier naturel, valant 0
 ; représenté par le code suivant.
-    J'invoque le bloc plus_gros_nombre_atteignable, et j'assigne la valeur de retour à la variable maxAtteignable, avec les paramètres combien.
+    J'invoque le bloc trèsGrosNombre, et j'assigne la valeur de retour à la variable maxAtteignable, avec les paramètres combien.
     Tant que i est inférieure à combien exécute le code ci-après :
         J'aimerais que chiffreAttendu prenne la valeur (maxAtteignable modulo 10) moins aSupprimer.
         Si chiffreAttendu est égale à (chiffre modulo 10), exécute le texte :
@@ -154,14 +154,15 @@ J'aimerais définir le bloc répondant au nom de affichage, de type de retour nu
     Si valeurTemporaire est différent de combien, exécute le texte :
         J'invoque le bloc afficher_nombre, avec les paramètres 0.
     Merci.
+    J'invoque le bloc afficher_nombre, avec les paramètres nombre.
     J'invoque le bloc est_de_composition_maximale, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres nombre, combien.
-    Si valeurTemporaire est fausse, exécute le texte :
+    Si non valeurTemporaire, exécute le texte :
         Affiche ','.
         Affiche ' '.
     Merci.
 Merci.
 
-J'aimerais définir le bloc répondant au nom de imprimer_peigne_N,
+J'aimerais définir le bloc répondant au nom de imprimer_peigne_nombre,
 de type de retour entier naturel,
 nécessitant comme entrée :
     - nombre, de type entier naturel
@@ -170,8 +171,7 @@ nécessitant comme entrée :
     - plusGrandNombreAtteignable, de type entier naturel, valant 0
     - valeurTemporaire, de type entier naturel, valant 0
 ; représenté par le code suivant.
-    J'invoque le bloc plus_gros_nombre_atteignable, et j'assigne la valeur de retour à la variable plusGrandNombreAtteignable, avec les paramètres nombre.
-
+    J'invoque le bloc trèsGrosNombre, et j'assigne la valeur de retour à la variable plusGrandNombreAtteignable, avec les paramètres nombre.
     Tant que i est inférieure ou égale à plusGrandNombreAtteignable exécute le code ci-après :
         J'invoque le bloc verifier_la_composition, et j'assigne la valeur de retour à la variable valeurTemporaire, avec les paramètres i, nombre.
         Si valeurTemporaire est vraie, exécute le texte :

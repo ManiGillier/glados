@@ -12,7 +12,7 @@ import Compiler.Type (baseContext, Context (Context), f2c, f2cf)
 import Error.MaybeError (MaybeError(..))
 import DataStruct.Asm as Asm
 import DataStruct.Ast.Ast as Ast
-import Error.ErrorList (ukVarErr)
+import Error.ErrorList (ukVarErr, returnValueInVoidFunction)
 import Data.Int (Int64)
 
 vi :: Int64 -> Ast.Computable
@@ -29,8 +29,14 @@ v' = Asm.PushValue 42
 
 functionBodyTest :: Test
 functionBodyTest = TestList
- [ "Return" ~: compileFuncBody baseContext
-   [Return v] ~?= Correct (baseContext, [v',PopToStackPtrRel (-8),Ret])
+ [ "Return" ~: compileFuncBody (Context [] 0 (f2c ["test"]) [])
+   [Return v] ~?= Correct ((Context [] 0 (f2c ["test"]) [])
+                          , [v',PopToStackPtrRel (-8),Ret])
+ , "Return base" ~: compileFuncBody baseContext
+   [Return v] ~?= Correct (baseContext
+                          , [v',PopToStackPtrRel (-8),Ret])
+ , "Return on void" ~: compileFuncBody (Context [] 0 (f2cf ["test"]) [])
+   [Return v] ~?= Error returnValueInVoidFunction "test"
  , "Show" ~: compileFuncBody baseContext
    [Show v] ~?= Correct (baseContext, [v',Aff])
  , "Invoke" ~: compileFuncBody baseContext

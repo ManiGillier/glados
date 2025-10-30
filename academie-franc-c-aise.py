@@ -123,10 +123,9 @@ def is_franc_c_built() -> bool:
 def build_franc_c() -> bool:
 
     p1 = subprocess.Popen(["make"], stdout=subprocess.PIPE)
-    p1.stdout.close()
 
-    _, err = p2.communicate()
-    return err.decode("utf-8") == 0
+    p1.communicate()
+    return p1.returncode == 0
 
 def read_file(fileName: str) -> str:
     with open(fileName, 'r', encoding='utf-8') as file:
@@ -185,39 +184,38 @@ def test_folder(testFolder: str) -> bool:
         return False
     endCompilationFc = time.time()
     elapsedTimeFc = endCompilationFc - startCompilationFc
-    print(f"[*] [Académie Franc C'aise] Les sources en Franc C ont pris {endCompilationFc - startCompilationFc:.2f}s à compiler.")
+    print(f"[*] [Académie Franc C'aise] Les sources en \x1b[31mFranc C\x1b[0m ont pris \x1b[36m{endCompilationFc - startCompilationFc:.2f}s\x1b[0m à \x1b[33mcompiler\x1b[0m.")
 
     startCompilationC = time.time()
     if not compile_test_c(testFolder):
         print(f"[*] [Académie Franc C'aise] Les dossiers sources '.c' n'ont pas pu être compilés, le test est donc raté !")
         return False
     endCompilationC = time.time()
-    print(f"[*] [Académie Franc C'aise] Les sources en C ont pris {endCompilationC - startCompilationC:.2f}s à compiler.")
+    print(f"[*] [Académie Franc C'aise] Les sources en \x1b[31mC\x1b[0m ont pris \x1b[36m{endCompilationC - startCompilationC:.2f}s\x1b[0m à \x1b[33mcompiler\x1b[0m.")
 
     fastestLanguage = "C" if endCompilationC - startCompilationC <= startCompilationFc - startCompilationFc else "Franc C"
-    print(f"[*] [Académie Franc C'aise] Le langage {fastestLanguage} a été plus rapide à la compilation de {abs((endCompilationFc - startCompilationFc) - (endCompilationC - startCompilationC)):.2f}s\n")
+    print(f"[*] [Académie Franc C'aise] Le langage \x1b[31m{fastestLanguage}\x1b[0m a été plus rapide à la \x1b[33mcompilation\x1b[0m de \x1b[36m{abs((endCompilationFc - startCompilationFc) - (endCompilationC - startCompilationC)):.2f}s\x1b[0m\n")
 
     startExecutionFc = time.time()
     outputFc = get_franc_c_output()
     endExecutionFc = time.time()
-    print(f"[*] [Académie Franc C'aise] Les sources en Franc C ont pris {endExecutionFc - startExecutionFc:.3f}s à exécuter.")
+    print(f"[*] [Académie Franc C'aise] Les sources en \x1b[31mFranc C\x1b[0m ont pris \x1b[36m{endExecutionFc - startExecutionFc:.3f}s\x1b[0m à s'\x1b[33mexécuter\x1b[0m.")
 
     startExecutionC = time.time()
     outputC = get_c_output()
     endExecutionC = time.time()
-    print(f"[*] [Académie Franc C'aise] Les sources en C ont pris {endExecutionC - startExecutionC:.3f}s à exécuter.")
-
+    print(f"[*] [Académie Franc C'aise] Les sources en \x1b[31mC\x1b[0m ont pris \x1b[36m{endExecutionC - startExecutionC:.3f}s\x1b[0m à s'\x1b[33mexécuter\x1b[0m.")
 
     fastestLanguage = "C" if endExecutionC - startExecutionC <= endExecutionFc - startExecutionFc else "Franc C"
-    print(f"[*] [Académie Franc C'aise] Le langage {fastestLanguage} a été plus rapide à l'exécution de {abs((endExecutionC - startExecutionC) - (endExecutionFc - startExecutionFc)):.3f}s\n")
+    print(f"[*] [Académie Franc C'aise] Le langage \x1b[31m{fastestLanguage}\x1b[0m a été plus rapide à l'\x1b[33mexécution\x1b[0m de \x1b[36m{abs((endExecutionC - startExecutionC) - (endExecutionFc - startExecutionFc)):.3f}s\x1b[0m\n")
 
     if outputFc != outputC:
-        print(f"[*] [Académie Franc C'aise] Le programme C et Franc C n'ont pas produit le même résultat.\n")
+        print(f"[*] [Académie Franc C'aise] Le programme \x1b[31mC\x1b[0m et \x1b[31mFranc C\x1b[0m n'ont pas produit le même \x1b[33mrésultat\x1b[0m.\n")
 
-        print("[*] [Académie Franc C'aise] Franc C:")
+        print("[*] [Académie Franc C'aise] \x1b[31mFranc C\x1b[0m :")
         print(outputFc)
         print()
-        print("[*] [Académie Franc C'aise] C:")
+        print("[*] [Académie Franc C'aise] \x1b[31mC\x1b[0m :")
         print(outputC)
 
     return outputC == outputFc

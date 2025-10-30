@@ -1,8 +1,9 @@
-module Arithmetic.Optest (testAdd, testSub, testMul, testDivZero, testDiv, testMod, testModZero, testOpAnd, testOpOr, testOpXor, testLBt, testRBt) where
+module Arithmetic.OpTest (testOp) where
 
 import ByteCode.AsmToBytecode
 import Data.Word
 import DataStruct.Asm
+import Error.ErrorList
 import Test.HUnit hiding (Label)
 import VM.Executor
 import VM.Types
@@ -152,13 +153,29 @@ testRBt =
         stack = (vmStack op)
      in assertEqual "binXor 2332 >> 1" (int64To8Bytes 1166 ++ retVal) stack
 
--- testEmptySt :: Test
--- testEmptySt =
---   TestCase $
---     let pushInst = baseInst ++ [BitShiftRight, Ret]
---         state = execFccByteCode (asmToBytecode pushInst)
---         push = execByteCode state
---         push2 = execByteCode push
---         op = execByteCode push2
---         stack = (vmStack op)
---      in assertEqual "binXor 2332 >> 1" (int64To8Bytes 1166 ++ retVal) stack
+testEmptySt :: Test
+testEmptySt =
+  TestCase $
+    let pushInst = baseInst ++ [Add, Ret]
+        state = execFccByteCode (asmToBytecode pushInst)
+        push = execByteCode state
+        err = (vmIO push)
+     in assertEqual "stack undeerflow" [(stderrFd, stackUnderFlowError)] err
+
+testOp :: Test
+testOp =
+  TestList $
+    [ testAdd,
+      testSub,
+      testMul,
+      testDiv,
+      testDivZero,
+      testMod,
+      testModZero,
+      testOpAnd,
+      testOpXor,
+      testOpOr,
+      testRBt,
+      testLBt,
+      testEmptySt
+    ]

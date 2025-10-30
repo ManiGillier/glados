@@ -8,6 +8,8 @@ import Tests.Compiler.FunctionDef (functionDefTest)
 import Tests.Compiler.Ast (astTest)
 import Tests.Combinor.Ast (combineAstTest)
 import Tests.Compiler.Security (securityTest)
+import Tests.Lexer.Lexer (lexerTest)
+import Tests.Parser.Parser (parserTest)
 
 tests :: Test
 tests = TestList [ "Compiler" ~: compilerTest
@@ -18,6 +20,8 @@ tests = TestList [ "Compiler" ~: compilerTest
                  , "Ast" ~: astTest
                  , "Security" ~: securityTest
                  , "Combinor" ~: combineAstTest
+                 , "Lexer" ~: lexerTest
+                 , "Parser" ~: parserTest
                  ]
 
 main :: IO ()

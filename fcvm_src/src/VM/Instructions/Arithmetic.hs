@@ -12,11 +12,10 @@ import VM.Utils.Conversion
 import Error.MaybeError
 import Error.ErrorList
 import VM.ByteCode
+import VM.Stack
 import Data.Int (Int64)
 
 binOp :: (Int64 -> Int64 -> Int64) -> Stack -> Bool -> MaybeError Stack
-binOp _ [_] _ = Error stackError $ "underflow"
-binOp _ [] _ = Error stackError $ "underflow"
 binOp f xs safe = 
     let val1 = (bytesToInt64(take 8 $ drop 8 xs))
         val2 = (bytesToInt64(take 8 xs))
@@ -25,18 +24,24 @@ binOp f xs safe =
             Correct $ int64To8Bytes (f val1 val2 ) ++ drop 16 xs
 
 handleOp :: (Int64 -> Int64 -> Int64) -> VMState -> Bool -> VMState
-handleOp f state safe =
-    case binOp f (vmStack state) safe of
-        Correct nst -> state 
-            { vmPC = nextIns (vmPC state), vmStack = nst }
-        Error err msg -> state
-            { vmIO = (vmIO state) ++ [(stderrFd, err ++ msg)]}
+handleOp f state safe
+    | isUnderFlow state = state
+            { vmIO = (vmIO state) ++ [(stderrFd, stackUnderFlowError)]}
+    | otherwise = 
+        case binOp f (vmStack state) safe of
+            Correct nst -> state 
+                { vmPC = nextIns (vmPC state), vmStack = nst }
+            Error err msg -> state
+                { vmIO = (vmIO state) ++ [(stderrFd, err ++ msg)]}
 
 handleBitshift ::(Int64 -> Int -> Int64) -> VMState -> VMState
-handleBitshift f state =
-    let stack = (vmStack state)
-        val = bytesToInt64 (take 8 $ drop 8 stack)
-        left = bytesToInt64 (take 8 stack)
-        newVal = f val (fromIntegral left)
-        newStack = (int64To8Bytes newVal) ++ (drop 16 stack)
-    in state { vmPC = nextIns (vmPC state), vmStack = newStack }
+handleBitshift f state
+    | isUnderFlow state = state
+            { vmIO = (vmIO state) ++ [(stderrFd, stackUnderFlowError)]}
+    | otherwise  = 
+        let stack = (vmStack state)
+            val = bytesToInt64 (take 8 $ drop 8 stack)
+            left = bytesToInt64 (take 8 stack)
+            newVal = f val (fromIntegral left)
+            newStack = (int64To8Bytes newVal) ++ (drop 16 stack)
+        in state { vmPC = nextIns (vmPC state), vmStack = newStack }

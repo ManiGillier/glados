@@ -10,7 +10,16 @@ module Parser.Parser(takeUntil, findMain, getMainCount, parseMain,
   extractBodyFunctionFromNextIf,
   extractBodyFunctionFromNextElse,
   parseFunctions, buildAst,
-  parseComputable, extractConditionFromNextWhile) where
+  parseComputable, extractConditionFromNextWhile,
+  extractBodyFunctionFromNextWhile,
+  getAllComputables,
+  parseDisplay,
+  parseAssign,
+  parseWhile, isThereElse, parseReturn, skipComputables,
+  parseInvokeParams,
+  parseInvoke,
+  escapedCharacter, transformString, convertReturnType, parseParams,
+  parseFunctionBody) where
 import DataStruct.Lexing (LexedData(..), FuncTypes(..), LexedTypes (LInt, LBoolean, LVoid))
 import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), FunctionBodyContent (If, Show, Assign, Return, Loop, Invoke), FunctionDef (Function), Ast (Ast))
 import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), Operations (..), UnaryOperations (..))
@@ -265,7 +274,7 @@ escapedCharacter 'a' = '\a'
 escapedCharacter x  = x
 
 transformString :: String -> String
-transformString ('\\':c: xs) = '\n' : escapedCharacter c : transformString xs
+transformString ('\\':c: xs) = escapedCharacter c : transformString xs
 transformString (x:xs) = x : transformString xs
 transformString [] = []
 
@@ -326,9 +335,7 @@ parseMain xs
 convertReturnType :: LexedTypes -> IsReturning
 convertReturnType LBoolean = True
 convertReturnType LInt = True
--- convertReturnType LString = Var.Value Type.String
 convertReturnType LVoid = False
-convertReturnType _ = False
 
 -- TODO: Change the '_' :sob:
 {-

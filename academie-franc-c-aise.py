@@ -139,7 +139,7 @@ def compile_test_fc(testFolder: str) -> int:
     if testFolder != Path(testFolderPath + "/afficher_nombre"):
         fcFiles += get_all_files_by_extension_in_folder(Path(testFolderPath + "/afficher_nombre"), ".fr")
 
-    p1 = subprocess.Popen(["./" + compilerExecutablePath] + fcFiles, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    p1 = subprocess.Popen(["./" + compilerExecutablePath, "--no-larousse"] + fcFiles, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     p1.communicate()
 
     return p1.returncode == 0 and does_file_exist(binaryNameFc)

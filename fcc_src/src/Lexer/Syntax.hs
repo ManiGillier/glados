@@ -5,7 +5,7 @@
 -- Syntax
 -}
 
-module Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
+module Lexer.Syntax(Syntax(..),
     assignSyntax, assignSyntax', ifConditionSyntax,
     whileConditionSyntax, functionDefinitionNameSyntax,
     functionDefinitionReturnTypeSyntax,
@@ -29,7 +29,6 @@ data Syntax =
     Value |
     Condition |
     ComboWord |
-    OptionalComboWord |
     OptionalComboWordsWithValue |
     OptionalComboWords |
     OptionalSpace |
@@ -49,25 +48,14 @@ fcIntType = [SString "entier", Space, SString "naturel"]
 fcBoolType :: [Syntax]
 fcBoolType = [SString "booléen"]
 
-fcStringType :: [Syntax]
-fcStringType = [SString "chaîne", Space, SString "de", Space,
-    SString "caractères"]
 fcVoidType :: [Syntax]
 fcVoidType = [SString "nul"]
 
 variableTypes :: [([Syntax], LexedData)]
-variableTypes = [(fcIntType, LexedType LInt), (fcBoolType, LexedType LBoolean),
-    (fcStringType, LexedType LString)]
+variableTypes = [(fcIntType, LexedType LInt), (fcBoolType, LexedType LBoolean)]
 
 functionTypes :: [([Syntax], LexedData)]
 functionTypes = variableTypes ++ [(fcVoidType, LexedType LVoid)]
-
-assignNameSyntax :: [Syntax]
-assignNameSyntax = [SString "J'aimerais", Space, SString "que", Space, Word]
-
-assignValueSyntax :: [Syntax]
-assignValueSyntax = [Space, SString "prenne", Space, SString "la", Space,
-    SString "valeur", Space, Condition]
 
 assignSyntax :: [Syntax]
 assignSyntax = [SString "J'aimerais", Space, SString "que", Space, Word,

@@ -7,8 +7,9 @@ J'aimerais définir le bloc répondant au nom de puissance, de type de retour en
     - àRenvoyer, de type entier naturel, valant 0
     - i, de type entier naturel, valant 1
 ; représenté par le code suivant.
+    i prend la valeur 1.
     J'aimerais que àRenvoyer prenne la valeur alimenté.
-    Tant que i est inférieure à puissance moins 1 exécute le code ci-après : *Tant que i est inférieure à puissance exécute le code ci-après :*
+    Tant que i est inférieure à puissance exécute le code ci-après :
         J'aimerais que àRenvoyer prenne la valeur àRenvoyer fois alimenté.
         J'aimerais que i prenne la valeur i plus 1.
     Merci.

@@ -18,7 +18,7 @@ import DataStruct.Asm (Instruction (..))
 import Compiler.Config (funcLabelPrefix)
 import Compiler.Condition (compileCondition)
 import Error.MaybeError (MaybeError(Error, Correct))
-import Error.ErrorList (ukVarErr, returnValueInVoidFunction)
+import Error.ErrorList (ukVarErr, returnValueInVoidFunction, returnVoidOnNonVoid)
 
 -- TODO: Assign Return Value of Invoke to the set Variable
 compileFuncBodyContent :: Compiler FunctionBodyContent
@@ -26,6 +26,9 @@ compileFuncBodyContent s (Return comp) = case functionDefs s of
   (FunctionContext name False _:_) -> Error returnValueInVoidFunction name
   __ -> flip apply s $
     (compileComputable, comp) @> [ PopToStackPtrRel (-8), Ret ]
+compileFuncBodyContent s ReturnVoid = case functionDefs s of
+  (FunctionContext name True _:_) -> Error returnVoidOnNonVoid name
+  __ -> Correct (s, [Ret])
 compileFuncBodyContent s (Show comp) = compiler s comp
   where compiler = suffixCompiler [Aff] compileComputable
 compileFuncBodyContent s (ShowStr str) = Correct (s, [Affs str])

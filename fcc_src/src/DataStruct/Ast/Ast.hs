@@ -59,6 +59,7 @@ data FunctionBodyContent =
   | Invoke FunctionName [Computable] (Maybe Var.VariableName)
   | Loop Condition FunctionBody
   | Return Computable
+  | ReturnVoid
   | Show Computable
   | ShowStr String
   deriving (Eq, Show)

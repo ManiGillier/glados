@@ -45,7 +45,7 @@ translateInstr Ret                    = ["    ret"]
 translateInstr Jmp                    = ["    jmp"]
 translateInstr Zjmp                   = ["    zjmp"]
 translateInstr Aff                    = ["    aff"]
-translateInstr (Affs str)             = ["    affs" ++ show str]
+translateInstr (Affs str)             = ["    affs " ++ show str]
 
 listOfStringToString :: [String] -> String
 listOfStringToString [] = ""

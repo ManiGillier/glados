@@ -1,5 +1,5 @@
 ###########################################
-#  Say Hello to the [GaySex] Program !    #
+#  Say Hello to the [LispTester] Program !#
 #  Glados Amazing Yet Simple Evaluator X  #
 ###########################################
 
@@ -55,15 +55,15 @@ def register_valid_folders(subfolders: List[str]):
 
     for testFolder in subfolders:
         if not has_any_file_with_extension_in_folder(testFolder, ".txt"):
-            print(f"[!] [Gay-Sex] Could not register test folder '{testFolder.name}', no expected result ('.txt') file found.", file=sys.stderr)
+            print(f"[!] [Lisp-Tester] Could not register test folder '{testFolder.name}', no expected result ('.txt') file found.", file=sys.stderr)
             continue
         if not has_any_file_with_extension_in_folder(testFolder, ".scm"):
-            print(f"[!] [Gay-Sex] Could not register test folder {testFolder.name}, no expected code to run ('.scm') file found.", file=sys.stderr)
+            print(f"[!] [Lisp-Tester] Could not register test folder {testFolder.name}, no expected code to run ('.scm') file found.", file=sys.stderr)
             continue
         if get_folder_file_count(testFolder) != 2:
-            print(f"[!] [Gay-Sex] Could not register test folder {testFolder.name}, found more than two files ('.txt', '.scm').", file=sys.stderr)
+            print(f"[!] [Lisp-Tester] Could not register test folder {testFolder.name}, found more than two files ('.txt', '.scm').", file=sys.stderr)
             continue
-        print(f"[*] [Gay-Sex] Registered test folder {testFolder.name} !")
+        print(f"[*] [Lisp-Tester] Registered test folder {testFolder.name} !")
         testFolders.append(testFolder)
 
 def can_start_testing() -> bool:
@@ -103,10 +103,10 @@ def test_folder(testFolder: str) -> bool:
     gladosOutput = get_glados_output(get_lisp_code_file(testFolder))
 
     if expectedResult == gladosOutput:
-        print(f"[*] [Gay-Sex] Test {testFolder} passed !")
+        print(f"[*] [Lisp-Tester] Test {testFolder} passed !")
         return True
     else:
-        print(f"[!] [Gay-Sex] Test {testFolder} did not pass.", file=sys.stderr)
+        print(f"[!] [Lisp-Tester] Test {testFolder} did not pass.", file=sys.stderr)
 
         print("\nGot:\n")
         print(gladosOutput.rstrip(), file=sys.stderr)
@@ -120,38 +120,38 @@ def test_folder(testFolder: str) -> bool:
 
 ############ Main Program ################
 
-def start_gay_sex():
+def start_lisp_tester():
     global gladosExecutableName
     global testFolderPath
     global testFolders
 
-    print("[*] [Gay-Sex] Starting Gay Sex..\n")
+    print("[*] [Lisp-Tester] Starting Lisp Tester..\n")
 
     if not is_glados_built():
-        print(f"[!] [Gay-Sex] Could not find executable f{gladosExecutableName}, please build it, aborting..")
+        print(f"[!] [Lisp-Tester] Could not find executable f{gladosExecutableName}, please build it, aborting..")
         exit(84)
     if not does_folder_exist(testFolderPath):
-        print(f"[!] [Gay-Sex] Could not find test folder '{testFolderPath}', aborting..")
+        print(f"[!] [Lisp-Tester] Could not find test folder '{testFolderPath}', aborting..")
         exit(84)
     register_valid_folders(get_subfolders(testFolderPath))
-    print(f"\n[*] [Gay-Sex] Found {len(testFolders)} test folders !")
+    print(f"\n[*] [Lisp-Tester] Found {len(testFolders)} test folders !")
     if not can_start_testing():
-        print(f"[!] [Gay-Sex] Could not start testing, needs at least a single valid test folder, aborting..")
+        print(f"[!] [Lisp-Tester] Could not start testing, needs at least a single valid test folder, aborting..")
         exit(84)
-    print("\n[*] [Gay-Sex] Running tests..\n")
+    print("\n[*] [Lisp-Tester] Running tests..\n")
 
     passedTest = 0
 
     for folderToTest in testFolders:
-        print(f"[*] [Gay-Sex] Testing {folderToTest.name}..")
+        print(f"[*] [Lisp-Tester] Testing {folderToTest.name}..")
         if (test_folder(folderToTest)):
             passedTest += 1
-    print(f"\n[*] [Gay-Sex] ({passedTest}/{len(testFolders)}) test passed !")
+    print(f"\n[*] [Lisp-Tester] ({passedTest}/{len(testFolders)}) test passed !")
     if passedTest != len(testFolders):
         exit(84)
 
 
 if __name__ == "__main__":
-    start_gay_sex()
+    start_lisp_tester()
 
 ##########################################

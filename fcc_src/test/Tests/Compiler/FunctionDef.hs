@@ -13,13 +13,16 @@ import DataStruct.Asm as Asm
 import DataStruct.Ast.Variable as Var
 
 import Compiler.FunctionDef (compileFuncDef, compileMainDef)
-import Compiler.Type (Context (..), baseContext, f2c)
+import Compiler.Type (Context (..), baseContext, f2c, f2cf)
 import Error.MaybeError (MaybeError(Error, Correct))
 import Error.ErrorList (alreadyDefFuncErr, alreadyDefVarErr)
 import Data.Int (Int64)
 
 f :: Context
-f = Context [] 0 (f2c ["f"]) []
+f = Context [] 0 (f2cf ["f"]) []
+
+fr :: Context
+fr = Context [] 0 (f2c ["f"]) []
 
 v :: Int64 -> Ast.Computable
 v i = Ast.Value i
@@ -44,7 +47,7 @@ functionDefTest = TestList
       ~?= Correct (f, [Asm.Label "func_f", Ret])
     , "return x" ~: compileFuncDef baseContext
       (Function "f" True [] [] [])
-      ~?= Correct (f, [ Asm.Label "func_f"
+      ~?= Correct (fr, [ Asm.Label "func_f"
                       , PushValue 0, PopToStackPtrRel (-8)
                       , Ret])
     , "multiple params" ~: compileFuncDef baseContext

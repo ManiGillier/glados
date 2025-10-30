@@ -29,7 +29,7 @@ module Compiler.Type (Context (..)
                      , callToContext
                      , FunctionContext (..)
                      , funcNameToContext
-                     , f2c
+                     , f2c, f2cf
                      ) where
 import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable', varExist')
@@ -41,7 +41,11 @@ import Data.Maybe (isJust)
 data FunctionContext = FunctionContext { funcName :: !FunctionName
                                        , returning :: !IsReturning
                                        }
-  deriving (Show, Eq)
+  deriving (Eq)
+
+instance Show FunctionContext where
+  show (FunctionContext name True) = "<" ++ Prelude.show name ++ ">"
+  show (FunctionContext name False) = Prelude.show name
 
 mainFuncContext :: FunctionContext
 mainFuncContext = FunctionContext "main" True
@@ -54,11 +58,14 @@ data Context = Context
   }
   deriving (Show, Eq)
 
-funcNameToContext :: FunctionName -> FunctionContext
-funcNameToContext name = FunctionContext name True
+funcNameToContext :: FunctionName -> Bool -> FunctionContext
+funcNameToContext name = FunctionContext name
 
 f2c :: [FunctionName] -> [FunctionContext]
-f2c = map funcNameToContext
+f2c = map $ flip funcNameToContext True
+
+f2cf :: [FunctionName] -> [FunctionContext]
+f2cf = map $ flip funcNameToContext False
 
 isFuncAlreadyDefined :: Context -> FunctionName -> Bool
 isFuncAlreadyDefined c name = elem name funcContext

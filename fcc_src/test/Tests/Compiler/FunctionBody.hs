@@ -12,7 +12,7 @@ import Compiler.Type (baseContext, Context (Context), f2c, f2cf, FunctionContext
 import Error.MaybeError (MaybeError(..))
 import DataStruct.Asm as Asm
 import DataStruct.Ast.Ast as Ast
-import Error.ErrorList (ukVarErr, returnValueInVoidFunction)
+import Error.ErrorList (ukVarErr, returnValueInVoidFunction, returnVoidOnNonVoid)
 import Data.Int (Int64)
 
 vi :: Int64 -> Ast.Computable
@@ -108,4 +108,14 @@ functionBodyTest = TestList
  , "assign variable error" ~: compileFuncBody baseContext
    [Assign "x" v]
    ~?= Error ukVarErr "x"
+ , "returnVoid" ~:
+   [ "in void func" ~: compileFuncBody
+     (Context [] 0 [FunctionContext "f" False 0] [])
+     [ReturnVoid]
+     ~?= Correct (Context [] 0 [FunctionContext "f" False 0] [], [Ret])
+   , "in non-void func" ~: compileFuncBody
+     (Context [] 0 [FunctionContext "f" True 0] [])
+     [ReturnVoid]
+     ~?= Error returnVoidOnNonVoid "f"
+   ]
  ]

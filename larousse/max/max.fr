@@ -1,0 +1,14 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de max,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+    - second_nombre, de type entier naturel
+; contenant les variables :
+; représenté par le code suivant.
+    Si nombre est inférieure à second_nombre, exécute le texte :
+        Enfin, renvoie second_nombre.
+    Merci.
+    Enfin, renvoie nombre.
+Merci.

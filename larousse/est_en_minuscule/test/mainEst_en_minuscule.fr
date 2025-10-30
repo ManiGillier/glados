@@ -1,0 +1,24 @@
+Bonjour,
+
+En sachant que les variables principales sont :
+    - valeur_temporaire, de type entier naturel, valant 0
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    Affiche « Devrait-être 1 :  ».
+    J'invoque le bloc est_en_minuscule, et j'assigne la valeur de retour à la variable valeur_temporaire, avec les paramètres 'm'.
+    J'invoque le bloc afficher_nombre, avec les paramètres valeur_temporaire.
+    Affiche un retour à la ligne.
+
+    Affiche « Devrait-être 0 :  ».
+    J'invoque le bloc est_en_minuscule, et j'assigne la valeur de retour à la variable valeur_temporaire, avec les paramètres 'M'.
+    J'invoque le bloc afficher_nombre, avec les paramètres valeur_temporaire.
+    Affiche un retour à la ligne.
+
+    Affiche « Devrait-être 0 :  ».
+    J'invoque le bloc est_en_minuscule, et j'assigne la valeur de retour à la variable valeur_temporaire, avec les paramètres 12.
+    J'invoque le bloc afficher_nombre, avec les paramètres valeur_temporaire.
+    Affiche un retour à la ligne.
+
+Merci d'avance,
+Cordialement,
+Gillier
+Mani

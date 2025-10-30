@@ -1,0 +1,13 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de est_négatif,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+; représenté par le code suivant.
+    Si nombre est inférieure à 0, exécute le texte :
+        Enfin, renvoie 1.
+    Merci.
+    Enfin, renvoie 0.
+Merci.

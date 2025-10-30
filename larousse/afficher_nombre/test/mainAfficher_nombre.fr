@@ -1,0 +1,19 @@
+Bonjour,
+
+En sachant que les variables principales sont :
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    J'invoque le bloc afficher_nombre, avec les paramètres 2147483647.
+    Affiche un retour à la ligne.
+    J'invoque le bloc afficher_nombre, avec les paramètres 12.
+    Affiche un retour à la ligne.
+    J'invoque le bloc afficher_nombre, avec les paramètres 0.
+    Affiche un retour à la ligne.
+    J'invoque le bloc afficher_nombre, avec les paramètres -12.
+    Affiche un retour à la ligne.
+    J'invoque le bloc afficher_nombre, avec les paramètres -2147483648.
+    Affiche un retour à la ligne.
+
+Merci d'avance,
+Cordialement,
+Gillier
+Mani

@@ -1,0 +1,11 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de additionner,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+    - second_nombre, de type entier naturel
+; contenant les variables :
+; représenté par le code suivant.
+    Enfin, renvoie (nombre plus second_nombre).
+Merci.

@@ -1,0 +1,6 @@
+printComb -> imprimer peigne (int)
+printCombN -> imprimer peigne N (int, int)
+printComb2 -> imprimer peigne 2 (int)
+sqrt -> Racine entière (int)
+isAlpha -> est en majuscule (char)
+isRevAlpha ->

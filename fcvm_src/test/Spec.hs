@@ -1,30 +1,42 @@
 import Test.HUnit
 
 import Stack.StackTest
-import Arithmetic.Optest
+import Arithmetic.OpTest
+import Comparator.CompTest
+import Unary.UnaryTest
+import Control.ControlTest
+import VM.Executor
+import VM.Types
+import IO.IoTest
+import Error.ErrorList
+import Loop.LoopTest
+
+testFileFormat :: Test
+testFileFormat =
+    TestCase $
+        let state = execFccByteCode []
+            err = (vmIO state)
+         in assertEqual "wrong file format" [(stderrFd, fileFormatError)] err
 
 tests :: Test
 tests = TestList
   [
+    -- File format
+    testFileFormat
     -- Stack test
-     testPushValue
-    ,testPopEmpty
-    ,testPushFromStPtrR
-    ,testPopFromStPtrR
-    ,testPushLabel
+    ,testStack
     -- Arithmetic op
-    ,testAdd
-    ,testSub
-    ,testMul
-    ,testDiv
-    ,testDivZero
-    ,testMod
-    ,testModZero
-    ,testOpAnd
-    ,testOpXor
-    ,testOpOr
-    ,testRBt
-    ,testLBt
+    ,testOp
+    -- Comparators 
+    ,testCompar
+    -- Unary
+    ,testUnary
+    -- Control
+    ,controlTest
+    -- IO
+    ,ioTest
+    -- Loop
+    -- ,testLoop
   ]
 
 main :: IO ()

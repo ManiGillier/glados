@@ -10,12 +10,12 @@ J'aimerais définir le bloc répondant au nom de fizzbuzz, de type de retour ent
         Affiche un retour à la ligne.
         Enfin, renvoie 0.
     Merci.
-    Si nombre modulo 5 est égale à 0, exécute le texte :
+    Si nombre modulo 3 est égale à 0, exécute le texte :
         Affiche « Fizz ».
         Affiche un retour à la ligne.
         Enfin, renvoie 0.
     Merci.
-    Si nombre modulo 3 est égale à 0, exécute le texte :
+    Si nombre modulo 5 est égale à 0, exécute le texte :
         Affiche « Buzz ».
         Affiche un retour à la ligne.
         Enfin, renvoie 0.

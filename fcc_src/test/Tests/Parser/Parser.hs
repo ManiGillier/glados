@@ -12,14 +12,14 @@ import Test.HUnit ( (~:), (~?=), Test(TestList) )
 
 import DataStruct.Ast.Ast as A
     ( Ast(Ast),
-      BinaryOperator(Inferior, Superior, Add, Equals),
+      BinaryOperator(..),
       Computable(Value, Operation, Variable),
       Condition(Condition),
       FunctionBodyContent(Invoke, Assign, Loop, If, Return, ShowStr,
                           Show),
       FunctionDef(Function),
       MainFunctionDef(Main),
-      Operation(BinaryOperation) )
+      Operation(..) )
 import Parser.Parser
     ( buildAst,
       extractBodyFunctionFromNextElse,
@@ -45,15 +45,16 @@ import Parser.Parser
       transformString,
       parseFunctionBody,
       convertReturnType,
-      parseParams )
+      parseParams, precedence, lOpToAstOp, unaryLOpToAstOp
+    , rpnToAst )
 
-import DataStruct.Lexing as L (LexedData(Symbol, Number, Text, UnaryOperation, Operation, OpenParenthesis, ClosedParenthesis, VariableDeclaration, Parameter, LexedType, InvokeParameter, Assign, If, While, FuncDef, FuncType, ReturnType, WithParameters, WithVariables, Invoke, AssignResultTo, Display, DisplayNewLine, EndFunction, EndIf, EndWhile, Return, Then, Else, Returns), UnaryOperations (Negate), Operations (Add, Multiply, Equal, Inferior, Superior), LexedTypes (LInt, LBoolean, LVoid), VarValue(..), FuncTypes (Function, Main))
+import DataStruct.Lexing as L (LexedData(..), UnaryOperations (..), Operations (..), LexedTypes (LInt, LBoolean, LVoid), VarValue(..), FuncTypes (Function, Main))
 import qualified DataStruct.Ast.Variable as Var
 import DataStruct.Ast.Variable (FuncParam(FuncParam))
 import qualified DataStruct.Ast.Variable as A
 import Error.MaybeError (MaybeError(Correct, Error))
 import Error.ErrorList (alreadyDefFuncErr)
-
+import qualified DataStruct.Ast.Ast as Ast
 
 parserTest :: Test
 parserTest = TestList
@@ -253,5 +254,88 @@ parserTest = TestList
         buildAst [] ~?= Correct (Ast Nothing []),
     "buildAst Test 2" ~:
         buildAst [FuncDef, FuncType L.Main, FuncDef, FuncType L.Main] ~?=
-                Error alreadyDefFuncErr "main" 
+                Error alreadyDefFuncErr "main"
+  , "shunting yard" ~: TestList
+    [ "precedence" ~: map precedence
+      [ L.Operation L.Add
+      , L.Operation Multiply
+      , L.Operation L.Subtract
+      , L.Operation Divide
+      , L.Operation L.Modulo
+      , L.Operation L.Equal
+      , L.Operation L.Different
+      , L.Operation L.BinaryAnd
+      , L.Operation L.BinaryOr
+      , L.Operation L.And
+      , L.Operation L.Or
+      , L.Operation L.Xor
+      , L.Operation LeftBitshift
+      , L.Operation RightBitshift
+      , L.Operation L.Inferior
+      , L.Operation L.Superior
+      , L.Operation InferiorOrEqual
+      , L.Operation SuperiorOrEqual
+      , L.UnaryOperation L.Negate
+      , L.Else
+      ]
+      ~?=
+      [9, 10, 9, 10, 10, 6, 6, 5, 3, 2, 1, 4, 8, 8, 7, 7, 7, 7, 11, 0]
+    , "lOpToAstOp" ~: map lOpToAstOp
+      [ L.Add
+      , L.Multiply
+      , L.Subtract
+      , L.Divide
+      , L.Modulo
+      , L.BinaryAnd
+      , L.BinaryOr
+      , L.And
+      , L.Or
+      , L.Xor
+      , L.LeftBitshift
+      , L.RightBitshift
+      , L.Equal
+      , L.Different
+      , L.Inferior
+      , L.Superior
+      , L.InferiorOrEqual
+      , L.SuperiorOrEqual
+      ]
+      ~?=
+      [ Ast.Add
+      , Ast.Multiplication
+      , Ast.Sub
+      , Ast.Division
+      , Ast.Modulo
+      , Ast.BinaryAnd
+      , Ast.BinaryOr
+      , Ast.BooleanAnd
+      , Ast.BooleanOr
+      , Ast.Xor
+      , Ast.BitShiftLeft
+      , Ast.BitShiftRight
+      , Ast.Equals
+      , Ast.Different
+      , Ast.Inferior
+      , Ast.Superior
+      , Ast.InferiorOrEq
+      , Ast.SuperiorOrEq
+      ]
+    , "unaryLOpToAstOp" ~: map unaryLOpToAstOp
+      [ L.Not, L.BinaryNot, L.Negate ]
+      ~?= [ Ast.BooleanNot, Ast.BinaryNot, Ast.Negate ]
+    , "rpnToAst" ~: TestList
+      [ "Simple number" ~: rpnToAst [L.Number 10, L.Else]
+        ~?= (Ast.Value 10, [L.Else])
+      , "Operation" ~: rpnToAst [L.Operation L.Add, L.Number 10, L.Number 10]
+        ~?= (Ast.Operation
+             $ Ast.BinaryOperation Ast.Add (Ast.Value 10) (Ast.Value 10)
+            , [])
+      , "Unary Operation" ~: rpnToAst [L.UnaryOperation L.Negate, L.Number 10]
+        ~?= (Ast.Operation
+             $ Ast.UnaryOperation Ast.Negate (Ast.Value 10)
+            , [])
+      , "Symbol" ~: rpnToAst [L.Symbol "test"]
+        ~?= (Ast.Variable "test", [])
+      ]
+    ]
   ]

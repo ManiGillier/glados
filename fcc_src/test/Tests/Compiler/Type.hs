@@ -27,9 +27,9 @@ testFailCompiler _ _ = Error "test" "test"
 compilerTest :: Test
 compilerTest = TestList
   [ "varExist" ~: varExist baseContext "x" ~?= False
-  , "takeLabel" ~: takeLabel "label" (Context [] 0 []) ~?=
-      (Context [] 1 [], "label_0")
-  , "baseContext" ~: baseContext ~?= (Context [] 0 [])
+  , "takeLabel" ~: takeLabel "label" (Context [] 0 [] []) ~?=
+      (Context [] 1 [] [], "label_0")
+  , "baseContext" ~: baseContext ~?= (Context [] 0 [] [])
   , "prefixCompiler" ~:
     [ "Error compiler" ~: prefixCompiler [Jmp]
       testFailCompiler baseContext ""
@@ -92,18 +92,22 @@ compilerTest = TestList
     ]
   , "variables" ~:
     [ "insertVariable" ~: insertVariable baseContext ("x", 0)
-      ~?= Context [("x", (0, 8))] 0 []
-    , "getVariable - Error" ~: getVariable (Context [] 0 []) "x"
+      ~?= Context [("x", (0, 8))] 0 [] []
+    , "getVariable - Error" ~: getVariable (Context [] 0 [] []) "x"
       ~?= Error ukVarErr "x"
-    , "getVariable - Error" ~: getVariable (Context [("x", (0, 8))] 0 []) "x"
+    , "getVariable - Error" ~: getVariable (Context [("x", (0, 8))] 0 [] []) "x"
       ~?= Correct 0
     ]
-  , "show context" ~: show (Context [] 0 ["test"])
-    ~?= "Context {var = [], labelCount = 0, functionNames = [\"test\"]}"
-  , "eq context" ~: (Context [("x", (0, 8))] 1 ["test"])
-    == (Context [("x", (0, 8))] 1 ["test"])
+  , "show context" ~: show (Context [] 0 (f2c ["test"]) [])
+    ~?= "Context {var = [], labelCount = 0, functionDefs = [<\"test\">], "
+    ++  "functionCalls = []}"
+  , "show context 2" ~: show (Context [] 0 (f2cf ["test"]) [])
+    ~?= "Context {var = [], labelCount = 0, functionDefs = [\"test\"], "
+    ++  "functionCalls = []}"
+  , "eq context" ~: (Context [("x", (0, 8))] 1 (f2c ["test"]) [])
+    == (Context [("x", (0, 8))] 1 (f2c ["test"]) [])
     ~?= True
-  , "getFuncName" ~: functionNames baseContext ~?= []
+  , "getFuncName" ~: functionDefs baseContext ~?= []
   , "compileMaybe" ~:
     [ "Nothing" ~: compileMaybe testCompiler baseContext Nothing
       ~?= Correct (baseContext,[])

@@ -23,19 +23,64 @@ module Compiler.Type (Context (..)
                      , apply
                      , revCompiler
                      , compileMaybe
+                     , funcToContext
+                     , isFuncAlreadyDefined
+                     , mainFuncContext
+                     , callToContext
+                     , FunctionContext (..)
+                     , funcNameToContext
+                     , f2c, f2cf
                      ) where
 import Compiler.Variable (VariableStorage, insertVariable'
                          , Variable, getVariable', varExist')
 import DataStruct.Asm (Instruction, VariableName, Addr, LabelName)
-import DataStruct.Ast.Ast (FunctionName)
+import DataStruct.Ast.Ast (FunctionName, IsReturning, FunctionDef (Function))
 import Error.MaybeError (MaybeError (..))
+import Data.Maybe (isJust)
+
+data FunctionContext = FunctionContext { funcName :: !FunctionName
+                                       , returning :: !IsReturning
+                                       , paramCount :: !Int
+                                       }
+  deriving (Eq)
+
+instance Show FunctionContext where
+  show (FunctionContext name True _) = "<" ++ Prelude.show name ++ ">"
+  show (FunctionContext name False _) = Prelude.show name
+
+mainFuncContext :: FunctionContext
+mainFuncContext = FunctionContext "main" True 0
 
 data Context = Context
   { var :: !VariableStorage
   , labelCount :: !Int
-  , functionNames :: ![FunctionName]
+  , functionDefs :: ![FunctionContext]
+  , functionCalls :: ![FunctionContext]
   }
   deriving (Show, Eq)
+
+funcNameToContext :: FunctionName -> Bool -> FunctionContext
+funcNameToContext name = flip (FunctionContext name) 0
+
+f2c :: [FunctionName] -> [FunctionContext]
+f2c = map $ flip funcNameToContext True
+
+f2cf :: [FunctionName] -> [FunctionContext]
+f2cf = map $ flip funcNameToContext False
+
+isFuncAlreadyDefined :: Context -> FunctionName -> Bool
+isFuncAlreadyDefined c name = elem name funcContext
+  where funcContext = map funcName $ functionDefs c
+
+funcToContext :: Context -> FunctionDef -> Context
+funcToContext c (Function name isreturning args _ _) =
+  c { functionDefs = (FunctionContext name isreturning l) : functionDefs c }
+  where l = length args
+
+callToContext :: Context -> FunctionName -> [a] -> Maybe b -> Context
+callToContext c name args r = c { functionCalls = context : functionCalls c }
+  where context = FunctionContext name (isJust r) l
+        l = length args
 
 varExist :: Context -> VariableName -> Bool
 varExist = varExist' . var
@@ -46,7 +91,7 @@ takeLabel prefix c = (c { labelCount = n + 1 },name)
         name = prefix ++ "_" ++ (show n)
 
 baseContext :: Context
-baseContext = Context [] 0 []
+baseContext = Context [] 0 [] []
 
 type Compiler a = Context -> a -> MaybeError (Context, [Instruction])
 

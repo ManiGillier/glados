@@ -1,12 +1,12 @@
-module Stack.StackTest (testPushValue, testPopEmpty, testPushFromStPtrR, testPopFromStPtrR, testPushLabel) where
+module Stack.StackTest (testStack) where
 
 import ByteCode.AsmToBytecode
+import Data.Word
 import DataStruct.Asm
 import Test.HUnit hiding (Label)
 import VM.Executor
 import VM.Types
 import VM.Utils.Conversion
-import Data.Word
 
 baseInst :: [Instruction]
 baseInst =
@@ -68,3 +68,13 @@ testPopFromStPtrR =
         pop = execByteCode push2
         stack = (vmStack pop)
      in assertEqual "popFromStackPtrRel 8 with one elem" (int64To8Bytes 42 ++ retVal) stack
+
+testStack :: Test
+testStack =
+  TestList $
+    [ testPushValue,
+      testPopEmpty,
+      testPushFromStPtrR,
+      testPopFromStPtrR,
+      testPushLabel
+    ]

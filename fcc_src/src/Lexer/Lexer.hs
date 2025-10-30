@@ -5,17 +5,23 @@
 -- Lexer
 -}
 
-module Lexer.Lexer(skipWhitespace, readWord, readValue, lexSyntaxAndReturn,
-    lexStringsWithTokens', lexStringsWithTokens, readAssign, readAssign',
+module Lexer.Lexer(skipWhitespace, readWord, readValue,
+    lexStringsWithTokens', lexStringsWithTokens, readAssign,
     readCondition, readComputable, readComputables, readIfCondition,
     readParenthesisComputable, readWhileCondition, readFunctionDefinition,
     readFunctionType, readMultipleWords, readInvoke, readQuotedValue,
     readDisplay, readMainFunctionDefinition, readName, readComment,
     readMainFunctionEnd, readFunctionEnd, readWhileEnd, readIfEnd,
     readReturn, readFunction, readFunctionBody, readCode,
-    readIf, readMainFunction, readWhile) where
+    readIf, readMainFunction, readWhile, charLiteral, escapeList,
+    readCharValue, readUnaryOperation, readOperation, readComparator,
+    readComputableAfterOperationWithUnaryOperation,
+    readComboWordWithValue, readOptionalComboWordsWithValues,
+    readParam, readComboWord, readOptionalComboWords,
+    tryReadOne, tryReadStrings, readMultipleComputables,
+    readHi, lexSyntax) where
 
-import Lexer.Syntax(Syntax(..), assignNameSyntax, assignValueSyntax,
+import Lexer.Syntax(Syntax(..),
     assignSyntax, assignSyntax', ifConditionSyntax, whileConditionSyntax,
     functionDefinitionNameSyntax, functionDefinitionReturnTypeSyntax,
     functionDefinitionWithVariablesSyntax, functionDefinitionParametersSyntax,
@@ -51,8 +57,8 @@ escapeList :: Lexer Char
 escapeList = choice [
     '\n' <$ char 'n',
     '\t'  <$ char 't',
-    '\r'  <$ char 'r',
     '\\' <$ char '\\',
+    '\r'  <$ char 'r',
     '\'' <$ char '\'',
     '"'  <$ char '"',
     '\0' <$ char '0']
@@ -67,7 +73,7 @@ readCharValue = between (char '\'') (char '\'') charLiteral
 
 readDecimal :: Lexer Int64
 readDecimal =
-    signed (return ()) decimal <* notFollowedBy (noneOf " .,\t\n()")
+    signed (empty) decimal <* notFollowedBy (noneOf " .,\t\n()")
 
 readBoolean :: Lexer Int64
 readBoolean = choice [
@@ -174,8 +180,6 @@ readCondition = readComputables
 convertToDeclaration :: [LexedData] -> LexedData
 convertToDeclaration [Symbol a, LexedType b, Number c] =
     VariableDeclaration a b (Int c)
-convertToDeclaration [Symbol a, LexedType b, Text c] =
-    VariableDeclaration a b (String c)
 convertToDeclaration _ = error "Not supposed to happen..?"
 
 convertToParam :: [LexedData] -> LexedData
@@ -189,9 +193,6 @@ readVariableDeclaration :: Lexer [LexedData]
 readVariableDeclaration = try (lexStringsWithTokens [SString "-", Space, Word,
         SString ",", Space, SString "de", Space, SString "type", Space,
         WordVariableType, SString ",", Space, SString "valant", Space, Value])
-        <|> lexStringsWithTokens [SString "-", Space, Word, SString ",", Space,
-        SString "de", Space, SString "type", Space, WordVariableType,
-        SString ",", Space, SString "valant", Space, QuotedValue]
 
 readOptionalComboWordsWithValues :: Lexer [LexedData]
 readOptionalComboWordsWithValues = many (readComboWordWithValue <* space1)
@@ -239,9 +240,7 @@ lexSyntax (Word : xs) = readWord >>= \_ -> lexSyntax xs
 lexSyntax (Space : xs) = space1 *> lexSyntax xs
 lexSyntax (Value : xs) = readValue >>= \_ -> lexSyntax xs
 lexSyntax (Condition : xs) = readCondition >>= \_ -> lexSyntax xs
-lexSyntax (ComboWord : xs) = readComboWordWithValue >>= \_ -> lexSyntax xs
-lexSyntax (OptionalComboWord : xs) = (try readComboWordWithValue) >>=
-    \_ -> lexSyntax xs
+lexSyntax (ComboWord : xs) = readComboWord >>= \_ -> lexSyntax xs
 lexSyntax (OptionalComboWordsWithValue : xs) =
     readOptionalComboWordsWithValues *> lexSyntax xs
 lexSyntax (OptionalSpace : xs) = skipWhitespace *> lexSyntax xs
@@ -256,41 +255,39 @@ lexSyntax (Name : xs) = readName *> lexSyntax xs
 lexSyntax (OptionalComboWords : xs) = readOptionalComboWords *> lexSyntax xs
 lexSyntax (MultipleComputables : xs) = readMultipleComputables *> lexSyntax xs
 
-lexSyntaxAndReturn :: [Syntax] -> a -> Lexer a
-lexSyntaxAndReturn [] a = return a
-lexSyntaxAndReturn (Word : xs) a = readWord >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (Space : xs) a = space1 *> lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (Value : xs) a = readValue >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (Condition : xs) a = readCondition >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn ((SString (x)):xs) a = string x *> lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (ComboWord : xs) a = readComboWordWithValue >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (OptionalComboWord : xs) a =
-    (try readComboWordWithValue) >>= \_ -> lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (OptionalComboWordsWithValue : xs) a =
-    (readOptionalComboWordsWithValues) >>= \_ -> lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (OptionalSpace : xs) a = skipWhitespace *>
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (Placeholder _ : xs) a = lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (WordFunctionType : xs) a = readFunctionType >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (WordVariableType : xs) a = readVariableType >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (MultipleSString (x) : xs) a = tryReadStrings x >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (MultipleWords : xs) a = readMultipleWords >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (QuotedValue : xs) a = readQuotedValue >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (Name : xs) a = readName >>= \_ ->
-    lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (OptionalComboWords : xs) a =
-    readOptionalComboWords >>= \_ -> lexSyntaxAndReturn xs a
-lexSyntaxAndReturn (MultipleComputables : xs) a =
-    readMultipleComputables >>= \_ -> lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn :: [Syntax] -> a -> Lexer a
+-- lexSyntaxAndReturn [] a = return a
+-- lexSyntaxAndReturn (Word : xs) a = readWord >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (Space : xs) a = space1 *> lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (Value : xs) a = readValue >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (Condition : xs) a = readCondition >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn ((SString (x)):xs) a = string x *> lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (ComboWord : xs) a = readComboWordWithValue >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (OptionalComboWordsWithValue : xs) a =
+--     (readOptionalComboWordsWithValues) >>= \_ -> lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (OptionalSpace : xs) a = skipWhitespace *>
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (Placeholder _ : xs) a = lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (WordFunctionType : xs) a = readFunctionType >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (WordVariableType : xs) a = readVariableType >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (MultipleSString (x) : xs) a = tryReadStrings x >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (MultipleWords : xs) a = readMultipleWords >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (QuotedValue : xs) a = readQuotedValue >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (Name : xs) a = readName >>= \_ ->
+--     lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (OptionalComboWords : xs) a =
+--     readOptionalComboWords >>= \_ -> lexSyntaxAndReturn xs a
+-- lexSyntaxAndReturn (MultipleComputables : xs) a =
+--     readMultipleComputables >>= \_ -> lexSyntaxAndReturn xs a
 
 lexStringsWithTokens' :: [LexedData] -> [Syntax] -> Lexer [LexedData]
 lexStringsWithTokens' t [] = return t
@@ -304,10 +301,7 @@ lexStringsWithTokens' t (Condition : xs) = readCondition >>= \toAdd ->
 lexStringsWithTokens' t ((SString (x)):xs) = string x *>
     lexStringsWithTokens' t xs
 lexStringsWithTokens' t (ComboWord : xs) =
-    readComboWordWithValue >>= \toAdd -> lexStringsWithTokens' (toAdd : t) xs
-lexStringsWithTokens' t (OptionalComboWord : xs) =
-    option [] (fmap (\x -> [x]) readComboWordWithValue) >>= \toAdd ->
-    lexStringsWithTokens' (t ++ toAdd) xs
+    readComboWord >>= \toAdd -> lexStringsWithTokens' (toAdd : t) xs
 lexStringsWithTokens' t (OptionalComboWordsWithValue : xs) =
     option [] readOptionalComboWordsWithValues >>= \toAdd ->
     lexStringsWithTokens' (t ++ toAdd) xs
@@ -398,11 +392,11 @@ readReturn :: Lexer [LexedData]
 readReturn = (try (lexStringsWithTokens' [Return] returnSyntax) <|>
     try (lexStringsWithTokens' [Return] returnSyntax')) <* readEOI
 
-readAssign' :: Lexer [LexedData]
-readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)
-    <$> lexStringsWithTokens assignNameSyntax
-    <*> lexStringsWithTokens assignValueSyntax
-    <* readEOI
+-- readAssign' :: Lexer [LexedData]
+-- readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)
+--     <$> lexStringsWithTokens assignNameSyntax
+--     <*> lexStringsWithTokens assignValueSyntax
+--     <* readEOI
 
 readIfElse :: Lexer [LexedData]
 readIfElse = (readIfCondition <* skipWhitespace) $++

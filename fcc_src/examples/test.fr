@@ -7,6 +7,8 @@ En sachant que les variables principales sont :
    Affiche un retour à la ligne.
    Affiche « J'aime les glaces.\nGenre vraiment. ».
    Affiche un retour à la ligne.
+   Affiche '0' plus (-6 plus 8).
+   Affiche un retour à la ligne.
 
 Merci d'avance,
 Cordialement,

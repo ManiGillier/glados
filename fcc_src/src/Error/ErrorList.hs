@@ -15,9 +15,13 @@ module Error.ErrorList
   , fileError
   , undefinedFunctionErr
   , assignementFromVoidFunc
+  , returnValueInVoidFunction
 ) where
 
 import Error.MaybeError (ErrorType)
+
+returnValueInVoidFunction :: ErrorType
+returnValueInVoidFunction = "Returning a value in a void function"
 
 assignementFromVoidFunc :: ErrorType
 assignementFromVoidFunc = "Assigning return value of void function"

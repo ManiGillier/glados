@@ -11,6 +11,7 @@ module Error.ErrorList (
    ,divError
    ,stackOverFlowError
    ,stackUnderFlowError
+   , fileErr
 ) where
 
 import Error.MaybeError (ErrorType)
@@ -29,3 +30,6 @@ stackUnderFlowError = "*** STACK ERROR"
 
 divError:: ErrorType
 divError = "*** 0 CAN'T BE USE in this operation"
+
+fileErr :: ErrorType
+fileErr = "Error with file"

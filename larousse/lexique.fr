@@ -1,0 +1,27 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de imprimer_peigne_N,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+    - zero, de type entier naturel, valant 0
+    - un, de type entier naturel, valant 1
+    - deux, de type entier naturel, valant 2
+    - trois, de type entier naturel, valant 3
+    - quatre, de type entier naturel, valant 4
+    - cinq, de type entier naturel, valant 5
+    - six, de type entier naturel, valant 6
+    - sept, de type entier naturel, valant 7
+    - huit, de type entier naturel, valant 8
+    - neuf, de type entier naturel, valant 9
+    - dix, de type entier naturel, valant 10
+    - onze, de type entier naturel, valant 11
+    - douze, de type entier naturel, valant 12
+; représenté par le code suivant.
+
+    J'aimerais que nombre prenne la valeur nombre multiplié par douze.
+    J'invoque le bloc afficher_nombre, et j'assigne la valeur de retour à la variable zero, avec les paramètres douze.
+
+    Enfin, renvoie 0.
+Merci.

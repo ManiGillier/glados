@@ -44,7 +44,7 @@ int compter_chiffres(int number)
     return i;
 }
 
-int plus_grand_nombre_atteignable(int n)
+int trèsGrosNombre(int n)
 {
     int àRenvoyer = 0;
     int i = n - 1;
@@ -109,7 +109,7 @@ int est_de_composition_maximale(int chiffre, int combien)
 {
     int aSupprimer = 0;
     int chiffreAttendu = 0;
-    int maxAtteignable = plus_grand_nombre_atteignable(combien);
+    int maxAtteignable = trèsGrosNombre(combien);
     int i = 0;
 
     while (i < combien) {
@@ -138,9 +138,9 @@ void affichage(int n, int combien)
     }
 }
 
-int imprimer_peigne_N(int n)
+int imprimer_peigne_nombre(int n)
 {
-    int plusGrandNombreAtteignable = plus_grand_nombre_atteignable(n);
+    int plusGrandNombreAtteignable = trèsGrosNombre(n);
     int i = 0;
 
     while (i <= plusGrandNombreAtteignable) {

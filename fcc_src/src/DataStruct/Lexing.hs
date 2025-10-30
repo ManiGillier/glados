@@ -76,6 +76,7 @@ data LexedData =
     EndWhile | -- Fin d'un while
     EndFunction | -- Fin d'une fonction
     Return | -- Retourner une valeur.
+    ReturnVoid |
     Symbol String | -- Entrée utilisateur
     VariableDeclaration String LexedTypes VarValue | -- Déclaration variable
     Parameter String LexedTypes | -- Déclaration paramètres

@@ -28,6 +28,7 @@ import DataStruct.Ast.Ast as Ast (MainFunctionDef(..), BinaryOperator (..), Comp
 import qualified DataStruct.Ast.Variable as Var
 import DataStruct.Ast.Variable (FuncParam(FuncParam))
 import Error.ErrorList (alreadyDefFuncErr)
+import qualified DataStruct.Ast.Ast as DataStruct.Ast
 
 takeUntil :: [LexedData] -> LexedData -> [LexedData]
 takeUntil [] _ = []
@@ -301,6 +302,8 @@ parseFunctionBody (DataStruct.Lexing.Assign:Symbol s:xs) =
 parseFunctionBody (DataStruct.Lexing.Return:xs) =
     parseReturn (getAllComputables xs) :
     parseFunctionBody (skipComputables xs)
+parseFunctionBody(DataStruct.Lexing.ReturnVoid:xs) =
+    DataStruct.Ast.ReturnVoid : parseFunctionBody xs
 parseFunctionBody (DataStruct.Lexing.While:xs) =
     parseWhile (takeUntil xs Then)
     (extractBodyFunctionFromNextWhile xs) :

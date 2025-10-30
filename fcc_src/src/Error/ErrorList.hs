@@ -16,9 +16,14 @@ module Error.ErrorList
   , undefinedFunctionErr
   , assignementFromVoidFunc
   , returnValueInVoidFunction
+  , functionArgumentMissmatch
 ) where
 
 import Error.MaybeError (ErrorType)
+
+functionArgumentMissmatch :: ErrorType
+functionArgumentMissmatch =
+  "Invoking a function with wrong number of parameters"
 
 returnValueInVoidFunction :: ErrorType
 returnValueInVoidFunction = "Returning a value in a void function"

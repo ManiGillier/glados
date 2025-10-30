@@ -40,15 +40,16 @@ import Data.Maybe (isJust)
 
 data FunctionContext = FunctionContext { funcName :: !FunctionName
                                        , returning :: !IsReturning
+                                       , paramCount :: !Int
                                        }
   deriving (Eq)
 
 instance Show FunctionContext where
-  show (FunctionContext name True) = "<" ++ Prelude.show name ++ ">"
-  show (FunctionContext name False) = Prelude.show name
+  show (FunctionContext name True _) = "<" ++ Prelude.show name ++ ">"
+  show (FunctionContext name False _) = Prelude.show name
 
 mainFuncContext :: FunctionContext
-mainFuncContext = FunctionContext "main" True
+mainFuncContext = FunctionContext "main" True 0
 
 data Context = Context
   { var :: !VariableStorage
@@ -59,7 +60,7 @@ data Context = Context
   deriving (Show, Eq)
 
 funcNameToContext :: FunctionName -> Bool -> FunctionContext
-funcNameToContext name = FunctionContext name
+funcNameToContext name = flip (FunctionContext name) 0
 
 f2c :: [FunctionName] -> [FunctionContext]
 f2c = map $ flip funcNameToContext True
@@ -72,12 +73,14 @@ isFuncAlreadyDefined c name = elem name funcContext
   where funcContext = map funcName $ functionDefs c
 
 funcToContext :: Context -> FunctionDef -> Context
-funcToContext c (Function name isreturning _ _ _) =
-  c { functionDefs = (FunctionContext name isreturning) : functionDefs c }
+funcToContext c (Function name isreturning args _ _) =
+  c { functionDefs = (FunctionContext name isreturning l) : functionDefs c }
+  where l = length args
 
 callToContext :: Context -> FunctionName -> [a] -> Maybe b -> Context
-callToContext c name _ r = c { functionCalls = context : functionCalls c }
-  where context = FunctionContext name (isJust r)
+callToContext c name args r = c { functionCalls = context : functionCalls c }
+  where context = FunctionContext name (isJust r) l
+        l = length args
 
 varExist :: Context -> VariableName -> Bool
 varExist = varExist' . var

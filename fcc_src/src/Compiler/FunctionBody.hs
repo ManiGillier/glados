@@ -23,7 +23,7 @@ import Error.ErrorList (ukVarErr, returnValueInVoidFunction)
 -- TODO: Assign Return Value of Invoke to the set Variable
 compileFuncBodyContent :: Compiler FunctionBodyContent
 compileFuncBodyContent s (Return comp) = case functionDefs s of
-  (FunctionContext name False:_) -> Error returnValueInVoidFunction name
+  (FunctionContext name False _:_) -> Error returnValueInVoidFunction name
   __ -> flip apply s $
     (compileComputable, comp) @> [ PopToStackPtrRel (-8), Ret ]
 compileFuncBodyContent s (Show comp) = compiler s comp

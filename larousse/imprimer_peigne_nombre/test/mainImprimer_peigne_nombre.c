@@ -4,8 +4,6 @@
 
 int main(void)
 {
-    printf("Boh le resultat c'est ça :\n");
-    imprimer_peigne_nombre(3);
-    printf("\n");
+    imprimer_peigne_nombre(2);
     return 0;
 }

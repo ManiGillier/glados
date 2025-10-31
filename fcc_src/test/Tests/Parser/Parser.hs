@@ -46,7 +46,7 @@ import Parser.Parser
       parseFunctionBody,
       convertReturnType,
       parseParams, precedence, lOpToAstOp, unaryLOpToAstOp
-    , rpnToAst )
+    , rpnToAst, precedenceCmp, shuntingYardParenthesis, shuntingYardOperator, shuntingYardAlgorithm )
 
 import DataStruct.Lexing as L (LexedData(..), UnaryOperations (..), Operations (..), LexedTypes (LInt, LBoolean, LVoid), VarValue(..), FuncTypes (Function, Main))
 import qualified DataStruct.Ast.Variable as Var
@@ -336,6 +336,104 @@ parserTest = TestList
             , [])
       , "Symbol" ~: rpnToAst [L.Symbol "test"]
         ~?= (Ast.Variable "test", [])
+      ]
+    , "precedenceCmp" ~: precedenceCmp (==) (L.Operation Multiply)
+      (L.Operation L.Subtract) ~?= False
+    , "shuntingYardParenthesis" ~:
+      [ "no parenthesis" ~: shuntingYardParenthesis []
+        ~?= ([],[])
+      , "simple open parenthesis" ~: shuntingYardParenthesis
+        [L.OpenParenthesis, L.Operation L.Add]
+        ~?= ([L.Operation L.Add],[])
+      , "normal" ~: shuntingYardParenthesis
+        [ L.Operation L.Add, L.Symbol "x"
+        , L.OpenParenthesis
+        , L.Operation L.Multiply]
+        ~?= ([L.Operation L.Multiply],[L.Operation L.Add, L.Symbol "x"])
+      ]
+    , "shuntingYard algo" ~: TestList
+      [ "a + b - c * d" ~:
+        shuntingYardAlgorithm
+        [ L.Symbol "a"
+        , L.Operation L.Add
+        , L.Symbol "b"
+        , L.Operation L.Subtract
+        , L.Symbol "c"
+        , L.Operation L.Multiply
+        , L.Symbol "d"
+        ] []
+        ~?=
+        [ Symbol "a", Symbol "b"
+        , L.Operation L.Add
+        , Symbol "c", Symbol "d"
+        , L.Operation L.Multiply
+        , L.Operation L.Subtract
+        ]
+      , "-a + b - c * d" ~:
+        shuntingYardAlgorithm
+        [ L.UnaryOperation L.Negate
+        , L.Symbol "a"
+        , L.Operation L.Add
+        , L.Symbol "b"
+        , L.Operation L.Subtract
+        , L.Symbol "c"
+        , L.Operation L.Multiply
+        , L.Symbol "d"
+        ] []
+        ~?=
+        [ Symbol "a"
+        , L.UnaryOperation L.Negate
+        , Symbol "b"
+        , L.Operation L.Add
+        , Symbol "c", Symbol "d"
+        , L.Operation L.Multiply
+        , L.Operation L.Subtract
+        ]
+      , "a + --b - c * d" ~:
+        shuntingYardAlgorithm
+        [ L.Symbol "a"
+        , L.Operation L.Add
+        , L.UnaryOperation L.Negate
+        , L.UnaryOperation L.Negate
+        , L.Symbol "b"
+        , L.Operation L.Subtract
+        , L.Symbol "c"
+        , L.Operation L.Multiply
+        , L.Symbol "d"
+        ] []
+        ~?=
+        [ Symbol "a"
+        , Symbol "b"
+        , L.UnaryOperation L.Negate
+        , L.UnaryOperation L.Negate
+        , L.Operation L.Add
+        , Symbol "c", Symbol "d"
+        , L.Operation L.Multiply
+        , L.Operation L.Subtract
+        ]
+      , "a + -(b - c) * d" ~:
+        shuntingYardAlgorithm
+        [ L.Symbol "a"
+        , L.Operation L.Add
+        , L.UnaryOperation L.Negate
+        , L.OpenParenthesis
+        , L.Symbol "b"
+        , L.Operation L.Subtract
+        , L.Symbol "c"
+        , L.ClosedParenthesis
+        , L.Operation L.Multiply
+        , L.Symbol "d"
+        ] []
+        ~?=
+        [ Symbol "a"
+        , Symbol "b"
+        , Symbol "c"
+        , L.Operation L.Subtract
+        , L.UnaryOperation L.Negate
+        , Symbol "d"
+        , L.Operation L.Multiply
+        , L.Operation L.Add
+        ]
       ]
     ]
   ]

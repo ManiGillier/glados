@@ -25,6 +25,10 @@ module Parser.Parser
   , lOpToAstOp
   , unaryLOpToAstOp
   , rpnToAst
+  , precedenceCmp
+  , shuntingYardParenthesis
+  , shuntingYardOperator
+  , shuntingYardAlgorithm
                     ) where
 
 import DataStruct.Lexing (LexedData(..), FuncTypes(..), LexedTypes (LInt, LBoolean, LVoid))

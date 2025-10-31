@@ -60,7 +60,8 @@ compileFuncDef s f@(Function name isReturning ps vs body)
     [Label $ funcLabelPrefix ++ name] <@ (mapCompiler compileVarDef, vs)
     .+ (compileFuncBody, body) @> returnStatement isReturning)
     where duplParam = checkDuplicatesParams ps
-          s' = (funcToContext s f) { var = computeParams (-8) ps }
+          s' = (funcToContext s f) { var = computeParams (-8) ps
+                                     ++ [("__ret", (-8, 8))] }
 
 compileMainDef :: Compiler MainFunctionDef
 compileMainDef s (Main vs body) = flip apply s'

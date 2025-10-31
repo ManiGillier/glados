@@ -60,6 +60,15 @@ functionDefTest = TestList
                     , v' 42, PopToStackPtrRel (-16) -- Assign x
                     , v' 41, PopToStackPtrRel (-24) -- Assign y
                     , Ret])
+    , "param + var" ~: compileFuncDef baseContext
+      (Function "f" False [ Var.FuncParam "x" ] [ Var.VariableDef "y" 0 ]
+        [Assign "x" $ v 42, Assign "y" $ v 41])
+      ~?= Correct ((Context [] 0 [FunctionContext "f" False 1] [])
+                  , [ Asm.Label "func_f"
+                    , PushValue 0
+                    , v' 42, PopToStackPtrRel (-16) -- Assign x
+                    , v' 41, PopToStackPtrRel (0) -- Assign y
+                    , Ret])
     , "duplicate param" ~: compileFuncDef baseContext
       (Function "f" False [ Var.FuncParam "x"
                              , Var.FuncParam "x"] []

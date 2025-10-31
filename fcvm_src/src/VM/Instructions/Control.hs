@@ -31,7 +31,8 @@ handleCall state =
         newCallStack = updateCall (vmPC state) (vmSP state) (vmCallStack state)
     in state { vmPC = newPC, vmStack = newStack, 
         vmSP = newSP, vmCallStack = newCallStack, 
-        vmCallSackSize = (vmCallSackSize state + 1)}
+        vmCallSackSize = (vmCallSackSize state + 1),
+        vmStackSize = (vmStackSize state - 1)}
 
 getReturnValue :: Stack -> Int64
 getReturnValue [] = (-1)
@@ -57,6 +58,7 @@ handleZflag state =
         pc = (vmPC state) + 1
         zflag = bytesToInt64 (take 8 stack)
     in state { vmPC = pc, vmStack = popStack stack 
+        ,vmStackSize = (vmStackSize state - 1)
         ,vmZFlag = zfVal zflag }
 
 handleZjmp :: VMState -> VMState
@@ -65,13 +67,17 @@ handleZjmp state =
         zflag = (vmZFlag state)
         pc = (vmPC state)
         newPc = fromIntegral $ bytesToInt64 $ take 8 stack
+        newStSize = (vmStackSize state - 1)
     in case zflag of
-        0 -> state {vmStack = popStack stack, vmPC = newPc }
-        _ -> state {vmStack = popStack stack, vmPC = pc + 1}
+        0 -> state {vmStack = popStack stack, vmPC = newPc, 
+            vmStackSize = newStSize}
+        _ -> state {vmStack = popStack stack, vmPC = pc + 1, 
+            vmStackSize = newStSize}
 
 handleJmp :: VMState -> VMState
 handleJmp state =
     let stack = (vmStack state)
         newPc = fromIntegral $ bytesToInt64 $ take 8 stack
+        newStSize = (vmStackSize state - 1)
     in state {vmStack = popStack stack, 
-        vmPC = newPc }
+        vmPC = newPc, vmStackSize = newStSize}

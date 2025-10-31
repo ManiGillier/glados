@@ -67,12 +67,11 @@ handleZjmp state =
         zflag = (vmZFlag state)
         pc = (vmPC state)
         newPc = fromIntegral $ bytesToInt64 $ take 8 stack
-        newStSize = (vmStackSize state - 1)
     in case zflag of
         0 -> state {vmStack = popStack stack, vmPC = newPc, 
-            vmStackSize = newStSize}
+            vmStackSize = (vmStackSize state - 1)}
         _ -> state {vmStack = popStack stack, vmPC = pc + 1, 
-            vmStackSize = newStSize}
+            vmStackSize = (vmStackSize state - 1)}
 
 handleJmp :: VMState -> VMState
 handleJmp state =

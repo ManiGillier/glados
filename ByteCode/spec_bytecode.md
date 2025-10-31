@@ -6,7 +6,7 @@ After that, it takes 8 bytes for the start adress.
 
 then the instruction which take 1 byte, 8 bytes for an argument if needed, and then a byte of 0 to specify the end of the instruction
 
-|     Opération et format     |     Mnémonique / Syntaxe     |     Arguments     |     Description     |
+|     Opération et format     |     Mnémonique     |     Arguments     |     Description     |
 |     :------------------     |     :------------------:     |     :-------:     |     ----------:     |
 |     69,12,69,12             |    Magic Number              |   \               |   Magic Number      |
 |     3                       |    BinNot                    |   \               |   not (inverse the bits)    |

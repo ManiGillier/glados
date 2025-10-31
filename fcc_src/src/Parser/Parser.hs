@@ -5,21 +5,32 @@
 -- Parser
 -}
 
-module Parser.Parser(takeUntil, findMain, getMainCount, parseMain,
-  parseVariableDefinitions, skipTo,
-  extractBodyFunctionFromNextIf,
-  extractBodyFunctionFromNextElse,
-  parseFunctions, buildAst,
-  parseComputable, extractConditionFromNextWhile,
-  extractBodyFunctionFromNextWhile,
-  getAllComputables,
-  parseDisplay,
-  parseAssign,
-  parseWhile, isThereElse, parseReturn, skipComputables,
-  parseInvokeParams,
-  parseInvoke,
-  escapedCharacter, transformString, convertReturnType, parseParams,
-  parseFunctionBody) where
+module Parser.Parser
+  ( takeUntil, findMain, getMainCount, parseMain,
+    parseVariableDefinitions, skipTo,
+    extractBodyFunctionFromNextIf,
+    extractBodyFunctionFromNextElse,
+    parseFunctions, buildAst,
+    parseComputable, extractConditionFromNextWhile,
+    extractBodyFunctionFromNextWhile,
+    getAllComputables,
+    parseDisplay,
+    parseAssign,
+    parseWhile, isThereElse, parseReturn, skipComputables,
+    parseInvokeParams,
+    parseInvoke,
+    escapedCharacter, transformString, convertReturnType, parseParams,
+    parseFunctionBody
+  , precedence
+  , lOpToAstOp
+  , unaryLOpToAstOp
+  , rpnToAst
+  , precedenceCmp
+  , shuntingYardParenthesis
+  , shuntingYardOperator
+  , shuntingYardAlgorithm
+                    ) where
+
 import DataStruct.Lexing (LexedData(..), FuncTypes(..), LexedTypes (LInt, LBoolean, LVoid))
 import DataStruct.Ast.Ast(MainFunctionDef(..), FunctionBody, Condition(..), FunctionBodyContent (If, Show, Assign, Return, Loop, Invoke), FunctionDef (Function), Ast (Ast))
 import DataStruct.Lexing as L (LexedData(..), FuncTypes(..), VarValue(..), Operations (..), UnaryOperations (..))

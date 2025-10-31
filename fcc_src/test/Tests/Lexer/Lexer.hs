@@ -13,7 +13,7 @@ import Test.HUnit
 
 import Lexer.Syntax
 import Lexer.Lexer
-import DataStruct.Lexing (LexedData(Symbol, Number, Text, UnaryOperation, Operation, OpenParenthesis, ClosedParenthesis, VariableDeclaration, Parameter, LexedType, InvokeParameter, Assign, If, While, FuncDef, FuncType, ReturnType, WithParameters, WithVariables, Invoke, AssignResultTo, Display, DisplayNewLine, EndFunction, EndIf, EndWhile, Return, Then, Else), UnaryOperations (BinaryNot, Not, Negate), Operations (Add, Subtract, Multiply, Divide, Modulo, BinaryAnd, BinaryOr, Xor, RightBitshift, LeftBitshift, And, Or, Equal, Different, InferiorOrEqual, SuperiorOrEqual, Inferior, Superior), LexedTypes (LInt, LBoolean, LVoid), VarValue(..), FuncTypes (Function, Main))
+import DataStruct.Lexing (LexedData(Symbol, Number, Text, UnaryOperation, Operation, OpenParenthesis, ClosedParenthesis, VariableDeclaration, Parameter, LexedType, InvokeParameter, Assign, If, While, FuncDef, FuncType, ReturnType, WithParameters, WithVariables, Invoke, AssignResultTo, Display, DisplayNewLine, EndFunction, EndIf, EndWhile, Return, Then, Else, ReturnVoid), UnaryOperations (BinaryNot, Not, Negate), Operations (Add, Subtract, Multiply, Divide, Modulo, BinaryAnd, BinaryOr, Xor, RightBitshift, LeftBitshift, And, Or, Equal, Different, InferiorOrEqual, SuperiorOrEqual, Inferior, Superior), LexedTypes (LInt, LBoolean, LVoid), VarValue(..), FuncTypes (Function, Main))
 import Data.Either (isLeft, isRight)
 
 lexerTest :: Test
@@ -287,7 +287,7 @@ lexerTest = TestList
             Right [Return, Number 69],
     "readReturn Test 2" ~:
         parse (readReturn) "" "Enfin, sors du bloc." ~?=
-            Right [Return],
+            Right [ReturnVoid],
     "readIf Test 1" ~:
         parse (readIf) ""
         "Si x est égale à 5, exécute le texte : Affiche 69. Merci." ~?=

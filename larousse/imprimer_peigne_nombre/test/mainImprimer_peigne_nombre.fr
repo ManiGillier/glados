@@ -3,10 +3,7 @@ Bonjour,
 En sachant que les variables principales sont :
     - valeur_temporaire, de type entier naturel, valant 0
 ; pourrais-tu s'il te plaît commencer la lecture ici ?
-    Affiche « Boh le resultat c'est ça :  ».
-    Affiche un retour à la ligne.
-    J'invoque le bloc imprimer_peigne_nombre, avec les paramètres 3.
-    Affiche un retour à la ligne.
+    J'invoque le bloc imprimer_peigne_nombre, avec les paramètres 2.
 Merci d'avance,
 Cordialement,
 Gillier

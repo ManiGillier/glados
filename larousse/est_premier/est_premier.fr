@@ -1,0 +1,17 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de est_premier,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+    - i, de type entier naturel, valant 2
+; représenté par le code suivant.
+    Tant que i est inférieure ou égale à nombre exécute le code ci-après :
+        Si ((nombre modulo i) est égale à 0) et (i est différent de nombre), exécute le texte :
+            Enfin, renvoie -1.
+        Merci.
+        J'aimerais que i prenne la valeur i plus 1.
+    Merci.
+    Enfin, renvoie 0.
+Merci.

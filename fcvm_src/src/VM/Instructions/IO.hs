@@ -18,7 +18,10 @@ handleAff :: VMState -> VMState
 handleAff state =
     let val = chr $ fromIntegral $ bytesToInt64 (take bits64 (vmStack state))
         newStack = popStack (vmStack state)
-        newState = state { vmPC = nextIns (vmPC state), vmStack = newStack, 
+        newState = state { 
+            vmPC = nextIns (vmPC state), 
+            vmStack = newStack, 
+            vmStackSize = (vmStackSize state - 1),
             vmIO = [(stdoutFd, [val])]}
     in newState
 

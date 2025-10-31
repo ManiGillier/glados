@@ -13,8 +13,9 @@ import Prelude
 import System.Environment
 import System.Exit (exitWith, ExitCode(..))
 import VM.Executor (execFccByteCode, execAllByteCodes, printVMIO)
-import Data.Functor ((<&>))
 import Data.Maybe (listToMaybe)
+
+import Error.MaybeError
 
 printArgError :: IO ()
 printArgError = hPutStrLn stderr "ERROR: You must provide a file as argument."
@@ -26,5 +27,5 @@ getFirstArg = getArgs >>=
       Just arg' -> return arg')
 
 main :: IO ()
-main = getFirstArg >>= fileToByteCode <&>
-  execFccByteCode <&> execAllByteCodes >>= printVMIO
+main = getFirstArg >>= fileToByteCode >>=
+  (printMaybeError $ printVMIO . execAllByteCodes . execFccByteCode)

@@ -390,7 +390,7 @@ readWhileEnd = lexStringsWithTokens' [EndWhile] endWhileSyntax
 
 readReturn :: Lexer [LexedData]
 readReturn = (try (lexStringsWithTokens' [Return] returnSyntax) <|>
-    try (lexStringsWithTokens' [Return] returnSyntax')) <* readEOI
+    try (lexStringsWithTokens' [ReturnVoid] returnSyntax')) <* readEOI
 
 -- readAssign' :: Lexer [LexedData]
 -- readAssign' = (\ws1 ws2 -> Assign : ws1 ++ ws2)

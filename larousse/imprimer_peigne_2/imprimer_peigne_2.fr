@@ -1,0 +1,10 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de imprimer_peigne_2,
+de type de retour entier naturel,
+nécessitant comme entrée :
+; contenant les variables :
+; représenté par le code suivant.
+    J'invoque le bloc imprimer_peigne_nombre, avec les paramètres 4.
+    Enfin, renvoie 0.
+Merci.

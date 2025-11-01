@@ -98,7 +98,39 @@ We simply store some context in a datastructure for the verification step to loo
 
 Finaly, we send the assembly to out output step, that is in charge of converting it to the final bytecode, or to write it as a debug output.
 
-# Parsing reference
+# Lexer & Parsing reference
+
+We have chosen Haskell to implement the lexing and parsing of the language, as functional languages like Haskell make it particularly easy to express, abstract, and combine parsers. This allows the Franc C to be very verbose, which was definitely needed.
+
+As we wanted to speed things up and release a first version as quickly as possible, we decided to use a pre-existing parsing library `Megaparsec`. The library offers fast parsing performance, is an improved successor of `Parsec`, and provides high-quality error messages that greatly simplify debugging and development.
+
+The `Lexer` and `Parser` both refers to two different parts:
+
+- The `Lexer`, which uses `Megaparsec` reads the source code’s syntax, checks that it follows the correct grammar, then converts the text into a list of tokens that the parser can later use.
+For example, the code `Si x est égale à 0, exécute le texte` would be transformed into the list as `[If, Symbol "x", Operation Equals, Number 0, Then]`
+- The `Parser`, on the other hand, takes this list of tokens to transform it into an **Abstract Syntax Tree** (AST). It uses Haskell's recursive principles to build that tree so that the compiler can later use it to generate the final executable library.
+
+The `Parser` is only executed if the `Lexer` did not fail to lex the targetted source code.
+
+## Safety measures
+
+The safety of the lexing process is ensured by `Megaparsec`, which provides robust error handling and syntax checking.
+During the lexing part, Megaparsec ensures the input strictly follows the defined grammar. If the syntax is incorrect, the lexer fails gracefully by producing a clear and descriptive error message, preventing the program from continuing with an invalid input.
+If the syntax is valid, the lexer successfully returns a well-structured list of tokens that can safely be passed to the parser.
+
+Since the Lexer always produces a clean and valid list of tokens, the Parser does not include any additional safety checks on its input.
+However, it makes sure that no more than **one** main function was defined.
+
+## Error list
+
+- Grammar Error : Triggered when Megaparsec fails to lex or parse the source code due to **invalid syntax**.
+- Double Main Definition : Raised when more than one main function was defined in the program.
+
+## Known caveats
+
+- Lexing Error Printing : We are aware that Megaparsec does not always display clear or accurate error messages in some cases.
+This issue is due to our current lexing implementation rather than Megaparsec itself, and should be fixed soon or later.
+- Parsing Input : The parser currently does not validate its input and fully relies on the lexer to always produce correct and consistent tokens. While this works for now, it could lead to potential issues in the future.
 
 # Compilation reference
 
@@ -139,7 +171,7 @@ During the compilation step, we check for user errors :
 - An empty return is given to a function of type non-void.
 - An assignement of the return of a void-typed function is made.
 
-## Entended undefined behaviours
+## Intended undefined behaviours
 
 ### Integer over/underflows
 

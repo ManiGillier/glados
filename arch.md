@@ -67,6 +67,8 @@ Il faut s'appuyer du BNF pour former ça
 
 ## Parameters list and long descriptions
 
+## Larousse
+
 ## Functionnement
 
 inputs -> {lexing -> parsing}* -> combination -> compilation -> vérifications -> output

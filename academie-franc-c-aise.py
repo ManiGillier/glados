@@ -138,6 +138,8 @@ def compile_test_fc(testFolder: str) -> int:
 
     if testFolder != Path(testFolderPath + "/afficher_nombre"):
         fcFiles += get_all_files_by_extension_in_folder(Path(testFolderPath + "/afficher_nombre"), ".fr")
+    if testFolder != Path(testFolderPath + "/imprimer_peigne_nombre"):
+        fcFiles += get_all_files_by_extension_in_folder(Path(testFolderPath + "/imprimer_peigne_nombre"), ".fr")
 
     p1 = subprocess.Popen(["./" + compilerExecutablePath, "--no-larousse"] + fcFiles, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     p1.communicate()
@@ -193,7 +195,7 @@ def test_folder(testFolder: str) -> bool:
     endCompilationC = time.time()
     print(f"[*] [Académie Franc C'aise] Les sources en \x1b[31mC\x1b[0m ont pris \x1b[36m{endCompilationC - startCompilationC:.2f}s\x1b[0m à \x1b[33mcompiler\x1b[0m.")
 
-    fastestLanguage = "C" if endCompilationC - startCompilationC <= startCompilationFc - startCompilationFc else "Franc C"
+    fastestLanguage = "C" if endCompilationC - startCompilationC <= endCompilationFc - startCompilationFc else "Franc C"
     print(f"[*] [Académie Franc C'aise] Le langage \x1b[31m{fastestLanguage}\x1b[0m a été plus rapide à la \x1b[33mcompilation\x1b[0m de \x1b[36m{abs((endCompilationFc - startCompilationFc) - (endCompilationC - startCompilationC)):.2f}s\x1b[0m\n")
 
     startExecutionFc = time.time()
@@ -254,9 +256,11 @@ def start_academie_franc_c_aise():
     if not can_start_testing():
         print(f"[!] [Académie Franc C'aise] Le programme va donc s'arrêter puisqu''il n'y a aucun dossier à tester.")
         exit(84)
-    print(testFolders)
     if not Path(testFolderPath + "/afficher_nombre") in testFolders:
         print(f"[!] [Académie Franc C'aise] Fonction triviale 'afficher_nombre' non trouvée, le programme va donc s'arrêter..")
+        exit(84)
+    if not Path(testFolderPath + "/imprimer_peigne_nombre") in testFolders:
+        print(f"[!] [Académie Franc C'aise] Fonction triviale 'imprimer_peigne_nombre' non trouvée, le programme va donc s'arrêter..")
         exit(84)
     print("\n[*] [Académie Franc C'aise] Nous sommes prêts à lancer les tests !..\n")
 

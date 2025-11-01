@@ -210,6 +210,6 @@ When an error occurs, the VM immediately halts execution and returns **exit code
 
 ---
 
-**Version** : 1.0  
+**Version** : 1.0 
 **Last update** : Novembre 2025  
-**Author** : ACacademie Franc C'aise
+**Author** : Acacademie Franc C'aise

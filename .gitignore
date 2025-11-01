@@ -22,3 +22,7 @@ test/coverage/
 /fcc_src/test.fr
 a.fcp
 dist-newstyle
+comp.sh
+comp*.sh
+.gitignore
+*/larousse.txt

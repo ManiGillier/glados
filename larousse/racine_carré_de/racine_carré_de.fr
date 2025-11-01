@@ -1,0 +1,17 @@
+Bonjour,
+
+J'aimerais définir le bloc répondant au nom de racine_carré_de,
+de type de retour entier naturel,
+nécessitant comme entrée :
+    - nombre, de type entier naturel
+; contenant les variables :
+    - i, de type entier naturel, valant 0
+; représenté par le code suivant.
+    Tant que i est inférieure ou égale à nombre exécute le code ci-après :
+        Si (i fois i) est égale à nombre, exécute le texte :
+            Enfin, renvoie i.
+        Merci.
+        J'aimerais que i prenne la valeur i plus 1.
+    Merci.
+    Enfin, renvoie -1.
+Merci.

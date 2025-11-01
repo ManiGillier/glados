@@ -97,3 +97,69 @@ Having a linear compilation reduces the capacity of complex program logic, but s
 We simply store some context in a datastructure for the verification step to look in a global point of view, instead of the linearly reduced point of view of the compilation.
 
 Finaly, we send the assembly to out output step, that is in charge of converting it to the final bytecode, or to write it as a debug output.
+
+# TODO: Parsing reference
+
+# Compilation reference
+
+We are here referring to compilation as the compilation and the verification step.
+Thus, in this section, the compilation step will refer to both of these steps.
+
+Given the simple nature of the logic of the Franc C language, we chose here to implement a simple compilation.
+
+The compilation step do not use any external dependencies.
+
+We simply store a context that is updated throughout the compilation process.
+This context contains :
+ - A list of variables, with their name, size, and position relative to the stack pointer.
+ - A label counter, used to suffix labels with a number to distinguish them.
+ - A list of function context, representing each definitions.
+ - A list of function context, representing each invoke.
+
+The function context contains :
+ - The name of the function.
+ - A boolean value, used to describe if this function is either returning something or of the void type ; or describes if this functions is either assigning a value when invoking or not.
+ - A parameter count, that indicates the number of parameters in this function.
+
+The fact that the entire language is only integer-based facilitates the concept of variable storage and parameter types. No types appear in the compilation process, except the void type for function definitions and invoke.
+
+## Safety measures
+
+During the compilation step, we check for user errors :
+    - No main function is given.
+    - Multiple main functions are given.
+    - A function is defined with the name of an already defined function.
+    - A function defines a parameter, or a variable, with the name of an already existing, local to the function, parameter or variable.
+    - A function that is not referenced is invoked.
+    - A function that takes n parameters is invoked with more or less than n parameters.
+    - A return value is given to a function of type void.
+    - An empty return is given to a function of type non-void.
+    - An assignement of the return of a void-typed function is made.
+
+## Entended undefined behaviours
+
+### Integer over/underflows
+
+We do not devine the result of an integer overflow, or an integer underflow.
+Our integers are defined solely as signed integers on 64 bits.
+
+The minimum integer is defined as the maximum integer negated.
+In the C programming language, it is defined as being one less, but in our implementation of the negate sign "-", we chose for parsing and lexing simplicity to use the negate solely as an operation.
+Take the example "-5", we will not register it as the -5 number, but as the number 5 on whom we apply the negate operation.
+This explains the fact that our minimum integer is defined as the negated maximum integer.
+
+The maximum integer is defined as 2^63 - 1, or 9'223'372'036'854'775'807.
+
+### Known caveats
+
+#### Lack of static analysis
+
+The FCC compilation step do not implement any static analysis.
+
+These are the direct cause of some -- sadly -- not implemented behavious :
+ - We cannot check for direct division by zero.
+   For example: (10 divisé par 0) will not result in an error at compile-time.
+ - We cannot produce pre-computations.
+   For example: (10 plus 10) will not result in the value 20 at compile-time,
+   but in the computation of 10 plus 10 at run-time. It is highly inefficient.
+

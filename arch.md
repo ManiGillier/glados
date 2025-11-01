@@ -7,7 +7,7 @@
 
 ## Language motives
 
-## Language Formal Syntax (BNF)
+## RAYANE Language Formal Syntax (BNF)
 
 -> with justifications of some things over others
 
@@ -41,17 +41,17 @@ Il faut s'appuyer du BNF pour former ça
 
 ### special case of 'main' function
 
-# VM Architecture reference
+# HUGO VM Architecture reference
 
-## Inspirations
+## HUGO Inspirations
 
-## Stack
+## HUGO Stack
 
-## CallStack
+## HUGO CallStack
 
-## Zero Flag
+## HUGO Zero Flag
 
-## End cases
+## HUGO End cases
 
 # Bytecode reference
 
@@ -63,66 +63,64 @@ Il faut s'appuyer du BNF pour former ça
 
 ## Instruction actions
 
-# fcc reference
+# MANI & RAYANE fcc reference
 
-## Parameters list and long descriptions
+## MANI Parameters list and long descriptions
 
-## Larousse
+## MANI Larousse
 
-## Functionnement
+## MANI Functioning
 
 inputs -> {lexing -> parsing}* -> combination -> compilation -> vérifications -> output
 
 -> add justification of functionnement
 
-## Parsing reference
+## RAYANE Parsing reference
 
 -> justification of tech
 
-### Safety measures
+### RAYANE Safety measures
 
-### Error list
+### RAYANE Error list
 
-### Known caveats
+### RAYANE Known caveats
 
-## Compilation reference
-
--> justification of tech
-
-### Safety measures
-
-### Entended undefined behaviours
-
-### Known caveats
-
-## ASM readable feature
-
-### Quick syntax
-
-### Map instruction set
-
-# fcvm reference
-
-## Input descriptions
-
-## Architecture Implementation
+## MANI Compilation reference
 
 -> justification of tech
 
-### TODO
+### MANI Safety measures
 
-## Exceptions list
+### MANI Entended undefined behaviours
 
-## Known caveats
+### MANI Known caveats
 
-# Larousse reference
+## MANI ASM readable feature
 
-## Introduction (motives)
+### MANI Quick syntax
 
-## Functions
+### MANI Map instruction set
 
-### Description
+# HUGO fcvm reference
 
-### Parameters
+## HUGO Input descriptions
 
-### Runtime tests
+## HUGO Architecture Implementation
+
+-> justification of tech
+
+## HUGO Exceptions list
+
+## HUGO Known caveats
+
+# MAXIME Larousse reference
+
+## MAXIME Introduction (motives)
+
+## MAXIME Functions
+
+### MAXIME Description
+
+### MAXIME Parameters
+
+### MAXIME Runtime tests

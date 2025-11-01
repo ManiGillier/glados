@@ -98,7 +98,7 @@ We simply store some context in a datastructure for the verification step to loo
 
 Finaly, we send the assembly to out output step, that is in charge of converting it to the final bytecode, or to write it as a debug output.
 
-# TODO: Parsing reference
+# Parsing reference
 
 # Compilation reference
 
@@ -163,3 +163,52 @@ These are the direct cause of some -- sadly -- not implemented behavious :
    For example: (10 plus 10) will not result in the value 20 at compile-time,
    but in the computation of 10 plus 10 at run-time. It is highly inefficient.
 
+# Readable assembly
+
+When the `--debug` flag is passed, the output of the program is a readable assembly written to the standard output.
+
+## Syntax of the readable assembly
+
+There are two cases in the syntax :
+- label, they are written in the left margin, like so: `label_name:`
+- instructions, they are written tabulated with four spaces, like so:
+  `    mnemonic [args]`
+
+## List of instructions
+
+| Operation                                | Parameter  |     Representation |
+|:-----------------------------------------|------------|-------------------:|
+| label                                    | name       |            `name:` |
+| binary not                               |            |              `not` |
+| binary and                               |            |              `and` |
+| binary or                                |            |               `or` |
+| logical not                              |            |             `lnot` |
+| logical and                              |            |             `land` |
+| logical or                               |            |              `lor` |
+| exclusive or                             |            |              `xor` |
+| left bitshift                            |            |              `shl` |
+| right bitshift                           |            |              `shr` |
+| addition                                 |            |              `add` |
+| substraction                             |            |              `sub` |
+| multiplication                           |            |             `mult` |
+| division                                 |            |              `div` |
+| modulo                                   |            |              `mod` |
+| comparison greater than                  |            |               `gt` |
+| comparison greater or equal to           |            |               `ge` |
+| comparison less than                     |            |               `lt` |
+| comparison less or equal to              |            |               `le` |
+| comparison equals                        |            |               `eq` |
+| comparison different to                  |            |              `neq` |
+| update zero flag                         |            |             `updz` |
+| push value                               | value      |       `push value` |
+| push relative address                    | address    |   `push [address]` |
+| push label relative address              | label-name | `push %label-name` |
+| push from stack pointer relative address | address    |    `push @address` |
+| pop to stack pointer relative address    | address    |     `pop @address` |
+| pop                                      |            |              `pop` |
+| invoke a function                        |            |             `call` |
+| return                                   |            |              `ret` |
+| jump to address                          |            |              `jmp` |
+| jump to address if zero flag             |            |             `zjmp` |
+| print character                          |            |              `aff` |
+| print string                             | string     |    `affs "string"` |

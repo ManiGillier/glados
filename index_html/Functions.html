@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Functions (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Functions (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Functions (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Larousse-_00281_0029.html" rel="up" title="Larousse (1)">
+<link href="Academie-Franc-C_0027Aise.html" rel="next" title="Académie Franc C'Aise">
+<link href="Introduction-_0028motives_0029.html" rel="prev" title="Introduction (motives)">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Functions">
+<div class="nav-panel">
+<p>
+Next: <a href="Academie-Franc-C_0027Aise.html" accesskey="n" rel="next">Académie Franc C&rsquo;Aise</a>, Previous: <a href="Introduction-_0028motives_0029.html" accesskey="p" rel="prev">Introduction (motives)</a>, Up: <a href="Larousse-_00281_0029.html" accesskey="u" rel="up">Larousse</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Functions-1"><span>8.2 Functions<a class="copiable-link" href="#Functions-1"> &para;</a></span></h3>
+
+<table class="multitable">
+<thead><tr><th>Functions</th><th>Parameters</th><th>Description</th><th>Benchmark*</th></tr></thead>
+<tbody><tr><td>additionner</td><td>nombre, second<em class="math">_nombre</em></td><td>Returns &lsquo;<samp class="samp">nombre + second_nombre</samp>&rsquo;.</td><td>0.086s</td></tr>
+<tr><td>afficher<em class="math">_nombre</em></td><td>nombre</td><td>Displays in the standard output the number &lsquo;<samp class="samp">nombre</samp>&rsquo;.</td><td>0.067s</td></tr>
+<tr><td>carré<em class="math">_de</em></td><td>nombre</td><td>Returns &lsquo;<samp class="samp">nombre * nombre</samp>&rsquo;.</td><td>0.074s</td></tr>
+<tr><td>diviser</td><td>nombre, second<em class="math">_nombre</em></td><td>Returns &lsquo;<samp class="samp">nombre / second_nombre</samp>&rsquo;.</td><td>0.060s</td></tr>
+<tr><td>douze</td><td>nombre</td><td>Returns &lsquo;<samp class="samp">nombre / 12</samp>&rsquo; if &lsquo;<samp class="samp">nombre</samp>&rsquo; is multiple of 12, otherwise &lsquo;<samp class="samp">-1</samp>&rsquo;.</td><td>0.069s</td></tr>
+<tr><td>est<em class="math">_en</em><em class="math">_majuscule</em></td><td>nombre</td><td>Returns &lsquo;<samp class="samp">1</samp>&rsquo; if &lsquo;<samp class="samp">nombre</samp>&rsquo; is an uppercase letter, otherwise &lsquo;<samp class="samp">0</samp>&rsquo;.</td><td>0.063s</td></tr>
+<tr><td>est<em class="math">_en</em><em class="math">_minuscule</em></td><td>nombre</td><td>Returns &lsquo;<samp class="samp">1</samp>&rsquo; if &lsquo;<samp class="samp">nombre</samp>&rsquo; is a lowercase letter, otherwise &lsquo;<samp class="samp">0</samp>&rsquo;.</td><td>0.060s</td></tr>
+<tr><td>est<em class="math">_négatif</em></td><td>nombre</td><td>Returns &lsquo;<samp class="samp">1</samp>&rsquo; if &lsquo;<samp class="samp">nombre</samp>&rsquo; is negative, otherwise &lsquo;<samp class="samp">0</samp>&rsquo;.</td><td>0.070s</td></tr>
+<tr><td>est<em class="math">_premier</em></td><td>nombre</td><td>Returns &lsquo;<samp class="samp">1</samp>&rsquo; if &lsquo;<samp class="samp">nombre</samp>&rsquo; is a prime number, otherwise &lsquo;<samp class="samp">0</samp>&rsquo;.</td><td>0.051s</td></tr>
+<tr><td>fizzbuzz</td><td>nombre</td><td>Displays « Fizz » if &lsquo;<samp class="samp">nombre</samp>&rsquo; is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays &lsquo;<samp class="samp">nombre</samp>&rsquo;.</td><td>0.056s</td></tr>
+<tr><td>imprimer<em class="math">_peigne</em></td><td>-</td><td>Displays in ascending order all the smallest numbers composed of three digits.</td><td>0.220s</td></tr>
+<tr><td>imprimer<em class="math">_peigne</em><em class="math">_2</em></td><td>-</td><td>Displays in ascending order all the smallest numbers composed of four digits.</td><td>8.481s</td></tr>
+<tr><td>imprimer<em class="math">_peigne</em><em class="math">_nombre</em></td><td>nombre</td><td>Displays in ascending order all the smallest numbers composed of &lsquo;<samp class="samp">nombre</samp>&rsquo; digits.</td><td>Depends</td></tr>
+<tr><td>max</td><td>nombre, second<em class="math">_nombre</em></td><td>Returns &lsquo;<samp class="samp">nombre</samp>&rsquo; if &lsquo;<samp class="samp">nombre</samp>&rsquo; is superior than &lsquo;<samp class="samp">second_nombre</samp>&rsquo;, otherwise &lsquo;<samp class="samp">second_nombre</samp>&rsquo;.</td><td>0.060s</td></tr>
+<tr><td>min</td><td>nombre, second<em class="math">_nombre</em></td><td>Returns &lsquo;<samp class="samp">second_nombre</samp>&rsquo; if &lsquo;<samp class="samp">nombre</samp>&rsquo; is superior than &lsquo;<samp class="samp">second_nombre</samp>&rsquo;, otherwise &lsquo;<samp class="samp">nombre</samp>&rsquo;.</td><td>0.092s</td></tr>
+<tr><td>multiplier</td><td>nombre, second<em class="math">_nombre</em></td><td>Returns &lsquo;<samp class="samp">nombre * second_nombre</samp>&rsquo;.</td><td>0.065s</td></tr>
+<tr><td>prochain<em class="math">_premier</em></td><td>nombre</td><td>Returns the first prime number greater than &lsquo;<samp class="samp">nombre</samp>&rsquo;.</td><td>0.072s</td></tr>
+<tr><td>précedent</td><td>nombre</td><td>Returns &lsquo;<samp class="samp">nombre - 1</samp>&rsquo;.</td><td>0.069s</td></tr>
+<tr><td>racine<em class="math">_carré</em><em class="math">_de</em></td><td>nombre</td><td>Returns the integer square root of &lsquo;<samp class="samp">nombre</samp>&rsquo;.</td><td>0.070s</td></tr>
+<tr><td>soustraire</td><td>nombre, second<em class="math">_nombre</em></td><td>Returns &lsquo;<samp class="samp">nombre - second_nombre</samp>&rsquo;.</td><td>0.090s</td></tr>
+<tr><td>suivant</td><td>nombre</td><td>Returns &lsquo;<samp class="samp">nombre + 1</samp>&rsquo;.</td><td>0.065s</td></tr>
+</tbody>
+</table>
+
+<p>(*) Benchmark specs:
+</p>
+<div class="example">
+<pre class="example-preformatted">CPU : Intel i9 14900K
+GPU : NVIDIA RTX 4070 TI SUPER
+RAM: 32 GB
+</pre></div>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Academie-Franc-C_0027Aise.html">Académie Franc C&rsquo;Aise</a>, Previous: <a href="Introduction-_0028motives_0029.html">Introduction (motives)</a>, Up: <a href="Larousse-_00281_0029.html">Larousse</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

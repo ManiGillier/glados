@@ -1,33 +1,3176 @@
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Flag_of_France.svg/langfr-250px-Flag_of_France.svg.png" alt="Image" title="icon"></p>
-<!-- https://cdn.pixabay.com/photo/2023/03/26/18/10/flag-7878871_1280.jpg -->
-<h1 id="franc-c">Franc-C</h1>
-<p>The Franc-C is a language created to complete the project GLaDOS from the school Epitech.</p>
-<p>We take inspiration from the programming language : C for the logic and the French language for the syntax.</p>
-<p>The project was realised in Haskell.</p>
-<h2 id="getting-started">Getting Started</h2>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2025-11-02 Sun 23:10 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TGPD: The GLADOS Project Documentation</title>
+<meta name="author" content="Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet" />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      ams: {
+        multlineWidth: '85%'
+      },
+      tags: 'ams',
+      tagSide: 'right',
+      tagIndent: '.8em'
+    },
+    chtml: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    svg: {
+      scale: 1.0,
+      displayAlign: 'center',
+      displayIndent: '0em'
+    },
+    output: {
+      font: 'mathjax-modern',
+      displayOverflow: 'overflow'
+    }
+  };
+</script>
+
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">TGPD: The GLADOS Project Documentation</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li>Download <a href="https://www.haskell.org/">Haskell</a> Language.</li>
-<li>Clone the project.</li>
-<li>Go in the repository.</li>
-<li>Use the command &quot;make&quot;</li>
-</ul>
-<h2 id="documentation">Documentation</h2>
-<p>There are 3 differents documentation  :</p>
+<li><a href="#orgf345671">1. Other documentations</a></li>
+<li><a href="#org421c663">2. Introduction</a></li>
+<li><a href="#language_reference">3. Franc C reference</a>
 <ul>
-<li>The <a href="https://github.com/ManiGillier/glados/blob/pages/Franc-C/BNF/Franc-C.bnf">Franc-C</a></li>
-<li>The <a href="https://github.com/ManiGillier/glados/blob/pages/Asm/Asm_index.html">Asm</a> created for the Franc-C</li>
-<li>The <a href="https://github.com/ManiGillier/glados/blob/pages/ByteCode/Bytecode_index.html">Bytecodes</a> created for the Franc-C</li>
+<li><a href="#motives">3.1. Motives</a></li>
+<li><a href="#inspirations">3.2. Inspirations</a>
+<ul>
+<li><a href="#linotte">3.2.1. Linotte</a></li>
+<li><a href="#c">3.2.2. C</a></li>
+<li><a href="#french-language">3.2.3. French language</a></li>
 </ul>
-<h2 id="creators">Creators</h2>
-<h4 id="rayanne-el-janati-el-idrissi">Rayanne El Janati El Idrissi</h4>
-<p><a href="https://github.com/KaitoMomota">https://github.com/KaitoMomota</a></p>
-<h4 id="mani-gillier">Mani Gillier</h4>
-<p><a href="https://github.com/ManiGillier">https://github.com/ManiGillier</a></p>
-<h4 id="maxime-huet">Maxime Huet</h4>
-<p><a href="https://github.com/Boo-cher">https://github.com/Boo-cher</a></p>
-<h4 id="hugo-pogetti">Hugo Pogetti</h4>
-<p><a href="https://github.com/hugopoggetti">https://github.com/hugopoggetti</a></p>
-<h4 id="aymerick-soual">Aymerick Soual</h4>
-<p><a href="https://github.com/agame7200">https://github.com/agame7200</a></p>
-<h2 id="license">License</h2>
-<p>See the <a href="https://github.com/ManiGillier/glados/blob/pages/license.html">License</a> file</p>
+</li>
+<li><a href="#language-formal-syntax-bnf">3.3. Language Formal Syntax (BNF)</a>
+<ul>
+<li><a href="#language-logic">3.3.1. Language logic</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#bytecode_reference">4. Bytecode reference</a>
+<ul>
+<li><a href="#formal-syntax-bnf">4.1. Formal syntax (BNF)</a></li>
+<li><a href="#instructions">4.2. Instructions</a></li>
+</ul>
+</li>
+<li><a href="#vm_architecture_reference">5. Virtual Machine reference</a>
+<ul>
+<li><a href="#introduction">5.1. Introduction</a>
+<ul>
+<li><a href="#stack-based-vs-register-based">5.1.1. Stack-Based vs Register-Based</a></li>
+</ul>
+</li>
+<li><a href="#stack">5.2. Stack</a>
+<ul>
+<li><a href="#initialization">5.2.1. Initialization</a></li>
+<li><a href="#basic-operations">5.2.2. Basic Operations</a></li>
+</ul>
+</li>
+<li><a href="#callstack">5.3. CallStack</a>
+<ul>
+<li><a href="#memory-layout">5.3.1. Memory Layout</a></li>
+<li><a href="#function-call-mechanism">5.3.2. Function call mechanism</a></li>
+</ul>
+</li>
+<li><a href="#zero-flag">5.4. Zero flag</a></li>
+<li><a href="#end-cases">5.5. End cases</a></li>
+</ul>
+</li>
+<li><a href="#fcc_reference">6. Franc C Compiler</a>
+<ul>
+<li><a href="#parameters-list-and-long-descriptions">6.1. Parameters list and long descriptions</a>
+<ul>
+<li><a href="#filesname">6.1.1. FILESNAME</a></li>
+<li><a href="#output-filename">6.1.2. &#x2013;output FILENAME</a></li>
+<li><a href="#no-larousse">6.1.3. &#x2013;no-larousse</a></li>
+<li><a href="#debug">6.1.4. &#x2013;debug</a></li>
+</ul>
+</li>
+<li><a href="#larousse">6.2. Larousse</a></li>
+<li><a href="#functioning">6.3. Functioning</a>
+<ul>
+<li><a href="#getting-inputs">6.3.1. Getting inputs</a></li>
+<li><a href="#lexing-and-parsing">6.3.2. Lexing and parsing</a></li>
+<li><a href="#combination">6.3.3. Combination</a></li>
+<li><a href="#compilation">6.3.4. Compilation</a></li>
+<li><a href="#verifications">6.3.5. Verifications</a></li>
+<li><a href="#output">6.3.6. Output</a></li>
+<li><a href="#justifications">6.3.7. Justifications</a></li>
+</ul>
+</li>
+<li><a href="#lexer-parsing-reference">6.4. Lexer &amp; Parsing reference</a>
+<ul>
+<li><a href="#safety-measures">6.4.1. Safety measures</a></li>
+<li><a href="#error-list">6.4.2. Error list</a></li>
+<li><a href="#known-caveats">6.4.3. Known caveats</a></li>
+</ul>
+</li>
+<li><a href="#compilation-reference">6.5. Compilation reference</a>
+<ul>
+<li><a href="#function-call-parameters-return-value-and-variables">6.5.1. Function call parameters, return value and variables</a></li>
+<li><a href="#safety-measures-1">6.5.2. Safety measures</a></li>
+<li><a href="#intended-undefined-behaviours">6.5.3. Intended undefined behaviours</a></li>
+</ul>
+</li>
+<li><a href="#readable-assembly">6.6. Readable assembly</a>
+<ul>
+<li><a href="#syntax-of-the-readable-assembly">6.6.1. Syntax of the readable assembly</a></li>
+<li><a href="#list-of-instructions">6.6.2. List of instructions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#fcvm_reference">7. Franc C Virtual Machine</a>
+<ul>
+<li><a href="#input-descriptions">7.1. Input Descriptions</a>
+<ul>
+<li><a href="#bytecode-file-format">7.1.1. Bytecode File Format</a></li>
+<li><a href="#command-line-interface">7.1.2. Command-Line Interface</a></li>
+</ul>
+</li>
+<li><a href="#architecture-implementation">7.2. Architecture Implementation</a>
+<ul>
+<li><a href="#memory-layout">7.2.1. Memory Layout</a></li>
+<li><a href="#instruction-set-overview">7.2.2. Instruction Set Overview</a></li>
+<li><a href="#function-call-convention">7.2.3. Function Call Convention</a></li>
+</ul>
+</li>
+<li><a href="#exceptions-list">7.3. Exceptions List</a>
+<ul>
+<li><a href="#load-time-errors">7.3.1. Load-Time Errors</a></li>
+<li><a href="#runtime-errors">7.3.2. Runtime Errors</a></li>
+</ul>
+</li>
+<li><a href="#known-caveats">7.4. Known Caveats</a>
+<ul>
+<li><a href="#undefined-behaviors">7.4.1. Undefined Behaviors</a></li>
+<li><a href="#performance-limitations">7.4.2. Performance Limitations</a></li>
+<li><a href="#portability-issues">7.4.3. Portability Issues</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#larousse">8. Larousse</a>
+<ul>
+<li><a href="#introduction-motives">8.1. Introduction (motives)</a></li>
+<li><a href="#functions">8.2. Functions</a></li>
+<li><a href="#académie-franc-caise">8.3. Académie Franc C&rsquo;Aise</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgf345671" class="outline-2">
+<h2 id="orgf345671"><span class="section-number-2">1.</span> Other documentations</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li><a href="index.html">Single page documentation</a></li>
+
+<li><a href="index_html/index.html">Multi page documentation</a></li>
+<li><a href="index.info">Info page (info -f index.info)</a></li>
+<li><a href="index.man">Man page (man -l index.man)</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org421c663" class="outline-2">
+<h2 id="org421c663"><span class="section-number-2">2.</span> Introduction</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The glados is a third year Epitech project where five people are asked to build a new programming language.
+</p>
+
+<p>
+Who never had problems with a programming language ?
+Who never thought of building it&rsquo;s own ?
+Who never imagined a language so litteral, that anyone could use it without technical knowledge ?
+</p>
+
+<p>
+Introducing: the <b>Franc C</b>.
+The Franc C is a programming language with a litteral french syntax.
+</p>
+
+<p>
+In this project, we built five different things.
+</p>
+<ul class="org-ul">
+<li>The Franc C language itself, defining it&rsquo;s grammar and application</li>
+<li>A bytecode associated with the Franc C, used to run Franc C Programs</li>
+<li>A virtual machine reference, used to dictate how the bytecode should be executed.</li>
+<li>The Franc C Compiler, a tool used to compile Franc C Reference code into a Franc C Program</li>
+<li>The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.</li>
+<li>The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-language_reference" class="outline-2">
+<h2 id="language_reference"><span class="section-number-2">3.</span> Franc C reference</h2>
+<div class="outline-text-2" id="text-language_reference">
+</div>
+<div id="outline-container-motives" class="outline-3">
+<h3 id="motives"><span class="section-number-3">3.1.</span> Motives</h3>
+<div class="outline-text-3" id="text-motives">
+<ul class="org-ul">
+<li>The <b>Franc C</b> was built to allow french people to program in their
+home language.</li>
+<li>The language is easily readable for a non-technical person.</li>
+<li>The focus is put on the syntax, not in the functionalities of the
+language.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-inspirations" class="outline-3">
+<h3 id="inspirations"><span class="section-number-3">3.2.</span> Inspirations</h3>
+<div class="outline-text-3" id="text-inspirations">
+<p>
+We took inspiration for our syntax on a beautiful language,
+<a href="http://langagelinotte.free.fr">linotte</a> ; and for our implementation
+on the <a href="https://www.iso.org/standard/82075.html">C programming
+language</a>.
+</p>
+
+<p>
+Obviously, the french language is our biggest inspirator.
+</p>
+</div>
+<div id="outline-container-linotte" class="outline-4">
+<h4 id="linotte"><span class="section-number-4">3.2.1.</span> Linotte</h4>
+<div class="outline-text-4" id="text-linotte">
+<p>
+The linotte programming language is a high-level,
+french-litteral-syntaxed programming language made for introducing
+programmation to children.
+</p>
+
+<p>
+We saw it as a great inspiration for our language with the next
+features:
+</p>
+
+<ul class="org-ul">
+<li>Word delimitation at the end of functions, if and while conditionals.</li>
+<li>Use of some syntax like &ldquo;read&rdquo; instead of &ldquo;execute&rdquo; code</li>
+</ul>
+
+<p>
+The linotte syntax was, however, not litteral enough to our liking.
+</p>
+</div>
+</div>
+<div id="outline-container-c" class="outline-4">
+<h4 id="c"><span class="section-number-4">3.2.2.</span> C</h4>
+<div class="outline-text-4" id="text-c">
+<p>
+The C programming language is a low-level language. We took inspiration
+from it in the implementation of our language. For example, the C
+programming language is from the imperative paradigm, and so is our
+language.
+</p>
+
+<p>
+We took many things from this language:
+</p>
+
+<ul class="org-ul">
+<li>The imperative paradigm</li>
+<li>The int-defined booleans In the C programming language, all integers
+can be interpreted as booleans. A false is a value strictly equal to
+zero, and a true is every other values.</li>
+<li>The possibility of defining variables local to each function call</li>
+<li>The possibility of using recursive function calls</li>
+<li>The representation of a chararacter by it&rsquo;s ascii value</li>
+<li>The function used to print a character &ldquo;putchar&rdquo;</li>
+<li>The existence of a standard library with some useful functions</li>
+<li>All of the operations like xor, addition, bitshift&#x2026;</li>
+<li>The possibility for functions to return a value</li>
+<li>The infix notation of operations, with parenthesis</li>
+<li>The possibility to compute directly with any combination of operations
+in any part of the code where a value is required. For example, when
+passing a parameter, you could pass a computation, a variable value,
+or a mix of both</li>
+</ul>
+
+<p>
+Many of these features are also present in other languages, but we took
+them from our knowledge of the C programming language.
+</p>
+</div>
+</div>
+<div id="outline-container-french-language" class="outline-4">
+<h4 id="french-language"><span class="section-number-4">3.2.3.</span> French language</h4>
+<div class="outline-text-4" id="text-french-language">
+<p>
+French is not a programming, but a spoken language.
+</p>
+
+<p>
+We wanted a truly grammatically correct, complete, easily readable, and
+beautiful language.
+</p>
+
+<p>
+Our choice was obviously french, as french syntax is way more precise
+than english&rsquo;s.
+</p>
+
+<p>
+We searched for dozen of grammar rules to inforce in our language.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-language-formal-syntax-bnf" class="outline-3">
+<h3 id="language-formal-syntax-bnf"><span class="section-number-3">3.3.</span> Language Formal Syntax (BNF)</h3>
+<div class="outline-text-3" id="text-language-formal-syntax-bnf">
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0184bc;">header</span>&gt; <span style="color: #008b8b;">::=</span> "Bonjour," &lt;<span style="color: #e44649;">spaces</span>&gt;
+
+&lt;<span style="color: #0184bc;">main</span>&gt; <span style="color: #008b8b;">::=</span> "En" &lt;<span style="color: #e44649;">spaces</span>&gt; "sachant" &lt;<span style="color: #e44649;">spaces</span>&gt; "que" &lt;<span style="color: #e44649;">spaces</span>&gt; "les" &lt;<span style="color: #e44649;">spaces</span>&gt; "variables" &lt;<span style="color: #e44649;">spaces</span>&gt; "principales" &lt;<span style="color: #e44649;">spaces</span>&gt; "sont" &lt;<span style="color: #e44649;">spaces</span>&gt; ":" &lt;<span style="color: #e44649;">spaces</span>&gt; [&lt;<span style="color: #e44649;">variable_list</span>&gt;]
+<span style="color: #d493d500d790;"> </span>"\;" &lt;<span style="color: #e44649;">spaces</span>&gt; "pourrais-tu" &lt;<span style="color: #e44649;">spaces</span>&gt; "s'il" &lt;<span style="color: #e44649;">spaces</span>&gt; "te" &lt;<span style="color: #e44649;">spaces</span>&gt; "pla&#238;t" &lt;<span style="color: #e44649;">spaces</span>&gt; "commencer" &lt;<span style="color: #e44649;">spaces</span>&gt; "la" &lt;<span style="color: #e44649;">spaces</span>&gt; "lecture" &lt;<span style="color: #e44649;">spaces</span>&gt; "ici" &lt;<span style="color: #e44649;">spaces</span>&gt; "?" [&lt;<span style="color: #e44649;">spaces</span>&gt;] &lt;<span style="color: #e44649;">block</span>&gt; [&lt;<span style="color: #e44649;">spaces</span>&gt;] "Merci d'avance," &lt;<span style="color: #e44649;">spaces</span>&gt; "Cordialement," &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">name</span>&gt; &lt;<span style="color: #e44649;">name</span>&gt;
+ 
+&lt;<span style="color: #0184bc;">variable_definition</span>&gt; <span style="color: #008b8b;">::=</span> "-" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">word</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "de" &lt;<span style="color: #e44649;">spaces</span>&gt; "type" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">variable_type</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "valant" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">value</span>&gt; 
+
+&lt;<span style="color: #0184bc;">variable_list</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">variable_definition</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; [&lt;<span style="color: #e44649;">variable_list</span>&gt;]
+
+&lt;<span style="color: #0184bc;">exclusif_or</span>&gt; <span style="color: #008b8b;">::=</span> "ou" &lt;<span style="color: #e44649;">spaces</span>&gt; "exclusif" <span style="color: #ff0000; font-weight: bold;">|</span> "xor"
+
+&lt;<span style="color: #0184bc;">arithmetic_operator</span>&gt; <span style="color: #008b8b;">::=</span> "plus" <span style="color: #ff0000; font-weight: bold;">|</span> "moins"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> ("divis&#233;" <span style="color: #ff0000; font-weight: bold;">|</span> "multipli&#233;") &lt;<span style="color: #e44649;">spaces</span>&gt; "par"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "modulo"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "fois"
+                     
+&lt;<span style="color: #0184bc;">comparison_operator</span>&gt; <span style="color: #008b8b;">::=</span> "est"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "est" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#233;gale" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "est" &lt;<span style="color: #e44649;">spaces</span>&gt; "diff&#233;rent" &lt;<span style="color: #e44649;">spaces</span>&gt; "de"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "est" &lt;<span style="color: #e44649;">spaces</span>&gt; "inf&#233;rieure" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "est" &lt;<span style="color: #e44649;">spaces</span>&gt; "sup&#233;rieure" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "est" &lt;<span style="color: #e44649;">spaces</span>&gt; "inf&#233;rieure" &lt;<span style="color: #e44649;">spaces</span>&gt; "ou" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#233;gale" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "est" &lt;<span style="color: #e44649;">spaces</span>&gt; "sup&#233;rieure" &lt;<span style="color: #e44649;">spaces</span>&gt; "ou" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#233;gale" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;"
+                     
+&lt;<span style="color: #0184bc;">logical_operator</span>&gt; <span style="color: #008b8b;">::=</span> "et" <span style="color: #ff0000; font-weight: bold;">|</span> "ou"
+
+&lt;<span style="color: #0184bc;">bitwise_operator</span>&gt; <span style="color: #008b8b;">::=</span> "d&#233;cal&#233;" &lt;<span style="color: #e44649;">spaces</span>&gt; "binairement" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;" &lt;<span style="color: #e44649;">spaces</span>&gt; "gauche"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "d&#233;cal&#233;" &lt;<span style="color: #e44649;">spaces</span>&gt; "binairement" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;" &lt;<span style="color: #e44649;">spaces</span>&gt; "droite"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "et" &lt;<span style="color: #e44649;">spaces</span>&gt; "binaire"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> "ou" &lt;<span style="color: #e44649;">spaces</span>&gt; "binaire"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">exclusif_or</span>&gt;
+<span style="color: #d493d500d790;"> </span>
+&lt;<span style="color: #0184bc;">operators</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">bitwise_operator</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">logical_operator</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">comparison_operator</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">arithmetic_operator</span>&gt;
+
+&lt;<span style="color: #0184bc;">parenthesized_condition</span>&gt; <span style="color: #008b8b;">::=</span> "(" &lt;<span style="color: #e44649;">condition</span>&gt; ")"
+
+&lt;<span style="color: #0184bc;">condition</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">word</span>&gt; [&lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">operators</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; (&lt;<span style="color: #e44649;">condition</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">parenthesized_condition</span>&gt;)]
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">value</span>&gt; [&lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">operators</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; (&lt;<span style="color: #e44649;">condition</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">parenthesized_condition</span>&gt;)]
+             
+&lt;<span style="color: #0184bc;">parameter</span>&gt; <span style="color: #008b8b;">::=</span> "-" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">word</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "de" &lt;<span style="color: #e44649;">spaces</span>&gt; "type" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">variable_type</span>&gt;
+
+&lt;<span style="color: #0184bc;">parameter_list</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">parameter</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; [&lt;<span style="color: #e44649;">parameter_list</span>&gt;]
+
+&lt;<span style="color: #0184bc;">function_definition</span>&gt; <span style="color: #008b8b;">::=</span> "J&#8217;aimerais" &lt;<span style="color: #e44649;">spaces</span>&gt; "d&#233;finir" &lt;<span style="color: #e44649;">spaces</span>&gt; "le" &lt;<span style="color: #e44649;">spaces</span>&gt; "bloc" &lt;<span style="color: #e44649;">spaces</span>&gt; "r&#233;pondant" &lt;<span style="color: #e44649;">spaces</span>&gt; "au" &lt;<span style="color: #e44649;">spaces</span>&gt; "nom" &lt;<span style="color: #e44649;">spaces</span>&gt; "de" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">word</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "de" &lt;<span style="color: #e44649;">spaces</span>&gt; "type" &lt;<span style="color: #e44649;">spaces</span>&gt; "de" &lt;<span style="color: #e44649;">spaces</span>&gt; "retour" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">function_type</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "n&#233;cessitant" &lt;<span style="color: #e44649;">spaces</span>&gt; "comme" &lt;<span style="color: #e44649;">spaces</span>&gt; "entr&#233;e" &lt;<span style="color: #e44649;">spaces</span>&gt; ":" &lt;<span style="color: #e44649;">spaces</span>&gt; [&lt;<span style="color: #e44649;">parameter_list</span>&gt;] "\;" &lt;<span style="color: #e44649;">spaces</span>&gt; "contenant" &lt;<span style="color: #e44649;">spaces</span>&gt; "les" &lt;<span style="color: #e44649;">spaces</span>&gt; "variables" &lt;<span style="color: #e44649;">spaces</span>&gt; ":" &lt;<span style="color: #e44649;">spaces</span>&gt; [&lt;<span style="color: #e44649;">variable_list</span>&gt;] "\;" &lt;<span style="color: #e44649;">spaces</span>&gt; "repr&#233;sent&#233;" &lt;<span style="color: #e44649;">spaces</span>&gt; "par" &lt;<span style="color: #e44649;">spaces</span>&gt; "le" &lt;<span style="color: #e44649;">spaces</span>&gt; "code" &lt;<span style="color: #e44649;">spaces</span>&gt; ("suivant" <span style="color: #ff0000; font-weight: bold;">|</span> "ci-apr&#232;s" <span style="color: #ff0000; font-weight: bold;">|</span> "ci-dessous") "." [&lt;<span style="color: #e44649;">spaces</span>&gt;] &lt;<span style="color: #e44649;">block</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; "Merci."
+
+&lt;<span style="color: #0184bc;">text</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">symbol</span>&gt; [&lt;<span style="color: #e44649;">text</span>&gt;]
+
+&lt;<span style="color: #0184bc;">comment</span>&gt; <span style="color: #008b8b;">::=</span> "*" &lt;<span style="color: #e44649;">text</span>&gt; "*"
+
+&lt;<span style="color: #0184bc;">quoted_value</span>&gt; <span style="color: #008b8b;">::=</span> "&#171; " &lt;<span style="color: #e44649;">text</span>&gt; " &#187;"
+
+&lt;<span style="color: #0184bc;">block</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">statement_list</span>&gt;
+
+&lt;<span style="color: #0184bc;">statement_list</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">statement</span>&gt; [[&lt;<span style="color: #e44649;">spaces</span>&gt;] &lt;<span style="color: #e44649;">statement_list</span>&gt; [&lt;spaces]]
+
+&lt;<span style="color: #0184bc;">statement</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">condition_statement</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">return_statement</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">loop_statement</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">display_statement</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">invoke_statement</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">assignment_statement</span>&gt;
+
+&lt;<span style="color: #0184bc;">return_statement</span>&gt; <span style="color: #008b8b;">::=</span> "Enfin," &lt;<span style="color: #e44649;">spaces</span>&gt; "renvoie" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">condition</span>&gt; "." <span style="color: #ff0000; font-weight: bold;">|</span> "Enfin," &lt;<span style="color: #e44649;">spaces</span>&gt; "sors" &lt;<span style="color: #e44649;">spaces</span>&gt; "du" &lt;<span style="color: #e44649;">spaces</span>&gt; "bloc."
+
+&lt;<span style="color: #0184bc;">condition_definition</span>&gt; <span style="color: #008b8b;">::=</span> "Si" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">condition</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "ex&#233;cute" &lt;<span style="color: #e44649;">spaces</span>&gt; "le" &lt;<span style="color: #e44649;">spaces</span>&gt; "texte" &lt;<span style="color: #e44649;">spaces</span>&gt; ":"
+
+&lt;<span style="color: #0184bc;">condition_statement</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">condition_definition</span>&gt; &lt;<span style="color: #e44649;">space</span>&gt; &lt;<span style="color: #e44649;">block</span>&gt; "Merci."
+<span style="color: #d493d500d790;"> </span>   <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">condition_definition</span>&gt; &lt;<span style="color: #e44649;">space</span>&gt; &lt;<span style="color: #e44649;">block</span>&gt; "\;" &lt;<span style="color: #e44649;">space</span>&gt; "sinon" &lt;<span style="color: #e44649;">space</span>&gt; "ex&#233;cute" &lt;<span style="color: #e44649;">space</span>&gt; "le" &lt;<span style="color: #e44649;">space</span>&gt; "texte" &lt;<span style="color: #e44649;">space</span>&gt; ":" &lt;<span style="color: #e44649;">block</span>&gt; "Merci."
+ 
+&lt;<span style="color: #0184bc;">loop_statement</span>&gt; <span style="color: #008b8b;">::=</span> "Tant" &lt;<span style="color: #e44649;">spaces</span>&gt; "que" &lt;<span style="color: #e44649;">condition</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; "ex&#233;cute" &lt;<span style="color: #e44649;">spaces</span>&gt; "le" &lt;<span style="color: #e44649;">spaces</span>&gt; "code" &lt;<span style="color: #e44649;">spaces</span>&gt; "ci-apr&#232;s" &lt;<span style="color: #e44649;">spaces</span>&gt; ":" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">block</span>&gt; "Merci."
+
+&lt;<span style="color: #0184bc;">display_statement</span>&gt; <span style="color: #008b8b;">::=</span> "Affiche" (&lt;<span style="color: #e44649;">condition</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">quoted_value</span>&gt;) "."
+
+&lt;<span style="color: #0184bc;">invoke_params</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">condition</span>&gt; ["," &lt;<span style="color: #e44649;">condition</span>&gt;]
+
+&lt;<span style="color: #0184bc;">invoke_statement</span>&gt; <span style="color: #008b8b;">::=</span> "J'invoque" &lt;<span style="color: #e44649;">spaces</span>&gt; "le" &lt;<span style="color: #e44649;">spaces</span>&gt; "bloc" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">word</span>&gt;
+<span style="color: #d493d500d790;"> </span>   ["," &lt;<span style="color: #e44649;">spaces</span>&gt; "et" &lt;<span style="color: #e44649;">spaces</span>&gt; "j'assigne" &lt;<span style="color: #e44649;">spaces</span>&gt; "la" &lt;<span style="color: #e44649;">spaces</span>&gt; "valeur" &lt;<span style="color: #e44649;">spaces</span>&gt; "de" &lt;<span style="color: #e44649;">spaces</span>&gt; "retour" &lt;<span style="color: #e44649;">spaces</span>&gt; "&#224;" &lt;<span style="color: #e44649;">spaces</span>&gt; "la" &lt;<span style="color: #e44649;">spaces</span>&gt; "variable" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">word</span>&gt;]
+<span style="color: #d493d500d790;"> </span>   ["," &lt;<span style="color: #e44649;">spaces</span>&gt; "avec les param&#232;tres" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">invoke_params</span>&gt;] "."
+ 
+&lt;<span style="color: #0184bc;">assignment_statement</span>&gt; <span style="color: #008b8b;">::=</span> "J'aimerais" &lt;<span style="color: #e44649;">spaces</span>&gt; "que" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">word</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; "prenne" &lt;<span style="color: #e44649;">spaces</span>&gt; "la" &lt;<span style="color: #e44649;">spaces</span>&gt; "valeur" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">condition</span>&gt; "." <span style="color: #ff0000; font-weight: bold;">|</span>
+<span style="color: #d493d500d790;"> </span>   &lt;<span style="color: #e44649;">word</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; "prend" &lt;<span style="color: #e44649;">spaces</span>&gt; "la" &lt;<span style="color: #e44649;">spaces</span>&gt; "valeur" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">condition</span>&gt;
+ 
+&lt;<span style="color: #0184bc;">variable_type</span>&gt; <span style="color: #008b8b;">::=</span> "entier" &lt;<span style="color: #e44649;">spaces</span>&gt; "naturel" <span style="color: #ff0000; font-weight: bold;">|</span> "bool&#233;en"
+
+&lt;<span style="color: #0184bc;">function_type</span>&gt; <span style="color: #008b8b;">::=</span> "entier" &lt;<span style="color: #e44649;">spaces</span>&gt; "naturel" <span style="color: #ff0000; font-weight: bold;">|</span> "bool&#233;en" <span style="color: #ff0000; font-weight: bold;">|</span> "nul"
+
+&lt;<span style="color: #0184bc;">name</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">word</span>&gt; "\n"
+
+&lt;<span style="color: #0184bc;">variables_list</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">variables</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">variables</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">variables_list</span>&gt;
+
+&lt;<span style="color: #0184bc;">variables</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">name</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "de" &lt;<span style="color: #e44649;">spaces</span>&gt; "type" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">type</span>&gt; "," &lt;<span style="color: #e44649;">spaces</span>&gt; "valant" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">value</span>&gt;
+
+&lt;<span style="color: #0184bc;">space</span>&gt; <span style="color: #008b8b;">::=</span> "\t" <span style="color: #ff0000; font-weight: bold;">|</span> "\n" <span style="color: #ff0000; font-weight: bold;">|</span> "\r" <span style="color: #ff0000; font-weight: bold;">|</span> "\f" <span style="color: #ff0000; font-weight: bold;">|</span> "\v"
+
+&lt;<span style="color: #0184bc;">spaces</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">space</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">space</span>&gt; &lt;<span style="color: #e44649;">spaces</span>&gt;
+
+&lt;<span style="color: #0184bc;">number</span>&gt; <span style="color: #008b8b;">::=</span> 0 <span style="color: #ff0000; font-weight: bold;">|</span> 1 <span style="color: #ff0000; font-weight: bold;">|</span> 2 <span style="color: #ff0000; font-weight: bold;">|</span> 3 <span style="color: #ff0000; font-weight: bold;">|</span> ...
+
+&lt;<span style="color: #0184bc;">signed_number</span>&gt; <span style="color: #008b8b;">::=</span> "-" &lt;<span style="color: #e44649;">number</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> "~" &lt;<span style="color: #e44649;">number</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> "non" &lt;<span style="color: #e44649;">spaces</span>&gt; &lt;<span style="color: #e44649;">number</span>&gt;
+
+&lt;<span style="color: #0184bc;">value</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">signed_number</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">number</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">bool</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">char_value</span>&gt;
+
+&lt;<span style="color: #0184bc;">word_char</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">printable</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">word_symbol</span>&gt;
+
+&lt;<span style="color: #0184bc;">printable</span>&gt; <span style="color: #008b8b;">::=</span> "A" .. "Z"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> "a" .. "z"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> "0" .. "9"
+             
+&lt;<span style="color: #0184bc;">word_symbol</span>&gt; <span style="color: #008b8b;">::=</span> "!" <span style="color: #ff0000; font-weight: bold;">|</span> "\"" <span style="color: #ff0000; font-weight: bold;">|</span> "#" <span style="color: #ff0000; font-weight: bold;">|</span> "$" <span style="color: #ff0000; font-weight: bold;">|</span> "%" <span style="color: #ff0000; font-weight: bold;">|</span> "&amp;" <span style="color: #ff0000; font-weight: bold;">|</span> "'" <span style="color: #ff0000; font-weight: bold;">|</span> "*" <span style="color: #ff0000; font-weight: bold;">|</span> "+" <span style="color: #ff0000; font-weight: bold;">|</span> "-" <span style="color: #ff0000; font-weight: bold;">|</span> "/" 
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>  <span style="color: #ff0000; font-weight: bold;">|</span> ":" <span style="color: #ff0000; font-weight: bold;">|</span> "\;" <span style="color: #ff0000; font-weight: bold;">|</span> "&lt;" <span style="color: #ff0000; font-weight: bold;">|</span> "=" <span style="color: #ff0000; font-weight: bold;">|</span> "&gt;" <span style="color: #ff0000; font-weight: bold;">|</span> "?" <span style="color: #ff0000; font-weight: bold;">|</span> "@"
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>  <span style="color: #ff0000; font-weight: bold;">|</span> "[" <span style="color: #ff0000; font-weight: bold;">|</span> "\\" <span style="color: #ff0000; font-weight: bold;">|</span> "]" <span style="color: #ff0000; font-weight: bold;">|</span> "^" <span style="color: #ff0000; font-weight: bold;">|</span> "_" <span style="color: #ff0000; font-weight: bold;">|</span> "{" <span style="color: #ff0000; font-weight: bold;">|</span> "}" <span style="color: #ff0000; font-weight: bold;">|</span> "<span style="color: #ff0000; font-weight: bold;">|</span>" <span style="color: #ff0000; font-weight: bold;">|</span> "~"
+         
+&lt;<span style="color: #0184bc;">symbol</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">word_symbol</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">space</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">printable</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> "," <span style="color: #ff0000; font-weight: bold;">|</span> "\t" <span style="color: #ff0000; font-weight: bold;">|</span> "\n" <span style="color: #ff0000; font-weight: bold;">|</span> "(" <span style="color: #ff0000; font-weight: bold;">|</span> ")"
+
+&lt;<span style="color: #0184bc;">word</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">word_char</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">word_char</span>&gt; &lt;<span style="color: #e44649;">word</span>&gt;
+
+&lt;<span style="color: #0184bc;">char_value</span>&gt; <span style="color: #008b8b;">::=</span> "'" &lt;<span style="color: #e44649;">symbol</span>&gt; "'"
+
+&lt;<span style="color: #0184bc;">bool</span>&gt; <span style="color: #008b8b;">::=</span> "faux" <span style="color: #ff0000; font-weight: bold;">|</span> "fausse" <span style="color: #ff0000; font-weight: bold;">|</span> "vrai" <span style="color: #ff0000; font-weight: bold;">|</span> "vraie"
+</pre>
+</div>
+
+<p>
+As the language is heavily based on the <b>French language</b>, it has shaped
+many of our syntax decisions :
+</p>
+
+<ul class="org-ul">
+<li>We made it mandatory to put spaces where needed in case of
+punctiation, as it is a
+<a href="https://formations.mer.gouv.fr/sites/default/files/2023-11/Espacement%20avant%20et%20apr%C3%A8s%20les%20signes%20de%20ponctuation%20et%20les%20symboles.pdf">french
+grammar rule</a>. This works for (&rsquo;:&rsquo;, &rsquo;.&rsquo;, &rsquo;«&rsquo;, &rsquo;»&rsquo;, &rsquo;,&rsquo;).</li>
+<li>We decided to replace all operations symbols by their literal French
+equivalent as we wanted this language to use <b>as many french words as
+possible</b> in order to represent <b>France</b>. Therefore, operations such
+as <code>+</code> or <code>*</code> are being replaced by <code>plus</code> and <code>multiplié par</code>. This
+forces to have at least one space before and after such operations as
+they are now depicted as <b>words</b>.</li>
+<li>As it can become easily overwhelming to type out every single
+operation using its own word representation, we created alternatives
+to some operations to make them shorter. For example, the XOR <code>^</code>
+operation can either be typed out as <code>exclusif ou</code> or <code>xor</code>. The
+multiply <code>*</code> operation can also either be <code>multiplié par</code> or <code>fois</code>.</li>
+<li>We forced every file of our language to begin with <code>Bonjour,</code> (<code>Hello</code>
+in english) in order to fit with the French Culture as french citizens
+are widely known for their politeness. For the same reasons, <code>while</code>
+and <code>if</code> structures ends by <code>Merci.</code> (<code>Thank you=in english) and the
+  main function ends with
+  =Merci d'avance, Cordialement, &lt;Name&gt;\n&lt;FamilyName&gt;</code> (for
+<code>Thank you in advance, Best regards, &lt;Name&gt;\n&lt;FamilyName&gt;</code>) as this
+function is where the program stops.</li>
+<li>Words used to describe instructions such as <code>J'invoque</code> (<code>Invoke</code> in
+english) or <code>Affiche</code> (<code>Display</code> in english) were what we thought was
+the best way to directly translate such common instructions in
+<b>french</b>.</li>
+<li>As we wanted users to have a unique experience while using the
+language, instructions directly made by users are conjugated in the
+first person in order to simulate a conversation. Other instructions
+executed directly by the machine such as displaying are in imperative
+form in the second person.</li>
+<li>Every single instructions ends with a <code>.</code> as every single sentence in
+<b>french</b> ends the same way.</li>
+<li><code>while</code> and <code>if</code> structures do not exactly share the same syntax in
+order to differentiate them properly : <code>if</code> takes a <code>,</code> at the end of
+the condition whereas <code>while</code> doesn&rsquo;t.</li>
+<li>Comparison are in the feminine form (<code>supérieure</code>, <code>égale</code>) since the
+French word <code>variable</code> is feminine.</li>
+</ul>
+</div>
+<div id="outline-container-language-logic" class="outline-4">
+<h4 id="language-logic"><span class="section-number-4">3.3.1.</span> Language logic</h4>
+<div class="outline-text-4" id="text-language-logic">
+</div>
+<ol class="org-ol">
+<li><a id="header"></a><b>Header</b><br />
+<div class="outline-text-5" id="text-header">
+<p>
+A file in <code>Franc C</code> always starts with: &ldquo;Bonjour,&rdquo; followed by an empty
+line.
+</p>
+
+<p>
+Politeness is very important, and we wanted <code>Franc C</code> to express a
+proper and classic language, not a crappy street language. We promise
+you will learn the &ldquo;bien parlé&rdquo; by using <code>Franc C</code>
+</p>
+</div>
+</li>
+<li><a id="function-declaration"></a><b>Function Declaration</b><br />
+<div class="outline-text-5" id="text-function-declaration">
+<p>
+In order to declare a function, you must specify:
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="the-name-of-the-function"></a>The name of the function<br />
+<div class="outline-text-6" id="text-the-name-of-the-function">
+<pre class="example" id="org62cef41">
+J'aimerais définir le bloc répondant au nom de &lt;function_name&gt;,
+</pre>
+
+<p>
+where is the name of the function
+</p>
+</div>
+</li>
+<li><a id="the-return-type-of-the-function"></a>The return type of the function<br />
+<div class="outline-text-6" id="text-the-return-type-of-the-function">
+<pre class="example" id="org0b83f43">
+de type de retour entier naturel,
+</pre>
+
+<p>
+for the function to return an integer.
+</p>
+
+<pre class="example" id="org17a2620">
+de type de retour booléen,
+</pre>
+
+<p>
+for the function to return a boolean.
+</p>
+
+<pre class="example" id="org21f4087">
+de type de retour nul,
+</pre>
+
+<p>
+if the function does not return anything. (void function)
+</p>
+</div>
+</li>
+<li><a id="the-parameters-of-the-function"></a>The parameters of the function<br />
+<div class="outline-text-6" id="text-the-parameters-of-the-function">
+<p>
+A parameter, in Franc C, is defined the same way as other programming
+languages : Those are variables that must be passed when the function is
+invoked for it to use them.
+</p>
+
+<pre class="example" id="orgb7f5d6f">
+necéssitant comme entrée :
+    - &lt;variable_name1&gt;, de type &lt;type&gt;
+    - &lt;variable_name2&gt;, de type &lt;type&gt;
+    ...
+;
+</pre>
+
+<p>
+You can include as many parameter as you want as long as they <b>do not
+share</b> the same name.
+</p>
+
+<ul class="org-ul">
+<li><code>&lt;variable_name1&gt;</code> and <code>&lt;variable_name2&gt;</code> are the name of the
+variables which are both different.</li>
+<li><code>&lt;type&gt;</code> is either <code>booléen</code> if the parameter is a <code>boolean</code> or
+<code>entier naturel</code> if it is an <code>int</code>.</li>
+</ul>
+
+<p>
+Parameters are obviously optional. If the function does not take any
+parameters, you must specify :
+</p>
+
+<pre class="example" id="orgf87317e">
+nécessitant comme entrée : ;
+</pre>
+</div>
+</li>
+<li><a id="variables"></a>Variables<br />
+<div class="outline-text-6" id="text-variables">
+<p>
+Variables created and used inside a function, in Franc C, are defined in
+the function definition. Since Franc C is a very verbose language and
+uses a lot of words, creating variables at the top of the function makes
+it a very good way to clearly see them.
+</p>
+
+<p>
+Such variables are being declared the following way :
+</p>
+
+<pre class="example" id="orgbffdc77">
+contenant les variables :
+    - &lt;variable_name1&gt;, de type &lt;type&gt;, valant &lt;value&gt;
+    - &lt;variable_name2&gt;, de type &lt;type&gt;, valant &lt;value&gt;
+;
+</pre>
+
+<p>
+Just like <b>parameters</b>, <b>variables</b> must not share the same name. A
+<b>parameter</b> and a <b>variable</b> can not share the same name either.
+</p>
+
+<ul class="org-ul">
+<li><code>&lt;variable_name1&gt;</code> and <code>&lt;variable_name2&gt;</code> are the name of the
+variables which are both different.</li>
+<li><code>&lt;type&gt;</code> is either <code>booléen</code> if the variable is a <code>boolean</code> or
+<code>entier naturel</code> if it is an <code>int</code>.</li>
+<li><code>&lt;value&gt;</code> is either a number or a boolean expression <code>vrai</code> <code>vraie</code>
+<code>faux</code> or <code>fausse</code>. It can also be a character value like <code>\n</code> (which
+will be 10).</li>
+</ul>
+
+<p>
+This <b>forces</b> every single created variable to have a default value.
+</p>
+
+<p>
+If the function does not use any variable, you must specify :
+</p>
+
+<pre class="example" id="org20f1d03">
+contenant les variables : ;
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="function-body"></a><b>Function Body</b><br />
+<div class="outline-text-5" id="text-function-body">
+<p>
+A function declaration ends with
+</p>
+
+<pre class="example" id="org1b58aac">
+représenté par le code &lt;logical_connector&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;logical_connector&gt;</code> is either <code>ci-après</code>, <code>suivant</code>, or
+<code>ci-dessous</code>.</li>
+</ul>
+
+<p>
+What must follow this declaration is the <b>body of the function</b>, which
+is what <b>will be executed</b> when the function is <b>invoked</b>.
+</p>
+
+<p>
+In Franc C, what can be executed inside a function is being refered as
+an <code>instruction</code>.
+</p>
+
+<p>
+Those are the available instructions that you can execute inside a
+function :
+</p>
+</div>
+<ol class="org-ol">
+<li><a id="assignement"></a>Assignement<br />
+<div class="outline-text-6" id="text-assignement">
+<p>
+You can, at any time, change the value of a variable the following way :
+</p>
+
+<pre class="example" id="orgcbc6a03">
+J'aimerais que &lt;variable_name&gt; prenne la valeur &lt;computables&gt;.
+</pre>
+
+<p>
+or
+</p>
+
+<pre class="example" id="orgdbdcee6">
+&lt;variable_name&gt; prends la valeur &lt;computables&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;variable_name&gt;</code> represents the name of an existing well-defined
+variable of the function.</li>
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+</ul>
+</div>
+</li>
+<li><a id="if"></a>If<br />
+<div class="outline-text-6" id="text-if">
+<p>
+Execute a block of code only if a specific condition was met. It can be
+defined the following way :
+</p>
+
+<pre class="example" id="orgb4f6a23">
+Si &lt;computables&gt;, exécute le texte :
+    &lt;more_instructions&gt;
+Merci.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+<li><code>&lt;more_instructions&gt;</code> represents all the instructions that will be
+executed <b>ONLY</b> if the <b>condition</b> was <b>met</b>.</li>
+<li><code>Merci.</code> represents the end of the condition.</li>
+</ul>
+
+<p>
+You can also execute a block of code if the condition wasn&rsquo;t met the
+following way :
+</p>
+
+<pre class="example" id="orgc8e7455">
+Si &lt;computables&gt;, exécute le texte :
+    &lt;more_instructions&gt;
+; sinon, exécute le texte :
+    &lt;more_instructions_2&gt;
+Merci.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+<li><code>&lt;more_instructions&gt;</code> represents all the instructions that will be
+executed <b>ONLY</b> if the <b>condition</b> was <b>met</b>.</li>
+<li><code>&lt;more_instructions_2&gt;</code> represents all the instructions that will be
+executed <b>ONLY</b> if the <b>condition</b> was <b>not met</b>.</li>
+<li><code>Merci.</code> represents the end of the condition.</li>
+</ul>
+</div>
+</li>
+<li><a id="invoke"></a>Invoke<br />
+<div class="outline-text-6" id="text-invoke">
+<p>
+Invoke another function inside a function, you can also store its result
+in a well-defined function variable.
+</p>
+
+<pre class="example" id="org87a2382">
+J'invoque le bloc &lt;function_name&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;function_name&gt;</code> is the name of an <b>existing defined function</b>.</li>
+</ul>
+
+<p>
+If the function that is being invoked takes parameters, they <b>must</b> be
+specified the following way :
+</p>
+
+<pre class="example" id="org5e43842">
+J'invoque le bloc &lt;function_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;function_name&gt;</code> is the name of an <b>existing defined function</b>.</li>
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+</ul>
+
+<p>
+You <b>must</b> not give to a function more parameters than it takes.
+</p>
+
+<p>
+In order to store the result of a function, while still giving
+parameters :
+</p>
+
+<pre class="example" id="org155b20e">
+J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;function_name&gt;</code> is the name of an <b>existing defined function</b>.</li>
+<li><code>&lt;variable_name&gt;</code> represents the name of an existing well-defined
+variable of the function.</li>
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+</ul>
+
+<p>
+However, if you do not want to give any parameter :
+</p>
+
+<pre class="example" id="org520a897">
+J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;function_name&gt;</code> is the name of an <b>existing defined function</b>.</li>
+<li><code>&lt;variable_name&gt;</code> represents the name of an existing well-defined
+variable of the function</li>
+</ul>
+</div>
+</li>
+<li><a id="loop"></a>Loop<br />
+<div class="outline-text-6" id="text-loop">
+<p>
+The only type of loop that is currently implemented in <code>Franc C</code> are the
+<code>while</code> loops.
+</p>
+
+<p>
+A loop allows to execute a block of code until a condition cannot be met
+anymore.
+</p>
+
+<pre class="example" id="orgb1785a5">
+Tant que &lt;computables&gt; exécute le code ci-après :
+    &lt;more_instructions&gt;
+Merci.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+<li><code>&lt;more_instructions&gt;</code> represents all the instructions that will be
+executed <b>ONLY</b> if the <b>condition</b> was <b>met</b>.</li>
+<li><code>Merci.</code> represents the end of the loop.</li>
+</ul>
+</div>
+</li>
+<li><a id="return"></a>Return<br />
+<div class="outline-text-6" id="text-return">
+<p>
+During the execution of the function, you can return at any time a
+<b>value</b>. Returning a value will cause the function execution to <b>stop</b>.
+</p>
+
+<p>
+The only condition to return a value is that the function must not be of
+type &ldquo;nul&rdquo;.
+</p>
+
+<pre class="example" id="org166fdc7">
+Enfin, renvoie &lt;computables&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+</ul>
+
+<p>
+If the function does not return anything (<code>nul</code> function), you can still
+stop the execution at any time.
+</p>
+
+<pre class="example" id="orga6f8c64">
+Enfin, sors du bloc.
+</pre>
+
+<p>
+This works only if the function is a <code>nul</code> function.
+</p>
+</div>
+</li>
+<li><a id="show-statements"></a>Show statements<br />
+<div class="outline-text-6" id="text-show-statements">
+<p>
+This instruction is used to display either a text, or the result of a
+computation in the screen.
+</p>
+
+<p>
+To display a computation :
+</p>
+
+<pre class="example" id="org1707882">
+Affiche &lt;computables&gt;.
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;computables&gt;</code> represents an expression composed of values with
+operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
+</ul>
+
+<p>
+This will display <b>the character</b> corresponding to the result on the
+screen. (E.g): <code>Affiche 10.</code> will display <code>\n</code>.
+</p>
+
+<p>
+However, if you want to display a text :
+</p>
+
+<pre class="example" id="org93e5b71">
+Affiche « Meow ».
+</pre>
+
+<p>
+This will display the text <code>Meow</code> on the screen.
+</p>
+</div>
+</li>
+</ol>
+</li>
+<li><a id="end-of-function"></a><b>End of Function</b><br />
+<div class="outline-text-5" id="text-end-of-function">
+<p>
+You must <b>always</b> end your <b>Function Body</b> with a <code>Merci.</code>.
+</p>
+</div>
+</li>
+<li><a id="special-case-of-main-function"></a><b>Special case of &rsquo;Main&rsquo; Function</b><br />
+<div class="outline-text-5" id="text-special-case-of-main-function">
+<p>
+The <b>main function</b> is where the program starts. Therefore, its
+defintion must be clearly different from the <b>other functions</b>.
+</p>
+
+<p>
+Such functions are being defined the following way :
+</p>
+
+<pre class="example" id="orgdc41d3b">
+Bonjour,
+
+En sachant que les variables principales sont :
+    &lt;variables&gt;
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    &lt;instructions&gt;
+Merci d'avance,
+Cordialement,
+&lt;family_name&gt;
+&lt;name&gt;
+</pre>
+
+<ul class="org-ul">
+<li><code>&lt;variables&gt;</code> is an optional field, and represents the variables of
+the function. They are declared the same way as a normal function.</li>
+<li><code>&lt;instructions&gt;</code> represents all the instructions that will be
+executed.</li>
+<li><code>Merci d'avance, Cordialement, &lt;family_name&gt; &lt;name&gt;.</code> represents the
+end of the main function</li>
+<li><code>&lt;family_name&gt;</code> represents the developer&rsquo;s last name, and must always
+end with a newline character (&rsquo;\n&rsquo;).</li>
+<li><code>&lt;name&gt;</code> represents the developer&rsquo;s first name, and must also end with
+a newline character (&rsquo;\n&rsquo;).</li>
+</ul>
+
+<p>
+A <b>main function</b> does not take any parameter. Therefore, no parameter
+definition must be done. The value being <b>returned</b> in the <b>main
+function</b> represent the exit status of the program. If no value was
+being <b>returned</b>, the program exists by default with a status code of
+<code>0</code>.
+</p>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-bytecode_reference" class="outline-2">
+<h2 id="bytecode_reference"><span class="section-number-2">4.</span> Bytecode reference</h2>
+<div class="outline-text-2" id="text-bytecode_reference">
+<p>
+The bytecode starts with a magic number, followed by an address
+describing the placement of the PC at the start of the program, followed
+by the program itself.
+</p>
+</div>
+<div id="outline-container-formal-syntax-bnf" class="outline-3">
+<h3 id="formal-syntax-bnf"><span class="section-number-3">4.1.</span> Formal syntax (BNF)</h3>
+<div class="outline-text-3" id="text-formal-syntax-bnf">
+<div class="org-src-container">
+<pre class="src src-bnf">&lt;<span style="color: #0184bc;">bytecode</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">magic_number</span>&gt; &lt;<span style="color: #e44649;">adress</span>&gt; &lt;<span style="color: #e44649;">operation_list</span>&gt;
+
+&lt;<span style="color: #0184bc;">magic_number</span>&gt; <span style="color: #008b8b;">::=</span> "E\fE\f" <span style="color: #a0a1a7;">; 0x45 0xc 0x45 0xc
+</span>
+&lt;<span style="color: #0184bc;">adress</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt;
+
+&lt;<span style="color: #0184bc;">operation_list</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">operation</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">operation</span>&gt;  &lt;<span style="color: #e44649;">operation_list</span>&gt;
+
+&lt;<span style="color: #0184bc;">operation</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">not</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">lnot</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">neg</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">and</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">or</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">xor</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">shl</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">shr</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">land</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">lor</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">add</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">sub</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">mult</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">div</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">mod</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">gt</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">ge</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">lt</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">le</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">eq</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">diff</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">updz</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">push_stack</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">pop_stack</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">pop</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">call</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">ret</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">jmp</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">zjmp</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">aff</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">affs</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">push_value</span>&gt;
+<span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span>   <span style="color: #d493d500d790;"> </span> <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">push_label</span>&gt;
+             
+             
+&lt;<span style="color: #0184bc;">not</span>&gt; <span style="color: #008b8b;">::=</span> "\003"
+
+&lt;<span style="color: #0184bc;">lnot</span>&gt; <span style="color: #008b8b;">::=</span> "\004"
+
+&lt;<span style="color: #0184bc;">neg</span>&gt; <span style="color: #008b8b;">::=</span> "\005"
+
+&lt;<span style="color: #0184bc;">and</span>&gt; <span style="color: #008b8b;">::=</span> "\006"
+
+&lt;<span style="color: #0184bc;">or</span>&gt; <span style="color: #008b8b;">::=</span> "\a"
+
+&lt;<span style="color: #0184bc;">land</span>&gt; <span style="color: #008b8b;">::=</span> "\b"
+
+&lt;<span style="color: #0184bc;">lor</span>&gt; <span style="color: #008b8b;">::=</span> "\t"
+
+&lt;<span style="color: #0184bc;">xor</span>&gt; <span style="color: #008b8b;">::=</span> "\n"
+
+&lt;<span style="color: #0184bc;">shl</span>&gt; <span style="color: #008b8b;">::=</span> "\v"
+
+&lt;<span style="color: #0184bc;">shr</span>&gt; <span style="color: #008b8b;">::=</span> "\f"
+
+&lt;<span style="color: #0184bc;">add</span>&gt; <span style="color: #008b8b;">::=</span> "\r"
+
+&lt;<span style="color: #0184bc;">sub</span>&gt; <span style="color: #008b8b;">::=</span> "\016"
+
+&lt;<span style="color: #0184bc;">mult</span>&gt; <span style="color: #008b8b;">::=</span> "\017"
+
+&lt;<span style="color: #0184bc;">div</span>&gt; <span style="color: #008b8b;">::=</span> "\020"
+
+&lt;<span style="color: #0184bc;">mod</span>&gt; <span style="color: #008b8b;">::=</span> "\021"
+
+&lt;<span style="color: #0184bc;">gt</span>&gt; <span style="color: #008b8b;">::=</span> "\022"
+
+&lt;<span style="color: #0184bc;">ge</span>&gt; <span style="color: #008b8b;">::=</span> "\023"
+
+&lt;<span style="color: #0184bc;">lt</span>&gt; <span style="color: #008b8b;">::=</span> "\024"
+
+&lt;<span style="color: #0184bc;">le</span>&gt; <span style="color: #008b8b;">::=</span> "\025"
+
+&lt;<span style="color: #0184bc;">eq</span>&gt; <span style="color: #008b8b;">::=</span> "\026"
+
+&lt;<span style="color: #0184bc;">diff</span>&gt; <span style="color: #008b8b;">::=</span> "\027"
+
+&lt;<span style="color: #0184bc;">updz</span>&gt; <span style="color: #008b8b;">::=</span> "\030"
+
+&lt;<span style="color: #0184bc;">push_stack</span>&gt; <span style="color: #008b8b;">::=</span> "\035" &lt;<span style="color: #e44649;">arguments</span>&gt;
+
+&lt;<span style="color: #0184bc;">pop_stack</span>&gt; <span style="color: #008b8b;">::=</span> "\036" &lt;<span style="color: #e44649;">arguments</span>&gt;
+
+&lt;<span style="color: #0184bc;">pop</span>&gt; <span style="color: #008b8b;">::=</span> "\037"
+
+&lt;<span style="color: #0184bc;">call</span>&gt; <span style="color: #008b8b;">::=</span> """
+
+&lt;<span style="color: #0184bc;">ret</span>&gt; <span style="color: #008b8b;">::=</span> "#"
+
+&lt;<span style="color: #0184bc;">jmp</span>&gt; <span style="color: #008b8b;">::=</span> "$"
+
+&lt;<span style="color: #0184bc;">zjmp</span>&gt; <span style="color: #008b8b;">::=</span> "%"
+
+&lt;<span style="color: #0184bc;">aff</span>&gt; <span style="color: #008b8b;">::=</span> "&amp;"
+
+&lt;<span style="color: #0184bc;">affs</span>&gt; <span style="color: #008b8b;">::=</span> "'" &lt;<span style="color: #e44649;">arguments</span>&gt; &lt;<span style="color: #e44649;">string</span>&gt;
+
+&lt;<span style="color: #0184bc;">push_value</span>&gt; <span style="color: #008b8b;">::=</span> "Y" &lt;<span style="color: #e44649;">arguments</span>&gt;
+
+&lt;<span style="color: #0184bc;">push_label</span>&gt; <span style="color: #008b8b;">::=</span> "[" &lt;<span style="color: #e44649;">arguments</span>&gt;
+
+&lt;<span style="color: #0184bc;">arguments</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">byte</span>&gt;
+
+&lt;<span style="color: #0184bc;">string</span>&gt; <span style="color: #008b8b;">::=</span> &lt;<span style="color: #e44649;">byte</span>&gt; <span style="color: #ff0000; font-weight: bold;">|</span> &lt;<span style="color: #e44649;">byte</span>&gt; &lt;<span style="color: #e44649;">string</span>&gt;
+
+&lt;<span style="color: #e44649;">byte </span>&gt; =  "\0" .. "&#255;"
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-instructions" class="outline-3">
+<h3 id="instructions"><span class="section-number-3">4.2.</span> Instructions</h3>
+<div class="outline-text-3" id="text-instructions">
+<p>
+Since the virtual machine is stack-based, every instruction representing
+an operation will pop it&rsquo;s operands, and push the result to the stack.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">mnemonic</th>
+<th scope="col" class="org-left">description</th>
+<th scope="col" class="org-left">bnf object</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">not</td>
+<td class="org-left">Not, invert the bits of the operand</td>
+<td class="org-left">not</td>
+</tr>
+
+<tr>
+<td class="org-left">lnot</td>
+<td class="org-left">Logical not, invert the boolean interpretation of the operand</td>
+<td class="org-left">lnot</td>
+</tr>
+
+<tr>
+<td class="org-left">neg</td>
+<td class="org-left">Negate, switch the sign of the operand</td>
+<td class="org-left">neg</td>
+</tr>
+
+<tr>
+<td class="org-left">and</td>
+<td class="org-left">And, performs a binary AND operation between two operands</td>
+<td class="org-left">and</td>
+</tr>
+
+<tr>
+<td class="org-left">or</td>
+<td class="org-left">Or, performs a binary OR operation between two operands</td>
+<td class="org-left">or</td>
+</tr>
+
+<tr>
+<td class="org-left">xor</td>
+<td class="org-left">Exclusive or, performs a binary XOR operation between two operands</td>
+<td class="org-left">xor</td>
+</tr>
+
+<tr>
+<td class="org-left">shl</td>
+<td class="org-left">Left bitshift, shifts the bits of the operand to the left, appending zeroes</td>
+<td class="org-left">shl</td>
+</tr>
+
+<tr>
+<td class="org-left">shr</td>
+<td class="org-left">Right bitshift, shifts the bits of the operand to the right, appending zeroes</td>
+<td class="org-left">shr</td>
+</tr>
+
+<tr>
+<td class="org-left">land</td>
+<td class="org-left">Logical and, boolean interpretation of the logical AND on two operands</td>
+<td class="org-left">land</td>
+</tr>
+
+<tr>
+<td class="org-left">lor</td>
+<td class="org-left">Logical or, boolean interpretation of the logical OR on two operands</td>
+<td class="org-left">lor</td>
+</tr>
+
+<tr>
+<td class="org-left">add</td>
+<td class="org-left">Addition, adds the value of two operands</td>
+<td class="org-left">add</td>
+</tr>
+
+<tr>
+<td class="org-left">sub</td>
+<td class="org-left">Substraction, subtract the value of two operands</td>
+<td class="org-left">sub</td>
+</tr>
+
+<tr>
+<td class="org-left">mult</td>
+<td class="org-left">Multiplication, multiplies the value of two operands</td>
+<td class="org-left">mult</td>
+</tr>
+
+<tr>
+<td class="org-left">div</td>
+<td class="org-left">Division, return the dividend of the euclidian division of operand 1 by operand 2</td>
+<td class="org-left">div</td>
+</tr>
+
+<tr>
+<td class="org-left">mod</td>
+<td class="org-left">Modulo, return the rest of the euclidian division of operand 1 by operand 2</td>
+<td class="org-left">mod</td>
+</tr>
+
+<tr>
+<td class="org-left">gt</td>
+<td class="org-left">Greater than, compares the two operands and return a result for boolean interpretation</td>
+<td class="org-left">gt</td>
+</tr>
+
+<tr>
+<td class="org-left">ge</td>
+<td class="org-left">Greater than or equals to, compares the two operands and return a result for boolean interpretation</td>
+<td class="org-left">ge</td>
+</tr>
+
+<tr>
+<td class="org-left">lt</td>
+<td class="org-left">Less than, compares the two operands and return a result for boolean interpretation</td>
+<td class="org-left">lt</td>
+</tr>
+
+<tr>
+<td class="org-left">le</td>
+<td class="org-left">Less than or equals to, compares the two operands and return a result for boolean interpretation</td>
+<td class="org-left">le</td>
+</tr>
+
+<tr>
+<td class="org-left">eq</td>
+<td class="org-left">Equals, compares the two operands and return a result for boolean interpretation</td>
+<td class="org-left">eq</td>
+</tr>
+
+<tr>
+<td class="org-left">neq</td>
+<td class="org-left">Different from, compares the two operands and return a result for boolean interpretation</td>
+<td class="org-left">diff</td>
+</tr>
+
+<tr>
+<td class="org-left">updz</td>
+<td class="org-left">Update zero flag, pops the value from the stack and set it as the new zero flag</td>
+<td class="org-left">updz</td>
+</tr>
+
+<tr>
+<td class="org-left">push</td>
+<td class="org-left">Push value, push a 64 bits value to the stack</td>
+<td class="org-left">push<sub>value</sub></td>
+</tr>
+
+<tr>
+<td class="org-left">push</td>
+<td class="org-left">Push relative address, push a 64 bits relative address to the stack, corresponding generally to a label</td>
+<td class="org-left">push<sub>label</sub></td>
+</tr>
+
+<tr>
+<td class="org-left">push</td>
+<td class="org-left">Push from stack pointer relative address, push to the stack the 8 bytes found at the stack pointer + the address given as operand</td>
+<td class="org-left">push<sub>stack</sub></td>
+</tr>
+
+<tr>
+<td class="org-left">pop</td>
+<td class="org-left">Pop empty, pop 8 bytes from the stack</td>
+<td class="org-left">pop</td>
+</tr>
+
+<tr>
+<td class="org-left">pop</td>
+<td class="org-left">Pop to stack pointer relative address, pop 8 bytes from the stack, and write them to the stack pointer + the address given as operand</td>
+<td class="org-left">pop<sub>stack</sub></td>
+</tr>
+
+<tr>
+<td class="org-left">call</td>
+<td class="org-left">Call, op 8 bytes from the stack, register the new stack pointer, push the PC and stack pointer to the callstack, and jump to the value of the 8 bytes popped from the stack</td>
+<td class="org-left">call</td>
+</tr>
+
+<tr>
+<td class="org-left">ret</td>
+<td class="org-left">Return, reset the stack to the stack pointer, pop the callstack and jump to the address from the callstack pop</td>
+<td class="org-left">ret</td>
+</tr>
+
+<tr>
+<td class="org-left">jmp</td>
+<td class="org-left">Jump, pop an address from the stack, and set the PC to it</td>
+<td class="org-left">jmp</td>
+</tr>
+
+<tr>
+<td class="org-left">zjmp</td>
+<td class="org-left">Zero jump, pop an address from the stack, and if the zero flag is set, set the PC to it</td>
+<td class="org-left">zjmp</td>
+</tr>
+
+<tr>
+<td class="org-left">aff</td>
+<td class="org-left">Show, pop 8 bytes from the stack, apply a modulo 256 to the result, and write a single ascii character corresponding to the result</td>
+<td class="org-left">aff</td>
+</tr>
+
+<tr>
+<td class="org-left">affs</td>
+<td class="org-left">Show string, the first operand is a 64 bits integer corresponding to the number of caracters, that we will call n. The next n bytes are the ascii values of the characters that will be wrote</td>
+<td class="org-left">affs</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-vm_architecture_reference" class="outline-2">
+<h2 id="vm_architecture_reference"><span class="section-number-2">5.</span> Virtual Machine reference</h2>
+<div class="outline-text-2" id="text-vm_architecture_reference">
+</div>
+<div id="outline-container-introduction" class="outline-3">
+<h3 id="introduction"><span class="section-number-3">5.1.</span> Introduction</h3>
+<div class="outline-text-3" id="text-introduction">
+<p>
+When defining an assembly language for the Franc C binary, we focused on
+the ease of development of the compiler. We just had one requirement
+that allowed an easy development of the virtual machine: our assembly
+shall be
+<a href="https://en.wikipedia.org/wiki/Stack-oriented_programming">stack-based</a>,
+drawing inspiration from the
+<a href="https://en.wikipedia.org/wiki/Java_virtual_machine">Java Virtual
+Machine (JVM)</a>.
+</p>
+</div>
+<div id="outline-container-stack-based-vs-register-based" class="outline-4">
+<h4 id="stack-based-vs-register-based"><span class="section-number-4">5.1.1.</span> Stack-Based vs Register-Based</h4>
+<div class="outline-text-4" id="text-stack-based-vs-register-based">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Aspect</th>
+<th scope="col" class="org-left">Stack-Based (fcvm)</th>
+<th scope="col" class="org-left">Register-Based (e.g., Lua VM)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>Storage</b></td>
+<td class="org-left">Operand stack (LIFO)</td>
+<td class="org-left">Virtual registers</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Instructions</b></td>
+<td class="org-left">Compact, implicit operands, prone to errors</td>
+<td class="org-left">Explicit operand addressing</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Complexity</b></td>
+<td class="org-left">Simple to implement</td>
+<td class="org-left">More complex logic</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>Bytecode Size</b></td>
+<td class="org-left">Bigger overall (smaller instructions but way more quantiry)</td>
+<td class="org-left">Smaller overall</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+We chose a stack-based approach for the following reasons:
+</p>
+
+<ol class="org-ol">
+<li><b>Simpler bytecode generation</b>: The compiler does not have to deal
+with registers, knowing it does not have the capacity to remember
+data while processing multiple operations.</li>
+<li><b>Monotyped language</b>: The fact that the Franc C is an integer only
+language allows for fixed-size parameter encoding. One of the main
+advantages of the register-based approach is to allow for type
+encoding.</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-stack" class="outline-3">
+<h3 id="stack"><span class="section-number-3">5.2.</span> Stack</h3>
+<div class="outline-text-3" id="text-stack">
+<p>
+The stack shoud be implemented as a contiguous array of bytes with the
+following characteristics:
+</p>
+
+<ul class="org-ul">
+<li><b>Data type</b>: Array of bytes</li>
+<li><b>Element size</b>: 8 bytes per element (64-bit signed integers)</li>
+<li><b>Alignment</b>: All operations push/pop exactly 8 bytes</li>
+<li><b>Stack size</b>: Always a multiple of 8 bytes</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="stack-management"></a>Stack Management<br />
+<div class="outline-text-5" id="text-stack-management">
+<p>
+To perform function calls, the VM must maintains the stack pointer. It
+points to the start of the current stack local context. it is modified
+by the instructions call and ret.
+</p>
+</div>
+</li>
+</ol>
+<div id="outline-container-initialization" class="outline-4">
+<h4 id="initialization"><span class="section-number-4">5.2.1.</span> Initialization</h4>
+<div class="outline-text-4" id="text-initialization">
+<p>
+By default, the stack should be initialized with 8 bytes representing
+the return value of the program. The default value is
+implementation-defined.
+</p>
+</div>
+</div>
+<div id="outline-container-basic-operations" class="outline-4">
+<h4 id="basic-operations"><span class="section-number-4">5.2.2.</span> Basic Operations</h4>
+<div class="outline-text-4" id="text-basic-operations">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operation</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Stack Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>PUSH</b></td>
+<td class="org-left">Push 8 bytes onto the stack</td>
+<td class="org-left">SP unchanged, Counter += 1</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>POP</b></td>
+<td class="org-left">Remove 8 bytes from the stack</td>
+<td class="org-left">SP unchanged, Counter -= 1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="outline-container-callstack" class="outline-3">
+<h3 id="callstack"><span class="section-number-3">5.3.</span> CallStack</h3>
+<div class="outline-text-3" id="text-callstack">
+<p>
+The <b>callstack</b> manages function calls and returns, enabling the VM
+to: - Navigate between functions - Restore execution context after
+function returns - Maintain function-local state - Detect program
+termination
+</p>
+</div>
+<div id="outline-container-memory-layout" class="outline-4">
+<h4 id="memory-layout"><span class="section-number-4">5.3.1.</span> Memory Layout</h4>
+<div class="outline-text-4" id="text-memory-layout">
+<p>
+The callstack can be implemented as a contiguous array of frame
+records:<br />
+By default, the callstack can be initialized as an <b>empty array</b>.
+</p>
+
+<p>
+Example implementation : - <b>Data type</b>: Array of tuples <code>[(PC, SP)]</code> -
+<b>PC</b> (Program Counter): Return address (next instruction after CALL) -
+<b>SP</b> (Stack Pointer): Stack state at call time
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Frame</th>
+<th scope="col" class="org-right">PC</th>
+<th scope="col" class="org-right">SP</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-left">Entry point</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">12</td>
+<td class="org-right">16</td>
+<td class="org-left">First function call</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">57</td>
+<td class="org-right">24</td>
+<td class="org-left">Current function locale start</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-function-call-mechanism" class="outline-4">
+<h4 id="function-call-mechanism"><span class="section-number-4">5.3.2.</span> Function call mechanism</h4>
+<div class="outline-text-4" id="text-function-call-mechanism">
+<p>
+When executing <code>call &lt;address&gt;</code>:
+</p>
+
+<ol class="org-ol">
+<li><b>Save current context</b>: Push <code>(PC + 1, SP)</code> onto the call stack
+<ul class="org-ul">
+<li><code>PC + 1</code>: Address of the instruction following CALL</li>
+<li><code>SP</code>: Current stack pointer (preserves caller&rsquo;s stack)</li>
+</ul></li>
+<li><b>Jump to function</b>: Set <code>PC = &lt;address&gt;</code></li>
+</ol>
+
+<p>
+When executing <code>Ret</code>:
+</p>
+
+<ol class="org-ol">
+<li><b>Pop frame</b>: Retrieve <code>(saved_PC, saved_SP)</code> from call stack</li>
+<li><b>Restore context</b>:
+<ul class="org-ul">
+<li>Set <code>PC = saved_PC</code> (return to caller)</li>
+<li>Set <code>SP = saved_SP</code> (restore stack state)</li>
+</ul></li>
+<li><b>Check termination</b>: If call stack is empty after pop, <b>terminate
+program</b></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-zero-flag" class="outline-3">
+<h3 id="zero-flag"><span class="section-number-3">5.4.</span> Zero flag</h3>
+<div class="outline-text-3" id="text-zero-flag">
+<p>
+The <b>Zero Flag</b> is a single-bit register used for conditional branching
+and control flow decisions.<br />
+It stores the result of comparison and test operations,<br />
+enabling the implementation of <code>if</code> and <code>while</code>.
+</p>
+
+<ul class="org-ul">
+<li><b>Data type</b>: <code>unsigned char</code></li>
+<li><b>Default value</b>: <code>1</code></li>
+</ul>
+
+<p>
+The Zero Flag follows this logic:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Condition</th>
+<th scope="col" class="org-left">Zero Flag Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><b>!= 0</b></td>
+<td class="org-left"><code>1</code> (true)</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>== 0</b></td>
+<td class="org-left"><code>0</code> (false)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-end-cases" class="outline-3">
+<h3 id="end-cases"><span class="section-number-3">5.5.</span> End cases</h3>
+<div class="outline-text-3" id="text-end-cases">
+<p>
+The program terminates normally when: - A <code>Ret</code> instruction is executed
+from the main function - The call stack becomes empty after the return
+</p>
+
+<hr />
+
+<p>
+<b>Version</b> : 1.2<br />
+<b>Last update</b> : Novembre 2025<br />
+<b>Author</b> : Acacademie Franc C&rsquo;aise
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-fcc_reference" class="outline-2">
+<h2 id="fcc_reference"><span class="section-number-2">6.</span> Franc C Compiler</h2>
+<div class="outline-text-2" id="text-fcc_reference">
+<p>
+The Franc C Compiler (FCC) is a toolchain that allows the compilation of
+one or multiple Franc C Reference code (.fr) files into a single
+bytecode executable by the FCVM program.
+</p>
+</div>
+<div id="outline-container-parameters-list-and-long-descriptions" class="outline-3">
+<h3 id="parameters-list-and-long-descriptions"><span class="section-number-3">6.1.</span> Parameters list and long descriptions</h3>
+<div class="outline-text-3" id="text-parameters-list-and-long-descriptions">
+<p>
+<code>fcc FILESNAME [-o|--output FILENAME] [-n|--no-larousse] [-d|--debug]</code>
+</p>
+</div>
+<div id="outline-container-filesname" class="outline-4">
+<h4 id="filesname"><span class="section-number-4">6.1.1.</span> FILESNAME</h4>
+<div class="outline-text-4" id="text-filesname">
+<p>
+The name of the input files. They need to be valid .fr source files.
+</p>
+</div>
+</div>
+<div id="outline-container-output-filename" class="outline-4">
+<h4 id="output-filename"><span class="section-number-4">6.1.2.</span> &#x2013;output FILENAME</h4>
+<div class="outline-text-4" id="text-output-filename">
+<p>
+The name of the output bytecode file. Only considered without the
+&#x2013;debug flag.
+</p>
+
+<p>
+Without the presence of this flag, the default output file is <code>a.fcp</code>.
+</p>
+</div>
+</div>
+<div id="outline-container-no-larousse" class="outline-4">
+<h4 id="no-larousse"><span class="section-number-4">6.1.3.</span> &#x2013;no-larousse</h4>
+<div class="outline-text-4" id="text-no-larousse">
+<p>
+By default, the FCC program compiles with the Larousse sources included.
+See the <a href="#larousse">larousse</a> section.
+</p>
+
+<p>
+This flag allows compilation without any files from the Larousse
+library.
+</p>
+</div>
+</div>
+<div id="outline-container-debug" class="outline-4">
+<h4 id="debug"><span class="section-number-4">6.1.4.</span> &#x2013;debug</h4>
+<div class="outline-text-4" id="text-debug">
+<p>
+This flags allows a debug output. Instead of writing the bytecode to a
+file, a debug view of the assembly is wrote to the standard output
+(/dev/stdout on most GNU/linux machines).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-larousse" class="outline-3">
+<h3 id="larousse"><span class="section-number-3">6.2.</span> Larousse</h3>
+<div class="outline-text-3" id="text-larousse">
+<p>
+The Larousse is the standard library who accompanies the FCC program. If
+the Larousse is to be included, the <code>fcc</code> program will search a folder
+named <code>larousse</code>, and then list in all subdirectories of level-1 the
+<code>.fr</code> source files. Those found source files will be added to the input
+list, and compiled.
+</p>
+</div>
+</div>
+<div id="outline-container-functioning" class="outline-3">
+<h3 id="functioning"><span class="section-number-3">6.3.</span> Functioning</h3>
+<div class="outline-text-3" id="text-functioning">
+<p>
+The FCC program works with different steps.
+</p>
+</div>
+<div id="outline-container-getting-inputs" class="outline-4">
+<h4 id="getting-inputs"><span class="section-number-4">6.3.1.</span> Getting inputs</h4>
+<div class="outline-text-4" id="text-getting-inputs">
+<p>
+The inputs are retrived via the Larousse library and the user-provided
+files.
+</p>
+</div>
+</div>
+<div id="outline-container-lexing-and-parsing" class="outline-4">
+<h4 id="lexing-and-parsing"><span class="section-number-4">6.3.2.</span> Lexing and parsing</h4>
+<div class="outline-text-4" id="text-lexing-and-parsing">
+<p>
+Each file is lexed into a list of token, then parsed into an Abstract
+Syntax Tree (AST).
+</p>
+
+<p>
+See <a href="#lexer-parsing-reference">the parsing reference</a> for more
+information.
+</p>
+
+<p>
+This step may fail. Each file being converted one after the other, if
+one fails, the remaining ones are not even considered and an error is
+returned.
+</p>
+</div>
+</div>
+<div id="outline-container-combination" class="outline-4">
+<h4 id="combination"><span class="section-number-4">6.3.3.</span> Combination</h4>
+<div class="outline-text-4" id="text-combination">
+<p>
+Each AST representing each files given for compilation is then combined.
+</p>
+
+<p>
+In this step, the presence of a single principal function is verified,
+and if no or multiple are found, an error is returned.
+</p>
+
+<p>
+The result is a CAST (Combined Abstract Syntax Tree)
+</p>
+</div>
+</div>
+<div id="outline-container-compilation" class="outline-4">
+<h4 id="compilation"><span class="section-number-4">6.3.4.</span> Compilation</h4>
+<div class="outline-text-4" id="text-compilation">
+<p>
+The compilation step is where the CAST is converted to a Context
+datastructure, linked with an Assembly datastructure. It is not yet
+bytecode, just a structure representing the final output.
+</p>
+
+<p>
+The context structure is important for the next step.
+</p>
+
+<p>
+This step is really linear, there is no acknowledgement of the rest of
+the program when compiling a subpart.
+</p>
+</div>
+</div>
+<div id="outline-container-verifications" class="outline-4">
+<h4 id="verifications"><span class="section-number-4">6.3.5.</span> Verifications</h4>
+<div class="outline-text-4" id="text-verifications">
+<p>
+This step ensures some basic verifications.
+</p>
+
+<p>
+It takes the context from the previous step, and analyses it to find any
+flaws.
+</p>
+
+<p>
+For example, we check here if a function is invoked whilst it&rsquo;s
+reference is non-existant.
+</p>
+</div>
+</div>
+<div id="outline-container-output" class="outline-4">
+<h4 id="output"><span class="section-number-4">6.3.6.</span> Output</h4>
+<div class="outline-text-4" id="text-output">
+<p>
+This step is the final one.
+</p>
+
+<p>
+If the <code>--debug</code> flag is given, it will take the structured assembly and
+write it down just as it is stored.
+</p>
+
+<p>
+Elsewise, it is converted to bytecode in really two small steps. The
+first one is to convert labels to relative positions. The second one is
+to convert everything to it&rsquo;s bytecode relation.
+</p>
+
+<p>
+Finaly, the resulted bytecode is written to the designated output file.
+</p>
+</div>
+</div>
+<div id="outline-container-justifications" class="outline-4">
+<h4 id="justifications"><span class="section-number-4">6.3.7.</span> Justifications</h4>
+<div class="outline-text-4" id="text-justifications">
+<p>
+Regarding the lexing and parsing part, we decided so separate those to
+allow for easier syntaxic sugar implementation and code readability.
+</p>
+
+<p>
+The combination part was added to allow for multiple input files to be
+grouped together before the compilation process. It is easier to do it
+like this than to try and combine multiple outputed bytecodes together,
+like the <code>ld</code> program does when compiling a C program.
+</p>
+
+<p>
+The compilation is linear, and therefore, we had to separate the
+verification process from this step, to allow for a really easy-to-read
+code. Having a linear compilation reduces the capacity of complex
+program logic, but since the Franc C is a really simple imperative
+language, it poses no problems to do it this way. We simply store some
+context in a datastructure for the verification step to look in a global
+point of view, instead of the linearly reduced point of view of the
+compilation.
+</p>
+
+<p>
+Finaly, we send the assembly to out output step, that is in charge of
+converting it to the final bytecode, or to write it as a debug output.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-lexer-parsing-reference" class="outline-3">
+<h3 id="lexer-parsing-reference"><span class="section-number-3">6.4.</span> Lexer &amp; Parsing reference</h3>
+<div class="outline-text-3" id="text-lexer-parsing-reference">
+<p>
+We have chosen Haskell to implement the lexing and parsing of the
+language, as functional languages like Haskell make it particularly easy
+to express, abstract, and combine parsers. This allows the Franc C to be
+very verbose, which was definitely needed.
+</p>
+
+<p>
+As we wanted to speed things up and release a first version as quickly
+as possible, we decided to use a pre-existing parsing library
+<code>Megaparsec</code>. The library offers fast parsing performance, is an
+improved successor of <code>Parsec</code>, and provides high-quality error messages
+that greatly simplify debugging and development.
+</p>
+
+<p>
+The <code>Lexer</code> and <code>Parser</code> both refers to two different parts:
+</p>
+
+<ul class="org-ul">
+<li>The <code>Lexer</code>, which uses <code>Megaparsec</code> reads the source code&rsquo;s syntax,
+checks that it follows the correct grammar, then converts the text
+into a list of tokens that the parser can later use. For example, the
+code <code>Si x est égale à 0, exécute le texte</code> would be transformed into
+the list as <code>[If, Symbol "x", Operation Equals, Number 0, Then]</code></li>
+<li>The <code>Parser</code>, on the other hand, takes this list of tokens to
+transform it into an <b>Abstract Syntax Tree</b> (AST). It uses Haskell&rsquo;s
+recursive principles to build that tree so that the compiler can later
+use it to generate the final executable library.</li>
+</ul>
+
+<p>
+The <code>Parser</code> is only executed if the <code>Lexer</code> did not fail to lex the
+targetted source code.
+</p>
+</div>
+<div id="outline-container-safety-measures" class="outline-4">
+<h4 id="safety-measures"><span class="section-number-4">6.4.1.</span> Safety measures</h4>
+<div class="outline-text-4" id="text-safety-measures">
+<p>
+The safety of the lexing process is ensured by <code>Megaparsec</code>, which
+provides robust error handling and syntax checking. During the lexing
+part, Megaparsec ensures the input strictly follows the defined grammar.
+If the syntax is incorrect, the lexer fails gracefully by producing a
+clear and descriptive error message, preventing the program from
+continuing with an invalid input. If the syntax is valid, the lexer
+successfully returns a well-structured list of tokens that can safely be
+passed to the parser.
+</p>
+
+<p>
+Since the Lexer always produces a clean and valid list of tokens, the
+Parser does not include any additional safety checks on its input.
+However, it makes sure that no more than <b>one</b> main function was
+defined.
+</p>
+</div>
+</div>
+<div id="outline-container-error-list" class="outline-4">
+<h4 id="error-list"><span class="section-number-4">6.4.2.</span> Error list</h4>
+<div class="outline-text-4" id="text-error-list">
+<ul class="org-ul">
+<li>Grammar Error : Triggered when Megaparsec fails to lex or parse the
+source code due to <b>invalid syntax</b>.</li>
+<li>Double Main Definition : Raised when more than one main function was
+defined in the program.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-known-caveats" class="outline-4">
+<h4 id="known-caveats"><span class="section-number-4">6.4.3.</span> Known caveats</h4>
+<div class="outline-text-4" id="text-known-caveats">
+<ul class="org-ul">
+<li>Lexing Error Printing : We are aware that Megaparsec does not always
+display clear or accurate error messages in some cases. This issue is
+due to our current lexing implementation rather than Megaparsec
+itself, and should be fixed soon or later.</li>
+<li>Parsing Input : The parser currently does not validate its input and
+fully relies on the lexer to always produce correct and consistent
+tokens. While this works for now, it could lead to potential issues in
+the future.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-compilation-reference" class="outline-3">
+<h3 id="compilation-reference"><span class="section-number-3">6.5.</span> Compilation reference</h3>
+<div class="outline-text-3" id="text-compilation-reference">
+<p>
+We are here referring to compilation as the compilation and the
+verification step. Thus, in this section, the compilation step will
+refer to both of these steps.
+</p>
+
+<p>
+Given the simple nature of the logic of the Franc C language, we chose
+here to implement a simple compilation.
+</p>
+
+<p>
+The compilation step do not use any external dependencies.
+</p>
+
+<p>
+We simply store a context that is updated throughout the compilation
+process. This context contains :
+</p>
+
+<ul class="org-ul">
+<li>A list of variables, with their name, size, and position relative to
+the stack pointer.</li>
+<li>A label counter, used to suffix labels with a number to distinguish
+them.</li>
+<li>A list of function context, representing each definitions.</li>
+<li>A list of function context, representing each invoke.</li>
+</ul>
+
+<p>
+The function context contains :
+</p>
+
+<ul class="org-ul">
+<li>The name of the function.</li>
+<li>A boolean value, used to describe if this function is either returning
+something or of the void type ; or describes if this functions is
+either assigning a value when invoking or not.</li>
+<li>A parameter count, that indicates the number of parameters in this
+function.</li>
+</ul>
+
+<p>
+The fact that the entire language is only integer-based facilitates the
+concept of variable storage and parameter types. No types appear in the
+compilation process, except the void type for function definitions and
+invoke.
+</p>
+</div>
+<div id="outline-container-function-call-parameters-return-value-and-variables" class="outline-4">
+<h4 id="function-call-parameters-return-value-and-variables"><span class="section-number-4">6.5.1.</span> Function call parameters, return value and variables</h4>
+<div class="outline-text-4" id="text-function-call-parameters-return-value-and-variables">
+<p>
+When a function is called, it have parameters, a return value and some
+variables.
+</p>
+
+<p>
+Here is a map of how they are stored in the stack:
+</p>
+
+<pre class="example" id="orgd2dab89">
+┌─────────────────┐
+│  Caller frame   │
+├─────────────────┤
+│  Parameters     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Return Value   │  ← PUSHREL/POPREL access
+├─────────────────┤  ← SP
+│  Local vars     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Temporaries    │  ← Stack top
+└─────────────────┘
+</pre>
+
+<p>
+<b>Local variables</b>: Accessed via SP-relative offsets - <code>PUSHREL 0</code>: First
+local - <code>PUSHREL 8</code>: Second local (8-byte offset) - <code>POPREL N</code>: Store to
+local at offset N
+</p>
+
+<p>
+<b>Return value and paramers</b>: Accessed via SP-relative offsets -
+<code>PUSHREL -8</code>: Return value - <code>PUSHREL -16</code>: First parameter -
+<code>PUSHREL -24</code>: Second parameter
+</p>
+</div>
+</div>
+<div id="outline-container-safety-measures-1" class="outline-4">
+<h4 id="safety-measures-1"><span class="section-number-4">6.5.2.</span> Safety measures</h4>
+<div class="outline-text-4" id="text-safety-measures-1">
+<p>
+During the compilation step, we check for user errors :
+</p>
+
+<ul class="org-ul">
+<li>No main function is given.</li>
+<li>Multiple main functions are given.</li>
+<li>A function is defined with the name of an already defined function.</li>
+<li>A function defines a parameter, or a variable, with the name of an
+already existing, local to the function, parameter or variable.</li>
+<li>A function that is not referenced is invoked.</li>
+<li>A function that takes n parameters is invoked with more or less than n
+parameters.</li>
+<li>A return value is given to a function of type void.</li>
+<li>An empty return is given to a function of type non-void.</li>
+<li>An assignement of the return of a void-typed function is made.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-intended-undefined-behaviours" class="outline-4">
+<h4 id="intended-undefined-behaviours"><span class="section-number-4">6.5.3.</span> Intended undefined behaviours</h4>
+<div class="outline-text-4" id="text-intended-undefined-behaviours">
+</div>
+<ol class="org-ol">
+<li><a id="integer-overunderflows"></a>Integer over/underflows<br />
+<div class="outline-text-5" id="text-integer-overunderflows">
+<p>
+We do not devine the result of an integer overflow, or an integer
+underflow. Our integers are defined solely as signed integers on 64
+bits.
+</p>
+
+<p>
+The minimum integer is defined as the maximum integer negated. In the C
+programming language, it is defined as being one less, but in our
+implementation of the negate sign &ldquo;-&rdquo;, we chose for parsing and lexing
+simplicity to use the negate solely as an operation. Take the example
+&ldquo;-5&rdquo;, we will not register it as the -5 number, but as the number 5 on
+whom we apply the negate operation. This explains the fact that our
+minimum integer is defined as the negated maximum integer.
+</p>
+
+<p>
+The maximum integer is defined as 2<sup>63</sup> - 1, or
+9&rsquo;223&rsquo;372&rsquo;036&rsquo;854&rsquo;775&rsquo;807.
+</p>
+</div>
+</li>
+<li><a id="known-caveats-1"></a>Known caveats<br />
+<div class="outline-text-5" id="text-known-caveats-1">
+</div>
+<ol class="org-ol">
+<li><a id="lack-of-static-analysis"></a>Lack of static analysis<br />
+<div class="outline-text-6" id="text-lack-of-static-analysis">
+<p>
+The FCC compilation step do not implement any static analysis.
+</p>
+
+<p>
+These are the direct cause of some &#x2013; sadly &#x2013; not implemented
+behavious:
+</p>
+
+<ul class="org-ul">
+<li>We cannot check for direct division by zero. For example: (10 divisé
+par 0) will not result in an error at compile-time.</li>
+<li>We cannot produce pre-computations. For example: (10 plus 10) will not
+result in the value 20 at compile-time, but in the computation of 10
+plus 10 at run-time. It is highly inefficient.</li>
+</ul>
+</div>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-readable-assembly" class="outline-3">
+<h3 id="readable-assembly"><span class="section-number-3">6.6.</span> Readable assembly</h3>
+<div class="outline-text-3" id="text-readable-assembly">
+<p>
+When the <code>--debug</code> flag is passed, the output of the program is a
+readable assembly written to the standard output.
+</p>
+</div>
+<div id="outline-container-syntax-of-the-readable-assembly" class="outline-4">
+<h4 id="syntax-of-the-readable-assembly"><span class="section-number-4">6.6.1.</span> Syntax of the readable assembly</h4>
+<div class="outline-text-4" id="text-syntax-of-the-readable-assembly">
+<p>
+There are two cases in the syntax :
+</p>
+
+<ul class="org-ul">
+<li>label, they are written in the left margin, like so: <code>label_name:</code></li>
+<li>instructions, they are written tabulated with four spaces, like so:
+<code>mnemonic [args]</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-list-of-instructions" class="outline-4">
+<h4 id="list-of-instructions"><span class="section-number-4">6.6.2.</span> List of instructions</h4>
+<div class="outline-text-4" id="text-list-of-instructions">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Operation</th>
+<th scope="col" class="org-left">Parameter</th>
+<th scope="col" class="org-left">Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">label</td>
+<td class="org-left">name</td>
+<td class="org-left"><code>name:</code></td>
+</tr>
+
+<tr>
+<td class="org-left">binary not</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>not</code></td>
+</tr>
+
+<tr>
+<td class="org-left">binary and</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>and</code></td>
+</tr>
+
+<tr>
+<td class="org-left">binary or</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>or</code></td>
+</tr>
+
+<tr>
+<td class="org-left">logical not</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>lnot</code></td>
+</tr>
+
+<tr>
+<td class="org-left">logical and</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>land</code></td>
+</tr>
+
+<tr>
+<td class="org-left">logical or</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>lor</code></td>
+</tr>
+
+<tr>
+<td class="org-left">exclusive or</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>xor</code></td>
+</tr>
+
+<tr>
+<td class="org-left">left bitshift</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>shl</code></td>
+</tr>
+
+<tr>
+<td class="org-left">right bitshift</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>shr</code></td>
+</tr>
+
+<tr>
+<td class="org-left">addition</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>add</code></td>
+</tr>
+
+<tr>
+<td class="org-left">substraction</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>sub</code></td>
+</tr>
+
+<tr>
+<td class="org-left">multiplication</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>mult</code></td>
+</tr>
+
+<tr>
+<td class="org-left">division</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>div</code></td>
+</tr>
+
+<tr>
+<td class="org-left">modulo</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>mod</code></td>
+</tr>
+
+<tr>
+<td class="org-left">comparison greater than</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>gt</code></td>
+</tr>
+
+<tr>
+<td class="org-left">comparison greater or equal to</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>ge</code></td>
+</tr>
+
+<tr>
+<td class="org-left">comparison less than</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>lt</code></td>
+</tr>
+
+<tr>
+<td class="org-left">comparison less or equal to</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>le</code></td>
+</tr>
+
+<tr>
+<td class="org-left">comparison equals</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>eq</code></td>
+</tr>
+
+<tr>
+<td class="org-left">comparison different to</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>neq</code></td>
+</tr>
+
+<tr>
+<td class="org-left">update zero flag</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>updz</code></td>
+</tr>
+
+<tr>
+<td class="org-left">push value</td>
+<td class="org-left">value</td>
+<td class="org-left"><code>push value</code></td>
+</tr>
+
+<tr>
+<td class="org-left">push relative address</td>
+<td class="org-left">address</td>
+<td class="org-left"><code>push [address]</code></td>
+</tr>
+
+<tr>
+<td class="org-left">push label relative address</td>
+<td class="org-left">label-name</td>
+<td class="org-left"><code>push %label-name</code></td>
+</tr>
+
+<tr>
+<td class="org-left">push from stack pointer relative address</td>
+<td class="org-left">address</td>
+<td class="org-left"><code>push @address</code></td>
+</tr>
+
+<tr>
+<td class="org-left">pop to stack pointer relative address</td>
+<td class="org-left">address</td>
+<td class="org-left"><code>pop @address</code></td>
+</tr>
+
+<tr>
+<td class="org-left">pop</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>pop</code></td>
+</tr>
+
+<tr>
+<td class="org-left">invoke a function</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>call</code></td>
+</tr>
+
+<tr>
+<td class="org-left">return</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>ret</code></td>
+</tr>
+
+<tr>
+<td class="org-left">jump to address</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>jmp</code></td>
+</tr>
+
+<tr>
+<td class="org-left">jump to address if zero flag</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>zjmp</code></td>
+</tr>
+
+<tr>
+<td class="org-left">print character</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>aff</code></td>
+</tr>
+
+<tr>
+<td class="org-left">print string</td>
+<td class="org-left">string</td>
+<td class="org-left"><code>affs "string"</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-fcvm_reference" class="outline-2">
+<h2 id="fcvm_reference"><span class="section-number-2">7.</span> Franc C Virtual Machine</h2>
+<div class="outline-text-2" id="text-fcvm_reference">
+</div>
+<div id="outline-container-input-descriptions" class="outline-3">
+<h3 id="input-descriptions"><span class="section-number-3">7.1.</span> Input Descriptions</h3>
+<div class="outline-text-3" id="text-input-descriptions">
+</div>
+<div id="outline-container-bytecode-file-format" class="outline-4">
+<h4 id="bytecode-file-format"><span class="section-number-4">7.1.1.</span> Bytecode File Format</h4>
+<div class="outline-text-4" id="text-bytecode-file-format">
+<p>
+The fcvm executes Franc C bytecode files.
+</p>
+
+<p>
+They have the following header structure:
+</p>
+
+<pre class="example" id="orgd70212a">
+┌─────────────────────────────────────┐
+│ Magic Number (4 bytes)              │  0x45 0x0C 0x45 0x0C
+├─────────────────────────────────────┤
+│ Bytecode Instructions               │  Variable length
+└─────────────────────────────────────┘
+</pre>
+
+<p>
+<b>Magic Number</b>: <code>0x45 0x0C 0x45 0x0C</code> (4 bytes), as defined in the
+<a href="#bytecode_reference">Franc C bytecode reference</a>. - Validates file
+format at VM initialization - Invalid magic number triggers immediate
+error
+</p>
+</div>
+</div>
+<div id="outline-container-command-line-interface" class="outline-4">
+<h4 id="command-line-interface"><span class="section-number-4">7.1.2.</span> Command-Line Interface</h4>
+<div class="outline-text-4" id="text-command-line-interface">
+<div class="org-src-container">
+<pre class="src src-sh">./fcvm &lt;bytecode_file&gt;
+</pre>
+</div>
+
+<p>
+<b>Exit Codes</b>:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Code</th>
+<th scope="col" class="org-left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>0</code></td>
+<td class="org-left">Success (or custom return value = 0)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>1-255</code></td>
+<td class="org-left">Custom exit code (return value mod 256)</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>84</code></td>
+<td class="org-left">Any error (runtime or load-time)</td>
+</tr>
+</tbody>
+</table>
+
+<hr />
+</div>
+</div>
+</div>
+<div id="outline-container-architecture-implementation" class="outline-3">
+<h3 id="architecture-implementation"><span class="section-number-3">7.2.</span> Architecture Implementation</h3>
+<div class="outline-text-3" id="text-architecture-implementation">
+</div>
+<div id="outline-container-memory-layout" class="outline-4">
+<h4 id="memory-layout"><span class="section-number-4">7.2.1.</span> Memory Layout</h4>
+<div class="outline-text-4" id="text-memory-layout">
+<p>
+The VM maintains three core structures:
+</p>
+
+<ul class="org-ul">
+<li>The operand stack</li>
+<li>The callstack</li>
+<li>Three specific registers</li>
+</ul>
+</div>
+<ol class="org-ol">
+<li><a id="operand-stack"></a>Operand Stack<br />
+<div class="outline-text-5" id="text-operand-stack">
+<p>
+Stores temporary computation values, variables and function return
+values.
+</p>
+
+<pre class="example" id="org3025f52">
+┌─────────────┬─────────────┬─────────────┐
+│  Element 0  │  Element 1  │  Element 2  │
+│  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
+└─────────────┴─────────────┴─────────────┘
+      ↑
+    Stack Top
+</pre>
+
+<p>
+<b>Properties</b>: - Type: <code>[Word8]</code> (list of bytes) - Element size: 8 bytes
+(64-bit) - Initial state: One zero element <code>[0x00 × 8]</code> - Max size:
+1,000,000 elements (8 MB) - Operations: PUSH (prepend), POP (drop first
+8 bytes)
+</p>
+</div>
+</li>
+<li><a id="call-stack"></a>Call Stack<br />
+<div class="outline-text-5" id="text-call-stack">
+<p>
+Manages function call frames.
+</p>
+
+<pre class="example" id="org7919b17">
+┌─────────────────────────────────┐
+│  Frame: (PC: 0, SP: 0)          │  ← Entry
+├─────────────────────────────────┤
+│  Frame: (PC: 12, SP: 16)        │
+├─────────────────────────────────┤
+│  Frame: (PC: 57, SP: 24)        │  ← Current
+└─────────────────────────────────┘
+</pre>
+
+<p>
+<b>Properties</b>: - Type: <code>[(PC, SP)]</code> (list of tuples) - Frame content:
+Return address (PC) + Stack pointer (SP) - Initial state: Empty <code>[]</code> -
+Max depth: 1,000,000 frames
+</p>
+
+<p>
+<b>Behavior</b>: - <code>CALL</code>: Push <code>(PC+1, SP)</code>, jump to function - <code>RET</code>: Pop
+frame, restore context, trim stack - <b>Termination</b>: Empty call stack
+after <code>RET</code> → program ends
+</p>
+</div>
+</li>
+<li><a id="registers"></a>Registers<br />
+<div class="outline-text-5" id="text-registers">
+<p>
+<b>Program Counter (PC)</b> - Points to current instruction in bytecode -
+Initial: 8 (after 4-byte magic number) - Updates: <code>+1</code> (normal), <code>+9</code>
+(with data), or jump target
+</p>
+
+<p>
+<b>Stack Pointer (SP)</b> - Marks base of current function&rsquo;s stack frame -
+Used for local variable access via <code>PUSHREL=/=POPREL</code> - Modified during
+<code>CALL</code> and <code>RET</code>
+</p>
+
+<p>
+<b>Zero Flag (ZF)</b> - Type: <code>Word8</code> (0 or 1) - Initial: 1 (true) -
+Semantics: <code>0</code> if stack top = 0, else <code>1</code> - Set by <code>ZFLAG</code>, tested by
+<code>ZJMP</code>
+</p>
+</div>
+</li>
+</ol>
+</div>
+<div id="outline-container-instruction-set-overview" class="outline-4">
+<h4 id="instruction-set-overview"><span class="section-number-4">7.2.2.</span> Instruction Set Overview</h4>
+<div class="outline-text-4" id="text-instruction-set-overview">
+<p>
+The VM implements 40 opcodes across 7 categories:
+</p>
+
+<blockquote>
+<p>
+<a href="#bytecode_reference">Bytecode Definition</a>.
+</p>
+</blockquote>
+</div>
+</div>
+<div id="outline-container-function-call-convention" class="outline-4">
+<h4 id="function-call-convention"><span class="section-number-4">7.2.3.</span> Function Call Convention</h4>
+<div class="outline-text-4" id="text-function-call-convention">
+<p>
+<b>Calling sequence</b>:
+</p>
+
+<pre class="example" id="org3841ac1">
+1. Push function address
+2. Execute CALL
+   → Saves (PC+1, SP) to call stack
+   → Jumps to function
+</pre>
+
+<p>
+<b>Return sequence</b>:
+</p>
+
+<pre class="example" id="orge75d23d">
+1. Execute RET
+   → Restores PC and SP
+   → Trims stack to SP position
+   → If call stack empty: program terminates
+</pre>
+
+<p>
+<b>Stack frame layout</b>:
+</p>
+
+<pre class="example" id="org18ea049">
+┌──────────────────┐
+│  Caller frame    │
+├──────────────────┤  ← SP
+│  Local function  │  ← Stack top
+└──────────────────┘
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-exceptions-list" class="outline-3">
+<h3 id="exceptions-list"><span class="section-number-3">7.3.</span> Exceptions List</h3>
+<div class="outline-text-3" id="text-exceptions-list">
+<p>
+All errors exit with code <b>84</b> and write to <b>stderr</b>.
+</p>
+</div>
+<div id="outline-container-load-time-errors" class="outline-4">
+<h4 id="load-time-errors"><span class="section-number-4">7.3.1.</span> Load-Time Errors</h4>
+<div class="outline-text-4" id="text-load-time-errors">
+<p>
+<b>Invalid Magic Number</b>
+</p>
+
+<pre class="example" id="org33f4516">
+Message: *** UNRECONIZED FILE FORMAT
+Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
+</pre>
+
+<p>
+<b>File I/O Error</b>
+</p>
+
+<pre class="example" id="org6c688c0">
+Message: Error with file
+Trigger: File not found, permission denied, or read error
+</pre>
+</div>
+</div>
+<div id="outline-container-runtime-errors" class="outline-4">
+<h4 id="runtime-errors"><span class="section-number-4">7.3.2.</span> Runtime Errors</h4>
+<div class="outline-text-4" id="text-runtime-errors">
+<p>
+<b>Arithmetic Errors</b>
+</p>
+
+<pre class="example" id="orgc9d4124">
+Message: *** 0 CAN'T BE USE in this operation
+Trigger: DIV or MOD with divisor = 0
+</pre>
+
+<p>
+<b>Stack &amp; CallStack Overflow</b>
+</p>
+
+<pre class="example" id="orge15ad11">
+Message: *** STACK OVERFLOW
+Trigger: Operand stack ≥ 1M elements OR call stack ≥ 1M frames
+Cause:   Excessive PUSH without POP, or infinite recursion
+</pre>
+
+<p>
+<b>Stack Underflow</b>
+</p>
+
+<pre class="example" id="orgfd3af11">
+Message: *** STACK ERROR
+Trigger: Operation requires elements when stack_size ≤ 1
+Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-known-caveats" class="outline-3">
+<h3 id="known-caveats"><span class="section-number-3">7.4.</span> Known Caveats</h3>
+<div class="outline-text-3" id="text-known-caveats">
+</div>
+<div id="outline-container-undefined-behaviors" class="outline-4">
+<h4 id="undefined-behaviors"><span class="section-number-4">7.4.1.</span> Undefined Behaviors</h4>
+<div class="outline-text-4" id="text-undefined-behaviors">
+<p>
+<b>Integer Overflow</b> - 64-bit signed integers wrap silently - Example:
+<code>INT64_MAX + 1</code> → UNDEFINED - No error raised
+</p>
+
+<p>
+<b>Invalid Opcodes</b> - Treated as NOP (PC += 1) - Corrupted bytecode may
+execute partially - No detection mechanism
+</p>
+</div>
+</div>
+<div id="outline-container-performance-limitations" class="outline-4">
+<h4 id="performance-limitations"><span class="section-number-4">7.4.2.</span> Performance Limitations</h4>
+<div class="outline-text-4" id="text-performance-limitations">
+<p>
+<b>List-Based Stack</b> - Push/Pop: O(1) ✓ - SP-relative access: O(n) ✗ -
+Impact: Slow for deep stacks (&gt;1000 elements)
+</p>
+
+<p>
+<b>String Operations</b> - <code>AFFS</code> creates intermediate structures - Linear in
+string length (acceptable)
+</p>
+</div>
+</div>
+<div id="outline-container-portability-issues" class="outline-4">
+<h4 id="portability-issues"><span class="section-number-4">7.4.3.</span> Portability Issues</h4>
+<div class="outline-text-4" id="text-portability-issues">
+<p>
+<b>Platform Word Size</b> - <code>PC</code> and <code>SP</code> use Haskell <code>Int</code> type - 32-bit
+systems: Max ~2GB bytecode - 64-bit systems: Max ~8GB bytecode - Not a
+practical concern for typical use
+</p>
+
+<p>
+<b>Document Version</b>: 1.1<br />
+<b>Last Updated</b>: November 2025<br />
+<b>Author</b> : Acacademie Franc C&rsquo;aise
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-larousse" class="outline-2">
+<h2 id="larousse"><span class="section-number-2">8.</span> Larousse</h2>
+<div class="outline-text-2" id="text-larousse">
+</div>
+<div id="outline-container-introduction-motives" class="outline-3">
+<h3 id="introduction-motives"><span class="section-number-3">8.1.</span> Introduction (motives)</h3>
+<div class="outline-text-3" id="text-introduction-motives">
+<p>
+As programming using Franc C can easily become overwhelming, we decided
+to provide a set of already implemented functions, in a library called
+<code>Larousse</code>, as a way to facilitate some tasks.
+</p>
+
+<p>
+<code>Larousse</code> also serves as a way to showcase our language&rsquo;s capabilities,
+and demonstrate its verbose syntax, and acts as a test suite for the
+<code>Académie Franc C'Aise</code>, which runs functional tests on it.
+</p>
+</div>
+</div>
+<div id="outline-container-functions" class="outline-3">
+<h3 id="functions"><span class="section-number-3">8.2.</span> Functions</h3>
+<div class="outline-text-3" id="text-functions">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Functions</th>
+<th scope="col" class="org-left">Parameters</th>
+<th scope="col" class="org-left">Description</th>
+<th scope="col" class="org-left">Benchmark*</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">additionner</td>
+<td class="org-left">nombre, second<sub>nombre</sub></td>
+<td class="org-left">Returns <code>nombre + second_nombre</code>.</td>
+<td class="org-left">0.086s</td>
+</tr>
+
+<tr>
+<td class="org-left">afficher<sub>nombre</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Displays in the standard output the number <code>nombre</code>.</td>
+<td class="org-left">0.067s</td>
+</tr>
+
+<tr>
+<td class="org-left">carré<sub>de</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>nombre * nombre</code>.</td>
+<td class="org-left">0.074s</td>
+</tr>
+
+<tr>
+<td class="org-left">diviser</td>
+<td class="org-left">nombre, second<sub>nombre</sub></td>
+<td class="org-left">Returns <code>nombre / second_nombre</code>.</td>
+<td class="org-left">0.060s</td>
+</tr>
+
+<tr>
+<td class="org-left">douze</td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>nombre / 12</code> if <code>nombre</code> is multiple of 12, otherwise <code>-1</code>.</td>
+<td class="org-left">0.069s</td>
+</tr>
+
+<tr>
+<td class="org-left">est<sub>en</sub><sub>majuscule</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>1</code> if <code>nombre</code> is an uppercase letter, otherwise <code>0</code>.</td>
+<td class="org-left">0.063s</td>
+</tr>
+
+<tr>
+<td class="org-left">est<sub>en</sub><sub>minuscule</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>1</code> if <code>nombre</code> is a lowercase letter, otherwise <code>0</code>.</td>
+<td class="org-left">0.060s</td>
+</tr>
+
+<tr>
+<td class="org-left">est<sub>négatif</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>1</code> if <code>nombre</code> is negative, otherwise <code>0</code>.</td>
+<td class="org-left">0.070s</td>
+</tr>
+
+<tr>
+<td class="org-left">est<sub>premier</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>1</code> if <code>nombre</code> is a prime number, otherwise <code>0</code>.</td>
+<td class="org-left">0.051s</td>
+</tr>
+
+<tr>
+<td class="org-left">fizzbuzz</td>
+<td class="org-left">nombre</td>
+<td class="org-left">Displays « Fizz » if <code>nombre</code> is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays <code>nombre</code>.</td>
+<td class="org-left">0.056s</td>
+</tr>
+
+<tr>
+<td class="org-left">imprimer<sub>peigne</sub></td>
+<td class="org-left">-</td>
+<td class="org-left">Displays in ascending order all the smallest numbers composed of three digits.</td>
+<td class="org-left">0.220s</td>
+</tr>
+
+<tr>
+<td class="org-left">imprimer<sub>peigne</sub><sub>2</sub></td>
+<td class="org-left">-</td>
+<td class="org-left">Displays in ascending order all the smallest numbers composed of four digits.</td>
+<td class="org-left">8.481s</td>
+</tr>
+
+<tr>
+<td class="org-left">imprimer<sub>peigne</sub><sub>nombre</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Displays in ascending order all the smallest numbers composed of <code>nombre</code> digits.</td>
+<td class="org-left">Depends</td>
+</tr>
+
+<tr>
+<td class="org-left">max</td>
+<td class="org-left">nombre, second<sub>nombre</sub></td>
+<td class="org-left">Returns <code>nombre</code> if <code>nombre</code> is superior than <code>second_nombre</code>, otherwise <code>second_nombre</code>.</td>
+<td class="org-left">0.060s</td>
+</tr>
+
+<tr>
+<td class="org-left">min</td>
+<td class="org-left">nombre, second<sub>nombre</sub></td>
+<td class="org-left">Returns <code>second_nombre</code> if <code>nombre</code> is superior than <code>second_nombre</code>, otherwise <code>nombre</code>.</td>
+<td class="org-left">0.092s</td>
+</tr>
+
+<tr>
+<td class="org-left">multiplier</td>
+<td class="org-left">nombre, second<sub>nombre</sub></td>
+<td class="org-left">Returns <code>nombre * second_nombre</code>.</td>
+<td class="org-left">0.065s</td>
+</tr>
+
+<tr>
+<td class="org-left">prochain<sub>premier</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns the first prime number greater than <code>nombre</code>.</td>
+<td class="org-left">0.072s</td>
+</tr>
+
+<tr>
+<td class="org-left">précedent</td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>nombre - 1</code>.</td>
+<td class="org-left">0.069s</td>
+</tr>
+
+<tr>
+<td class="org-left">racine<sub>carré</sub><sub>de</sub></td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns the integer square root of <code>nombre</code>.</td>
+<td class="org-left">0.070s</td>
+</tr>
+
+<tr>
+<td class="org-left">soustraire</td>
+<td class="org-left">nombre, second<sub>nombre</sub></td>
+<td class="org-left">Returns <code>nombre - second_nombre</code>.</td>
+<td class="org-left">0.090s</td>
+</tr>
+
+<tr>
+<td class="org-left">suivant</td>
+<td class="org-left">nombre</td>
+<td class="org-left">Returns <code>nombre + 1</code>.</td>
+<td class="org-left">0.065s</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+(*) Benchmark specs:
+</p>
+
+<pre class="example" id="orgbaee840">
+CPU : Intel i9 14900K
+GPU : NVIDIA RTX 4070 TI SUPER
+RAM: 32 GB
+</pre>
+</div>
+</div>
+<div id="outline-container-académie-franc-caise" class="outline-3">
+<h3 id="académie-franc-caise"><span class="section-number-3">8.3.</span> Académie Franc C&rsquo;Aise</h3>
+<div class="outline-text-3" id="text-académie-franc-caise">
+<p>
+<code>Académie Franc C'Aise</code> is the <code>functional tester</code> made in <code>Python</code> for
+the <code>Franc C</code>, and uses <code>Larousse</code> standard library.
+</p>
+
+<p>
+You will find in every single <code>Larousse</code> source code function: - The
+same function written in <code>C</code>. - A main function in <code>Franc C</code> which calls
+the function in <code>Franc C</code> with various parameter, in the <code>test</code>
+folder. - A main function in <code>C</code> which calls the function in <code>C</code> with
+the same parameters, in the <code>test</code> folder.
+</p>
+
+<p>
+<code>Académie Franc C'Aise</code> compiles both the <code>C</code> and <code>Franc C</code> version
+using <code>gcc</code> and <code>fcvm</code>. It then runs both versions, and check whether
+their inputs are the same as a way to test the language. It also
+displays how much time each step took (Compilation, Execution) for both
+languages then finally shows the time difference between those.
+</p>
+
+<p>
+<code>Franc C</code> is in most cases faster to compile than <code>C</code>. However, <code>C</code> is
+almost always faster in execution time than <code>Franc C</code>.
+</p>
+
+<p>
+At the end of the program, <code>Académie Franc C'Aise</code> displays how many
+tests passed out of how many were run. It then exits with a failure if
+not all tests passed.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet</p>
+<p class="date">Created: 2025-11-02 Sun 23:10</p>
+</div>
+</body>
+</html>

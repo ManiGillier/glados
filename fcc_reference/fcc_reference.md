@@ -222,7 +222,7 @@ The maximum integer is defined as 2^63 - 1, or 9'223'372'036'854'775'807.
 
 The FCC compilation step do not implement any static analysis.
 
-These are the direct cause of some -- sadly -- not implemented behavious :
+These are the direct cause of some -- sadly -- not implemented behavious:
 
 - We cannot check for direct division by zero.
   For example: (10 divisé par 0) will not result in an error at compile-time.

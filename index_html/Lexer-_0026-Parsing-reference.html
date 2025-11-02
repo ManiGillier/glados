@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Lexer &amp; Parsing reference (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Lexer &amp; Parsing reference (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Lexer &amp; Parsing reference (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Franc-C-Compiler.html" rel="up" title="Franc C Compiler">
+<link href="Compilation-reference.html" rel="next" title="Compilation reference">
+<link href="Functioning.html" rel="prev" title="Functioning">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Lexer-_0026-Parsing-reference">
+<div class="nav-panel">
+<p>
+Next: <a href="Compilation-reference.html" accesskey="n" rel="next">Compilation reference</a>, Previous: <a href="Functioning.html" accesskey="p" rel="prev">Functioning</a>, Up: <a href="Franc-C-Compiler.html" accesskey="u" rel="up">Franc C Compiler</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Lexer-_0026-Parsing-reference-1"><span>6.4 Lexer &amp; Parsing reference<a class="copiable-link" href="#Lexer-_0026-Parsing-reference-1"> &para;</a></span></h3>
+
+<p>We have chosen Haskell to implement the lexing and parsing of the
+language, as functional languages like Haskell make it particularly easy
+to express, abstract, and combine parsers. This allows the Franc C to be
+very verbose, which was definitely needed.
+</p>
+<p>As we wanted to speed things up and release a first version as quickly
+as possible, we decided to use a pre-existing parsing library
+&lsquo;<samp class="samp">Megaparsec</samp>&rsquo;. The library offers fast parsing performance, is an
+improved successor of &lsquo;<samp class="samp">Parsec</samp>&rsquo;, and provides high-quality error messages
+that greatly simplify debugging and development.
+</p>
+<p>The &lsquo;<samp class="samp">Lexer</samp>&rsquo; and &lsquo;<samp class="samp">Parser</samp>&rsquo; both refers to two different parts:
+</p>
+<ul class="itemize mark-bullet">
+<li>The &lsquo;<samp class="samp">Lexer</samp>&rsquo;, which uses &lsquo;<samp class="samp">Megaparsec</samp>&rsquo; reads the source code&rsquo;s syntax,
+checks that it follows the correct grammar, then converts the text
+into a list of tokens that the parser can later use. For example, the
+code &lsquo;<samp class="samp">Si x est égale à 0, exécute le texte</samp>&rsquo; would be transformed into
+the list as &lsquo;<samp class="samp">[If, Symbol &quot;x&quot;, Operation Equals, Number 0, Then]</samp>&rsquo;
+</li><li>The &lsquo;<samp class="samp">Parser</samp>&rsquo;, on the other hand, takes this list of tokens to
+transform it into an <strong class="strong">Abstract Syntax Tree</strong> (AST). It uses Haskell&rsquo;s
+recursive principles to build that tree so that the compiler can later
+use it to generate the final executable library.
+</li></ul>
+
+<p>The &lsquo;<samp class="samp">Parser</samp>&rsquo; is only executed if the &lsquo;<samp class="samp">Lexer</samp>&rsquo; did not fail to lex the
+targetted source code.
+</p>
+
+<ul class="mini-toc">
+<li><a href="Safety-measures.html" accesskey="1">Safety measures</a></li>
+<li><a href="Error-list.html" accesskey="2">Error list</a></li>
+<li><a href="Known-caveats.html" accesskey="3">Known caveats</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

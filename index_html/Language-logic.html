@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Language logic (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Language logic (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Language logic (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Language-Formal-Syntax-_0028BNF_0029.html" rel="up" title="Language Formal Syntax (BNF)">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Language-logic">
+<div class="nav-panel">
+<p>
+Up: <a href="Language-Formal-Syntax-_0028BNF_0029.html" accesskey="u" rel="up">Language Formal Syntax (BNF)</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Language-logic-1"><span>3.3.1 Language logic<a class="copiable-link" href="#Language-logic-1"> &para;</a></span></h4>
+
+<ol class="enumerate">
+<li> <a class="anchor" id="Header"></a><strong class="strong">Header</strong>
+
+
+<p>A file in &lsquo;<samp class="samp">Franc C</samp>&rsquo; always starts with: &ldquo;Bonjour,&rdquo; followed by an empty
+line.
+</p>
+<p>Politeness is very important, and we wanted &lsquo;<samp class="samp">Franc C</samp>&rsquo; to express a
+proper and classic language, not a crappy street language. We promise
+you will learn the &ldquo;bien parlé&rdquo; by using &lsquo;<samp class="samp">Franc C</samp>&rsquo;
+</p>
+</li><li> <a class="anchor" id="Function-Declaration"></a><strong class="strong">Function Declaration</strong>
+
+
+<p>In order to declare a function, you must specify:
+</p>
+<ol class="enumerate">
+<li> <a class="anchor" id="The-name-of-the-function"></a>The name of the function
+
+
+<div class="example">
+<pre class="example-preformatted">J'aimerais définir le bloc répondant au nom de &lt;function_name&gt;,
+</pre></div>
+
+<p>where is the name of the function
+</p>
+</li><li> <a class="anchor" id="The-return-type-of-the-function"></a>The return type of the function
+
+
+<div class="example">
+<pre class="example-preformatted">de type de retour entier naturel,
+</pre></div>
+
+<p>for the function to return an integer.
+</p>
+<div class="example">
+<pre class="example-preformatted">de type de retour booléen,
+</pre></div>
+
+<p>for the function to return a boolean.
+</p>
+<div class="example">
+<pre class="example-preformatted">de type de retour nul,
+</pre></div>
+
+<p>if the function does not return anything. (void function)
+</p>
+</li><li> <a class="anchor" id="The-parameters-of-the-function"></a>The parameters of the function
+
+
+<p>A parameter, in Franc C, is defined the same way as other programming
+languages : Those are variables that must be passed when the function is
+invoked for it to use them.
+</p>
+<div class="example">
+<pre class="example-preformatted">necéssitant comme entrée :
+    - &lt;variable_name1&gt;, de type &lt;type&gt;
+    - &lt;variable_name2&gt;, de type &lt;type&gt;
+    ...
+;
+</pre></div>
+
+<p>You can include as many parameter as you want as long as they <strong class="strong">do not
+share</strong> the same name.
+</p>
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;variable_name1&gt;</samp>&rsquo; and &lsquo;<samp class="samp">&lt;variable_name2&gt;</samp>&rsquo; are the name of the
+variables which are both different.
+</li><li>&lsquo;<samp class="samp">&lt;type&gt;</samp>&rsquo; is either &lsquo;<samp class="samp">booléen</samp>&rsquo; if the parameter is a &lsquo;<samp class="samp">boolean</samp>&rsquo; or
+&lsquo;<samp class="samp">entier naturel</samp>&rsquo; if it is an &lsquo;<samp class="samp">int</samp>&rsquo;.
+</li></ul>
+
+<p>Parameters are obviously optional. If the function does not take any
+parameters, you must specify :
+</p>
+<div class="example">
+<pre class="example-preformatted">nécessitant comme entrée : ;
+</pre></div>
+
+</li><li> <a class="anchor" id="Variables"></a>Variables
+
+
+<p>Variables created and used inside a function, in Franc C, are defined in
+the function definition. Since Franc C is a very verbose language and
+uses a lot of words, creating variables at the top of the function makes
+it a very good way to clearly see them.
+</p>
+<p>Such variables are being declared the following way :
+</p>
+<div class="example">
+<pre class="example-preformatted">contenant les variables :
+    - &lt;variable_name1&gt;, de type &lt;type&gt;, valant &lt;value&gt;
+    - &lt;variable_name2&gt;, de type &lt;type&gt;, valant &lt;value&gt;
+;
+</pre></div>
+
+<p>Just like <strong class="strong">parameters</strong>, <strong class="strong">variables</strong> must not share the same name. A
+<strong class="strong">parameter</strong> and a <strong class="strong">variable</strong> can not share the same name either.
+</p>
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;variable_name1&gt;</samp>&rsquo; and &lsquo;<samp class="samp">&lt;variable_name2&gt;</samp>&rsquo; are the name of the
+variables which are both different.
+</li><li>&lsquo;<samp class="samp">&lt;type&gt;</samp>&rsquo; is either &lsquo;<samp class="samp">booléen</samp>&rsquo; if the variable is a &lsquo;<samp class="samp">boolean</samp>&rsquo; or
+&lsquo;<samp class="samp">entier naturel</samp>&rsquo; if it is an &lsquo;<samp class="samp">int</samp>&rsquo;.
+</li><li>&lsquo;<samp class="samp">&lt;value&gt;</samp>&rsquo; is either a number or a boolean expression &lsquo;<samp class="samp">vrai</samp>&rsquo; &lsquo;<samp class="samp">vraie</samp>&rsquo;
+&lsquo;<samp class="samp">faux</samp>&rsquo; or &lsquo;<samp class="samp">fausse</samp>&rsquo;. It can also be a character value like &lsquo;<samp class="samp">\n</samp>&rsquo; (which
+will be 10).
+</li></ul>
+
+<p>This <strong class="strong">forces</strong> every single created variable to have a default value.
+</p>
+<p>If the function does not use any variable, you must specify :
+</p>
+<div class="example">
+<pre class="example-preformatted">contenant les variables : ;
+</pre></div>
+</li></ol>
+
+</li><li> <a class="anchor" id="Function-Body"></a><strong class="strong">Function Body</strong>
+
+
+<p>A function declaration ends with
+</p>
+<div class="example">
+<pre class="example-preformatted">représenté par le code &lt;logical_connector&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;logical_connector&gt;</samp>&rsquo; is either &lsquo;<samp class="samp">ci-après</samp>&rsquo;, &lsquo;<samp class="samp">suivant</samp>&rsquo;, or
+&lsquo;<samp class="samp">ci-dessous</samp>&rsquo;.
+</li></ul>
+
+<p>What must follow this declaration is the <strong class="strong">body of the function</strong>, which
+is what <strong class="strong">will be executed</strong> when the function is <strong class="strong">invoked</strong>.
+</p>
+<p>In Franc C, what can be executed inside a function is being refered as
+an &lsquo;<samp class="samp">instruction</samp>&rsquo;.
+</p>
+<p>Those are the available instructions that you can execute inside a
+function :
+</p>
+<ol class="enumerate">
+<li> <a class="anchor" id="Assignement"></a>Assignement
+
+
+<p>You can, at any time, change the value of a variable the following way :
+</p>
+<div class="example">
+<pre class="example-preformatted">J'aimerais que &lt;variable_name&gt; prenne la valeur &lt;computables&gt;.
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example-preformatted">&lt;variable_name&gt; prends la valeur &lt;computables&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;variable_name&gt;</samp>&rsquo; represents the name of an existing well-defined
+variable of the function.
+</li><li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li></ul>
+
+</li><li> <a class="anchor" id="If"></a>If
+
+
+<p>Execute a block of code only if a specific condition was met. It can be
+defined the following way :
+</p>
+<div class="example">
+<pre class="example-preformatted">Si &lt;computables&gt;, exécute le texte :
+    &lt;more_instructions&gt;
+Merci.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li><li>&lsquo;<samp class="samp">&lt;more_instructions&gt;</samp>&rsquo; represents all the instructions that will be
+executed <strong class="strong">ONLY</strong> if the <strong class="strong">condition</strong> was <strong class="strong">met</strong>.
+</li><li>&lsquo;<samp class="samp">Merci.</samp>&rsquo; represents the end of the condition.
+</li></ul>
+
+<p>You can also execute a block of code if the condition wasn&rsquo;t met the
+following way :
+</p>
+<div class="example">
+<pre class="example-preformatted">Si &lt;computables&gt;, exécute le texte :
+    &lt;more_instructions&gt;
+; sinon, exécute le texte :
+    &lt;more_instructions_2&gt;
+Merci.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li><li>&lsquo;<samp class="samp">&lt;more_instructions&gt;</samp>&rsquo; represents all the instructions that will be
+executed <strong class="strong">ONLY</strong> if the <strong class="strong">condition</strong> was <strong class="strong">met</strong>.
+</li><li>&lsquo;<samp class="samp">&lt;more_instructions_2&gt;</samp>&rsquo; represents all the instructions that will be
+executed <strong class="strong">ONLY</strong> if the <strong class="strong">condition</strong> was <strong class="strong">not met</strong>.
+</li><li>&lsquo;<samp class="samp">Merci.</samp>&rsquo; represents the end of the condition.
+</li></ul>
+
+</li><li> <a class="anchor" id="Invoke"></a>Invoke
+
+
+<p>Invoke another function inside a function, you can also store its result
+in a well-defined function variable.
+</p>
+<div class="example">
+<pre class="example-preformatted">J'invoque le bloc &lt;function_name&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;function_name&gt;</samp>&rsquo; is the name of an <strong class="strong">existing defined function</strong>.
+</li></ul>
+
+<p>If the function that is being invoked takes parameters, they <strong class="strong">must</strong> be
+specified the following way :
+</p>
+<div class="example">
+<pre class="example-preformatted">J'invoque le bloc &lt;function_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;function_name&gt;</samp>&rsquo; is the name of an <strong class="strong">existing defined function</strong>.
+</li><li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li></ul>
+
+<p>You <strong class="strong">must</strong> not give to a function more parameters than it takes.
+</p>
+<p>In order to store the result of a function, while still giving
+parameters :
+</p>
+<div class="example">
+<pre class="example-preformatted">J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;function_name&gt;</samp>&rsquo; is the name of an <strong class="strong">existing defined function</strong>.
+</li><li>&lsquo;<samp class="samp">&lt;variable_name&gt;</samp>&rsquo; represents the name of an existing well-defined
+variable of the function.
+</li><li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li></ul>
+
+<p>However, if you do not want to give any parameter :
+</p>
+<div class="example">
+<pre class="example-preformatted">J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;function_name&gt;</samp>&rsquo; is the name of an <strong class="strong">existing defined function</strong>.
+</li><li>&lsquo;<samp class="samp">&lt;variable_name&gt;</samp>&rsquo; represents the name of an existing well-defined
+variable of the function
+</li></ul>
+
+</li><li> <a class="anchor" id="Loop"></a>Loop
+
+
+<p>The only type of loop that is currently implemented in &lsquo;<samp class="samp">Franc C</samp>&rsquo; are the
+&lsquo;<samp class="samp">while</samp>&rsquo; loops.
+</p>
+<p>A loop allows to execute a block of code until a condition cannot be met
+anymore.
+</p>
+<div class="example">
+<pre class="example-preformatted">Tant que &lt;computables&gt; exécute le code ci-après :
+    &lt;more_instructions&gt;
+Merci.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li><li>&lsquo;<samp class="samp">&lt;more_instructions&gt;</samp>&rsquo; represents all the instructions that will be
+executed <strong class="strong">ONLY</strong> if the <strong class="strong">condition</strong> was <strong class="strong">met</strong>.
+</li><li>&lsquo;<samp class="samp">Merci.</samp>&rsquo; represents the end of the loop.
+</li></ul>
+
+</li><li> <a class="anchor" id="Return"></a>Return
+
+
+<p>During the execution of the function, you can return at any time a
+<strong class="strong">value</strong>. Returning a value will cause the function execution to <strong class="strong">stop</strong>.
+</p>
+<p>The only condition to return a value is that the function must not be of
+type &ldquo;nul&rdquo;.
+</p>
+<div class="example">
+<pre class="example-preformatted">Enfin, renvoie &lt;computables&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li></ul>
+
+<p>If the function does not return anything (&lsquo;<samp class="samp">nul</samp>&rsquo; function), you can still
+stop the execution at any time.
+</p>
+<div class="example">
+<pre class="example-preformatted">Enfin, sors du bloc.
+</pre></div>
+
+<p>This works only if the function is a &lsquo;<samp class="samp">nul</samp>&rsquo; function.
+</p>
+</li><li> <a class="anchor" id="Show-statements"></a>Show statements
+
+
+<p>This instruction is used to display either a text, or the result of a
+computation in the screen.
+</p>
+<p>To display a computation :
+</p>
+<div class="example">
+<pre class="example-preformatted">Affiche &lt;computables&gt;.
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;computables&gt;</samp>&rsquo; represents an expression composed of values with
+operators. (*Check the &lsquo;<samp class="samp">&lt;condition&gt;</samp>&rsquo; defintion on the BNF)
+</li></ul>
+
+<p>This will display <strong class="strong">the character</strong> corresponding to the result on the
+screen. (E.g): &lsquo;<samp class="samp">Affiche 10.</samp>&rsquo; will display &lsquo;<samp class="samp">\n</samp>&rsquo;.
+</p>
+<p>However, if you want to display a text :
+</p>
+<div class="example">
+<pre class="example-preformatted">Affiche « Meow ».
+</pre></div>
+
+<p>This will display the text &lsquo;<samp class="samp">Meow</samp>&rsquo; on the screen.
+</p></li></ol>
+
+</li><li> <a class="anchor" id="End-of-Function"></a><strong class="strong">End of Function</strong>
+
+
+<p>You must <strong class="strong">always</strong> end your <strong class="strong">Function Body</strong> with a &lsquo;<samp class="samp">Merci.</samp>&rsquo;.
+</p>
+</li><li> <a class="anchor" id="Special-case-of-_0027Main_0027-Function"></a><strong class="strong">Special case of &rsquo;Main&rsquo; Function</strong>
+
+
+<p>The <strong class="strong">main function</strong> is where the program starts. Therefore, its
+defintion must be clearly different from the <strong class="strong">other functions</strong>.
+</p>
+<p>Such functions are being defined the following way :
+</p>
+<div class="example">
+<pre class="example-preformatted">Bonjour,
+
+En sachant que les variables principales sont :
+    &lt;variables&gt;
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    &lt;instructions&gt;
+Merci d'avance,
+Cordialement,
+&lt;family_name&gt;
+&lt;name&gt;
+</pre></div>
+
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">&lt;variables&gt;</samp>&rsquo; is an optional field, and represents the variables of
+the function. They are declared the same way as a normal function.
+</li><li>&lsquo;<samp class="samp">&lt;instructions&gt;</samp>&rsquo; represents all the instructions that will be
+executed.
+</li><li>&lsquo;<samp class="samp">Merci d'avance, Cordialement, &lt;family_name&gt; &lt;name&gt;.</samp>&rsquo; represents the
+end of the main function
+</li><li>&lsquo;<samp class="samp">&lt;family_name&gt;</samp>&rsquo; represents the developer&rsquo;s last name, and must always
+end with a newline character (&rsquo;\n&rsquo;).
+</li><li>&lsquo;<samp class="samp">&lt;name&gt;</samp>&rsquo; represents the developer&rsquo;s first name, and must also end with
+a newline character (&rsquo;\n&rsquo;).
+</li></ul>
+
+<p>A <strong class="strong">main function</strong> does not take any parameter. Therefore, no parameter
+definition must be done. The value being <strong class="strong">returned</strong> in the <strong class="strong">main
+function</strong> represent the exit status of the program. If no value was
+being <strong class="strong">returned</strong>, the program exists by default with a status code of
+&lsquo;<samp class="samp">0</samp>&rsquo;.
+</p></li></ol>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Up: <a href="Language-Formal-Syntax-_0028BNF_0029.html">Language Formal Syntax (BNF)</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

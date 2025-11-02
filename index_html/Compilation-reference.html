@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Compilation reference (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Compilation reference (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Compilation reference (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Franc-C-Compiler.html" rel="up" title="Franc C Compiler">
+<link href="Readable-assembly.html" rel="next" title="Readable assembly">
+<link href="Lexer-_0026-Parsing-reference.html" rel="prev" title="Lexer &amp; Parsing reference">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Compilation-reference">
+<div class="nav-panel">
+<p>
+Next: <a href="Readable-assembly.html" accesskey="n" rel="next">Readable assembly</a>, Previous: <a href="Lexer-_0026-Parsing-reference.html" accesskey="p" rel="prev">Lexer &amp; Parsing reference</a>, Up: <a href="Franc-C-Compiler.html" accesskey="u" rel="up">Franc C Compiler</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Compilation-reference-1"><span>6.5 Compilation reference<a class="copiable-link" href="#Compilation-reference-1"> &para;</a></span></h3>
+
+<p>We are here referring to compilation as the compilation and the
+verification step. Thus, in this section, the compilation step will
+refer to both of these steps.
+</p>
+<p>Given the simple nature of the logic of the Franc C language, we chose
+here to implement a simple compilation.
+</p>
+<p>The compilation step do not use any external dependencies.
+</p>
+<p>We simply store a context that is updated throughout the compilation
+process. This context contains :
+</p>
+<ul class="itemize mark-bullet">
+<li>A list of variables, with their name, size, and position relative to
+the stack pointer.
+</li><li>A label counter, used to suffix labels with a number to distinguish
+them.
+</li><li>A list of function context, representing each definitions.
+</li><li>A list of function context, representing each invoke.
+</li></ul>
+
+<p>The function context contains :
+</p>
+<ul class="itemize mark-bullet">
+<li>The name of the function.
+</li><li>A boolean value, used to describe if this function is either returning
+something or of the void type ; or describes if this functions is
+either assigning a value when invoking or not.
+</li><li>A parameter count, that indicates the number of parameters in this
+function.
+</li></ul>
+
+<p>The fact that the entire language is only integer-based facilitates the
+concept of variable storage and parameter types. No types appear in the
+compilation process, except the void type for function definitions and
+invoke.
+</p>
+
+<ul class="mini-toc">
+<li><a href="Function-call-parameters-return-value-and-variables.html" accesskey="1">Function call parameters, return value and variables</a></li>
+<li><a href="Safety-measures-_00281_0029.html" accesskey="2">Safety measures</a></li>
+<li><a href="Intended-undefined-behaviours.html" accesskey="3">Intended undefined behaviours</a></li>
+</ul>
+</div>
+
+
+
+</body>
+</html>

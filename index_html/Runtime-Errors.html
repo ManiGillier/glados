@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Runtime Errors (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Runtime Errors (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Runtime Errors (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Exceptions-List.html" rel="up" title="Exceptions List">
+<link href="Load_002dTime-Errors.html" rel="prev" title="Load-Time Errors">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Runtime-Errors">
+<div class="nav-panel">
+<p>
+Previous: <a href="Load_002dTime-Errors.html" accesskey="p" rel="prev">Load-Time Errors</a>, Up: <a href="Exceptions-List.html" accesskey="u" rel="up">Exceptions List</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Runtime-Errors-1"><span>7.3.2 Runtime Errors<a class="copiable-link" href="#Runtime-Errors-1"> &para;</a></span></h4>
+
+<p><strong class="strong">Arithmetic Errors</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">Message: *** 0 CAN'T BE USE in this operation
+Trigger: DIV or MOD with divisor = 0
+</pre></div>
+
+<p><strong class="strong">Stack &amp; CallStack Overflow</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">Message: *** STACK OVERFLOW
+Trigger: Operand stack ≥ 1M elements OR call stack ≥ 1M frames
+Cause:   Excessive PUSH without POP, or infinite recursion
+</pre></div>
+
+<p><strong class="strong">Stack Underflow</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">Message: *** STACK ERROR
+Trigger: Operation requires elements when stack_size ≤ 1
+Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
+</pre></div>
+
+</div>
+
+
+
+</body>
+</html>

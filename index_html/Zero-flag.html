@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Zero flag (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Zero flag (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Zero flag (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Virtual-Machine-reference.html" rel="up" title="Virtual Machine reference">
+<link href="End-cases.html" rel="next" title="End cases">
+<link href="CallStack.html" rel="prev" title="CallStack">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Zero-flag">
+<div class="nav-panel">
+<p>
+Next: <a href="End-cases.html" accesskey="n" rel="next">End cases</a>, Previous: <a href="CallStack.html" accesskey="p" rel="prev">CallStack</a>, Up: <a href="Virtual-Machine-reference.html" accesskey="u" rel="up">Virtual Machine reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Zero-flag-1"><span>5.4 Zero flag<a class="copiable-link" href="#Zero-flag-1"> &para;</a></span></h3>
+
+<p>The <strong class="strong">Zero Flag</strong> is a single-bit register used for conditional branching
+and control flow decisions.<br>
+It stores the result of comparison and test operations,<br>
+enabling the implementation of &lsquo;<samp class="samp">if</samp>&rsquo; and &lsquo;<samp class="samp">while</samp>&rsquo;.
+</p>
+<ul class="itemize mark-bullet">
+<li><strong class="strong">Data type</strong>: &lsquo;<samp class="samp">unsigned char</samp>&rsquo;
+</li><li><strong class="strong">Default value</strong>: &lsquo;<samp class="samp">1</samp>&rsquo;
+</li></ul>
+
+<p>The Zero Flag follows this logic:
+</p>
+<table class="multitable">
+<thead><tr><th>Condition</th><th>Zero Flag Value</th></tr></thead>
+<tbody><tr><td><strong class="strong">!= 0</strong></td><td>&lsquo;<samp class="samp">1</samp>&rsquo; (true)</td></tr>
+<tr><td><strong class="strong">== 0</strong></td><td>&lsquo;<samp class="samp">0</samp>&rsquo; (false)</td></tr>
+</tbody>
+</table>
+
+</div>
+
+
+
+</body>
+</html>

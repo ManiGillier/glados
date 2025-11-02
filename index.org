@@ -1,5 +1,13 @@
 
 #+TITLE: TGPD: The GLADOS Project Documentation
+#+AUTHOR: Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet
+
+* Other documentations
+
+- [[file:index.html][Single page documentation]]
+- [[file:index_html/index.html][Multi page documentation]]
+- [[file:index.info][Info page (info -f index.info)]]
+- [[file:index.man][Man page (man -l index.man)]]
 
 * Introduction
 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Stack-Based vs Register-Based (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Stack-Based vs Register-Based (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Stack-Based vs Register-Based (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Introduction-_00281_0029.html" rel="up" title="Introduction (1)">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Stack_002dBased-vs-Register_002dBased">
+<div class="nav-panel">
+<p>
+Up: <a href="Introduction-_00281_0029.html" accesskey="u" rel="up">Introduction</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Stack_002dBased-vs-Register_002dBased-1"><span>5.1.1 Stack-Based vs Register-Based<a class="copiable-link" href="#Stack_002dBased-vs-Register_002dBased-1"> &para;</a></span></h4>
+
+<table class="multitable">
+<thead><tr><th>Aspect</th><th>Stack-Based (fcvm)</th><th>Register-Based (e.g., Lua VM)</th></tr></thead>
+<tbody><tr><td><strong class="strong">Storage</strong></td><td>Operand stack (LIFO)</td><td>Virtual registers</td></tr>
+<tr><td><strong class="strong">Instructions</strong></td><td>Compact, implicit operands, prone to errors</td><td>Explicit operand addressing</td></tr>
+<tr><td><strong class="strong">Complexity</strong></td><td>Simple to implement</td><td>More complex logic</td></tr>
+<tr><td><strong class="strong">Bytecode Size</strong></td><td>Bigger overall (smaller instructions but way more quantiry)</td><td>Smaller overall</td></tr>
+</tbody>
+</table>
+
+<p>We chose a stack-based approach for the following reasons:
+</p>
+<ol class="enumerate">
+<li> <strong class="strong">Simpler bytecode generation</strong>: The compiler does not have to deal
+with registers, knowing it does not have the capacity to remember
+data while processing multiple operations.
+</li><li> <strong class="strong">Monotyped language</strong>: The fact that the Franc C is an integer only
+language allows for fixed-size parameter encoding. One of the main
+advantages of the register-based approach is to allow for type
+encoding.
+</li></ol>
+
+</div>
+
+
+
+</body>
+</html>

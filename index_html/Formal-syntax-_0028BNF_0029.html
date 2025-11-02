@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Formal syntax (BNF) (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Formal syntax (BNF) (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Formal syntax (BNF) (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Bytecode-reference.html" rel="up" title="Bytecode reference">
+<link href="Instructions.html" rel="next" title="Instructions">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Formal-syntax-_0028BNF_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="Instructions.html" accesskey="n" rel="next">Instructions</a>, Up: <a href="Bytecode-reference.html" accesskey="u" rel="up">Bytecode reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Formal-syntax-_0028BNF_0029-1"><span>4.1 Formal syntax (BNF)<a class="copiable-link" href="#Formal-syntax-_0028BNF_0029-1"> &para;</a></span></h3>
+
+<div class="example">
+<pre class="example-preformatted">&lt;bytecode&gt; ::= &lt;magic_number&gt; &lt;adress&gt; &lt;operation_list&gt;
+
+&lt;magic_number&gt; ::= &quot;E\fE\f&quot; ; 0x45 0xc 0x45 0xc
+
+&lt;adress&gt; ::= &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt;
+
+&lt;operation_list&gt; ::= &lt;operation&gt; | &lt;operation&gt;  &lt;operation_list&gt;
+
+&lt;operation&gt; ::= &lt;not&gt;
+              | &lt;lnot&gt;
+              | &lt;neg&gt;
+              | &lt;and&gt;
+              | &lt;or&gt;
+              | &lt;xor&gt;
+              | &lt;shl&gt;
+              | &lt;shr&gt;
+              | &lt;land&gt;
+              | &lt;lor&gt;
+              | &lt;add&gt;
+              | &lt;sub&gt;
+              | &lt;mult&gt;
+              | &lt;div&gt;
+              | &lt;mod&gt;
+              | &lt;gt&gt;
+              | &lt;ge&gt;
+              | &lt;lt&gt;
+              | &lt;le&gt;
+              | &lt;eq&gt;
+              | &lt;diff&gt;
+              | &lt;updz&gt;
+              | &lt;push_stack&gt;
+              | &lt;pop_stack&gt;
+              | &lt;pop&gt;
+              | &lt;call&gt;
+              | &lt;ret&gt;
+              | &lt;jmp&gt;
+              | &lt;zjmp&gt;
+              | &lt;aff&gt;
+              | &lt;affs&gt;
+              | &lt;push_value&gt;
+              | &lt;push_label&gt;
+
+
+&lt;not&gt; ::= &quot;\003&quot;
+
+&lt;lnot&gt; ::= &quot;\004&quot;
+
+&lt;neg&gt; ::= &quot;\005&quot;
+
+&lt;and&gt; ::= &quot;\006&quot;
+
+&lt;or&gt; ::= &quot;\a&quot;
+
+&lt;land&gt; ::= &quot;\b&quot;
+
+&lt;lor&gt; ::= &quot;\t&quot;
+
+&lt;xor&gt; ::= &quot;\n&quot;
+
+&lt;shl&gt; ::= &quot;\v&quot;
+
+&lt;shr&gt; ::= &quot;\f&quot;
+
+&lt;add&gt; ::= &quot;\r&quot;
+
+&lt;sub&gt; ::= &quot;\016&quot;
+
+&lt;mult&gt; ::= &quot;\017&quot;
+
+&lt;div&gt; ::= &quot;\020&quot;
+
+&lt;mod&gt; ::= &quot;\021&quot;
+
+&lt;gt&gt; ::= &quot;\022&quot;
+
+&lt;ge&gt; ::= &quot;\023&quot;
+
+&lt;lt&gt; ::= &quot;\024&quot;
+
+&lt;le&gt; ::= &quot;\025&quot;
+
+&lt;eq&gt; ::= &quot;\026&quot;
+
+&lt;diff&gt; ::= &quot;\027&quot;
+
+&lt;updz&gt; ::= &quot;\030&quot;
+
+&lt;push_stack&gt; ::= &quot;\035&quot; &lt;arguments&gt;
+
+&lt;pop_stack&gt; ::= &quot;\036&quot; &lt;arguments&gt;
+
+&lt;pop&gt; ::= &quot;\037&quot;
+
+&lt;call&gt; ::= &quot;&quot;&quot;
+
+&lt;ret&gt; ::= &quot;#&quot;
+
+&lt;jmp&gt; ::= &quot;$&quot;
+
+&lt;zjmp&gt; ::= &quot;%&quot;
+
+&lt;aff&gt; ::= &quot;&amp;&quot;
+
+&lt;affs&gt; ::= &quot;'&quot; &lt;arguments&gt; &lt;string&gt;
+
+&lt;push_value&gt; ::= &quot;Y&quot; &lt;arguments&gt;
+
+&lt;push_label&gt; ::= &quot;[&quot; &lt;arguments&gt;
+
+&lt;arguments&gt; ::= &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt; &lt;byte&gt;
+
+&lt;string&gt; ::= &lt;byte&gt; | &lt;byte&gt; &lt;string&gt;
+
+&lt;byte &gt; =  &quot;\0&quot; .. &quot;ÿ&quot;
+</pre></div>
+
+</div>
+
+
+
+</body>
+</html>

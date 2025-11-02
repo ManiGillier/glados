@@ -1,0 +1,1914 @@
+.TH "TGPD: The GLADOS Project Documentation" "1" 
+.SH "Other documentations"
+.IP \(em 4
+./index.html \fBat\fP \fISingle page documentation\fP
+.IP \(em 4
+./index_html/index.html \fBat\fP \fIMulti page documentation\fP
+.IP \(em 4
+./index.info \fBat\fP \fIInfo page (info -f index.info)\fP
+.IP \(em 4
+./index.man \fBat\fP \fIMan page (man -l index.man)\fP
+.SH "Introduction"
+.PP
+The glados is a third year Epitech project where five people are asked to build a new programming language.
+
+.PP
+Who never had problems with a programming language ?
+Who never thought of building it’s own ?
+Who never imagined a language so litteral, that anyone could use it without technical knowledge ?
+
+.PP
+Introducing: the \fBFranc C\fP.
+The Franc C is a programming language with a litteral french syntax.
+
+.PP
+In this project, we built five different things.
+.IP \(em 4
+The Franc C language itself, defining it’s grammar and application
+.IP \(em 4
+A bytecode associated with the Franc C, used to run Franc C Programs
+.IP \(em 4
+A virtual machine reference, used to dictate how the bytecode should be executed.
+.IP \(em 4
+The Franc C Compiler, a tool used to compile Franc C Reference code into a Franc C Program
+.IP \(em 4
+The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.
+.IP \(em 4
+The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions
+.SH "Franc C reference"
+.SS "Motives"
+.IP \(em 4
+The \fBFranc C\fP was built to allow french people to program in their
+home language.
+.IP \(em 4
+The language is easily readable for a non-technical person.
+.IP \(em 4
+The focus is put on the syntax, not in the functionalities of the
+language.
+.SS "Inspirations"
+.PP
+We took inspiration for our syntax on a beautiful language,
+http://langagelinotte.free.fr \fBat\fP \fIlinotte\fP ; and for our implementation
+on the https://www.iso.org/standard/82075.html \fBat\fP \fIC programming
+language\fP.
+
+.PP
+Obviously, the french language is our biggest inspirator.
+.SS "Linotte"
+.PP
+The linotte programming language is a high-level,
+french-litteral-syntaxed programming language made for introducing
+programmation to children.
+
+.PP
+We saw it as a great inspiration for our language with the next
+features:
+
+.IP \(em 4
+Word delimitation at the end of functions, if and while conditionals.
+.IP \(em 4
+Use of some syntax like “read” instead of “execute” code
+
+.PP
+The linotte syntax was, however, not litteral enough to our liking.
+.SS "C"
+.PP
+The C programming language is a low-level language. We took inspiration
+from it in the implementation of our language. For example, the C
+programming language is from the imperative paradigm, and so is our
+language.
+
+.PP
+We took many things from this language:
+
+.IP \(em 4
+The imperative paradigm
+.IP \(em 4
+The int-defined booleans In the C programming language, all integers
+can be interpreted as booleans. A false is a value strictly equal to
+zero, and a true is every other values.
+.IP \(em 4
+The possibility of defining variables local to each function call
+.IP \(em 4
+The possibility of using recursive function calls
+.IP \(em 4
+The representation of a chararacter by it’s ascii value
+.IP \(em 4
+The function used to print a character “putchar”
+.IP \(em 4
+The existence of a standard library with some useful functions
+.IP \(em 4
+All of the operations like xor, addition, bitshift...
+.IP \(em 4
+The possibility for functions to return a value
+.IP \(em 4
+The infix notation of operations, with parenthesis
+.IP \(em 4
+The possibility to compute directly with any combination of operations
+in any part of the code where a value is required. For example, when
+passing a parameter, you could pass a computation, a variable value,
+or a mix of both
+
+.PP
+Many of these features are also present in other languages, but we took
+them from our knowledge of the C programming language.
+.SS "French language"
+.PP
+French is not a programming, but a spoken language.
+
+.PP
+We wanted a truly grammatically correct, complete, easily readable, and
+beautiful language.
+
+.PP
+Our choice was obviously french, as french syntax is way more precise
+than english’s.
+
+.PP
+We searched for dozen of grammar rules to inforce in our language.
+.SS "Language Formal Syntax (BNF)"
+.RS
+.nf
+\fC<header> ::= "Bonjour," <spaces>
+
+<main> ::= "En" <spaces> "sachant" <spaces> "que" <spaces> "les" <spaces> "variables" <spaces> "principales" <spaces> "sont" <spaces> ":" <spaces> [<variable_list>]
+ "\e;" <spaces> "pourrais-tu" <spaces> "s'il" <spaces> "te" <spaces> "plaît" <spaces> "commencer" <spaces> "la" <spaces> "lecture" <spaces> "ici" <spaces> "?" [<spaces>] <block> [<spaces>] "Merci d'avance," <spaces> "Cordialement," <spaces> <name> <name>
+
+<variable_definition> ::= "-" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> <variable_type> "," <spaces> "valant" <spaces> <value> 
+
+<variable_list> ::= <variable_definition> <spaces> [<variable_list>]
+
+<exclusif_or> ::= "ou" <spaces> "exclusif" | "xor"
+
+<arithmetic_operator> ::= "plus" | "moins"
+                        | ("divisé" | "multiplié") <spaces> "par"
+                        | "modulo"
+                        | "fois"
+
+<comparison_operator> ::= "est"
+                        | "est" <spaces> "égale" <spaces> "à"
+                        | "est" <spaces> "différent" <spaces> "de"
+                        | "est" <spaces> "inférieure" <spaces> "à"
+                        | "est" <spaces> "supérieure" <spaces> "à"
+                        | "est" <spaces> "inférieure" <spaces> "ou" <spaces> "égale" <spaces> "à"
+                        | "est" <spaces> "supérieure" <spaces> "ou" <spaces> "égale" <spaces> "à"
+
+<logical_operator> ::= "et" | "ou"
+
+<bitwise_operator> ::= "décalé" <spaces> "binairement" <spaces> "à" <spaces> "gauche"
+    | "décalé" <spaces> "binairement" <spaces> "à" <spaces> "droite"
+    | "et" <spaces> "binaire"
+    | "ou" <spaces> "binaire"
+    | <exclusif_or>
+ 
+<operators> ::= <bitwise_operator> | <logical_operator> | <comparison_operator> | <arithmetic_operator>
+
+<parenthesized_condition> ::= "(" <condition> ")"
+
+<condition> ::= <word> [<spaces> <operators> <spaces> (<condition> | <parenthesized_condition>)]
+              | <value> [<spaces> <operators> <spaces> (<condition> | <parenthesized_condition>)]
+
+<parameter> ::= "-" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> <variable_type>
+
+<parameter_list> ::= <parameter> <spaces> [<parameter_list>]
+
+<function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <spaces> <function_type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée" <spaces> ":" <spaces> [<parameter_list>] "\e;" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> [<variable_list>] "\e;" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <spaces> ("suivant" | "ci-après" | "ci-dessous") "." [<spaces>] <block> <spaces> "Merci."
+
+<text> ::= <symbol> [<text>]
+
+<comment> ::= "*" <text> "*"
+
+<quoted_value> ::= "« " <text> " »"
+
+<block> ::= <statement_list>
+
+<statement_list> ::= <statement> [[<spaces>] <statement_list> [<spaces]]
+
+<statement> ::= <condition_statement> | <return_statement> | <loop_statement> | <display_statement> | <invoke_statement> | <assignment_statement>
+
+<return_statement> ::= "Enfin," <spaces> "renvoie" <spaces> <condition> "." | "Enfin," <spaces> "sors" <spaces> "du" <spaces> "bloc."
+
+<condition_definition> ::= "Si" <spaces> <condition> "," <spaces> "exécute" <spaces> "le" <spaces> "texte" <spaces> ":"
+
+<condition_statement> ::= <condition_definition> <space> <block> "Merci."
+    | <condition_definition> <space> <block> "\e;" <space> "sinon" <space> "exécute" <space> "le" <space> "texte" <space> ":" <block> "Merci."
+
+<loop_statement> ::= "Tant" <spaces> "que" <condition> <spaces> "exécute" <spaces> "le" <spaces> "code" <spaces> "ci-après" <spaces> ":" <spaces> <block> "Merci."
+
+<display_statement> ::= "Affiche" (<condition> | <quoted_value>) "."
+
+<invoke_params> ::= <condition> ["," <condition>]
+
+<invoke_statement> ::= "J'invoque" <spaces> "le" <spaces> "bloc" <spaces> <word>
+    ["," <spaces> "et" <spaces> "j'assigne" <spaces> "la" <spaces> "valeur" <spaces> "de" <spaces> "retour" <spaces> "à" <spaces> "la" <spaces> "variable" <spaces> <word>]
+    ["," <spaces> "avec les paramètres" <spaces> <invoke_params>] "."
+
+<assignment_statement> ::= "J'aimerais" <spaces> "que" <spaces> <word> <spaces> "prenne" <spaces> "la" <spaces> "valeur" <spaces> <condition> "." |
+    <word> <spaces> "prend" <spaces> "la" <spaces> "valeur" <spaces> <condition>
+
+<variable_type> ::= "entier" <spaces> "naturel" | "booléen"
+
+<function_type> ::= "entier" <spaces> "naturel" | "booléen" | "nul"
+
+<name> ::= <word> "\en"
+
+<variables_list> ::= <variables> | <variables> <spaces> <variables_list>
+
+<variables> ::= <name> "," <spaces> "de" <spaces> "type" <spaces> <type> "," <spaces> "valant" <spaces> <value>
+
+<space> ::= "\et" | "\en" | "\er" | "\ef" | "\ev"
+
+<spaces> ::= <space> | <space> <spaces>
+
+<number> ::= 0 | 1 | 2 | 3 | ...
+
+<signed_number> ::= "-" <number> | "~" <number> | "non" <spaces> <number>
+
+<value> ::= <signed_number> | <number> | <bool> | <char_value>
+
+<word_char> ::= <printable> | <word_symbol>
+
+<printable> ::= "A" .. "Z"
+              | "a" .. "z"
+              | "0" .. "9"
+
+<word_symbol> ::= "!" | "\e"" | "#" | "$" | "%" | "&" | "'" | "*" | "+" | "-" | "/" 
+           | ":" | "\e;" | "<" | "=" | ">" | "?" | "@"
+           | "[" | "\e\e" | "]" | "^" | "_" | "{" | "}" | "|" | "~"
+
+<symbol> ::= <word_symbol> | <space> | <printable> | "," | "\et" | "\en" | "(" | ")"
+
+<word> ::= <word_char> | <word_char> <word>
+
+<char_value> ::= "'" <symbol> "'"
+
+<bool> ::= "faux" | "fausse" | "vrai" | "vraie"
+\fP
+.fi
+.RE
+
+.PP
+As the language is heavily based on the \fBFrench language\fP, it has shaped
+many of our syntax decisions :
+
+.IP \(em 4
+We made it mandatory to put spaces where needed in case of
+punctiation, as it is a
+https://formations.mer.gouv.fr/sites/default/files/2023-11/Espacement%20avant%20et%20apr%C3%A8s%20les%20signes%20de%20ponctuation%20et%20les%20symboles.pdf \fBat\fP \fIfrench
+grammar rule\fP. This works for (’:’, ’.’, ’«’, ’»’, ’,’).
+.IP \(em 4
+We decided to replace all operations symbols by their literal French
+equivalent as we wanted this language to use \fBas many french words as
+possible\fP in order to represent \fBFrance\fP. Therefore, operations such
+as \fI+\fP or \fI*\fP are being replaced by \fIplus\fP and \fImultiplié par\fP. This
+forces to have at least one space before and after such operations as
+they are now depicted as \fBwords\fP.
+.IP \(em 4
+As it can become easily overwhelming to type out every single
+operation using its own word representation, we created alternatives
+to some operations to make them shorter. For example, the XOR \fI^\fP
+operation can either be typed out as \fIexclusif ou\fP or \fIxor\fP. The
+multiply \fI*\fP operation can also either be \fImultiplié par\fP or \fIfois\fP.
+.IP \(em 4
+We forced every file of our language to begin with \fIBonjour,\fP (\fIHello\fP
+in english) in order to fit with the French Culture as french citizens
+are widely known for their politeness. For the same reasons, \fIwhile\fP
+and \fIif\fP structures ends by \fIMerci.\fP (\fIThank you=in english) and the
+  main function ends with
+  =Merci d'avance, Cordialement, <Name>\n<FamilyName>\fP (for
+\fIThank you in advance, Best regards, <Name>\n<FamilyName>\fP) as this
+function is where the program stops.
+.IP \(em 4
+Words used to describe instructions such as \fIJ'invoque\fP (\fIInvoke\fP in
+english) or \fIAffiche\fP (\fIDisplay\fP in english) were what we thought was
+the best way to directly translate such common instructions in
+\fBfrench\fP.
+.IP \(em 4
+As we wanted users to have a unique experience while using the
+language, instructions directly made by users are conjugated in the
+first person in order to simulate a conversation. Other instructions
+executed directly by the machine such as displaying are in imperative
+form in the second person.
+.IP \(em 4
+Every single instructions ends with a \fI.\fP as every single sentence in
+\fBfrench\fP ends the same way.
+.IP \(em 4
+\fIwhile\fP and \fIif\fP structures do not exactly share the same syntax in
+order to differentiate them properly : \fIif\fP takes a \fI,\fP at the end of
+the condition whereas \fIwhile\fP doesn’t.
+.IP \(em 4
+Comparison are in the feminine form (\fIsupérieure\fP, \fIégale\fP) since the
+French word \fIvariable\fP is feminine.
+.SS "Language logic"
+.RS
+.TP
+.ft I
+\fBHeader\fP
+.ft
+.PP
+A file in \fIFranc C\fP always starts with: “Bonjour,” followed by an empty
+line.
+
+.PP
+Politeness is very important, and we wanted \fIFranc C\fP to express a
+proper and classic language, not a crappy street language. We promise
+you will learn the “bien parlé” by using \fIFranc C\fP
+.RE
+.TP
+.ft I
+\fBFunction Declaration\fP
+.ft
+.PP
+In order to declare a function, you must specify:
+.RS
+.TP
+.ft I
+The name of the function
+.ft
+.RS
+.nf
+J'aimerais définir le bloc répondant au nom de <function_name>,
+
+.fi
+.RE
+
+.PP
+where is the name of the function
+.RE
+.TP
+.ft I
+The return type of the function
+.ft
+.RS
+.nf
+de type de retour entier naturel,
+
+.fi
+.RE
+
+.PP
+for the function to return an integer.
+
+.RS
+.nf
+de type de retour booléen,
+
+.fi
+.RE
+
+.PP
+for the function to return a boolean.
+
+.RS
+.nf
+de type de retour nul,
+
+.fi
+.RE
+
+.PP
+if the function does not return anything. (void function)
+.RE
+.TP
+.ft I
+The parameters of the function
+.ft
+.PP
+A parameter, in Franc C, is defined the same way as other programming
+languages : Those are variables that must be passed when the function is
+invoked for it to use them.
+
+.RS
+.nf
+necéssitant comme entrée :
+    - <variable_name1>, de type <type>
+    - <variable_name2>, de type <type>
+    ...
+;
+
+.fi
+.RE
+
+.PP
+You can include as many parameter as you want as long as they \fBdo not
+share\fP the same name.
+
+.IP \(em 4
+\fI<variable_name1>\fP and \fI<variable_name2>\fP are the name of the
+variables which are both different.
+.IP \(em 4
+\fI<type>\fP is either \fIbooléen\fP if the parameter is a \fIboolean\fP or
+\fIentier naturel\fP if it is an \fIint\fP.
+
+.PP
+Parameters are obviously optional. If the function does not take any
+parameters, you must specify :
+
+.RS
+.nf
+nécessitant comme entrée : ;
+
+.fi
+.RE
+.RE
+.TP
+.ft I
+Variables
+.ft
+.PP
+Variables created and used inside a function, in Franc C, are defined in
+the function definition. Since Franc C is a very verbose language and
+uses a lot of words, creating variables at the top of the function makes
+it a very good way to clearly see them.
+
+.PP
+Such variables are being declared the following way :
+
+.RS
+.nf
+contenant les variables :
+    - <variable_name1>, de type <type>, valant <value>
+    - <variable_name2>, de type <type>, valant <value>
+;
+
+.fi
+.RE
+
+.PP
+Just like \fBparameters\fP, \fBvariables\fP must not share the same name. A
+\fBparameter\fP and a \fBvariable\fP can not share the same name either.
+
+.IP \(em 4
+\fI<variable_name1>\fP and \fI<variable_name2>\fP are the name of the
+variables which are both different.
+.IP \(em 4
+\fI<type>\fP is either \fIbooléen\fP if the variable is a \fIboolean\fP or
+\fIentier naturel\fP if it is an \fIint\fP.
+.IP \(em 4
+\fI<value>\fP is either a number or a boolean expression \fIvrai\fP \fIvraie\fP
+\fIfaux\fP or \fIfausse\fP. It can also be a character value like \fI\n\fP (which
+will be 10).
+
+.PP
+This \fBforces\fP every single created variable to have a default value.
+
+.PP
+If the function does not use any variable, you must specify :
+
+.RS
+.nf
+contenant les variables : ;
+
+.fi
+.RE
+.RE
+.RE
+.TP
+.ft I
+\fBFunction Body\fP
+.ft
+.PP
+A function declaration ends with
+
+.RS
+.nf
+représenté par le code <logical_connector>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<logical_connector>\fP is either \fIci\-après\fP, \fIsuivant\fP, or
+\fIci\-dessous\fP.
+
+.PP
+What must follow this declaration is the \fBbody of the function\fP, which
+is what \fBwill be executed\fP when the function is \fBinvoked\fP.
+
+.PP
+In Franc C, what can be executed inside a function is being refered as
+an \fIinstruction\fP.
+
+.PP
+Those are the available instructions that you can execute inside a
+function :
+.RS
+.TP
+.ft I
+Assignement
+.ft
+.PP
+You can, at any time, change the value of a variable the following way :
+
+.RS
+.nf
+J'aimerais que <variable_name> prenne la valeur <computables>.
+
+.fi
+.RE
+
+.PP
+or
+
+.RS
+.nf
+<variable_name> prends la valeur <computables>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<variable_name>\fP represents the name of an existing well-defined
+variable of the function.
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+.RE
+.TP
+.ft I
+If
+.ft
+.PP
+Execute a block of code only if a specific condition was met. It can be
+defined the following way :
+
+.RS
+.nf
+Si <computables>, exécute le texte :
+    <more_instructions>
+Merci.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+.IP \(em 4
+\fI<more_instructions>\fP represents all the instructions that will be
+executed \fBONLY\fP if the \fBcondition\fP was \fBmet\fP.
+.IP \(em 4
+\fIMerci.\fP represents the end of the condition.
+
+.PP
+You can also execute a block of code if the condition wasn’t met the
+following way :
+
+.RS
+.nf
+Si <computables>, exécute le texte :
+    <more_instructions>
+; sinon, exécute le texte :
+    <more_instructions_2>
+Merci.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+.IP \(em 4
+\fI<more_instructions>\fP represents all the instructions that will be
+executed \fBONLY\fP if the \fBcondition\fP was \fBmet\fP.
+.IP \(em 4
+\fI<more_instructions_2>\fP represents all the instructions that will be
+executed \fBONLY\fP if the \fBcondition\fP was \fBnot met\fP.
+.IP \(em 4
+\fIMerci.\fP represents the end of the condition.
+.RE
+.TP
+.ft I
+Invoke
+.ft
+.PP
+Invoke another function inside a function, you can also store its result
+in a well-defined function variable.
+
+.RS
+.nf
+J'invoque le bloc <function_name>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<function_name>\fP is the name of an \fBexisting defined function\fP.
+
+.PP
+If the function that is being invoked takes parameters, they \fBmust\fP be
+specified the following way :
+
+.RS
+.nf
+J'invoque le bloc <function_name>, avec les paramètres <computables>, <computables>, <computables>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<function_name>\fP is the name of an \fBexisting defined function\fP.
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+
+.PP
+You \fBmust\fP not give to a function more parameters than it takes.
+
+.PP
+In order to store the result of a function, while still giving
+parameters :
+
+.RS
+.nf
+J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>, avec les paramètres <computables>, <computables>, <computables>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<function_name>\fP is the name of an \fBexisting defined function\fP.
+.IP \(em 4
+\fI<variable_name>\fP represents the name of an existing well-defined
+variable of the function.
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+
+.PP
+However, if you do not want to give any parameter :
+
+.RS
+.nf
+J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<function_name>\fP is the name of an \fBexisting defined function\fP.
+.IP \(em 4
+\fI<variable_name>\fP represents the name of an existing well-defined
+variable of the function
+.RE
+.TP
+.ft I
+Loop
+.ft
+.PP
+The only type of loop that is currently implemented in \fIFranc C\fP are the
+\fIwhile\fP loops.
+
+.PP
+A loop allows to execute a block of code until a condition cannot be met
+anymore.
+
+.RS
+.nf
+Tant que <computables> exécute le code ci-après :
+    <more_instructions>
+Merci.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+.IP \(em 4
+\fI<more_instructions>\fP represents all the instructions that will be
+executed \fBONLY\fP if the \fBcondition\fP was \fBmet\fP.
+.IP \(em 4
+\fIMerci.\fP represents the end of the loop.
+.RE
+.TP
+.ft I
+Return
+.ft
+.PP
+During the execution of the function, you can return at any time a
+\fBvalue\fP. Returning a value will cause the function execution to \fBstop\fP.
+
+.PP
+The only condition to return a value is that the function must not be of
+type “nul”.
+
+.RS
+.nf
+Enfin, renvoie <computables>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+
+.PP
+If the function does not return anything (\fInul\fP function), you can still
+stop the execution at any time.
+
+.RS
+.nf
+Enfin, sors du bloc.
+
+.fi
+.RE
+
+.PP
+This works only if the function is a \fInul\fP function.
+.RE
+.TP
+.ft I
+Show statements
+.ft
+.PP
+This instruction is used to display either a text, or the result of a
+computation in the screen.
+
+.PP
+To display a computation :
+
+.RS
+.nf
+Affiche <computables>.
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<computables>\fP represents an expression composed of values with
+operators. (*Check the \fI<condition>\fP defintion on the BNF)
+
+.PP
+This will display \fBthe character\fP corresponding to the result on the
+screen. (E.g): \fIAffiche 10.\fP will display \fI\n\fP.
+
+.PP
+However, if you want to display a text :
+
+.RS
+.nf
+Affiche « Meow ».
+
+.fi
+.RE
+
+.PP
+This will display the text \fIMeow\fP on the screen.
+.RE
+.RE
+.TP
+.ft I
+\fBEnd of Function\fP
+.ft
+.PP
+You must \fBalways\fP end your \fBFunction Body\fP with a \fIMerci.\fP.
+.RE
+.TP
+.ft I
+\fBSpecial case of ’Main’ Function\fP
+.ft
+.PP
+The \fBmain function\fP is where the program starts. Therefore, its
+defintion must be clearly different from the \fBother functions\fP.
+
+.PP
+Such functions are being defined the following way :
+
+.RS
+.nf
+Bonjour,
+
+En sachant que les variables principales sont :
+    <variables>
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    <instructions>
+Merci d'avance,
+Cordialement,
+<family_name>
+<name>
+
+.fi
+.RE
+
+.IP \(em 4
+\fI<variables>\fP is an optional field, and represents the variables of
+the function. They are declared the same way as a normal function.
+.IP \(em 4
+\fI<instructions>\fP represents all the instructions that will be
+executed.
+.IP \(em 4
+\fIMerci d'avance, Cordialement, <family_name> <name>.\fP represents the
+end of the main function
+.IP \(em 4
+\fI<family_name>\fP represents the developer’s last name, and must always
+end with a newline character (’’).
+.IP \(em 4
+\fI<name>\fP represents the developer’s first name, and must also end with
+a newline character (’’).
+
+.PP
+A \fBmain function\fP does not take any parameter. Therefore, no parameter
+definition must be done. The value being \fBreturned\fP in the \fBmain
+function\fP represent the exit status of the program. If no value was
+being \fBreturned\fP, the program exists by default with a status code of
+\fI0\fP.
+.RE
+.SH "Bytecode reference"
+.PP
+The bytecode starts with a magic number, followed by an address
+describing the placement of the PC at the start of the program, followed
+by the program itself.
+.SS "Formal syntax (BNF)"
+.RS
+.nf
+\fC<bytecode> ::= <magic_number> <adress> <operation_list>
+
+<magic_number> ::= "E\efE\ef" ; 0x45 0xc 0x45 0xc
+
+<adress> ::= <byte> <byte> <byte> <byte> <byte> <byte> <byte> <byte>
+
+<operation_list> ::= <operation> | <operation>  <operation_list>
+
+<operation> ::= <not>
+              | <lnot>
+              | <neg>
+              | <and>
+              | <or>
+              | <xor>
+              | <shl>
+              | <shr>
+              | <land>
+              | <lor>
+              | <add>
+              | <sub>
+              | <mult>
+              | <div>
+              | <mod>
+              | <gt>
+              | <ge>
+              | <lt>
+              | <le>
+              | <eq>
+              | <diff>
+              | <updz>
+              | <push_stack>
+              | <pop_stack>
+              | <pop>
+              | <call>
+              | <ret>
+              | <jmp>
+              | <zjmp>
+              | <aff>
+              | <affs>
+              | <push_value>
+              | <push_label>
+
+
+<not> ::= "\e003"
+
+<lnot> ::= "\e004"
+
+<neg> ::= "\e005"
+
+<and> ::= "\e006"
+
+<or> ::= "\ea"
+
+<land> ::= "\eb"
+
+<lor> ::= "\et"
+
+<xor> ::= "\en"
+
+<shl> ::= "\ev"
+
+<shr> ::= "\ef"
+
+<add> ::= "\er"
+
+<sub> ::= "\e016"
+
+<mult> ::= "\e017"
+
+<div> ::= "\e020"
+
+<mod> ::= "\e021"
+
+<gt> ::= "\e022"
+
+<ge> ::= "\e023"
+
+<lt> ::= "\e024"
+
+<le> ::= "\e025"
+
+<eq> ::= "\e026"
+
+<diff> ::= "\e027"
+
+<updz> ::= "\e030"
+
+<push_stack> ::= "\e035" <arguments>
+
+<pop_stack> ::= "\e036" <arguments>
+
+<pop> ::= "\e037"
+
+<call> ::= """
+
+<ret> ::= "#"
+
+<jmp> ::= "$"
+
+<zjmp> ::= "%"
+
+<aff> ::= "&"
+
+<affs> ::= "'" <arguments> <string>
+
+<push_value> ::= "Y" <arguments>
+
+<push_label> ::= "[" <arguments>
+
+<arguments> ::= <byte> <byte> <byte> <byte> <byte> <byte> <byte> <byte>
+
+<string> ::= <byte> | <byte> <string>
+
+<byte > =  "\e0" .. "ÿ"
+\fP
+.fi
+.RE
+.SS "Instructions"
+.PP
+Since the virtual machine is stack-based, every instruction representing
+an operation will pop it’s operands, and push the result to the stack.
+
+.TS
+ center,box;
+
+l l l .
+mnemonic	description	bnf object
+_
+not	Not, invert the bits of the operand	not
+lnot	Logical not, invert the boolean interpretation of the operand	lnot
+neg	Negate, switch the sign of the operand	neg
+and	And, performs a binary AND operation between two operands	and
+or	Or, performs a binary OR operation between two operands	or
+xor	Exclusive or, performs a binary XOR operation between two operands	xor
+shl	Left bitshift, shifts the bits of the operand to the left, appending zeroes	shl
+shr	Right bitshift, shifts the bits of the operand to the right, appending zeroes	shr
+land	Logical and, boolean interpretation of the logical AND on two operands	land
+lor	Logical or, boolean interpretation of the logical OR on two operands	lor
+add	Addition, adds the value of two operands	add
+sub	Substraction, subtract the value of two operands	sub
+mult	Multiplication, multiplies the value of two operands	mult
+div	Division, return the dividend of the euclidian division of operand 1 by operand 2	div
+mod	Modulo, return the rest of the euclidian division of operand 1 by operand 2	mod
+gt	Greater than, compares the two operands and return a result for boolean interpretation	gt
+ge	Greater than or equals to, compares the two operands and return a result for boolean interpretation	ge
+lt	Less than, compares the two operands and return a result for boolean interpretation	lt
+le	Less than or equals to, compares the two operands and return a result for boolean interpretation	le
+eq	Equals, compares the two operands and return a result for boolean interpretation	eq
+neq	Different from, compares the two operands and return a result for boolean interpretation	diff
+updz	Update zero flag, pops the value from the stack and set it as the new zero flag	updz
+push	Push value, push a 64 bits value to the stack	push\d\s-2value\s+2\u
+push	Push relative address, push a 64 bits relative address to the stack, corresponding generally to a label	push\d\s-2label\s+2\u
+push	Push from stack pointer relative address, push to the stack the 8 bytes found at the stack pointer + the address given as operand	push\d\s-2stack\s+2\u
+pop	Pop empty, pop 8 bytes from the stack	pop
+pop	Pop to stack pointer relative address, pop 8 bytes from the stack, and write them to the stack pointer + the address given as operand	pop\d\s-2stack\s+2\u
+call	Call, op 8 bytes from the stack, register the new stack pointer, push the PC and stack pointer to the callstack, and jump to the value of the 8 bytes popped from the stack	call
+ret	Return, reset the stack to the stack pointer, pop the callstack and jump to the address from the callstack pop	ret
+jmp	Jump, pop an address from the stack, and set the PC to it	jmp
+zjmp	Zero jump, pop an address from the stack, and if the zero flag is set, set the PC to it	zjmp
+aff	Show, pop 8 bytes from the stack, apply a modulo 256 to the result, and write a single ascii character corresponding to the result	aff
+affs	Show string, the first operand is a 64 bits integer corresponding to the number of caracters, that we will call n. The next n bytes are the ascii values of the characters that will be wrote	affs
+.TE
+.TB ""
+.SH "Virtual Machine reference"
+.SS "Introduction"
+.PP
+When defining an assembly language for the Franc C binary, we focused on
+the ease of development of the compiler. We just had one requirement
+that allowed an easy development of the virtual machine: our assembly
+shall be
+https://en.wikipedia.org/wiki/Stack-oriented_programming \fBat\fP \fIstack-based\fP,
+drawing inspiration from the
+https://en.wikipedia.org/wiki/Java_virtual_machine \fBat\fP \fIJava Virtual
+Machine (JVM)\fP.
+.SS "Stack-Based vs Register-Based"
+.TS
+ center,box;
+
+l l l .
+Aspect	Stack-Based (fcvm)	Register-Based (e.g., Lua VM)
+_
+\fBStorage\fP	Operand stack (LIFO)	Virtual registers
+\fBInstructions\fP	Compact, implicit operands, prone to errors	Explicit operand addressing
+\fBComplexity\fP	Simple to implement	More complex logic
+\fBBytecode Size\fP	Bigger overall (smaller instructions but way more quantiry)	Smaller overall
+.TE
+.TB ""
+
+.PP
+We chose a stack-based approach for the following reasons:
+
+.IP 1.  4
+\fBSimpler bytecode generation\fP: The compiler does not have to deal
+with registers, knowing it does not have the capacity to remember
+data while processing multiple operations.
+.IP 2.  4
+\fBMonotyped language\fP: The fact that the Franc C is an integer only
+language allows for fixed-size parameter encoding. One of the main
+advantages of the register-based approach is to allow for type
+encoding.
+.SS "Stack"
+.PP
+The stack shoud be implemented as a contiguous array of bytes with the
+following characteristics:
+
+.IP \(em 4
+\fBData type\fP: Array of bytes
+.IP \(em 4
+\fBElement size\fP: 8 bytes per element (64-bit signed integers)
+.IP \(em 4
+\fBAlignment\fP: All operations push/pop exactly 8 bytes
+.IP \(em 4
+\fBStack size\fP: Always a multiple of 8 bytes
+.RS
+.TP
+.ft I
+Stack Management
+.ft
+.PP
+To perform function calls, the VM must maintains the stack pointer. It
+points to the start of the current stack local context. it is modified
+by the instructions call and ret.
+.RE
+.SS "Initialization"
+.PP
+By default, the stack should be initialized with 8 bytes representing
+the return value of the program. The default value is
+implementation-defined.
+.SS "Basic Operations"
+.TS
+ center,box;
+
+l l l .
+Operation	Description	Stack Effect
+_
+\fBPUSH\fP	Push 8 bytes onto the stack	SP unchanged, Counter += 1
+\fBPOP\fP	Remove 8 bytes from the stack	SP unchanged, Counter -= 1
+.TE
+.TB ""
+.SS "CallStack"
+.PP
+The \fBcallstack\fP manages function calls and returns, enabling the VM
+to: - Navigate between functions - Restore execution context after
+function returns - Maintain function-local state - Detect program
+termination
+.SS "Memory Layout"
+.PP
+The callstack can be implemented as a contiguous array of frame
+records:
+.br
+By default, the callstack can be initialized as an \fBempty array\fP.
+
+.PP
+Example implementation : - \fBData type\fP: Array of tuples \fI[(PC, SP)]\fP -
+\fBPC\fP (Program Counter): Return address (next instruction after CALL) -
+\fBSP\fP (Stack Pointer): Stack state at call time
+
+.TS
+ center,box;
+
+r r r l .
+Frame	PC	SP	Description
+_
+0	0	0	Entry point
+1	12	16	First function call
+2	57	24	Current function locale start
+.TE
+.TB ""
+.SS "Function call mechanism"
+.PP
+When executing \fIcall <address>\fP:
+
+.IP 1.  4
+\fBSave current context\fP: Push \fI(PC + 1, SP)\fP onto the call stack
+.IP \(em 4
+\fIPC + 1\fP: Address of the instruction following CALL
+.IP \(em 4
+\fISP\fP: Current stack pointer (preserves caller’s stack)
+.IP 2.  4
+\fBJump to function\fP: Set \fIPC = <address>\fP
+
+.PP
+When executing \fIRet\fP:
+
+.IP 1.  4
+\fBPop frame\fP: Retrieve \fI(saved_PC, saved_SP)\fP from call stack
+.IP 2.  4
+\fBRestore context\fP:
+.IP \(em 4
+Set \fIPC = saved_PC\fP (return to caller)
+.IP \(em 4
+Set \fISP = saved_SP\fP (restore stack state)
+.IP 3.  4
+\fBCheck termination\fP: If call stack is empty after pop, \fBterminate
+program\fP
+.SS "Zero flag"
+.PP
+The \fBZero Flag\fP is a single-bit register used for conditional branching
+and control flow decisions.
+.br
+It stores the result of comparison and test operations,
+.br
+enabling the implementation of \fIif\fP and \fIwhile\fP.
+
+.IP \(em 4
+\fBData type\fP: \fIunsigned char\fP
+.IP \(em 4
+\fBDefault value\fP: \fI1\fP
+
+.PP
+The Zero Flag follows this logic:
+
+.TS
+ center,box;
+
+l l .
+Condition	Zero Flag Value
+_
+\fB!= 0\fP	\fI1\fP (true)
+\fB== 0\fP	\fI0\fP (false)
+.TE
+.TB ""
+.SS "End cases"
+.PP
+The program terminates normally when: - A \fIRet\fP instruction is executed
+from the main function - The call stack becomes empty after the return
+
+.PP
+\fBVersion\fP : 1.2
+.br
+\fBLast update\fP : Novembre 2025
+.br
+\fBAuthor\fP : Acacademie Franc C’aise
+.SH "Franc C Compiler"
+.PP
+The Franc C Compiler (FCC) is a toolchain that allows the compilation of
+one or multiple Franc C Reference code (.fr) files into a single
+bytecode executable by the FCVM program.
+.SS "Parameters list and long descriptions"
+.PP
+\fIfcc FILESNAME [\-o|\-\-output FILENAME] [\-n|\-\-no\-larousse] [\-d|\-\-debug]\fP
+.SS "FILESNAME"
+.PP
+The name of the input files. They need to be valid .fr source files.
+.SS "--output FILENAME"
+.PP
+The name of the output bytecode file. Only considered without the
+--debug flag.
+
+.PP
+Without the presence of this flag, the default output file is \fIa.fcp\fP.
+.SS "--no-larousse"
+.PP
+By default, the FCC program compiles with the Larousse sources included.
+See the custom-id:larousse \fBat\fP \fIlarousse\fP section.
+
+.PP
+This flag allows compilation without any files from the Larousse
+library.
+.SS "--debug"
+.PP
+This flags allows a debug output. Instead of writing the bytecode to a
+file, a debug view of the assembly is wrote to the standard output
+(/dev/stdout on most GNU/linux machines).
+.SS "Larousse"
+.PP
+The Larousse is the standard library who accompanies the FCC program. If
+the Larousse is to be included, the \fIfcc\fP program will search a folder
+named \fIlarousse\fP, and then list in all subdirectories of level-1 the
+\fI.fr\fP source files. Those found source files will be added to the input
+list, and compiled.
+.SS "Functioning"
+.PP
+The FCC program works with different steps.
+.SS "Getting inputs"
+.PP
+The inputs are retrived via the Larousse library and the user-provided
+files.
+.SS "Lexing and parsing"
+.PP
+Each file is lexed into a list of token, then parsed into an Abstract
+Syntax Tree (AST).
+
+.PP
+See custom-id:lexer-parsing-reference \fBat\fP \fIthe parsing reference\fP for more
+information.
+
+.PP
+This step may fail. Each file being converted one after the other, if
+one fails, the remaining ones are not even considered and an error is
+returned.
+.SS "Combination"
+.PP
+Each AST representing each files given for compilation is then combined.
+
+.PP
+In this step, the presence of a single principal function is verified,
+and if no or multiple are found, an error is returned.
+
+.PP
+The result is a CAST (Combined Abstract Syntax Tree)
+.SS "Compilation"
+.PP
+The compilation step is where the CAST is converted to a Context
+datastructure, linked with an Assembly datastructure. It is not yet
+bytecode, just a structure representing the final output.
+
+.PP
+The context structure is important for the next step.
+
+.PP
+This step is really linear, there is no acknowledgement of the rest of
+the program when compiling a subpart.
+.SS "Verifications"
+.PP
+This step ensures some basic verifications.
+
+.PP
+It takes the context from the previous step, and analyses it to find any
+flaws.
+
+.PP
+For example, we check here if a function is invoked whilst it’s
+reference is non-existant.
+.SS "Output"
+.PP
+This step is the final one.
+
+.PP
+If the \fI\-\-debug\fP flag is given, it will take the structured assembly and
+write it down just as it is stored.
+
+.PP
+Elsewise, it is converted to bytecode in really two small steps. The
+first one is to convert labels to relative positions. The second one is
+to convert everything to it’s bytecode relation.
+
+.PP
+Finaly, the resulted bytecode is written to the designated output file.
+.SS "Justifications"
+.PP
+Regarding the lexing and parsing part, we decided so separate those to
+allow for easier syntaxic sugar implementation and code readability.
+
+.PP
+The combination part was added to allow for multiple input files to be
+grouped together before the compilation process. It is easier to do it
+like this than to try and combine multiple outputed bytecodes together,
+like the \fIld\fP program does when compiling a C program.
+
+.PP
+The compilation is linear, and therefore, we had to separate the
+verification process from this step, to allow for a really easy-to-read
+code. Having a linear compilation reduces the capacity of complex
+program logic, but since the Franc C is a really simple imperative
+language, it poses no problems to do it this way. We simply store some
+context in a datastructure for the verification step to look in a global
+point of view, instead of the linearly reduced point of view of the
+compilation.
+
+.PP
+Finaly, we send the assembly to out output step, that is in charge of
+converting it to the final bytecode, or to write it as a debug output.
+.SS "Lexer & Parsing reference"
+.PP
+We have chosen Haskell to implement the lexing and parsing of the
+language, as functional languages like Haskell make it particularly easy
+to express, abstract, and combine parsers. This allows the Franc C to be
+very verbose, which was definitely needed.
+
+.PP
+As we wanted to speed things up and release a first version as quickly
+as possible, we decided to use a pre-existing parsing library
+\fIMegaparsec\fP. The library offers fast parsing performance, is an
+improved successor of \fIParsec\fP, and provides high-quality error messages
+that greatly simplify debugging and development.
+
+.PP
+The \fILexer\fP and \fIParser\fP both refers to two different parts:
+
+.IP \(em 4
+The \fILexer\fP, which uses \fIMegaparsec\fP reads the source code’s syntax,
+checks that it follows the correct grammar, then converts the text
+into a list of tokens that the parser can later use. For example, the
+code \fISi x est égale à 0, exécute le texte\fP would be transformed into
+the list as \fI[If, Symbol "x", Operation Equals, Number 0, Then]\fP
+.IP \(em 4
+The \fIParser\fP, on the other hand, takes this list of tokens to
+transform it into an \fBAbstract Syntax Tree\fP (AST). It uses Haskell’s
+recursive principles to build that tree so that the compiler can later
+use it to generate the final executable library.
+
+.PP
+The \fIParser\fP is only executed if the \fILexer\fP did not fail to lex the
+targetted source code.
+.SS "Safety measures"
+.PP
+The safety of the lexing process is ensured by \fIMegaparsec\fP, which
+provides robust error handling and syntax checking. During the lexing
+part, Megaparsec ensures the input strictly follows the defined grammar.
+If the syntax is incorrect, the lexer fails gracefully by producing a
+clear and descriptive error message, preventing the program from
+continuing with an invalid input. If the syntax is valid, the lexer
+successfully returns a well-structured list of tokens that can safely be
+passed to the parser.
+
+.PP
+Since the Lexer always produces a clean and valid list of tokens, the
+Parser does not include any additional safety checks on its input.
+However, it makes sure that no more than \fBone\fP main function was
+defined.
+.SS "Error list"
+.IP \(em 4
+Grammar Error : Triggered when Megaparsec fails to lex or parse the
+source code due to \fBinvalid syntax\fP.
+.IP \(em 4
+Double Main Definition : Raised when more than one main function was
+defined in the program.
+.SS "Known caveats"
+.IP \(em 4
+Lexing Error Printing : We are aware that Megaparsec does not always
+display clear or accurate error messages in some cases. This issue is
+due to our current lexing implementation rather than Megaparsec
+itself, and should be fixed soon or later.
+.IP \(em 4
+Parsing Input : The parser currently does not validate its input and
+fully relies on the lexer to always produce correct and consistent
+tokens. While this works for now, it could lead to potential issues in
+the future.
+.SS "Compilation reference"
+.PP
+We are here referring to compilation as the compilation and the
+verification step. Thus, in this section, the compilation step will
+refer to both of these steps.
+
+.PP
+Given the simple nature of the logic of the Franc C language, we chose
+here to implement a simple compilation.
+
+.PP
+The compilation step do not use any external dependencies.
+
+.PP
+We simply store a context that is updated throughout the compilation
+process. This context contains :
+
+.IP \(em 4
+A list of variables, with their name, size, and position relative to
+the stack pointer.
+.IP \(em 4
+A label counter, used to suffix labels with a number to distinguish
+them.
+.IP \(em 4
+A list of function context, representing each definitions.
+.IP \(em 4
+A list of function context, representing each invoke.
+
+.PP
+The function context contains :
+
+.IP \(em 4
+The name of the function.
+.IP \(em 4
+A boolean value, used to describe if this function is either returning
+something or of the void type ; or describes if this functions is
+either assigning a value when invoking or not.
+.IP \(em 4
+A parameter count, that indicates the number of parameters in this
+function.
+
+.PP
+The fact that the entire language is only integer-based facilitates the
+concept of variable storage and parameter types. No types appear in the
+compilation process, except the void type for function definitions and
+invoke.
+.SS "Function call parameters, return value and variables"
+.PP
+When a function is called, it have parameters, a return value and some
+variables.
+
+.PP
+Here is a map of how they are stored in the stack:
+
+.RS
+.nf
+┌─────────────────┐
+│  Caller frame   │
+├─────────────────┤
+│  Parameters     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Return Value   │  ← PUSHREL/POPREL access
+├─────────────────┤  ← SP
+│  Local vars     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Temporaries    │  ← Stack top
+└─────────────────┘
+
+.fi
+.RE
+
+.PP
+\fBLocal variables\fP: Accessed via SP-relative offsets - \fIPUSHREL 0\fP: First
+local - \fIPUSHREL 8\fP: Second local (8-byte offset) - \fIPOPREL N\fP: Store to
+local at offset N
+
+.PP
+\fBReturn value and paramers\fP: Accessed via SP-relative offsets -
+\fIPUSHREL \-8\fP: Return value - \fIPUSHREL \-16\fP: First parameter -
+\fIPUSHREL \-24\fP: Second parameter
+.SS "Safety measures"
+.PP
+During the compilation step, we check for user errors :
+
+.IP \(em 4
+No main function is given.
+.IP \(em 4
+Multiple main functions are given.
+.IP \(em 4
+A function is defined with the name of an already defined function.
+.IP \(em 4
+A function defines a parameter, or a variable, with the name of an
+already existing, local to the function, parameter or variable.
+.IP \(em 4
+A function that is not referenced is invoked.
+.IP \(em 4
+A function that takes n parameters is invoked with more or less than n
+parameters.
+.IP \(em 4
+A return value is given to a function of type void.
+.IP \(em 4
+An empty return is given to a function of type non-void.
+.IP \(em 4
+An assignement of the return of a void-typed function is made.
+.SS "Intended undefined behaviours"
+.RS
+.TP
+.ft I
+Integer over/underflows
+.ft
+.PP
+We do not devine the result of an integer overflow, or an integer
+underflow. Our integers are defined solely as signed integers on 64
+bits.
+
+.PP
+The minimum integer is defined as the maximum integer negated. In the C
+programming language, it is defined as being one less, but in our
+implementation of the negate sign “-”, we chose for parsing and lexing
+simplicity to use the negate solely as an operation. Take the example
+“-5”, we will not register it as the -5 number, but as the number 5 on
+whom we apply the negate operation. This explains the fact that our
+minimum integer is defined as the negated maximum integer.
+
+.PP
+The maximum integer is defined as 2\u\s-263\s+2\d - 1, or
+9’223’372’036’854’775’807.
+.RE
+.TP
+.ft I
+Known caveats
+.ft
+.RS
+.TP
+.ft I
+Lack of static analysis
+.ft
+.PP
+The FCC compilation step do not implement any static analysis.
+
+.PP
+These are the direct cause of some -- sadly -- not implemented
+behavious:
+
+.IP \(em 4
+We cannot check for direct division by zero. For example: (10 divisé
+par 0) will not result in an error at compile-time.
+.IP \(em 4
+We cannot produce pre-computations. For example: (10 plus 10) will not
+result in the value 20 at compile-time, but in the computation of 10
+plus 10 at run-time. It is highly inefficient.
+.RE
+.RE
+.SS "Readable assembly"
+.PP
+When the \fI\-\-debug\fP flag is passed, the output of the program is a
+readable assembly written to the standard output.
+.SS "Syntax of the readable assembly"
+.PP
+There are two cases in the syntax :
+
+.IP \(em 4
+label, they are written in the left margin, like so: \fIlabel_name:\fP
+.IP \(em 4
+instructions, they are written tabulated with four spaces, like so:
+\fImnemonic [args]\fP
+.SS "List of instructions"
+.TS
+ center,box;
+
+l l l .
+Operation	Parameter	Representation
+_
+label	name	\fIname:\fP
+binary not		\fInot\fP
+binary and		\fIand\fP
+binary or		\fIor\fP
+logical not		\fIlnot\fP
+logical and		\fIland\fP
+logical or		\fIlor\fP
+exclusive or		\fIxor\fP
+left bitshift		\fIshl\fP
+right bitshift		\fIshr\fP
+addition		\fIadd\fP
+substraction		\fIsub\fP
+multiplication		\fImult\fP
+division		\fIdiv\fP
+modulo		\fImod\fP
+comparison greater than		\fIgt\fP
+comparison greater or equal to		\fIge\fP
+comparison less than		\fIlt\fP
+comparison less or equal to		\fIle\fP
+comparison equals		\fIeq\fP
+comparison different to		\fIneq\fP
+update zero flag		\fIupdz\fP
+push value	value	\fIpush value\fP
+push relative address	address	\fIpush [address]\fP
+push label relative address	label-name	\fIpush %label\-name\fP
+push from stack pointer relative address	address	\fIpush @address\fP
+pop to stack pointer relative address	address	\fIpop @address\fP
+pop		\fIpop\fP
+invoke a function		\fIcall\fP
+return		\fIret\fP
+jump to address		\fIjmp\fP
+jump to address if zero flag		\fIzjmp\fP
+print character		\fIaff\fP
+print string	string	\fIaffs "string"\fP
+.TE
+.TB ""
+.SH "Franc C Virtual Machine"
+.SS "Input Descriptions"
+.SS "Bytecode File Format"
+.PP
+The fcvm executes Franc C bytecode files.
+
+.PP
+They have the following header structure:
+
+.RS
+.nf
+┌─────────────────────────────────────┐
+│ Magic Number (4 bytes)              │  0x45 0x0C 0x45 0x0C
+├─────────────────────────────────────┤
+│ Bytecode Instructions               │  Variable length
+└─────────────────────────────────────┘
+
+.fi
+.RE
+
+.PP
+\fBMagic Number\fP: \fI0x45 0x0C 0x45 0x0C\fP (4 bytes), as defined in the
+custom-id:bytecode_reference \fBat\fP \fIFranc C bytecode reference\fP. - Validates file
+format at VM initialization - Invalid magic number triggers immediate
+error
+.SS "Command-Line Interface"
+.RS
+.nf
+\fC./fcvm <bytecode_file>
+\fP
+.fi
+.RE
+
+.PP
+\fBExit Codes\fP:
+
+.TS
+ center,box;
+
+l l .
+Code	Description
+_
+\fI0\fP	Success (or custom return value = 0)
+\fI1\-255\fP	Custom exit code (return value mod 256)
+\fI84\fP	Any error (runtime or load-time)
+.TE
+.TB ""
+.SS "Architecture Implementation"
+.SS "Memory Layout"
+.PP
+The VM maintains three core structures:
+
+.IP \(em 4
+The operand stack
+.IP \(em 4
+The callstack
+.IP \(em 4
+Three specific registers
+.RS
+.TP
+.ft I
+Operand Stack
+.ft
+.PP
+Stores temporary computation values, variables and function return
+values.
+
+.RS
+.nf
+┌─────────────┬─────────────┬─────────────┐
+│  Element 0  │  Element 1  │  Element 2  │
+│  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
+└─────────────┴─────────────┴─────────────┘
+      ↑
+    Stack Top
+
+.fi
+.RE
+
+.PP
+\fBProperties\fP: - Type: \fI[Word8]\fP (list of bytes) - Element size: 8 bytes
+(64-bit) - Initial state: One zero element \fI[0x00 × 8]\fP - Max size:
+1,000,000 elements (8 MB) - Operations: PUSH (prepend), POP (drop first
+8 bytes)
+.RE
+.TP
+.ft I
+Call Stack
+.ft
+.PP
+Manages function call frames.
+
+.RS
+.nf
+┌─────────────────────────────────┐
+│  Frame: (PC: 0, SP: 0)          │  ← Entry
+├─────────────────────────────────┤
+│  Frame: (PC: 12, SP: 16)        │
+├─────────────────────────────────┤
+│  Frame: (PC: 57, SP: 24)        │  ← Current
+└─────────────────────────────────┘
+
+.fi
+.RE
+
+.PP
+\fBProperties\fP: - Type: \fI[(PC, SP)]\fP (list of tuples) - Frame content:
+Return address (PC) + Stack pointer (SP) - Initial state: Empty \fI[]\fP -
+Max depth: 1,000,000 frames
+
+.PP
+\fBBehavior\fP: - \fICALL\fP: Push \fI(PC+1, SP)\fP, jump to function - \fIRET\fP: Pop
+frame, restore context, trim stack - \fBTermination\fP: Empty call stack
+after \fIRET\fP → program ends
+.RE
+.TP
+.ft I
+Registers
+.ft
+.PP
+\fBProgram Counter (PC)\fP - Points to current instruction in bytecode -
+Initial: 8 (after 4-byte magic number) - Updates: \fI+1\fP (normal), \fI+9\fP
+(with data), or jump target
+
+.PP
+\fBStack Pointer (SP)\fP - Marks base of current function’s stack frame -
+Used for local variable access via \fIPUSHREL=/=POPREL\fP - Modified during
+\fICALL\fP and \fIRET\fP
+
+.PP
+\fBZero Flag (ZF)\fP - Type: \fIWord8\fP (0 or 1) - Initial: 1 (true) -
+Semantics: \fI0\fP if stack top = 0, else \fI1\fP - Set by \fIZFLAG\fP, tested by
+\fIZJMP\fP
+.RE
+.SS "Instruction Set Overview"
+.PP
+The VM implements 40 opcodes across 7 categories:
+
+.RS
+custom-id:bytecode_reference \fBat\fP \fIBytecode Definition\fP.
+
+.RE
+.SS "Function Call Convention"
+.PP
+\fBCalling sequence\fP:
+
+.RS
+.nf
+1. Push function address
+2. Execute CALL
+   → Saves (PC+1, SP) to call stack
+   → Jumps to function
+
+.fi
+.RE
+
+.PP
+\fBReturn sequence\fP:
+
+.RS
+.nf
+1. Execute RET
+   → Restores PC and SP
+   → Trims stack to SP position
+   → If call stack empty: program terminates
+
+.fi
+.RE
+
+.PP
+\fBStack frame layout\fP:
+
+.RS
+.nf
+┌──────────────────┐
+│  Caller frame    │
+├──────────────────┤  ← SP
+│  Local function  │  ← Stack top
+└──────────────────┘
+
+.fi
+.RE
+.SS "Exceptions List"
+.PP
+All errors exit with code \fB84\fP and write to \fBstderr\fP.
+.SS "Load-Time Errors"
+.PP
+\fBInvalid Magic Number\fP
+
+.RS
+.nf
+Message: *** UNRECONIZED FILE FORMAT
+Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
+
+.fi
+.RE
+
+.PP
+\fBFile I/O Error\fP
+
+.RS
+.nf
+Message: Error with file
+Trigger: File not found, permission denied, or read error
+
+.fi
+.RE
+.SS "Runtime Errors"
+.PP
+\fBArithmetic Errors\fP
+
+.RS
+.nf
+Message: *** 0 CAN'T BE USE in this operation
+Trigger: DIV or MOD with divisor = 0
+
+.fi
+.RE
+
+.PP
+\fBStack & CallStack Overflow\fP
+
+.RS
+.nf
+Message: *** STACK OVERFLOW
+Trigger: Operand stack ≥ 1M elements OR call stack ≥ 1M frames
+Cause:   Excessive PUSH without POP, or infinite recursion
+
+.fi
+.RE
+
+.PP
+\fBStack Underflow\fP
+
+.RS
+.nf
+Message: *** STACK ERROR
+Trigger: Operation requires elements when stack_size ≤ 1
+Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
+
+.fi
+.RE
+.SS "Known Caveats"
+.SS "Undefined Behaviors"
+.PP
+\fBInteger Overflow\fP - 64-bit signed integers wrap silently - Example:
+\fIINT64_MAX + 1\fP → UNDEFINED - No error raised
+
+.PP
+\fBInvalid Opcodes\fP - Treated as NOP (PC += 1) - Corrupted bytecode may
+execute partially - No detection mechanism
+.SS "Performance Limitations"
+.PP
+\fBList-Based Stack\fP - Push/Pop: O(1) ✓ - SP-relative access: O(n) ✗ -
+Impact: Slow for deep stacks (>1000 elements)
+
+.PP
+\fBString Operations\fP - \fIAFFS\fP creates intermediate structures - Linear in
+string length (acceptable)
+.SS "Portability Issues"
+.PP
+\fBPlatform Word Size\fP - \fIPC\fP and \fISP\fP use Haskell \fIInt\fP type - 32-bit
+systems: Max ~2GB bytecode - 64-bit systems: Max ~8GB bytecode - Not a
+practical concern for typical use
+
+.PP
+\fBDocument Version\fP: 1.1
+.br
+\fBLast Updated\fP: November 2025
+.br
+\fBAuthor\fP : Acacademie Franc C’aise
+.SH "Larousse"
+.SS "Introduction (motives)"
+.PP
+As programming using Franc C can easily become overwhelming, we decided
+to provide a set of already implemented functions, in a library called
+\fILarousse\fP, as a way to facilitate some tasks.
+
+.PP
+\fILarousse\fP also serves as a way to showcase our language’s capabilities,
+and demonstrate its verbose syntax, and acts as a test suite for the
+\fIAcadémie Franc C'Aise\fP, which runs functional tests on it.
+.SS "Functions"
+.TS
+ center,box;
+
+l l l l .
+Functions	Parameters	Description	Benchmark*
+_
+additionner	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre + second_nombre\fP.	0.086s
+afficher\d\s-2nombre\s+2\u	nombre	Displays in the standard output the number \fInombre\fP.	0.067s
+carré\d\s-2de\s+2\u	nombre	Returns \fInombre * nombre\fP.	0.074s
+diviser	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre / second_nombre\fP.	0.060s
+douze	nombre	Returns \fInombre / 12\fP if \fInombre\fP is multiple of 12, otherwise \fI\-1\fP.	0.069s
+est\d\s-2en\s+2\u\d\s-2majuscule\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is an uppercase letter, otherwise \fI0\fP.	0.063s
+est\d\s-2en\s+2\u\d\s-2minuscule\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is a lowercase letter, otherwise \fI0\fP.	0.060s
+est\d\s-2négatif\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is negative, otherwise \fI0\fP.	0.070s
+est\d\s-2premier\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is a prime number, otherwise \fI0\fP.	0.051s
+fizzbuzz	nombre	Displays « Fizz » if \fInombre\fP is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays \fInombre\fP.	0.056s
+imprimer\d\s-2peigne\s+2\u	-	Displays in ascending order all the smallest numbers composed of three digits.	0.220s
+imprimer\d\s-2peigne\s+2\u\d\s-22\s+2\u	-	Displays in ascending order all the smallest numbers composed of four digits.	8.481s
+imprimer\d\s-2peigne\s+2\u\d\s-2nombre\s+2\u	nombre	Displays in ascending order all the smallest numbers composed of \fInombre\fP digits.	Depends
+max	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre\fP if \fInombre\fP is superior than \fIsecond_nombre\fP, otherwise \fIsecond_nombre\fP.	0.060s
+min	nombre, second\d\s-2nombre\s+2\u	Returns \fIsecond_nombre\fP if \fInombre\fP is superior than \fIsecond_nombre\fP, otherwise \fInombre\fP.	0.092s
+multiplier	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre * second_nombre\fP.	0.065s
+prochain\d\s-2premier\s+2\u	nombre	Returns the first prime number greater than \fInombre\fP.	0.072s
+précedent	nombre	Returns \fInombre \- 1\fP.	0.069s
+racine\d\s-2carré\s+2\u\d\s-2de\s+2\u	nombre	Returns the integer square root of \fInombre\fP.	0.070s
+soustraire	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre \- second_nombre\fP.	0.090s
+suivant	nombre	Returns \fInombre + 1\fP.	0.065s
+.TE
+.TB ""
+
+.PP
+(*) Benchmark specs:
+
+.RS
+.nf
+CPU : Intel i9 14900K
+GPU : NVIDIA RTX 4070 TI SUPER
+RAM: 32 GB
+
+.fi
+.RE
+.SS "Académie Franc C’Aise"
+.PP
+\fIAcadémie Franc C'Aise\fP is the \fIfunctional tester\fP made in \fIPython\fP for
+the \fIFranc C\fP, and uses \fILarousse\fP standard library.
+
+.PP
+You will find in every single \fILarousse\fP source code function: - The
+same function written in \fIC\fP. - A main function in \fIFranc C\fP which calls
+the function in \fIFranc C\fP with various parameter, in the \fItest\fP
+folder. - A main function in \fIC\fP which calls the function in \fIC\fP with
+the same parameters, in the \fItest\fP folder.
+
+.PP
+\fIAcadémie Franc C'Aise\fP compiles both the \fIC\fP and \fIFranc C\fP version
+using \fIgcc\fP and \fIfcvm\fP. It then runs both versions, and check whether
+their inputs are the same as a way to test the language. It also
+displays how much time each step took (Compilation, Execution) for both
+languages then finally shows the time difference between those.
+
+.PP
+\fIFranc C\fP is in most cases faster to compile than \fIC\fP. However, \fIC\fP is
+almost always faster in execution time than \fIFranc C\fP.
+
+.PP
+At the end of the program, \fIAcadémie Franc C'Aise\fP displays how many
+tests passed out of how many were run. It then exits with a failure if
+not all tests passed.

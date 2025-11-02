@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Output (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Output (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Output (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Functioning.html" rel="up" title="Functioning">
+<link href="Justifications.html" rel="next" title="Justifications">
+<link href="Verifications.html" rel="prev" title="Verifications">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Output">
+<div class="nav-panel">
+<p>
+Next: <a href="Justifications.html" accesskey="n" rel="next">Justifications</a>, Previous: <a href="Verifications.html" accesskey="p" rel="prev">Verifications</a>, Up: <a href="Functioning.html" accesskey="u" rel="up">Functioning</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Output-1"><span>6.3.6 Output<a class="copiable-link" href="#Output-1"> &para;</a></span></h4>
+
+<p>This step is the final one.
+</p>
+<p>If the &lsquo;<samp class="samp">--debug</samp>&rsquo; flag is given, it will take the structured assembly and
+write it down just as it is stored.
+</p>
+<p>Elsewise, it is converted to bytecode in really two small steps. The
+first one is to convert labels to relative positions. The second one is
+to convert everything to it&rsquo;s bytecode relation.
+</p>
+<p>Finaly, the resulted bytecode is written to the designated output file.
+</p>
+</div>
+
+
+
+</body>
+</html>

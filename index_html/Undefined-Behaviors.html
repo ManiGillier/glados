@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Undefined Behaviors (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Undefined Behaviors (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Undefined Behaviors (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Known-Caveats.html" rel="up" title="Known Caveats">
+<link href="Performance-Limitations.html" rel="next" title="Performance Limitations">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Undefined-Behaviors">
+<div class="nav-panel">
+<p>
+Next: <a href="Performance-Limitations.html" accesskey="n" rel="next">Performance Limitations</a>, Up: <a href="Known-Caveats.html" accesskey="u" rel="up">Known Caveats</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Undefined-Behaviors-1"><span>7.4.1 Undefined Behaviors<a class="copiable-link" href="#Undefined-Behaviors-1"> &para;</a></span></h4>
+
+<p><strong class="strong">Integer Overflow</strong> - 64-bit signed integers wrap silently - Example:
+&lsquo;<samp class="samp">INT64_MAX + 1</samp>&rsquo; → UNDEFINED - No error raised
+</p>
+<p><strong class="strong">Invalid Opcodes</strong> - Treated as NOP (PC += 1) - Corrupted bytecode may
+execute partially - No detection mechanism
+</p>
+</div>
+
+
+
+</body>
+</html>

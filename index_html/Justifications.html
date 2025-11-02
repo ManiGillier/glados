@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Justifications (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Justifications (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Justifications (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Functioning.html" rel="up" title="Functioning">
+<link href="Output.html" rel="prev" title="Output">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Justifications">
+<div class="nav-panel">
+<p>
+Previous: <a href="Output.html" accesskey="p" rel="prev">Output</a>, Up: <a href="Functioning.html" accesskey="u" rel="up">Functioning</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Justifications-1"><span>6.3.7 Justifications<a class="copiable-link" href="#Justifications-1"> &para;</a></span></h4>
+
+<p>Regarding the lexing and parsing part, we decided so separate those to
+allow for easier syntaxic sugar implementation and code readability.
+</p>
+<p>The combination part was added to allow for multiple input files to be
+grouped together before the compilation process. It is easier to do it
+like this than to try and combine multiple outputed bytecodes together,
+like the &lsquo;<samp class="samp">ld</samp>&rsquo; program does when compiling a C program.
+</p>
+<p>The compilation is linear, and therefore, we had to separate the
+verification process from this step, to allow for a really easy-to-read
+code. Having a linear compilation reduces the capacity of complex
+program logic, but since the Franc C is a really simple imperative
+language, it poses no problems to do it this way. We simply store some
+context in a datastructure for the verification step to look in a global
+point of view, instead of the linearly reduced point of view of the
+compilation.
+</p>
+<p>Finaly, we send the assembly to out output step, that is in charge of
+converting it to the final bytecode, or to write it as a debug output.
+</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Safety measures (1) (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Safety measures (1) (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Safety measures (1) (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Compilation-reference.html" rel="up" title="Compilation reference">
+<link href="Intended-undefined-behaviours.html" rel="next" title="Intended undefined behaviours">
+<link href="Function-call-parameters-return-value-and-variables.html" rel="prev" title="Function call parameters return value and variables">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Safety-measures-_00281_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="Intended-undefined-behaviours.html" accesskey="n" rel="next">Intended undefined behaviours</a>, Previous: <a href="Function-call-parameters-return-value-and-variables.html" accesskey="p" rel="prev">Function call parameters, return value and variables</a>, Up: <a href="Compilation-reference.html" accesskey="u" rel="up">Compilation reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Safety-measures-2"><span>6.5.2 Safety measures<a class="copiable-link" href="#Safety-measures-2"> &para;</a></span></h4>
+
+<p>During the compilation step, we check for user errors :
+</p>
+<ul class="itemize mark-bullet">
+<li>No main function is given.
+</li><li>Multiple main functions are given.
+</li><li>A function is defined with the name of an already defined function.
+</li><li>A function defines a parameter, or a variable, with the name of an
+already existing, local to the function, parameter or variable.
+</li><li>A function that is not referenced is invoked.
+</li><li>A function that takes n parameters is invoked with more or less than n
+parameters.
+</li><li>A return value is given to a function of type void.
+</li><li>An empty return is given to a function of type non-void.
+</li><li>An assignement of the return of a void-typed function is made.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

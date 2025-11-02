@@ -1,0 +1,2135 @@
+This is index.info, produced by makeinfo version 7.2 from index.texi.
+
+INFO-DIR-SECTION Misc
+START-INFO-DIR-ENTRY
+* (index).              TGPD: The GLADOS Project Documentation.
+END-INFO-DIR-ENTRY
+
+
+File: index.info,  Node: Top,  Next: Other documentations,  Up: (dir)
+
+TGPD: The GLADOS Project Documentation
+**************************************
+
+* Menu:
+
+* Other documentations::
+* Introduction::
+* Franc C reference::
+* Bytecode reference::
+* Virtual Machine reference::
+* Franc C Compiler::
+* Franc C Virtual Machine::
+* Larousse: Larousse (1).
+
+-- The Detailed Node Listing --
+
+Franc C reference
+
+* Motives::
+* Inspirations::
+* Language Formal Syntax (BNF)::
+
+Inspirations
+
+* Linotte::
+* C::
+* French language::
+
+Language Formal Syntax (BNF)
+
+* Language logic::
+
+Bytecode reference
+
+* Formal syntax (BNF)::
+* Instructions::
+
+Virtual Machine reference
+
+* Introduction: Introduction (1).
+* Stack::
+* CallStack::
+* Zero flag::
+* End cases::
+
+Introduction
+
+* Stack-Based vs Register-Based::
+
+Stack
+
+* Initialization::
+* Basic Operations::
+
+CallStack
+
+* Memory Layout::
+* Function call mechanism::
+
+Franc C Compiler
+
+* Parameters list and long descriptions::
+* Larousse::
+* Functioning::
+* Lexer & Parsing reference::
+* Compilation reference::
+* Readable assembly::
+
+Parameters list and long descriptions
+
+* FILESNAME::
+* --output FILENAME::
+* --no-larousse::
+* --debug::
+
+Functioning
+
+* Getting inputs::
+* Lexing and parsing::
+* Combination::
+* Compilation::
+* Verifications::
+* Output::
+* Justifications::
+
+Lexer & Parsing reference
+
+* Safety measures::
+* Error list::
+* Known caveats::
+
+Compilation reference
+
+* Function call parameters, return value and variables: Function call parameters return value and variables.
+* Safety measures: Safety measures (1).
+* Intended undefined behaviours::
+
+Readable assembly
+
+* Syntax of the readable assembly::
+* List of instructions::
+
+Franc C Virtual Machine
+
+* Input Descriptions::
+* Architecture Implementation::
+* Exceptions List::
+* Known Caveats::
+
+Input Descriptions
+
+* Bytecode File Format::
+* Command-Line Interface::
+
+Architecture Implementation
+
+* Memory Layout: Memory Layout (1).
+* Instruction Set Overview::
+* Function Call Convention::
+
+Exceptions List
+
+* Load-Time Errors::
+* Runtime Errors::
+
+Known Caveats
+
+* Undefined Behaviors::
+* Performance Limitations::
+* Portability Issues::
+
+Larousse
+
+* Introduction (motives)::
+* Functions::
+* Académie Franc C'Aise::
+
+
+File: index.info,  Node: Other documentations,  Next: Introduction,  Prev: Top,  Up: Top
+
+1 Other documentations
+**********************
+
+   • Single page documentation (./index.html)
+   • Multi page documentation (./index_html/index.html)
+   • Info page (info -f index.info) (./index.info)
+   • Man page (man -l index.man) (./index.man)
+
+
+File: index.info,  Node: Introduction,  Next: Franc C reference,  Prev: Other documentations,  Up: Top
+
+2 Introduction
+**************
+
+The glados is a third year Epitech project where five people are asked
+to build a new programming language.
+
+   Who never had problems with a programming language ?  Who never
+thought of building it's own ?  Who never imagined a language so
+litteral, that anyone could use it without technical knowledge ?
+
+   Introducing: the *Franc C*. The Franc C is a programming language
+with a litteral french syntax.
+
+   In this project, we built five different things.
+   • The Franc C language itself, defining it's grammar and application
+   • A bytecode associated with the Franc C, used to run Franc C
+     Programs
+   • A virtual machine reference, used to dictate how the bytecode
+     should be executed.
+   • The Franc C Compiler, a tool used to compile Franc C Reference code
+     into a Franc C Program
+   • The Franc C Virtual Machine, a tool used to run Franc C Program on
+     any computer.
+   • The Larousse, a library of Franc C Reference code used to help
+     Franc C programmers with some basic utilitarian functions
+
+
+File: index.info,  Node: Franc C reference,  Next: Bytecode reference,  Prev: Introduction,  Up: Top
+
+3 Franc C reference
+*******************
+
+* Menu:
+
+* Motives::
+* Inspirations::
+* Language Formal Syntax (BNF)::
+
+
+File: index.info,  Node: Motives,  Next: Inspirations,  Up: Franc C reference
+
+3.1 Motives
+===========
+
+   • The *Franc C* was built to allow french people to program in their
+     home language.
+   • The language is easily readable for a non-technical person.
+   • The focus is put on the syntax, not in the functionalities of the
+     language.
+
+
+File: index.info,  Node: Inspirations,  Next: Language Formal Syntax (BNF),  Prev: Motives,  Up: Franc C reference
+
+3.2 Inspirations
+================
+
+We took inspiration for our syntax on a beautiful language, linotte
+(http://langagelinotte.free.fr) ; and for our implementation on the C
+programming language (https://www.iso.org/standard/82075.html).
+
+   Obviously, the french language is our biggest inspirator.
+
+* Menu:
+
+* Linotte::
+* C::
+* French language::
+
+
+File: index.info,  Node: Linotte,  Next: C,  Up: Inspirations
+
+3.2.1 Linotte
+-------------
+
+The linotte programming language is a high-level,
+french-litteral-syntaxed programming language made for introducing
+programmation to children.
+
+   We saw it as a great inspiration for our language with the next
+features:
+
+   • Word delimitation at the end of functions, if and while
+     conditionals.
+   • Use of some syntax like "read" instead of "execute" code
+
+   The linotte syntax was, however, not litteral enough to our liking.
+
+
+File: index.info,  Node: C,  Next: French language,  Prev: Linotte,  Up: Inspirations
+
+3.2.2 C
+-------
+
+The C programming language is a low-level language.  We took inspiration
+from it in the implementation of our language.  For example, the C
+programming language is from the imperative paradigm, and so is our
+language.
+
+   We took many things from this language:
+
+   • The imperative paradigm
+   • The int-defined booleans In the C programming language, all
+     integers can be interpreted as booleans.  A false is a value
+     strictly equal to zero, and a true is every other values.
+   • The possibility of defining variables local to each function call
+   • The possibility of using recursive function calls
+   • The representation of a chararacter by it's ascii value
+   • The function used to print a character "putchar"
+   • The existence of a standard library with some useful functions
+   • All of the operations like xor, addition, bitshift...
+   • The possibility for functions to return a value
+   • The infix notation of operations, with parenthesis
+   • The possibility to compute directly with any combination of
+     operations in any part of the code where a value is required.  For
+     example, when passing a parameter, you could pass a computation, a
+     variable value, or a mix of both
+
+   Many of these features are also present in other languages, but we
+took them from our knowledge of the C programming language.
+
+
+File: index.info,  Node: French language,  Prev: C,  Up: Inspirations
+
+3.2.3 French language
+---------------------
+
+French is not a programming, but a spoken language.
+
+   We wanted a truly grammatically correct, complete, easily readable,
+and beautiful language.
+
+   Our choice was obviously french, as french syntax is way more precise
+than english's.
+
+   We searched for dozen of grammar rules to inforce in our language.
+
+
+File: index.info,  Node: Language Formal Syntax (BNF),  Prev: Inspirations,  Up: Franc C reference
+
+3.3 Language Formal Syntax (BNF)
+================================
+
+     <header> ::= "Bonjour," <spaces>
+
+     <main> ::= "En" <spaces> "sachant" <spaces> "que" <spaces> "les" <spaces> "variables" <spaces> "principales" <spaces> "sont" <spaces> ":" <spaces> [<variable_list>]
+      "\;" <spaces> "pourrais-tu" <spaces> "s'il" <spaces> "te" <spaces> "plaît" <spaces> "commencer" <spaces> "la" <spaces> "lecture" <spaces> "ici" <spaces> "?" [<spaces>] <block> [<spaces>] "Merci d'avance," <spaces> "Cordialement," <spaces> <name> <name>
+
+     <variable_definition> ::= "-" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> <variable_type> "," <spaces> "valant" <spaces> <value>
+
+     <variable_list> ::= <variable_definition> <spaces> [<variable_list>]
+
+     <exclusif_or> ::= "ou" <spaces> "exclusif" | "xor"
+
+     <arithmetic_operator> ::= "plus" | "moins"
+                             | ("divisé" | "multiplié") <spaces> "par"
+                             | "modulo"
+                             | "fois"
+
+     <comparison_operator> ::= "est"
+                             | "est" <spaces> "égale" <spaces> "à"
+                             | "est" <spaces> "différent" <spaces> "de"
+                             | "est" <spaces> "inférieure" <spaces> "à"
+                             | "est" <spaces> "supérieure" <spaces> "à"
+                             | "est" <spaces> "inférieure" <spaces> "ou" <spaces> "égale" <spaces> "à"
+                             | "est" <spaces> "supérieure" <spaces> "ou" <spaces> "égale" <spaces> "à"
+
+     <logical_operator> ::= "et" | "ou"
+
+     <bitwise_operator> ::= "décalé" <spaces> "binairement" <spaces> "à" <spaces> "gauche"
+         | "décalé" <spaces> "binairement" <spaces> "à" <spaces> "droite"
+         | "et" <spaces> "binaire"
+         | "ou" <spaces> "binaire"
+         | <exclusif_or>
+
+     <operators> ::= <bitwise_operator> | <logical_operator> | <comparison_operator> | <arithmetic_operator>
+
+     <parenthesized_condition> ::= "(" <condition> ")"
+
+     <condition> ::= <word> [<spaces> <operators> <spaces> (<condition> | <parenthesized_condition>)]
+                   | <value> [<spaces> <operators> <spaces> (<condition> | <parenthesized_condition>)]
+
+     <parameter> ::= "-" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> <variable_type>
+
+     <parameter_list> ::= <parameter> <spaces> [<parameter_list>]
+
+     <function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <spaces> <function_type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée" <spaces> ":" <spaces> [<parameter_list>] "\;" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> [<variable_list>] "\;" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <spaces> ("suivant" | "ci-après" | "ci-dessous") "." [<spaces>] <block> <spaces> "Merci."
+
+     <text> ::= <symbol> [<text>]
+
+     <comment> ::= "*" <text> "*"
+
+     <quoted_value> ::= "« " <text> " »"
+
+     <block> ::= <statement_list>
+
+     <statement_list> ::= <statement> [[<spaces>] <statement_list> [<spaces]]
+
+     <statement> ::= <condition_statement> | <return_statement> | <loop_statement> | <display_statement> | <invoke_statement> | <assignment_statement>
+
+     <return_statement> ::= "Enfin," <spaces> "renvoie" <spaces> <condition> "." | "Enfin," <spaces> "sors" <spaces> "du" <spaces> "bloc."
+
+     <condition_definition> ::= "Si" <spaces> <condition> "," <spaces> "exécute" <spaces> "le" <spaces> "texte" <spaces> ":"
+
+     <condition_statement> ::= <condition_definition> <space> <block> "Merci."
+         | <condition_definition> <space> <block> "\;" <space> "sinon" <space> "exécute" <space> "le" <space> "texte" <space> ":" <block> "Merci."
+
+     <loop_statement> ::= "Tant" <spaces> "que" <condition> <spaces> "exécute" <spaces> "le" <spaces> "code" <spaces> "ci-après" <spaces> ":" <spaces> <block> "Merci."
+
+     <display_statement> ::= "Affiche" (<condition> | <quoted_value>) "."
+
+     <invoke_params> ::= <condition> ["," <condition>]
+
+     <invoke_statement> ::= "J'invoque" <spaces> "le" <spaces> "bloc" <spaces> <word>
+         ["," <spaces> "et" <spaces> "j'assigne" <spaces> "la" <spaces> "valeur" <spaces> "de" <spaces> "retour" <spaces> "à" <spaces> "la" <spaces> "variable" <spaces> <word>]
+         ["," <spaces> "avec les paramètres" <spaces> <invoke_params>] "."
+
+     <assignment_statement> ::= "J'aimerais" <spaces> "que" <spaces> <word> <spaces> "prenne" <spaces> "la" <spaces> "valeur" <spaces> <condition> "." |
+         <word> <spaces> "prend" <spaces> "la" <spaces> "valeur" <spaces> <condition>
+
+     <variable_type> ::= "entier" <spaces> "naturel" | "booléen"
+
+     <function_type> ::= "entier" <spaces> "naturel" | "booléen" | "nul"
+
+     <name> ::= <word> "\n"
+
+     <variables_list> ::= <variables> | <variables> <spaces> <variables_list>
+
+     <variables> ::= <name> "," <spaces> "de" <spaces> "type" <spaces> <type> "," <spaces> "valant" <spaces> <value>
+
+     <space> ::= "\t" | "\n" | "\r" | "\f" | "\v"
+
+     <spaces> ::= <space> | <space> <spaces>
+
+     <number> ::= 0 | 1 | 2 | 3 | ...
+
+     <signed_number> ::= "-" <number> | "~" <number> | "non" <spaces> <number>
+
+     <value> ::= <signed_number> | <number> | <bool> | <char_value>
+
+     <word_char> ::= <printable> | <word_symbol>
+
+     <printable> ::= "A" .. "Z"
+                   | "a" .. "z"
+                   | "0" .. "9"
+
+     <word_symbol> ::= "!" | "\"" | "#" | "$" | "%" | "&" | "'" | "*" | "+" | "-" | "/"
+                | ":" | "\;" | "<" | "=" | ">" | "?" | "@"
+                | "[" | "\\" | "]" | "^" | "_" | "{" | "}" | "|" | "~"
+
+     <symbol> ::= <word_symbol> | <space> | <printable> | "," | "\t" | "\n" | "(" | ")"
+
+     <word> ::= <word_char> | <word_char> <word>
+
+     <char_value> ::= "'" <symbol> "'"
+
+     <bool> ::= "faux" | "fausse" | "vrai" | "vraie"
+
+   As the language is heavily based on the *French language*, it has
+shaped many of our syntax decisions :
+
+   • We made it mandatory to put spaces where needed in case of
+     punctiation, as it is a french grammar rule
+     (https://formations.mer.gouv.fr/sites/default/files/2023-11/Espacement%20avant%20et%20apr%C3%A8s%20les%20signes%20de%20ponctuation%20et%20les%20symboles.pdf).
+     This works for (':', '.', '«', '»', ',').
+   • We decided to replace all operations symbols by their literal
+     French equivalent as we wanted this language to use *as many french
+     words as possible* in order to represent *France*.  Therefore,
+     operations such as ‘+’ or ‘*’ are being replaced by ‘plus’ and
+     ‘multiplié par’.  This forces to have at least one space before and
+     after such operations as they are now depicted as *words*.
+   • As it can become easily overwhelming to type out every single
+     operation using its own word representation, we created
+     alternatives to some operations to make them shorter.  For example,
+     the XOR ‘^’ operation can either be typed out as ‘exclusif ou’ or
+     ‘xor’.  The multiply ‘*’ operation can also either be ‘multiplié
+     par’ or ‘fois’.
+   • We forced every file of our language to begin with ‘Bonjour,’
+     (‘Hello’ in english) in order to fit with the French Culture as
+     french citizens are widely known for their politeness.  For the
+     same reasons, ‘while’ and ‘if’ structures ends by ‘Merci.’ (‘Thank
+     you=in english) and the main function ends with =Merci d'avance,
+     Cordialement, <Name>\n<FamilyName>’ (for ‘Thank you in advance,
+     Best regards, <Name>\n<FamilyName>’) as this function is where the
+     program stops.
+   • Words used to describe instructions such as ‘J'invoque’ (‘Invoke’
+     in english) or ‘Affiche’ (‘Display’ in english) were what we
+     thought was the best way to directly translate such common
+     instructions in *french*.
+   • As we wanted users to have a unique experience while using the
+     language, instructions directly made by users are conjugated in the
+     first person in order to simulate a conversation.  Other
+     instructions executed directly by the machine such as displaying
+     are in imperative form in the second person.
+   • Every single instructions ends with a ‘.’ as every single sentence
+     in *french* ends the same way.
+   • ‘while’ and ‘if’ structures do not exactly share the same syntax in
+     order to differentiate them properly : ‘if’ takes a ‘,’ at the end
+     of the condition whereas ‘while’ doesn't.
+   • Comparison are in the feminine form (‘supérieure’, ‘égale’) since
+     the French word ‘variable’ is feminine.
+
+* Menu:
+
+* Language logic::
+
+
+File: index.info,  Node: Language logic,  Up: Language Formal Syntax (BNF)
+
+3.3.1 Language logic
+--------------------
+
+  1. *Header*
+
+     A file in ‘Franc C’ always starts with: "Bonjour," followed by an
+     empty line.
+
+     Politeness is very important, and we wanted ‘Franc C’ to express a
+     proper and classic language, not a crappy street language.  We
+     promise you will learn the "bien parlé" by using ‘Franc C’
+
+  2. *Function Declaration*
+
+     In order to declare a function, you must specify:
+
+       1. The name of the function
+
+               J'aimerais définir le bloc répondant au nom de <function_name>,
+
+          where is the name of the function
+
+       2. The return type of the function
+
+               de type de retour entier naturel,
+
+          for the function to return an integer.
+
+               de type de retour booléen,
+
+          for the function to return a boolean.
+
+               de type de retour nul,
+
+          if the function does not return anything.  (void function)
+
+       3. The parameters of the function
+
+          A parameter, in Franc C, is defined the same way as other
+          programming languages : Those are variables that must be
+          passed when the function is invoked for it to use them.
+
+               necéssitant comme entrée :
+                   - <variable_name1>, de type <type>
+                   - <variable_name2>, de type <type>
+                   ...
+               ;
+
+          You can include as many parameter as you want as long as they
+          *do not share* the same name.
+
+             • ‘<variable_name1>’ and ‘<variable_name2>’ are the name of
+               the variables which are both different.
+             • ‘<type>’ is either ‘booléen’ if the parameter is a
+               ‘boolean’ or ‘entier naturel’ if it is an ‘int’.
+
+          Parameters are obviously optional.  If the function does not
+          take any parameters, you must specify :
+
+               nécessitant comme entrée : ;
+
+       4. Variables
+
+          Variables created and used inside a function, in Franc C, are
+          defined in the function definition.  Since Franc C is a very
+          verbose language and uses a lot of words, creating variables
+          at the top of the function makes it a very good way to clearly
+          see them.
+
+          Such variables are being declared the following way :
+
+               contenant les variables :
+                   - <variable_name1>, de type <type>, valant <value>
+                   - <variable_name2>, de type <type>, valant <value>
+               ;
+
+          Just like *parameters*, *variables* must not share the same
+          name.  A *parameter* and a *variable* can not share the same
+          name either.
+
+             • ‘<variable_name1>’ and ‘<variable_name2>’ are the name of
+               the variables which are both different.
+             • ‘<type>’ is either ‘booléen’ if the variable is a
+               ‘boolean’ or ‘entier naturel’ if it is an ‘int’.
+             • ‘<value>’ is either a number or a boolean expression
+               ‘vrai’ ‘vraie’ ‘faux’ or ‘fausse’.  It can also be a
+               character value like ‘\n’ (which will be 10).
+
+          This *forces* every single created variable to have a default
+          value.
+
+          If the function does not use any variable, you must specify :
+
+               contenant les variables : ;
+
+  3. *Function Body*
+
+     A function declaration ends with
+
+          représenté par le code <logical_connector>.
+
+        • ‘<logical_connector>’ is either ‘ci-après’, ‘suivant’, or
+          ‘ci-dessous’.
+
+     What must follow this declaration is the *body of the function*,
+     which is what *will be executed* when the function is *invoked*.
+
+     In Franc C, what can be executed inside a function is being refered
+     as an ‘instruction’.
+
+     Those are the available instructions that you can execute inside a
+     function :
+
+       1. Assignement
+
+          You can, at any time, change the value of a variable the
+          following way :
+
+               J'aimerais que <variable_name> prenne la valeur <computables>.
+
+          or
+
+               <variable_name> prends la valeur <computables>.
+
+             • ‘<variable_name>’ represents the name of an existing
+               well-defined variable of the function.
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+
+       2. If
+
+          Execute a block of code only if a specific condition was met.
+          It can be defined the following way :
+
+               Si <computables>, exécute le texte :
+                   <more_instructions>
+               Merci.
+
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+             • ‘<more_instructions>’ represents all the instructions
+               that will be executed *ONLY* if the *condition* was
+               *met*.
+             • ‘Merci.’ represents the end of the condition.
+
+          You can also execute a block of code if the condition wasn't
+          met the following way :
+
+               Si <computables>, exécute le texte :
+                   <more_instructions>
+               ; sinon, exécute le texte :
+                   <more_instructions_2>
+               Merci.
+
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+             • ‘<more_instructions>’ represents all the instructions
+               that will be executed *ONLY* if the *condition* was
+               *met*.
+             • ‘<more_instructions_2>’ represents all the instructions
+               that will be executed *ONLY* if the *condition* was *not
+               met*.
+             • ‘Merci.’ represents the end of the condition.
+
+       3. Invoke
+
+          Invoke another function inside a function, you can also store
+          its result in a well-defined function variable.
+
+               J'invoque le bloc <function_name>.
+
+             • ‘<function_name>’ is the name of an *existing defined
+               function*.
+
+          If the function that is being invoked takes parameters, they
+          *must* be specified the following way :
+
+               J'invoque le bloc <function_name>, avec les paramètres <computables>, <computables>, <computables>.
+
+             • ‘<function_name>’ is the name of an *existing defined
+               function*.
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+
+          You *must* not give to a function more parameters than it
+          takes.
+
+          In order to store the result of a function, while still giving
+          parameters :
+
+               J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>, avec les paramètres <computables>, <computables>, <computables>.
+
+             • ‘<function_name>’ is the name of an *existing defined
+               function*.
+             • ‘<variable_name>’ represents the name of an existing
+               well-defined variable of the function.
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+
+          However, if you do not want to give any parameter :
+
+               J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>.
+
+             • ‘<function_name>’ is the name of an *existing defined
+               function*.
+             • ‘<variable_name>’ represents the name of an existing
+               well-defined variable of the function
+
+       4. Loop
+
+          The only type of loop that is currently implemented in ‘Franc
+          C’ are the ‘while’ loops.
+
+          A loop allows to execute a block of code until a condition
+          cannot be met anymore.
+
+               Tant que <computables> exécute le code ci-après :
+                   <more_instructions>
+               Merci.
+
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+             • ‘<more_instructions>’ represents all the instructions
+               that will be executed *ONLY* if the *condition* was
+               *met*.
+             • ‘Merci.’ represents the end of the loop.
+
+       5. Return
+
+          During the execution of the function, you can return at any
+          time a *value*.  Returning a value will cause the function
+          execution to *stop*.
+
+          The only condition to return a value is that the function must
+          not be of type "nul".
+
+               Enfin, renvoie <computables>.
+
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+
+          If the function does not return anything (‘nul’ function), you
+          can still stop the execution at any time.
+
+               Enfin, sors du bloc.
+
+          This works only if the function is a ‘nul’ function.
+
+       6. Show statements
+
+          This instruction is used to display either a text, or the
+          result of a computation in the screen.
+
+          To display a computation :
+
+               Affiche <computables>.
+
+             • ‘<computables>’ represents an expression composed of
+               values with operators.  (*Check the ‘<condition>’
+               defintion on the BNF)
+
+          This will display *the character* corresponding to the result
+          on the screen.  (E.g): ‘Affiche 10.’ will display ‘\n’.
+
+          However, if you want to display a text :
+
+               Affiche « Meow ».
+
+          This will display the text ‘Meow’ on the screen.
+
+  4. *End of Function*
+
+     You must *always* end your *Function Body* with a ‘Merci.’.
+
+  5. *Special case of 'Main' Function*
+
+     The *main function* is where the program starts.  Therefore, its
+     defintion must be clearly different from the *other functions*.
+
+     Such functions are being defined the following way :
+
+          Bonjour,
+
+          En sachant que les variables principales sont :
+              <variables>
+          ; pourrais-tu s'il te plaît commencer la lecture ici ?
+              <instructions>
+          Merci d'avance,
+          Cordialement,
+          <family_name>
+          <name>
+
+        • ‘<variables>’ is an optional field, and represents the
+          variables of the function.  They are declared the same way as
+          a normal function.
+        • ‘<instructions>’ represents all the instructions that will be
+          executed.
+        • ‘Merci d'avance, Cordialement, <family_name> <name>.’
+          represents the end of the main function
+        • ‘<family_name>’ represents the developer's last name, and must
+          always end with a newline character ('\n').
+        • ‘<name>’ represents the developer's first name, and must also
+          end with a newline character ('\n').
+
+     A *main function* does not take any parameter.  Therefore, no
+     parameter definition must be done.  The value being *returned* in
+     the *main function* represent the exit status of the program.  If
+     no value was being *returned*, the program exists by default with a
+     status code of ‘0’.
+
+
+File: index.info,  Node: Bytecode reference,  Next: Virtual Machine reference,  Prev: Franc C reference,  Up: Top
+
+4 Bytecode reference
+********************
+
+The bytecode starts with a magic number, followed by an address
+describing the placement of the PC at the start of the program, followed
+by the program itself.
+
+* Menu:
+
+* Formal syntax (BNF)::
+* Instructions::
+
+
+File: index.info,  Node: Formal syntax (BNF),  Next: Instructions,  Up: Bytecode reference
+
+4.1 Formal syntax (BNF)
+=======================
+
+     <bytecode> ::= <magic_number> <adress> <operation_list>
+
+     <magic_number> ::= "E\fE\f" ; 0x45 0xc 0x45 0xc
+
+     <adress> ::= <byte> <byte> <byte> <byte> <byte> <byte> <byte> <byte>
+
+     <operation_list> ::= <operation> | <operation>  <operation_list>
+
+     <operation> ::= <not>
+                   | <lnot>
+                   | <neg>
+                   | <and>
+                   | <or>
+                   | <xor>
+                   | <shl>
+                   | <shr>
+                   | <land>
+                   | <lor>
+                   | <add>
+                   | <sub>
+                   | <mult>
+                   | <div>
+                   | <mod>
+                   | <gt>
+                   | <ge>
+                   | <lt>
+                   | <le>
+                   | <eq>
+                   | <diff>
+                   | <updz>
+                   | <push_stack>
+                   | <pop_stack>
+                   | <pop>
+                   | <call>
+                   | <ret>
+                   | <jmp>
+                   | <zjmp>
+                   | <aff>
+                   | <affs>
+                   | <push_value>
+                   | <push_label>
+
+
+     <not> ::= "\003"
+
+     <lnot> ::= "\004"
+
+     <neg> ::= "\005"
+
+     <and> ::= "\006"
+
+     <or> ::= "\a"
+
+     <land> ::= "\b"
+
+     <lor> ::= "\t"
+
+     <xor> ::= "\n"
+
+     <shl> ::= "\v"
+
+     <shr> ::= "\f"
+
+     <add> ::= "\r"
+
+     <sub> ::= "\016"
+
+     <mult> ::= "\017"
+
+     <div> ::= "\020"
+
+     <mod> ::= "\021"
+
+     <gt> ::= "\022"
+
+     <ge> ::= "\023"
+
+     <lt> ::= "\024"
+
+     <le> ::= "\025"
+
+     <eq> ::= "\026"
+
+     <diff> ::= "\027"
+
+     <updz> ::= "\030"
+
+     <push_stack> ::= "\035" <arguments>
+
+     <pop_stack> ::= "\036" <arguments>
+
+     <pop> ::= "\037"
+
+     <call> ::= """
+
+     <ret> ::= "#"
+
+     <jmp> ::= "$"
+
+     <zjmp> ::= "%"
+
+     <aff> ::= "&"
+
+     <affs> ::= "'" <arguments> <string>
+
+     <push_value> ::= "Y" <arguments>
+
+     <push_label> ::= "[" <arguments>
+
+     <arguments> ::= <byte> <byte> <byte> <byte> <byte> <byte> <byte> <byte>
+
+     <string> ::= <byte> | <byte> <string>
+
+     <byte > =  "\0" .. "ÿ"
+
+
+File: index.info,  Node: Instructions,  Prev: Formal syntax (BNF),  Up: Bytecode reference
+
+4.2 Instructions
+================
+
+Since the virtual machine is stack-based, every instruction representing
+an operation will pop it's operands, and push the result to the stack.
+
+mnemonic   description                                                                                                                                                                                     bnf object
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+not        Not, invert the bits of the operand                                                                                                                                                             not
+lnot       Logical not, invert the boolean interpretation of the operand                                                                                                                                   lnot
+neg        Negate, switch the sign of the operand                                                                                                                                                          neg
+and        And, performs a binary AND operation between two operands                                                                                                                                       and
+or         Or, performs a binary OR operation between two operands                                                                                                                                         or
+xor        Exclusive or, performs a binary XOR operation between two operands                                                                                                                              xor
+shl        Left bitshift, shifts the bits of the operand to the left, appending zeroes                                                                                                                     shl
+shr        Right bitshift, shifts the bits of the operand to the right, appending zeroes                                                                                                                   shr
+land       Logical and, boolean interpretation of the logical AND on two operands                                                                                                                          land
+lor        Logical or, boolean interpretation of the logical OR on two operands                                                                                                                            lor
+add        Addition, adds the value of two operands                                                                                                                                                        add
+sub        Substraction, subtract the value of two operands                                                                                                                                                sub
+mult       Multiplication, multiplies the value of two operands                                                                                                                                            mult
+div        Division, return the dividend of the euclidian division of operand 1 by operand 2                                                                                                               div
+mod        Modulo, return the rest of the euclidian division of operand 1 by operand 2                                                                                                                     mod
+gt         Greater than, compares the two operands and return a result for boolean interpretation                                                                                                          gt
+ge         Greater than or equals to, compares the two operands and return a result for boolean interpretation                                                                                             ge
+lt         Less than, compares the two operands and return a result for boolean interpretation                                                                                                             lt
+le         Less than or equals to, compares the two operands and return a result for boolean interpretation                                                                                                le
+eq         Equals, compares the two operands and return a result for boolean interpretation                                                                                                                eq
+neq        Different from, compares the two operands and return a result for boolean interpretation                                                                                                        diff
+updz       Update zero flag, pops the value from the stack and set it as the new zero flag                                                                                                                 updz
+push       Push value, push a 64 bits value to the stack                                                                                                                                                   push_value
+push       Push relative address, push a 64 bits relative address to the stack, corresponding generally to a label                                                                                         push_label
+push       Push from stack pointer relative address, push to the stack the 8 bytes found at the stack pointer + the address given as operand                                                               push_stack
+pop        Pop empty, pop 8 bytes from the stack                                                                                                                                                           pop
+pop        Pop to stack pointer relative address, pop 8 bytes from the stack, and write them to the stack pointer + the address given as operand                                                           pop_stack
+call       Call, op 8 bytes from the stack, register the new stack pointer, push the PC and stack pointer to the callstack, and jump to the value of the 8 bytes popped from the stack                     call
+ret        Return, reset the stack to the stack pointer, pop the callstack and jump to the address from the callstack pop                                                                                  ret
+jmp        Jump, pop an address from the stack, and set the PC to it                                                                                                                                       jmp
+zjmp       Zero jump, pop an address from the stack, and if the zero flag is set, set the PC to it                                                                                                         zjmp
+aff        Show, pop 8 bytes from the stack, apply a modulo 256 to the result, and write a single ascii character corresponding to the result                                                              aff
+affs       Show string, the first operand is a 64 bits integer corresponding to the number of caracters, that we will call n. The next n bytes are the ascii values of the characters that will be wrote   affs
+
+
+File: index.info,  Node: Virtual Machine reference,  Next: Franc C Compiler,  Prev: Bytecode reference,  Up: Top
+
+5 Virtual Machine reference
+***************************
+
+* Menu:
+
+* Introduction: Introduction (1).
+* Stack::
+* CallStack::
+* Zero flag::
+* End cases::
+
+
+File: index.info,  Node: Introduction (1),  Next: Stack,  Up: Virtual Machine reference
+
+5.1 Introduction
+================
+
+When defining an assembly language for the Franc C binary, we focused on
+the ease of development of the compiler.  We just had one requirement
+that allowed an easy development of the virtual machine: our assembly
+shall be stack-based
+(https://en.wikipedia.org/wiki/Stack-oriented_programming), drawing
+inspiration from the Java Virtual Machine (JVM)
+(https://en.wikipedia.org/wiki/Java_virtual_machine).
+
+* Menu:
+
+* Stack-Based vs Register-Based::
+
+
+File: index.info,  Node: Stack-Based vs Register-Based,  Up: Introduction (1)
+
+5.1.1 Stack-Based vs Register-Based
+-----------------------------------
+
+Aspect            Stack-Based (fcvm)                                            Register-Based (e.g., Lua VM)
+----------------------------------------------------------------------------------------------------------------
+*Storage*         Operand stack (LIFO)                                          Virtual registers
+*Instructions*    Compact, implicit operands, prone to errors                   Explicit operand addressing
+*Complexity*      Simple to implement                                           More complex logic
+*Bytecode Size*   Bigger overall (smaller instructions but way more quantiry)   Smaller overall
+
+   We chose a stack-based approach for the following reasons:
+
+  1. *Simpler bytecode generation*: The compiler does not have to deal
+     with registers, knowing it does not have the capacity to remember
+     data while processing multiple operations.
+  2. *Monotyped language*: The fact that the Franc C is an integer only
+     language allows for fixed-size parameter encoding.  One of the main
+     advantages of the register-based approach is to allow for type
+     encoding.
+
+
+File: index.info,  Node: Stack,  Next: CallStack,  Prev: Introduction (1),  Up: Virtual Machine reference
+
+5.2 Stack
+=========
+
+The stack shoud be implemented as a contiguous array of bytes with the
+following characteristics:
+
+   • *Data type*: Array of bytes
+   • *Element size*: 8 bytes per element (64-bit signed integers)
+   • *Alignment*: All operations push/pop exactly 8 bytes
+   • *Stack size*: Always a multiple of 8 bytes
+
+* Menu:
+
+* Initialization::
+* Basic Operations::
+
+  1. Stack Management
+
+     To perform function calls, the VM must maintains the stack pointer.
+     It points to the start of the current stack local context.  it is
+     modified by the instructions call and ret.
+
+
+File: index.info,  Node: Initialization,  Next: Basic Operations,  Up: Stack
+
+5.2.1 Initialization
+--------------------
+
+By default, the stack should be initialized with 8 bytes representing
+the return value of the program.  The default value is
+implementation-defined.
+
+
+File: index.info,  Node: Basic Operations,  Prev: Initialization,  Up: Stack
+
+5.2.2 Basic Operations
+----------------------
+
+Operation   Description                     Stack Effect
+-------------------------------------------------------------------------
+*PUSH*      Push 8 bytes onto the stack     SP unchanged, Counter += 1
+*POP*       Remove 8 bytes from the stack   SP unchanged, Counter -= 1
+
+
+File: index.info,  Node: CallStack,  Next: Zero flag,  Prev: Stack,  Up: Virtual Machine reference
+
+5.3 CallStack
+=============
+
+The *callstack* manages function calls and returns, enabling the VM to:
+- Navigate between functions - Restore execution context after function
+returns - Maintain function-local state - Detect program termination
+
+* Menu:
+
+* Memory Layout::
+* Function call mechanism::
+
+
+File: index.info,  Node: Memory Layout,  Next: Function call mechanism,  Up: CallStack
+
+5.3.1 Memory Layout
+-------------------
+
+The callstack can be implemented as a contiguous array of frame records:
+By default, the callstack can be initialized as an *empty array*.
+
+   Example implementation : - *Data type*: Array of tuples ‘[(PC, SP)]’
+- *PC* (Program Counter): Return address (next instruction after CALL) -
+*SP* (Stack Pointer): Stack state at call time
+
+Frame   PC   SP   Description
+--------------------------------------------------
+0       0    0    Entry point
+1       12   16   First function call
+2       57   24   Current function locale start
+
+
+File: index.info,  Node: Function call mechanism,  Prev: Memory Layout,  Up: CallStack
+
+5.3.2 Function call mechanism
+-----------------------------
+
+When executing ‘call <address>’:
+
+  1. *Save current context*: Push ‘(PC + 1, SP)’ onto the call stack
+        • ‘PC + 1’: Address of the instruction following CALL
+        • ‘SP’: Current stack pointer (preserves caller's stack)
+  2. *Jump to function*: Set ‘PC = <address>’
+
+   When executing ‘Ret’:
+
+  1. *Pop frame*: Retrieve ‘(saved_PC, saved_SP)’ from call stack
+  2. *Restore context*:
+        • Set ‘PC = saved_PC’ (return to caller)
+        • Set ‘SP = saved_SP’ (restore stack state)
+  3. *Check termination*: If call stack is empty after pop, *terminate
+     program*
+
+
+File: index.info,  Node: Zero flag,  Next: End cases,  Prev: CallStack,  Up: Virtual Machine reference
+
+5.4 Zero flag
+=============
+
+The *Zero Flag* is a single-bit register used for conditional branching
+and control flow decisions.
+It stores the result of comparison and test operations,
+enabling the implementation of ‘if’ and ‘while’.
+
+   • *Data type*: ‘unsigned char’
+   • *Default value*: ‘1’
+
+   The Zero Flag follows this logic:
+
+Condition   Zero Flag Value
+------------------------------
+*!= 0*      ‘1’ (true)
+*== 0*      ‘0’ (false)
+
+
+File: index.info,  Node: End cases,  Prev: Zero flag,  Up: Virtual Machine reference
+
+5.5 End cases
+=============
+
+The program terminates normally when: - A ‘Ret’ instruction is executed
+from the main function - The call stack becomes empty after the return
+
+   *Version* : 1.2
+*Last update* : Novembre 2025
+*Author* : Acacademie Franc C'aise
+
+
+File: index.info,  Node: Franc C Compiler,  Next: Franc C Virtual Machine,  Prev: Virtual Machine reference,  Up: Top
+
+6 Franc C Compiler
+******************
+
+The Franc C Compiler (FCC) is a toolchain that allows the compilation of
+one or multiple Franc C Reference code (.fr) files into a single
+bytecode executable by the FCVM program.
+
+* Menu:
+
+* Parameters list and long descriptions::
+* Larousse::
+* Functioning::
+* Lexer & Parsing reference::
+* Compilation reference::
+* Readable assembly::
+
+
+File: index.info,  Node: Parameters list and long descriptions,  Next: Larousse,  Up: Franc C Compiler
+
+6.1 Parameters list and long descriptions
+=========================================
+
+‘fcc FILESNAME [-o|--output FILENAME] [-n|--no-larousse] [-d|--debug]’
+
+* Menu:
+
+* FILESNAME::
+* --output FILENAME::
+* --no-larousse::
+* --debug::
+
+
+File: index.info,  Node: FILESNAME,  Next: --output FILENAME,  Up: Parameters list and long descriptions
+
+6.1.1 FILESNAME
+---------------
+
+The name of the input files.  They need to be valid .fr source files.
+
+
+File: index.info,  Node: --output FILENAME,  Next: --no-larousse,  Prev: FILESNAME,  Up: Parameters list and long descriptions
+
+6.1.2 -output FILENAME
+----------------------
+
+The name of the output bytecode file.  Only considered without the
+-debug flag.
+
+   Without the presence of this flag, the default output file is
+‘a.fcp’.
+
+
+File: index.info,  Node: --no-larousse,  Next: --debug,  Prev: --output FILENAME,  Up: Parameters list and long descriptions
+
+6.1.3 -no-larousse
+------------------
+
+By default, the FCC program compiles with the Larousse sources included.
+See the *note larousse: Larousse. section.
+
+   This flag allows compilation without any files from the Larousse
+library.
+
+
+File: index.info,  Node: --debug,  Prev: --no-larousse,  Up: Parameters list and long descriptions
+
+6.1.4 -debug
+------------
+
+This flags allows a debug output.  Instead of writing the bytecode to a
+file, a debug view of the assembly is wrote to the standard output
+(/dev/stdout on most GNU/linux machines).
+
+
+File: index.info,  Node: Larousse,  Next: Functioning,  Prev: Parameters list and long descriptions,  Up: Franc C Compiler
+
+6.2 Larousse
+============
+
+The Larousse is the standard library who accompanies the FCC program.
+If the Larousse is to be included, the ‘fcc’ program will search a
+folder named ‘larousse’, and then list in all subdirectories of level-1
+the ‘.fr’ source files.  Those found source files will be added to the
+input list, and compiled.
+
+
+File: index.info,  Node: Functioning,  Next: Lexer & Parsing reference,  Prev: Larousse,  Up: Franc C Compiler
+
+6.3 Functioning
+===============
+
+The FCC program works with different steps.
+
+* Menu:
+
+* Getting inputs::
+* Lexing and parsing::
+* Combination::
+* Compilation::
+* Verifications::
+* Output::
+* Justifications::
+
+
+File: index.info,  Node: Getting inputs,  Next: Lexing and parsing,  Up: Functioning
+
+6.3.1 Getting inputs
+--------------------
+
+The inputs are retrived via the Larousse library and the user-provided
+files.
+
+
+File: index.info,  Node: Lexing and parsing,  Next: Combination,  Prev: Getting inputs,  Up: Functioning
+
+6.3.2 Lexing and parsing
+------------------------
+
+Each file is lexed into a list of token, then parsed into an Abstract
+Syntax Tree (AST).
+
+   See *note the parsing reference: Lexer & Parsing reference. for more
+information.
+
+   This step may fail.  Each file being converted one after the other,
+if one fails, the remaining ones are not even considered and an error is
+returned.
+
+
+File: index.info,  Node: Combination,  Next: Compilation,  Prev: Lexing and parsing,  Up: Functioning
+
+6.3.3 Combination
+-----------------
+
+Each AST representing each files given for compilation is then combined.
+
+   In this step, the presence of a single principal function is
+verified, and if no or multiple are found, an error is returned.
+
+   The result is a CAST (Combined Abstract Syntax Tree)
+
+
+File: index.info,  Node: Compilation,  Next: Verifications,  Prev: Combination,  Up: Functioning
+
+6.3.4 Compilation
+-----------------
+
+The compilation step is where the CAST is converted to a Context
+datastructure, linked with an Assembly datastructure.  It is not yet
+bytecode, just a structure representing the final output.
+
+   The context structure is important for the next step.
+
+   This step is really linear, there is no acknowledgement of the rest
+of the program when compiling a subpart.
+
+
+File: index.info,  Node: Verifications,  Next: Output,  Prev: Compilation,  Up: Functioning
+
+6.3.5 Verifications
+-------------------
+
+This step ensures some basic verifications.
+
+   It takes the context from the previous step, and analyses it to find
+any flaws.
+
+   For example, we check here if a function is invoked whilst it's
+reference is non-existant.
+
+
+File: index.info,  Node: Output,  Next: Justifications,  Prev: Verifications,  Up: Functioning
+
+6.3.6 Output
+------------
+
+This step is the final one.
+
+   If the ‘--debug’ flag is given, it will take the structured assembly
+and write it down just as it is stored.
+
+   Elsewise, it is converted to bytecode in really two small steps.  The
+first one is to convert labels to relative positions.  The second one is
+to convert everything to it's bytecode relation.
+
+   Finaly, the resulted bytecode is written to the designated output
+file.
+
+
+File: index.info,  Node: Justifications,  Prev: Output,  Up: Functioning
+
+6.3.7 Justifications
+--------------------
+
+Regarding the lexing and parsing part, we decided so separate those to
+allow for easier syntaxic sugar implementation and code readability.
+
+   The combination part was added to allow for multiple input files to
+be grouped together before the compilation process.  It is easier to do
+it like this than to try and combine multiple outputed bytecodes
+together, like the ‘ld’ program does when compiling a C program.
+
+   The compilation is linear, and therefore, we had to separate the
+verification process from this step, to allow for a really easy-to-read
+code.  Having a linear compilation reduces the capacity of complex
+program logic, but since the Franc C is a really simple imperative
+language, it poses no problems to do it this way.  We simply store some
+context in a datastructure for the verification step to look in a global
+point of view, instead of the linearly reduced point of view of the
+compilation.
+
+   Finaly, we send the assembly to out output step, that is in charge of
+converting it to the final bytecode, or to write it as a debug output.
+
+
+File: index.info,  Node: Lexer & Parsing reference,  Next: Compilation reference,  Prev: Functioning,  Up: Franc C Compiler
+
+6.4 Lexer & Parsing reference
+=============================
+
+We have chosen Haskell to implement the lexing and parsing of the
+language, as functional languages like Haskell make it particularly easy
+to express, abstract, and combine parsers.  This allows the Franc C to
+be very verbose, which was definitely needed.
+
+   As we wanted to speed things up and release a first version as
+quickly as possible, we decided to use a pre-existing parsing library
+‘Megaparsec’.  The library offers fast parsing performance, is an
+improved successor of ‘Parsec’, and provides high-quality error messages
+that greatly simplify debugging and development.
+
+   The ‘Lexer’ and ‘Parser’ both refers to two different parts:
+
+   • The ‘Lexer’, which uses ‘Megaparsec’ reads the source code's
+     syntax, checks that it follows the correct grammar, then converts
+     the text into a list of tokens that the parser can later use.  For
+     example, the code ‘Si x est égale à 0, exécute le texte’ would be
+     transformed into the list as ‘[If, Symbol "x", Operation Equals,
+     Number 0, Then]’
+   • The ‘Parser’, on the other hand, takes this list of tokens to
+     transform it into an *Abstract Syntax Tree* (AST). It uses
+     Haskell's recursive principles to build that tree so that the
+     compiler can later use it to generate the final executable library.
+
+   The ‘Parser’ is only executed if the ‘Lexer’ did not fail to lex the
+targetted source code.
+
+* Menu:
+
+* Safety measures::
+* Error list::
+* Known caveats::
+
+
+File: index.info,  Node: Safety measures,  Next: Error list,  Up: Lexer & Parsing reference
+
+6.4.1 Safety measures
+---------------------
+
+The safety of the lexing process is ensured by ‘Megaparsec’, which
+provides robust error handling and syntax checking.  During the lexing
+part, Megaparsec ensures the input strictly follows the defined grammar.
+If the syntax is incorrect, the lexer fails gracefully by producing a
+clear and descriptive error message, preventing the program from
+continuing with an invalid input.  If the syntax is valid, the lexer
+successfully returns a well-structured list of tokens that can safely be
+passed to the parser.
+
+   Since the Lexer always produces a clean and valid list of tokens, the
+Parser does not include any additional safety checks on its input.
+However, it makes sure that no more than *one* main function was
+defined.
+
+
+File: index.info,  Node: Error list,  Next: Known caveats,  Prev: Safety measures,  Up: Lexer & Parsing reference
+
+6.4.2 Error list
+----------------
+
+   • Grammar Error : Triggered when Megaparsec fails to lex or parse the
+     source code due to *invalid syntax*.
+   • Double Main Definition : Raised when more than one main function
+     was defined in the program.
+
+
+File: index.info,  Node: Known caveats,  Prev: Error list,  Up: Lexer & Parsing reference
+
+6.4.3 Known caveats
+-------------------
+
+   • Lexing Error Printing : We are aware that Megaparsec does not
+     always display clear or accurate error messages in some cases.
+     This issue is due to our current lexing implementation rather than
+     Megaparsec itself, and should be fixed soon or later.
+   • Parsing Input : The parser currently does not validate its input
+     and fully relies on the lexer to always produce correct and
+     consistent tokens.  While this works for now, it could lead to
+     potential issues in the future.
+
+
+File: index.info,  Node: Compilation reference,  Next: Readable assembly,  Prev: Lexer & Parsing reference,  Up: Franc C Compiler
+
+6.5 Compilation reference
+=========================
+
+We are here referring to compilation as the compilation and the
+verification step.  Thus, in this section, the compilation step will
+refer to both of these steps.
+
+   Given the simple nature of the logic of the Franc C language, we
+chose here to implement a simple compilation.
+
+   The compilation step do not use any external dependencies.
+
+   We simply store a context that is updated throughout the compilation
+process.  This context contains :
+
+   • A list of variables, with their name, size, and position relative
+     to the stack pointer.
+   • A label counter, used to suffix labels with a number to distinguish
+     them.
+   • A list of function context, representing each definitions.
+   • A list of function context, representing each invoke.
+
+   The function context contains :
+
+   • The name of the function.
+   • A boolean value, used to describe if this function is either
+     returning something or of the void type ; or describes if this
+     functions is either assigning a value when invoking or not.
+   • A parameter count, that indicates the number of parameters in this
+     function.
+
+   The fact that the entire language is only integer-based facilitates
+the concept of variable storage and parameter types.  No types appear in
+the compilation process, except the void type for function definitions
+and invoke.
+
+* Menu:
+
+* Function call parameters, return value and variables: Function call parameters return value and variables.
+* Safety measures: Safety measures (1).
+* Intended undefined behaviours::
+
+
+File: index.info,  Node: Function call parameters return value and variables,  Next: Safety measures (1),  Up: Compilation reference
+
+6.5.1 Function call parameters, return value and variables
+----------------------------------------------------------
+
+When a function is called, it have parameters, a return value and some
+variables.
+
+   Here is a map of how they are stored in the stack:
+
+     ┌─────────────────┐
+     │  Caller frame   │
+     ├─────────────────┤
+     │  Parameters     │  ← PUSHREL/POPREL access
+     ├─────────────────┤
+     │  Return Value   │  ← PUSHREL/POPREL access
+     ├─────────────────┤  ← SP
+     │  Local vars     │  ← PUSHREL/POPREL access
+     ├─────────────────┤
+     │  Temporaries    │  ← Stack top
+     └─────────────────┘
+
+   *Local variables*: Accessed via SP-relative offsets - ‘PUSHREL 0’:
+First local - ‘PUSHREL 8’: Second local (8-byte offset) - ‘POPREL N’:
+Store to local at offset N
+
+   *Return value and paramers*: Accessed via SP-relative offsets -
+‘PUSHREL -8’: Return value - ‘PUSHREL -16’: First parameter - ‘PUSHREL
+-24’: Second parameter
+
+
+File: index.info,  Node: Safety measures (1),  Next: Intended undefined behaviours,  Prev: Function call parameters return value and variables,  Up: Compilation reference
+
+6.5.2 Safety measures
+---------------------
+
+During the compilation step, we check for user errors :
+
+   • No main function is given.
+   • Multiple main functions are given.
+   • A function is defined with the name of an already defined function.
+   • A function defines a parameter, or a variable, with the name of an
+     already existing, local to the function, parameter or variable.
+   • A function that is not referenced is invoked.
+   • A function that takes n parameters is invoked with more or less
+     than n parameters.
+   • A return value is given to a function of type void.
+   • An empty return is given to a function of type non-void.
+   • An assignement of the return of a void-typed function is made.
+
+
+File: index.info,  Node: Intended undefined behaviours,  Prev: Safety measures (1),  Up: Compilation reference
+
+6.5.3 Intended undefined behaviours
+-----------------------------------
+
+  1. Integer over/underflows
+
+     We do not devine the result of an integer overflow, or an integer
+     underflow.  Our integers are defined solely as signed integers on
+     64 bits.
+
+     The minimum integer is defined as the maximum integer negated.  In
+     the C programming language, it is defined as being one less, but in
+     our implementation of the negate sign "-", we chose for parsing and
+     lexing simplicity to use the negate solely as an operation.  Take
+     the example "-5", we will not register it as the -5 number, but as
+     the number 5 on whom we apply the negate operation.  This explains
+     the fact that our minimum integer is defined as the negated maximum
+     integer.
+
+     The maximum integer is defined as 2^63 - 1, or
+     9'223'372'036'854'775'807.
+
+  2. Known caveats
+
+       1. Lack of static analysis
+
+          The FCC compilation step do not implement any static analysis.
+
+          These are the direct cause of some - sadly - not implemented
+          behavious:
+
+             • We cannot check for direct division by zero.  For
+               example: (10 divisé par 0) will not result in an error at
+               compile-time.
+             • We cannot produce pre-computations.  For example: (10
+               plus 10) will not result in the value 20 at compile-time,
+               but in the computation of 10 plus 10 at run-time.  It is
+               highly inefficient.
+
+
+File: index.info,  Node: Readable assembly,  Prev: Compilation reference,  Up: Franc C Compiler
+
+6.6 Readable assembly
+=====================
+
+When the ‘--debug’ flag is passed, the output of the program is a
+readable assembly written to the standard output.
+
+* Menu:
+
+* Syntax of the readable assembly::
+* List of instructions::
+
+
+File: index.info,  Node: Syntax of the readable assembly,  Next: List of instructions,  Up: Readable assembly
+
+6.6.1 Syntax of the readable assembly
+-------------------------------------
+
+There are two cases in the syntax :
+
+   • label, they are written in the left margin, like so: ‘label_name:’
+   • instructions, they are written tabulated with four spaces, like so:
+     ‘mnemonic [args]’
+
+
+File: index.info,  Node: List of instructions,  Prev: Syntax of the readable assembly,  Up: Readable assembly
+
+6.6.2 List of instructions
+--------------------------
+
+Operation                                  Parameter    Representation
+-----------------------------------------------------------------------------
+label                                      name         ‘name:’
+binary not                                              ‘not’
+binary and                                              ‘and’
+binary or                                               ‘or’
+logical not                                             ‘lnot’
+logical and                                             ‘land’
+logical or                                              ‘lor’
+exclusive or                                            ‘xor’
+left bitshift                                           ‘shl’
+right bitshift                                          ‘shr’
+addition                                                ‘add’
+substraction                                            ‘sub’
+multiplication                                          ‘mult’
+division                                                ‘div’
+modulo                                                  ‘mod’
+comparison greater than                                 ‘gt’
+comparison greater or equal to                          ‘ge’
+comparison less than                                    ‘lt’
+comparison less or equal to                             ‘le’
+comparison equals                                       ‘eq’
+comparison different to                                 ‘neq’
+update zero flag                                        ‘updz’
+push value                                 value        ‘push value’
+push relative address                      address      ‘push [address]’
+push label relative address                label-name   ‘push %label-name’
+push from stack pointer relative address   address      ‘push @address’
+pop to stack pointer relative address      address      ‘pop @address’
+pop                                                     ‘pop’
+invoke a function                                       ‘call’
+return                                                  ‘ret’
+jump to address                                         ‘jmp’
+jump to address if zero flag                            ‘zjmp’
+print character                                         ‘aff’
+print string                               string       ‘affs "string"’
+
+
+File: index.info,  Node: Franc C Virtual Machine,  Next: Larousse (1),  Prev: Franc C Compiler,  Up: Top
+
+7 Franc C Virtual Machine
+*************************
+
+* Menu:
+
+* Input Descriptions::
+* Architecture Implementation::
+* Exceptions List::
+* Known Caveats::
+
+
+File: index.info,  Node: Input Descriptions,  Next: Architecture Implementation,  Up: Franc C Virtual Machine
+
+7.1 Input Descriptions
+======================
+
+* Menu:
+
+* Bytecode File Format::
+* Command-Line Interface::
+
+
+File: index.info,  Node: Bytecode File Format,  Next: Command-Line Interface,  Up: Input Descriptions
+
+7.1.1 Bytecode File Format
+--------------------------
+
+The fcvm executes Franc C bytecode files.
+
+   They have the following header structure:
+
+     ┌─────────────────────────────────────┐
+     │ Magic Number (4 bytes)              │  0x45 0x0C 0x45 0x0C
+     ├─────────────────────────────────────┤
+     │ Bytecode Instructions               │  Variable length
+     └─────────────────────────────────────┘
+
+   *Magic Number*: ‘0x45 0x0C 0x45 0x0C’ (4 bytes), as defined in the
+*note Franc C bytecode reference: Bytecode reference.  - Validates file
+format at VM initialization - Invalid magic number triggers immediate
+error
+
+
+File: index.info,  Node: Command-Line Interface,  Prev: Bytecode File Format,  Up: Input Descriptions
+
+7.1.2 Command-Line Interface
+----------------------------
+
+     ./fcvm <bytecode_file>
+
+   *Exit Codes*:
+
+Code      Description
+----------------------------------------------------
+‘0’       Success (or custom return value = 0)
+‘1-255’   Custom exit code (return value mod 256)
+‘84’      Any error (runtime or load-time)
+
+
+File: index.info,  Node: Architecture Implementation,  Next: Exceptions List,  Prev: Input Descriptions,  Up: Franc C Virtual Machine
+
+7.2 Architecture Implementation
+===============================
+
+* Menu:
+
+* Memory Layout: Memory Layout (1).
+* Instruction Set Overview::
+* Function Call Convention::
+
+
+File: index.info,  Node: Memory Layout (1),  Next: Instruction Set Overview,  Up: Architecture Implementation
+
+7.2.1 Memory Layout
+-------------------
+
+The VM maintains three core structures:
+
+   • The operand stack
+   • The callstack
+   • Three specific registers
+
+  1. Operand Stack
+
+     Stores temporary computation values, variables and function return
+     values.
+
+          ┌─────────────┬─────────────┬─────────────┐
+          │  Element 0  │  Element 1  │  Element 2  │
+          │  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
+          └─────────────┴─────────────┴─────────────┘
+                ↑
+              Stack Top
+
+     *Properties*: - Type: ‘[Word8]’ (list of bytes) - Element size: 8
+     bytes (64-bit) - Initial state: One zero element ‘[0x00 × 8]’ - Max
+     size: 1,000,000 elements (8 MB) - Operations: PUSH (prepend), POP
+     (drop first 8 bytes)
+
+  2. Call Stack
+
+     Manages function call frames.
+
+          ┌─────────────────────────────────┐
+          │  Frame: (PC: 0, SP: 0)          │  ← Entry
+          ├─────────────────────────────────┤
+          │  Frame: (PC: 12, SP: 16)        │
+          ├─────────────────────────────────┤
+          │  Frame: (PC: 57, SP: 24)        │  ← Current
+          └─────────────────────────────────┘
+
+     *Properties*: - Type: ‘[(PC, SP)]’ (list of tuples) - Frame
+     content: Return address (PC) + Stack pointer (SP) - Initial state:
+     Empty ‘[]’ - Max depth: 1,000,000 frames
+
+     *Behavior*: - ‘CALL’: Push ‘(PC+1, SP)’, jump to function - ‘RET’:
+     Pop frame, restore context, trim stack - *Termination*: Empty call
+     stack after ‘RET’ → program ends
+
+  3. Registers
+
+     *Program Counter (PC)* - Points to current instruction in bytecode
+     - Initial: 8 (after 4-byte magic number) - Updates: ‘+1’ (normal),
+     ‘+9’ (with data), or jump target
+
+     *Stack Pointer (SP)* - Marks base of current function's stack frame
+     - Used for local variable access via ‘PUSHREL=/=POPREL’ - Modified
+     during ‘CALL’ and ‘RET’
+
+     *Zero Flag (ZF)* - Type: ‘Word8’ (0 or 1) - Initial: 1 (true) -
+     Semantics: ‘0’ if stack top = 0, else ‘1’ - Set by ‘ZFLAG’, tested
+     by ‘ZJMP’
+
+
+File: index.info,  Node: Instruction Set Overview,  Next: Function Call Convention,  Prev: Memory Layout (1),  Up: Architecture Implementation
+
+7.2.2 Instruction Set Overview
+------------------------------
+
+The VM implements 40 opcodes across 7 categories:
+
+     *note Bytecode Definition: Bytecode reference.
+
+
+File: index.info,  Node: Function Call Convention,  Prev: Instruction Set Overview,  Up: Architecture Implementation
+
+7.2.3 Function Call Convention
+------------------------------
+
+*Calling sequence*:
+
+     1. Push function address
+     2. Execute CALL
+        → Saves (PC+1, SP) to call stack
+        → Jumps to function
+
+   *Return sequence*:
+
+     1. Execute RET
+        → Restores PC and SP
+        → Trims stack to SP position
+        → If call stack empty: program terminates
+
+   *Stack frame layout*:
+
+     ┌──────────────────┐
+     │  Caller frame    │
+     ├──────────────────┤  ← SP
+     │  Local function  │  ← Stack top
+     └──────────────────┘
+
+
+File: index.info,  Node: Exceptions List,  Next: Known Caveats,  Prev: Architecture Implementation,  Up: Franc C Virtual Machine
+
+7.3 Exceptions List
+===================
+
+All errors exit with code *84* and write to *stderr*.
+
+* Menu:
+
+* Load-Time Errors::
+* Runtime Errors::
+
+
+File: index.info,  Node: Load-Time Errors,  Next: Runtime Errors,  Up: Exceptions List
+
+7.3.1 Load-Time Errors
+----------------------
+
+*Invalid Magic Number*
+
+     Message: *** UNRECONIZED FILE FORMAT
+     Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
+
+   *File I/O Error*
+
+     Message: Error with file
+     Trigger: File not found, permission denied, or read error
+
+
+File: index.info,  Node: Runtime Errors,  Prev: Load-Time Errors,  Up: Exceptions List
+
+7.3.2 Runtime Errors
+--------------------
+
+*Arithmetic Errors*
+
+     Message: *** 0 CAN'T BE USE in this operation
+     Trigger: DIV or MOD with divisor = 0
+
+   *Stack & CallStack Overflow*
+
+     Message: *** STACK OVERFLOW
+     Trigger: Operand stack ≥ 1M elements OR call stack ≥ 1M frames
+     Cause:   Excessive PUSH without POP, or infinite recursion
+
+   *Stack Underflow*
+
+     Message: *** STACK ERROR
+     Trigger: Operation requires elements when stack_size ≤ 1
+     Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
+
+
+File: index.info,  Node: Known Caveats,  Prev: Exceptions List,  Up: Franc C Virtual Machine
+
+7.4 Known Caveats
+=================
+
+* Menu:
+
+* Undefined Behaviors::
+* Performance Limitations::
+* Portability Issues::
+
+
+File: index.info,  Node: Undefined Behaviors,  Next: Performance Limitations,  Up: Known Caveats
+
+7.4.1 Undefined Behaviors
+-------------------------
+
+*Integer Overflow* - 64-bit signed integers wrap silently - Example:
+‘INT64_MAX + 1’ → UNDEFINED - No error raised
+
+   *Invalid Opcodes* - Treated as NOP (PC += 1) - Corrupted bytecode may
+execute partially - No detection mechanism
+
+
+File: index.info,  Node: Performance Limitations,  Next: Portability Issues,  Prev: Undefined Behaviors,  Up: Known Caveats
+
+7.4.2 Performance Limitations
+-----------------------------
+
+*List-Based Stack* - Push/Pop: O(1) ✓ - SP-relative access: O(n) ✗ -
+Impact: Slow for deep stacks (>1000 elements)
+
+   *String Operations* - ‘AFFS’ creates intermediate structures - Linear
+in string length (acceptable)
+
+
+File: index.info,  Node: Portability Issues,  Prev: Performance Limitations,  Up: Known Caveats
+
+7.4.3 Portability Issues
+------------------------
+
+*Platform Word Size* - ‘PC’ and ‘SP’ use Haskell ‘Int’ type - 32-bit
+systems: Max ~2GB bytecode - 64-bit systems: Max ~8GB bytecode - Not a
+practical concern for typical use
+
+   *Document Version*: 1.1
+*Last Updated*: November 2025
+*Author* : Acacademie Franc C'aise
+
+
+File: index.info,  Node: Larousse (1),  Prev: Franc C Virtual Machine,  Up: Top
+
+8 Larousse
+**********
+
+* Menu:
+
+* Introduction (motives)::
+* Functions::
+* Académie Franc C'Aise::
+
+
+File: index.info,  Node: Introduction (motives),  Next: Functions,  Up: Larousse (1)
+
+8.1 Introduction (motives)
+==========================
+
+As programming using Franc C can easily become overwhelming, we decided
+to provide a set of already implemented functions, in a library called
+‘Larousse’, as a way to facilitate some tasks.
+
+   ‘Larousse’ also serves as a way to showcase our language's
+capabilities, and demonstrate its verbose syntax, and acts as a test
+suite for the ‘Académie Franc C'Aise’, which runs functional tests on
+it.
+
+
+File: index.info,  Node: Functions,  Next: Académie Franc C'Aise,  Prev: Introduction (motives),  Up: Larousse (1)
+
+8.2 Functions
+=============
+
+Functions                Parameters              Description                                                                                                                                     Benchmark*
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+additionner              nombre, second_nombre   Returns ‘nombre + second_nombre’.                                                                                                               0.086s
+afficher_nombre          nombre                  Displays in the standard output the number ‘nombre’.                                                                                            0.067s
+carré_de                 nombre                  Returns ‘nombre * nombre’.                                                                                                                      0.074s
+diviser                  nombre, second_nombre   Returns ‘nombre / second_nombre’.                                                                                                               0.060s
+douze                    nombre                  Returns ‘nombre / 12’ if ‘nombre’ is multiple of 12, otherwise ‘-1’.                                                                            0.069s
+est_en_majuscule         nombre                  Returns ‘1’ if ‘nombre’ is an uppercase letter, otherwise ‘0’.                                                                                  0.063s
+est_en_minuscule         nombre                  Returns ‘1’ if ‘nombre’ is a lowercase letter, otherwise ‘0’.                                                                                   0.060s
+est_négatif              nombre                  Returns ‘1’ if ‘nombre’ is negative, otherwise ‘0’.                                                                                             0.070s
+est_premier              nombre                  Returns ‘1’ if ‘nombre’ is a prime number, otherwise ‘0’.                                                                                       0.051s
+fizzbuzz                 nombre                  Displays « Fizz » if ‘nombre’ is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays ‘nombre’.   0.056s
+imprimer_peigne          -                       Displays in ascending order all the smallest numbers composed of three digits.                                                                  0.220s
+imprimer_peigne_2        -                       Displays in ascending order all the smallest numbers composed of four digits.                                                                   8.481s
+imprimer_peigne_nombre   nombre                  Displays in ascending order all the smallest numbers composed of ‘nombre’ digits.                                                               Depends
+max                      nombre, second_nombre   Returns ‘nombre’ if ‘nombre’ is superior than ‘second_nombre’, otherwise ‘second_nombre’.                                                       0.060s
+min                      nombre, second_nombre   Returns ‘second_nombre’ if ‘nombre’ is superior than ‘second_nombre’, otherwise ‘nombre’.                                                       0.092s
+multiplier               nombre, second_nombre   Returns ‘nombre * second_nombre’.                                                                                                               0.065s
+prochain_premier         nombre                  Returns the first prime number greater than ‘nombre’.                                                                                           0.072s
+précedent                nombre                  Returns ‘nombre - 1’.                                                                                                                           0.069s
+racine_carré_de          nombre                  Returns the integer square root of ‘nombre’.                                                                                                    0.070s
+soustraire               nombre, second_nombre   Returns ‘nombre - second_nombre’.                                                                                                               0.090s
+suivant                  nombre                  Returns ‘nombre + 1’.                                                                                                                           0.065s
+
+   (*) Benchmark specs:
+
+     CPU : Intel i9 14900K
+     GPU : NVIDIA RTX 4070 TI SUPER
+     RAM: 32 GB
+
+
+File: index.info,  Node: Académie Franc C'Aise,  Prev: Functions,  Up: Larousse (1)
+
+8.3 Académie Franc C'Aise
+=========================
+
+‘Académie Franc C'Aise’ is the ‘functional tester’ made in ‘Python’ for
+the ‘Franc C’, and uses ‘Larousse’ standard library.
+
+   You will find in every single ‘Larousse’ source code function: - The
+same function written in ‘C’.  - A main function in ‘Franc C’ which
+calls the function in ‘Franc C’ with various parameter, in the ‘test’
+folder.  - A main function in ‘C’ which calls the function in ‘C’ with
+the same parameters, in the ‘test’ folder.
+
+   ‘Académie Franc C'Aise’ compiles both the ‘C’ and ‘Franc C’ version
+using ‘gcc’ and ‘fcvm’.  It then runs both versions, and check whether
+their inputs are the same as a way to test the language.  It also
+displays how much time each step took (Compilation, Execution) for both
+languages then finally shows the time difference between those.
+
+   ‘Franc C’ is in most cases faster to compile than ‘C’.  However, ‘C’
+is almost always faster in execution time than ‘Franc C’.
+
+   At the end of the program, ‘Académie Franc C'Aise’ displays how many
+tests passed out of how many were run.  It then exits with a failure if
+not all tests passed.
+
+
+Tag Table:
+Node: Top198
+Node: Other documentations2424
+Node: Introduction2772
+Node: Franc C reference3948
+Node: Motives4165
+Node: Inspirations4521
+Node: Linotte4987
+Node: C5523
+Node: French language6993
+Node: Language Formal Syntax (BNF)7421
+Node: Language logic16442
+Ref: *Header*16568
+Ref: *Function Declaration*16890
+Ref: The name of the function16980
+Ref: The return type of the function17143
+Ref: The parameters of the function17488
+Ref: Variables18499
+Ref: *Function Body*19973
+Ref: Assignement20542
+Ref: If21125
+Ref: Invoke22675
+Ref: Loop24681
+Ref: Return25453
+Ref: Show statements26210
+Ref: *End of Function*26907
+Ref: *Special case of 'Main' Function*27001
+Node: Bytecode reference28487
+Node: Formal syntax (BNF)28859
+Node: Instructions31157
+Node: Virtual Machine reference38724
+Node: Introduction (1)38993
+Node: Stack-Based vs Register-Based39568
+Node: Stack40829
+Ref: Stack Management41327
+Node: Initialization41538
+Node: Basic Operations41811
+Node: CallStack42212
+Node: Memory Layout42613
+Node: Function call mechanism43279
+Node: Zero flag44054
+Node: End cases44629
+Node: Franc C Compiler44979
+Node: Parameters list and long descriptions45478
+Node: FILESNAME45821
+Node: --output FILENAME46033
+Node: --no-larousse46370
+Node: --debug46732
+Node: Larousse47043
+Node: Functioning47515
+Node: Getting inputs47839
+Node: Lexing and parsing48049
+Node: Combination48539
+Node: Compilation48942
+Node: Verifications49443
+Node: Output49803
+Node: Justifications50346
+Node: Lexer & Parsing reference51530
+Node: Safety measures53219
+Node: Error list54089
+Node: Known caveats54464
+Node: Compilation reference55109
+Node: Function call parameters return value and variables56839
+Node: Safety measures (1)58214
+Node: Intended undefined behaviours59126
+Ref: Integer over/underflows59318
+Ref: Known caveats (1)60111
+Ref: Lack of static analysis60136
+Node: Readable assembly60750
+Node: Syntax of the readable assembly61086
+Node: List of instructions61494
+Node: Franc C Virtual Machine64118
+Node: Input Descriptions64382
+Node: Bytecode File Format64604
+Node: Command-Line Interface65582
+Node: Architecture Implementation66021
+Node: Memory Layout (1)66327
+Ref: Operand Stack66606
+Ref: Call Stack67412
+Ref: Registers68497
+Node: Instruction Set Overview69063
+Node: Function Call Convention69376
+Node: Exceptions List70179
+Node: Load-Time Errors70457
+Node: Runtime Errors70828
+Node: Known Caveats71453
+Node: Undefined Behaviors71671
+Node: Performance Limitations72063
+Node: Portability Issues72479
+Node: Larousse (1)72909
+Node: Introduction (motives)73093
+Node: Functions73646
+Node: Académie Franc C'Aise78666
+
+End Tag Table
+
+
+Local Variables:
+coding: utf-8
+Info-documentlanguage: en
+End:

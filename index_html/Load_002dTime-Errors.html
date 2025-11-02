@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Load-Time Errors (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Load-Time Errors (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Load-Time Errors (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Exceptions-List.html" rel="up" title="Exceptions List">
+<link href="Runtime-Errors.html" rel="next" title="Runtime Errors">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Load_002dTime-Errors">
+<div class="nav-panel">
+<p>
+Next: <a href="Runtime-Errors.html" accesskey="n" rel="next">Runtime Errors</a>, Up: <a href="Exceptions-List.html" accesskey="u" rel="up">Exceptions List</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Load_002dTime-Errors-1"><span>7.3.1 Load-Time Errors<a class="copiable-link" href="#Load_002dTime-Errors-1"> &para;</a></span></h4>
+
+<p><strong class="strong">Invalid Magic Number</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">Message: *** UNRECONIZED FILE FORMAT
+Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
+</pre></div>
+
+<p><strong class="strong">File I/O Error</strong>
+</p>
+<div class="example">
+<pre class="example-preformatted">Message: Error with file
+Trigger: File not found, permission denied, or read error
+</pre></div>
+
+</div>
+
+
+
+</body>
+</html>

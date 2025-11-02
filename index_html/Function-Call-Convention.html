@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function Call Convention (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Function Call Convention (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Function Call Convention (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Architecture-Implementation.html" rel="up" title="Architecture Implementation">
+<link href="Instruction-Set-Overview.html" rel="prev" title="Instruction Set Overview">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Function-Call-Convention">
+<div class="nav-panel">
+<p>
+Previous: <a href="Instruction-Set-Overview.html" accesskey="p" rel="prev">Instruction Set Overview</a>, Up: <a href="Architecture-Implementation.html" accesskey="u" rel="up">Architecture Implementation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Function-Call-Convention-1"><span>7.2.3 Function Call Convention<a class="copiable-link" href="#Function-Call-Convention-1"> &para;</a></span></h4>
+
+<p><strong class="strong">Calling sequence</strong>:
+</p>
+<div class="example">
+<pre class="example-preformatted">1. Push function address
+2. Execute CALL
+   → Saves (PC+1, SP) to call stack
+   → Jumps to function
+</pre></div>
+
+<p><strong class="strong">Return sequence</strong>:
+</p>
+<div class="example">
+<pre class="example-preformatted">1. Execute RET
+   → Restores PC and SP
+   → Trims stack to SP position
+   → If call stack empty: program terminates
+</pre></div>
+
+<p><strong class="strong">Stack frame layout</strong>:
+</p>
+<div class="example">
+<pre class="example-preformatted">┌──────────────────┐
+│  Caller frame    │
+├──────────────────┤  ← SP
+│  Local function  │  ← Stack top
+└──────────────────┘
+</pre></div>
+
+</div>
+
+
+
+</body>
+</html>

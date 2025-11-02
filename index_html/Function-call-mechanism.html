@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function call mechanism (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Function call mechanism (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Function call mechanism (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="CallStack.html" rel="up" title="CallStack">
+<link href="Memory-Layout.html" rel="prev" title="Memory Layout">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Function-call-mechanism">
+<div class="nav-panel">
+<p>
+Previous: <a href="Memory-Layout.html" accesskey="p" rel="prev">Memory Layout</a>, Up: <a href="CallStack.html" accesskey="u" rel="up">CallStack</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Function-call-mechanism-1"><span>5.3.2 Function call mechanism<a class="copiable-link" href="#Function-call-mechanism-1"> &para;</a></span></h4>
+
+<p>When executing &lsquo;<samp class="samp">call &lt;address&gt;</samp>&rsquo;:
+</p>
+<ol class="enumerate">
+<li> <strong class="strong">Save current context</strong>: Push &lsquo;<samp class="samp">(PC + 1, SP)</samp>&rsquo; onto the call stack
+<ul class="itemize mark-bullet">
+<li>&lsquo;<samp class="samp">PC + 1</samp>&rsquo;: Address of the instruction following CALL
+</li><li>&lsquo;<samp class="samp">SP</samp>&rsquo;: Current stack pointer (preserves caller&rsquo;s stack)
+</li></ul>
+</li><li> <strong class="strong">Jump to function</strong>: Set &lsquo;<samp class="samp">PC = &lt;address&gt;</samp>&rsquo;
+</li></ol>
+
+<p>When executing &lsquo;<samp class="samp">Ret</samp>&rsquo;:
+</p>
+<ol class="enumerate">
+<li> <strong class="strong">Pop frame</strong>: Retrieve &lsquo;<samp class="samp">(saved_PC, saved_SP)</samp>&rsquo; from call stack
+</li><li> <strong class="strong">Restore context</strong>:
+<ul class="itemize mark-bullet">
+<li>Set &lsquo;<samp class="samp">PC = saved_PC</samp>&rsquo; (return to caller)
+</li><li>Set &lsquo;<samp class="samp">SP = saved_SP</samp>&rsquo; (restore stack state)
+</li></ul>
+</li><li> <strong class="strong">Check termination</strong>: If call stack is empty after pop, <strong class="strong">terminate
+program</strong>
+</li></ol>
+
+</div>
+
+
+
+</body>
+</html>

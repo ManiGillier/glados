@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Function call parameters return value and variables (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Function call parameters return value and variables (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Function call parameters return value and variables (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Compilation-reference.html" rel="up" title="Compilation reference">
+<link href="Safety-measures-_00281_0029.html" rel="next" title="Safety measures (1)">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Function-call-parameters-return-value-and-variables">
+<div class="nav-panel">
+<p>
+Next: <a href="Safety-measures-_00281_0029.html" accesskey="n" rel="next">Safety measures</a>, Up: <a href="Compilation-reference.html" accesskey="u" rel="up">Compilation reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Function-call-parameters_002c-return-value-and-variables"><span>6.5.1 Function call parameters, return value and variables<a class="copiable-link" href="#Function-call-parameters_002c-return-value-and-variables"> &para;</a></span></h4>
+
+<p>When a function is called, it have parameters, a return value and some
+variables.
+</p>
+<p>Here is a map of how they are stored in the stack:
+</p>
+<div class="example">
+<pre class="example-preformatted">┌─────────────────┐
+│  Caller frame   │
+├─────────────────┤
+│  Parameters     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Return Value   │  ← PUSHREL/POPREL access
+├─────────────────┤  ← SP
+│  Local vars     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Temporaries    │  ← Stack top
+└─────────────────┘
+</pre></div>
+
+<p><strong class="strong">Local variables</strong>: Accessed via SP-relative offsets - &lsquo;<samp class="samp">PUSHREL 0</samp>&rsquo;: First
+local - &lsquo;<samp class="samp">PUSHREL 8</samp>&rsquo;: Second local (8-byte offset) - &lsquo;<samp class="samp">POPREL N</samp>&rsquo;: Store to
+local at offset N
+</p>
+<p><strong class="strong">Return value and paramers</strong>: Accessed via SP-relative offsets -
+&lsquo;<samp class="samp">PUSHREL -8</samp>&rsquo;: Return value - &lsquo;<samp class="samp">PUSHREL -16</samp>&rsquo;: First parameter -
+&lsquo;<samp class="samp">PUSHREL -24</samp>&rsquo;: Second parameter
+</p>
+</div>
+
+
+
+</body>
+</html>

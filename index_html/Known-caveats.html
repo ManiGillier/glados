@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Known caveats (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Known caveats (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Known caveats (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Lexer-_0026-Parsing-reference.html" rel="up" title="Lexer &amp; Parsing reference">
+<link href="Error-list.html" rel="prev" title="Error list">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Known-caveats">
+<div class="nav-panel">
+<p>
+Previous: <a href="Error-list.html" accesskey="p" rel="prev">Error list</a>, Up: <a href="Lexer-_0026-Parsing-reference.html" accesskey="u" rel="up">Lexer &amp; Parsing reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Known-caveats-1"><span>6.4.3 Known caveats<a class="copiable-link" href="#Known-caveats-1"> &para;</a></span></h4>
+
+<ul class="itemize mark-bullet">
+<li>Lexing Error Printing : We are aware that Megaparsec does not always
+display clear or accurate error messages in some cases. This issue is
+due to our current lexing implementation rather than Megaparsec
+itself, and should be fixed soon or later.
+</li><li>Parsing Input : The parser currently does not validate its input and
+fully relies on the lexer to always produce correct and consistent
+tokens. While this works for now, it could lead to potential issues in
+the future.
+</li></ul>
+
+</div>
+
+
+
+</body>
+</html>

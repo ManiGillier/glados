@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Memory Layout (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Memory Layout (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Memory Layout (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="CallStack.html" rel="up" title="CallStack">
+<link href="Function-call-mechanism.html" rel="next" title="Function call mechanism">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Memory-Layout">
+<div class="nav-panel">
+<p>
+Next: <a href="Function-call-mechanism.html" accesskey="n" rel="next">Function call mechanism</a>, Up: <a href="CallStack.html" accesskey="u" rel="up">CallStack</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Memory-Layout-1"><span>5.3.1 Memory Layout<a class="copiable-link" href="#Memory-Layout-1"> &para;</a></span></h4>
+
+<p>The callstack can be implemented as a contiguous array of frame
+records:<br>
+By default, the callstack can be initialized as an <strong class="strong">empty array</strong>.
+</p>
+<p>Example implementation : - <strong class="strong">Data type</strong>: Array of tuples &lsquo;<samp class="samp">[(PC, SP)]</samp>&rsquo; -
+<strong class="strong">PC</strong> (Program Counter): Return address (next instruction after CALL) -
+<strong class="strong">SP</strong> (Stack Pointer): Stack state at call time
+</p>
+<table class="multitable">
+<thead><tr><th>Frame</th><th>PC</th><th>SP</th><th>Description</th></tr></thead>
+<tbody><tr><td>0</td><td>0</td><td>0</td><td>Entry point</td></tr>
+<tr><td>1</td><td>12</td><td>16</td><td>First function call</td></tr>
+<tr><td>2</td><td>57</td><td>24</td><td>Current function locale start</td></tr>
+</tbody>
+</table>
+
+</div>
+
+
+
+</body>
+</html>

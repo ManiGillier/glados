@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Memory Layout (1) (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Memory Layout (1) (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Memory Layout (1) (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Architecture-Implementation.html" rel="up" title="Architecture Implementation">
+<link href="Instruction-Set-Overview.html" rel="next" title="Instruction Set Overview">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Memory-Layout-_00281_0029">
+<div class="nav-panel">
+<p>
+Next: <a href="Instruction-Set-Overview.html" accesskey="n" rel="next">Instruction Set Overview</a>, Up: <a href="Architecture-Implementation.html" accesskey="u" rel="up">Architecture Implementation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Memory-Layout-2"><span>7.2.1 Memory Layout<a class="copiable-link" href="#Memory-Layout-2"> &para;</a></span></h4>
+
+<p>The VM maintains three core structures:
+</p>
+<ul class="itemize mark-bullet">
+<li>The operand stack
+</li><li>The callstack
+</li><li>Three specific registers
+</li></ul>
+
+<ol class="enumerate">
+<li> <a class="anchor" id="Operand-Stack"></a>Operand Stack
+
+
+<p>Stores temporary computation values, variables and function return
+values.
+</p>
+<div class="example">
+<pre class="example-preformatted">┌─────────────┬─────────────┬─────────────┐
+│  Element 0  │  Element 1  │  Element 2  │
+│  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
+└─────────────┴─────────────┴─────────────┘
+      ↑
+    Stack Top
+</pre></div>
+
+<p><strong class="strong">Properties</strong>: - Type: &lsquo;<samp class="samp">[Word8]</samp>&rsquo; (list of bytes) - Element size: 8 bytes
+(64-bit) - Initial state: One zero element &lsquo;<samp class="samp">[0x00 × 8]</samp>&rsquo; - Max size:
+1,000,000 elements (8 MB) - Operations: PUSH (prepend), POP (drop first
+8 bytes)
+</p>
+</li><li> <a class="anchor" id="Call-Stack"></a>Call Stack
+
+
+<p>Manages function call frames.
+</p>
+<div class="example">
+<pre class="example-preformatted">┌─────────────────────────────────┐
+│  Frame: (PC: 0, SP: 0)          │  ← Entry
+├─────────────────────────────────┤
+│  Frame: (PC: 12, SP: 16)        │
+├─────────────────────────────────┤
+│  Frame: (PC: 57, SP: 24)        │  ← Current
+└─────────────────────────────────┘
+</pre></div>
+
+<p><strong class="strong">Properties</strong>: - Type: &lsquo;<samp class="samp">[(PC, SP)]</samp>&rsquo; (list of tuples) - Frame content:
+Return address (PC) + Stack pointer (SP) - Initial state: Empty &lsquo;<samp class="samp">[]</samp>&rsquo; -
+Max depth: 1,000,000 frames
+</p>
+<p><strong class="strong">Behavior</strong>: - &lsquo;<samp class="samp">CALL</samp>&rsquo;: Push &lsquo;<samp class="samp">(PC+1, SP)</samp>&rsquo;, jump to function - &lsquo;<samp class="samp">RET</samp>&rsquo;: Pop
+frame, restore context, trim stack - <strong class="strong">Termination</strong>: Empty call stack
+after &lsquo;<samp class="samp">RET</samp>&rsquo; → program ends
+</p>
+</li><li> <a class="anchor" id="Registers"></a>Registers
+
+
+<p><strong class="strong">Program Counter (PC)</strong> - Points to current instruction in bytecode -
+Initial: 8 (after 4-byte magic number) - Updates: &lsquo;<samp class="samp">+1</samp>&rsquo; (normal), &lsquo;<samp class="samp">+9</samp>&rsquo;
+(with data), or jump target
+</p>
+<p><strong class="strong">Stack Pointer (SP)</strong> - Marks base of current function&rsquo;s stack frame -
+Used for local variable access via &lsquo;<samp class="samp">PUSHREL=/=POPREL</samp>&rsquo; - Modified during
+&lsquo;<samp class="samp">CALL</samp>&rsquo; and &lsquo;<samp class="samp">RET</samp>&rsquo;
+</p>
+<p><strong class="strong">Zero Flag (ZF)</strong> - Type: &lsquo;<samp class="samp">Word8</samp>&rsquo; (0 or 1) - Initial: 1 (true) -
+Semantics: &lsquo;<samp class="samp">0</samp>&rsquo; if stack top = 0, else &lsquo;<samp class="samp">1</samp>&rsquo; - Set by &lsquo;<samp class="samp">ZFLAG</samp>&rsquo;, tested by
+&lsquo;<samp class="samp">ZJMP</samp>&rsquo;
+</p></li></ol>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Instruction-Set-Overview.html">Instruction Set Overview</a>, Up: <a href="Architecture-Implementation.html">Architecture Implementation</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

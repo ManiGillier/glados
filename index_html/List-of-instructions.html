@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>List of instructions (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="List of instructions (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="List of instructions (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Readable-assembly.html" rel="up" title="Readable assembly">
+<link href="Syntax-of-the-readable-assembly.html" rel="prev" title="Syntax of the readable assembly">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="List-of-instructions">
+<div class="nav-panel">
+<p>
+Previous: <a href="Syntax-of-the-readable-assembly.html" accesskey="p" rel="prev">Syntax of the readable assembly</a>, Up: <a href="Readable-assembly.html" accesskey="u" rel="up">Readable assembly</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="List-of-instructions-1"><span>6.6.2 List of instructions<a class="copiable-link" href="#List-of-instructions-1"> &para;</a></span></h4>
+
+<table class="multitable">
+<thead><tr><th>Operation</th><th>Parameter</th><th>Representation</th></tr></thead>
+<tbody><tr><td>label</td><td>name</td><td>&lsquo;<samp class="samp">name:</samp>&rsquo;</td></tr>
+<tr><td>binary not</td><td></td><td>&lsquo;<samp class="samp">not</samp>&rsquo;</td></tr>
+<tr><td>binary and</td><td></td><td>&lsquo;<samp class="samp">and</samp>&rsquo;</td></tr>
+<tr><td>binary or</td><td></td><td>&lsquo;<samp class="samp">or</samp>&rsquo;</td></tr>
+<tr><td>logical not</td><td></td><td>&lsquo;<samp class="samp">lnot</samp>&rsquo;</td></tr>
+<tr><td>logical and</td><td></td><td>&lsquo;<samp class="samp">land</samp>&rsquo;</td></tr>
+<tr><td>logical or</td><td></td><td>&lsquo;<samp class="samp">lor</samp>&rsquo;</td></tr>
+<tr><td>exclusive or</td><td></td><td>&lsquo;<samp class="samp">xor</samp>&rsquo;</td></tr>
+<tr><td>left bitshift</td><td></td><td>&lsquo;<samp class="samp">shl</samp>&rsquo;</td></tr>
+<tr><td>right bitshift</td><td></td><td>&lsquo;<samp class="samp">shr</samp>&rsquo;</td></tr>
+<tr><td>addition</td><td></td><td>&lsquo;<samp class="samp">add</samp>&rsquo;</td></tr>
+<tr><td>substraction</td><td></td><td>&lsquo;<samp class="samp">sub</samp>&rsquo;</td></tr>
+<tr><td>multiplication</td><td></td><td>&lsquo;<samp class="samp">mult</samp>&rsquo;</td></tr>
+<tr><td>division</td><td></td><td>&lsquo;<samp class="samp">div</samp>&rsquo;</td></tr>
+<tr><td>modulo</td><td></td><td>&lsquo;<samp class="samp">mod</samp>&rsquo;</td></tr>
+<tr><td>comparison greater than</td><td></td><td>&lsquo;<samp class="samp">gt</samp>&rsquo;</td></tr>
+<tr><td>comparison greater or equal to</td><td></td><td>&lsquo;<samp class="samp">ge</samp>&rsquo;</td></tr>
+<tr><td>comparison less than</td><td></td><td>&lsquo;<samp class="samp">lt</samp>&rsquo;</td></tr>
+<tr><td>comparison less or equal to</td><td></td><td>&lsquo;<samp class="samp">le</samp>&rsquo;</td></tr>
+<tr><td>comparison equals</td><td></td><td>&lsquo;<samp class="samp">eq</samp>&rsquo;</td></tr>
+<tr><td>comparison different to</td><td></td><td>&lsquo;<samp class="samp">neq</samp>&rsquo;</td></tr>
+<tr><td>update zero flag</td><td></td><td>&lsquo;<samp class="samp">updz</samp>&rsquo;</td></tr>
+<tr><td>push value</td><td>value</td><td>&lsquo;<samp class="samp">push value</samp>&rsquo;</td></tr>
+<tr><td>push relative address</td><td>address</td><td>&lsquo;<samp class="samp">push [address]</samp>&rsquo;</td></tr>
+<tr><td>push label relative address</td><td>label-name</td><td>&lsquo;<samp class="samp">push %label-name</samp>&rsquo;</td></tr>
+<tr><td>push from stack pointer relative address</td><td>address</td><td>&lsquo;<samp class="samp">push @address</samp>&rsquo;</td></tr>
+<tr><td>pop to stack pointer relative address</td><td>address</td><td>&lsquo;<samp class="samp">pop @address</samp>&rsquo;</td></tr>
+<tr><td>pop</td><td></td><td>&lsquo;<samp class="samp">pop</samp>&rsquo;</td></tr>
+<tr><td>invoke a function</td><td></td><td>&lsquo;<samp class="samp">call</samp>&rsquo;</td></tr>
+<tr><td>return</td><td></td><td>&lsquo;<samp class="samp">ret</samp>&rsquo;</td></tr>
+<tr><td>jump to address</td><td></td><td>&lsquo;<samp class="samp">jmp</samp>&rsquo;</td></tr>
+<tr><td>jump to address if zero flag</td><td></td><td>&lsquo;<samp class="samp">zjmp</samp>&rsquo;</td></tr>
+<tr><td>print character</td><td></td><td>&lsquo;<samp class="samp">aff</samp>&rsquo;</td></tr>
+<tr><td>print string</td><td>string</td><td>&lsquo;<samp class="samp">affs &quot;string&quot;</samp>&rsquo;</td></tr>
+</tbody>
+</table>
+
+</div>
+
+
+
+</body>
+</html>

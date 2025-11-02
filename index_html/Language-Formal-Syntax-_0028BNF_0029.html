@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Language Formal Syntax (BNF) (TGPD: The GLADOS Project Documentation)</title>
+
+<meta name="description" content="Language Formal Syntax (BNF) (TGPD: The GLADOS Project Documentation)">
+<meta name="keywords" content="Language Formal Syntax (BNF) (TGPD: The GLADOS Project Documentation)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Franc-C-reference.html" rel="up" title="Franc C reference">
+<link href="Inspirations.html" rel="prev" title="Inspirations">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+ul.mark-bullet {list-style-type: disc}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Language-Formal-Syntax-_0028BNF_0029">
+<div class="nav-panel">
+<p>
+Previous: <a href="Inspirations.html" accesskey="p" rel="prev">Inspirations</a>, Up: <a href="Franc-C-reference.html" accesskey="u" rel="up">Franc C reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Language-Formal-Syntax-_0028BNF_0029-1"><span>3.3 Language Formal Syntax (BNF)<a class="copiable-link" href="#Language-Formal-Syntax-_0028BNF_0029-1"> &para;</a></span></h3>
+
+<div class="example">
+<pre class="example-preformatted">&lt;header&gt; ::= &quot;Bonjour,&quot; &lt;spaces&gt;
+
+&lt;main&gt; ::= &quot;En&quot; &lt;spaces&gt; &quot;sachant&quot; &lt;spaces&gt; &quot;que&quot; &lt;spaces&gt; &quot;les&quot; &lt;spaces&gt; &quot;variables&quot; &lt;spaces&gt; &quot;principales&quot; &lt;spaces&gt; &quot;sont&quot; &lt;spaces&gt; &quot;:&quot; &lt;spaces&gt; [&lt;variable_list&gt;]
+ &quot;\;&quot; &lt;spaces&gt; &quot;pourrais-tu&quot; &lt;spaces&gt; &quot;s'il&quot; &lt;spaces&gt; &quot;te&quot; &lt;spaces&gt; &quot;plaît&quot; &lt;spaces&gt; &quot;commencer&quot; &lt;spaces&gt; &quot;la&quot; &lt;spaces&gt; &quot;lecture&quot; &lt;spaces&gt; &quot;ici&quot; &lt;spaces&gt; &quot;?&quot; [&lt;spaces&gt;] &lt;block&gt; [&lt;spaces&gt;] &quot;Merci d'avance,&quot; &lt;spaces&gt; &quot;Cordialement,&quot; &lt;spaces&gt; &lt;name&gt; &lt;name&gt;
+
+&lt;variable_definition&gt; ::= &quot;-&quot; &lt;spaces&gt; &lt;word&gt; &quot;,&quot; &lt;spaces&gt; &quot;de&quot; &lt;spaces&gt; &quot;type&quot; &lt;spaces&gt; &lt;variable_type&gt; &quot;,&quot; &lt;spaces&gt; &quot;valant&quot; &lt;spaces&gt; &lt;value&gt; 
+
+&lt;variable_list&gt; ::= &lt;variable_definition&gt; &lt;spaces&gt; [&lt;variable_list&gt;]
+
+&lt;exclusif_or&gt; ::= &quot;ou&quot; &lt;spaces&gt; &quot;exclusif&quot; | &quot;xor&quot;
+
+&lt;arithmetic_operator&gt; ::= &quot;plus&quot; | &quot;moins&quot;
+                        | (&quot;divisé&quot; | &quot;multiplié&quot;) &lt;spaces&gt; &quot;par&quot;
+                        | &quot;modulo&quot;
+                        | &quot;fois&quot;
+
+&lt;comparison_operator&gt; ::= &quot;est&quot;
+                        | &quot;est&quot; &lt;spaces&gt; &quot;égale&quot; &lt;spaces&gt; &quot;à&quot;
+                        | &quot;est&quot; &lt;spaces&gt; &quot;différent&quot; &lt;spaces&gt; &quot;de&quot;
+                        | &quot;est&quot; &lt;spaces&gt; &quot;inférieure&quot; &lt;spaces&gt; &quot;à&quot;
+                        | &quot;est&quot; &lt;spaces&gt; &quot;supérieure&quot; &lt;spaces&gt; &quot;à&quot;
+                        | &quot;est&quot; &lt;spaces&gt; &quot;inférieure&quot; &lt;spaces&gt; &quot;ou&quot; &lt;spaces&gt; &quot;égale&quot; &lt;spaces&gt; &quot;à&quot;
+                        | &quot;est&quot; &lt;spaces&gt; &quot;supérieure&quot; &lt;spaces&gt; &quot;ou&quot; &lt;spaces&gt; &quot;égale&quot; &lt;spaces&gt; &quot;à&quot;
+
+&lt;logical_operator&gt; ::= &quot;et&quot; | &quot;ou&quot;
+
+&lt;bitwise_operator&gt; ::= &quot;décalé&quot; &lt;spaces&gt; &quot;binairement&quot; &lt;spaces&gt; &quot;à&quot; &lt;spaces&gt; &quot;gauche&quot;
+    | &quot;décalé&quot; &lt;spaces&gt; &quot;binairement&quot; &lt;spaces&gt; &quot;à&quot; &lt;spaces&gt; &quot;droite&quot;
+    | &quot;et&quot; &lt;spaces&gt; &quot;binaire&quot;
+    | &quot;ou&quot; &lt;spaces&gt; &quot;binaire&quot;
+    | &lt;exclusif_or&gt;
+ 
+&lt;operators&gt; ::= &lt;bitwise_operator&gt; | &lt;logical_operator&gt; | &lt;comparison_operator&gt; | &lt;arithmetic_operator&gt;
+
+&lt;parenthesized_condition&gt; ::= &quot;(&quot; &lt;condition&gt; &quot;)&quot;
+
+&lt;condition&gt; ::= &lt;word&gt; [&lt;spaces&gt; &lt;operators&gt; &lt;spaces&gt; (&lt;condition&gt; | &lt;parenthesized_condition&gt;)]
+              | &lt;value&gt; [&lt;spaces&gt; &lt;operators&gt; &lt;spaces&gt; (&lt;condition&gt; | &lt;parenthesized_condition&gt;)]
+
+&lt;parameter&gt; ::= &quot;-&quot; &lt;spaces&gt; &lt;word&gt; &quot;,&quot; &lt;spaces&gt; &quot;de&quot; &lt;spaces&gt; &quot;type&quot; &lt;spaces&gt; &lt;variable_type&gt;
+
+&lt;parameter_list&gt; ::= &lt;parameter&gt; &lt;spaces&gt; [&lt;parameter_list&gt;]
+
+&lt;function_definition&gt; ::= &quot;J’aimerais&quot; &lt;spaces&gt; &quot;définir&quot; &lt;spaces&gt; &quot;le&quot; &lt;spaces&gt; &quot;bloc&quot; &lt;spaces&gt; &quot;répondant&quot; &lt;spaces&gt; &quot;au&quot; &lt;spaces&gt; &quot;nom&quot; &lt;spaces&gt; &quot;de&quot; &lt;spaces&gt; &lt;word&gt; &quot;,&quot; &lt;spaces&gt; &quot;de&quot; &lt;spaces&gt; &quot;type&quot; &lt;spaces&gt; &quot;de&quot; &lt;spaces&gt; &quot;retour&quot; &lt;spaces&gt; &lt;function_type&gt; &quot;,&quot; &lt;spaces&gt; &quot;nécessitant&quot; &lt;spaces&gt; &quot;comme&quot; &lt;spaces&gt; &quot;entrée&quot; &lt;spaces&gt; &quot;:&quot; &lt;spaces&gt; [&lt;parameter_list&gt;] &quot;\;&quot; &lt;spaces&gt; &quot;contenant&quot; &lt;spaces&gt; &quot;les&quot; &lt;spaces&gt; &quot;variables&quot; &lt;spaces&gt; &quot;:&quot; &lt;spaces&gt; [&lt;variable_list&gt;] &quot;\;&quot; &lt;spaces&gt; &quot;représenté&quot; &lt;spaces&gt; &quot;par&quot; &lt;spaces&gt; &quot;le&quot; &lt;spaces&gt; &quot;code&quot; &lt;spaces&gt; (&quot;suivant&quot; | &quot;ci-après&quot; | &quot;ci-dessous&quot;) &quot;.&quot; [&lt;spaces&gt;] &lt;block&gt; &lt;spaces&gt; &quot;Merci.&quot;
+
+&lt;text&gt; ::= &lt;symbol&gt; [&lt;text&gt;]
+
+&lt;comment&gt; ::= &quot;*&quot; &lt;text&gt; &quot;*&quot;
+
+&lt;quoted_value&gt; ::= &quot;« &quot; &lt;text&gt; &quot; »&quot;
+
+&lt;block&gt; ::= &lt;statement_list&gt;
+
+&lt;statement_list&gt; ::= &lt;statement&gt; [[&lt;spaces&gt;] &lt;statement_list&gt; [&lt;spaces]]
+
+&lt;statement&gt; ::= &lt;condition_statement&gt; | &lt;return_statement&gt; | &lt;loop_statement&gt; | &lt;display_statement&gt; | &lt;invoke_statement&gt; | &lt;assignment_statement&gt;
+
+&lt;return_statement&gt; ::= &quot;Enfin,&quot; &lt;spaces&gt; &quot;renvoie&quot; &lt;spaces&gt; &lt;condition&gt; &quot;.&quot; | &quot;Enfin,&quot; &lt;spaces&gt; &quot;sors&quot; &lt;spaces&gt; &quot;du&quot; &lt;spaces&gt; &quot;bloc.&quot;
+
+&lt;condition_definition&gt; ::= &quot;Si&quot; &lt;spaces&gt; &lt;condition&gt; &quot;,&quot; &lt;spaces&gt; &quot;exécute&quot; &lt;spaces&gt; &quot;le&quot; &lt;spaces&gt; &quot;texte&quot; &lt;spaces&gt; &quot;:&quot;
+
+&lt;condition_statement&gt; ::= &lt;condition_definition&gt; &lt;space&gt; &lt;block&gt; &quot;Merci.&quot;
+    | &lt;condition_definition&gt; &lt;space&gt; &lt;block&gt; &quot;\;&quot; &lt;space&gt; &quot;sinon&quot; &lt;space&gt; &quot;exécute&quot; &lt;space&gt; &quot;le&quot; &lt;space&gt; &quot;texte&quot; &lt;space&gt; &quot;:&quot; &lt;block&gt; &quot;Merci.&quot;
+
+&lt;loop_statement&gt; ::= &quot;Tant&quot; &lt;spaces&gt; &quot;que&quot; &lt;condition&gt; &lt;spaces&gt; &quot;exécute&quot; &lt;spaces&gt; &quot;le&quot; &lt;spaces&gt; &quot;code&quot; &lt;spaces&gt; &quot;ci-après&quot; &lt;spaces&gt; &quot;:&quot; &lt;spaces&gt; &lt;block&gt; &quot;Merci.&quot;
+
+&lt;display_statement&gt; ::= &quot;Affiche&quot; (&lt;condition&gt; | &lt;quoted_value&gt;) &quot;.&quot;
+
+&lt;invoke_params&gt; ::= &lt;condition&gt; [&quot;,&quot; &lt;condition&gt;]
+
+&lt;invoke_statement&gt; ::= &quot;J'invoque&quot; &lt;spaces&gt; &quot;le&quot; &lt;spaces&gt; &quot;bloc&quot; &lt;spaces&gt; &lt;word&gt;
+    [&quot;,&quot; &lt;spaces&gt; &quot;et&quot; &lt;spaces&gt; &quot;j'assigne&quot; &lt;spaces&gt; &quot;la&quot; &lt;spaces&gt; &quot;valeur&quot; &lt;spaces&gt; &quot;de&quot; &lt;spaces&gt; &quot;retour&quot; &lt;spaces&gt; &quot;à&quot; &lt;spaces&gt; &quot;la&quot; &lt;spaces&gt; &quot;variable&quot; &lt;spaces&gt; &lt;word&gt;]
+    [&quot;,&quot; &lt;spaces&gt; &quot;avec les paramètres&quot; &lt;spaces&gt; &lt;invoke_params&gt;] &quot;.&quot;
+
+&lt;assignment_statement&gt; ::= &quot;J'aimerais&quot; &lt;spaces&gt; &quot;que&quot; &lt;spaces&gt; &lt;word&gt; &lt;spaces&gt; &quot;prenne&quot; &lt;spaces&gt; &quot;la&quot; &lt;spaces&gt; &quot;valeur&quot; &lt;spaces&gt; &lt;condition&gt; &quot;.&quot; |
+    &lt;word&gt; &lt;spaces&gt; &quot;prend&quot; &lt;spaces&gt; &quot;la&quot; &lt;spaces&gt; &quot;valeur&quot; &lt;spaces&gt; &lt;condition&gt;
+
+&lt;variable_type&gt; ::= &quot;entier&quot; &lt;spaces&gt; &quot;naturel&quot; | &quot;booléen&quot;
+
+&lt;function_type&gt; ::= &quot;entier&quot; &lt;spaces&gt; &quot;naturel&quot; | &quot;booléen&quot; | &quot;nul&quot;
+
+&lt;name&gt; ::= &lt;word&gt; &quot;\n&quot;
+
+&lt;variables_list&gt; ::= &lt;variables&gt; | &lt;variables&gt; &lt;spaces&gt; &lt;variables_list&gt;
+
+&lt;variables&gt; ::= &lt;name&gt; &quot;,&quot; &lt;spaces&gt; &quot;de&quot; &lt;spaces&gt; &quot;type&quot; &lt;spaces&gt; &lt;type&gt; &quot;,&quot; &lt;spaces&gt; &quot;valant&quot; &lt;spaces&gt; &lt;value&gt;
+
+&lt;space&gt; ::= &quot;\t&quot; | &quot;\n&quot; | &quot;\r&quot; | &quot;\f&quot; | &quot;\v&quot;
+
+&lt;spaces&gt; ::= &lt;space&gt; | &lt;space&gt; &lt;spaces&gt;
+
+&lt;number&gt; ::= 0 | 1 | 2 | 3 | ...
+
+&lt;signed_number&gt; ::= &quot;-&quot; &lt;number&gt; | &quot;~&quot; &lt;number&gt; | &quot;non&quot; &lt;spaces&gt; &lt;number&gt;
+
+&lt;value&gt; ::= &lt;signed_number&gt; | &lt;number&gt; | &lt;bool&gt; | &lt;char_value&gt;
+
+&lt;word_char&gt; ::= &lt;printable&gt; | &lt;word_symbol&gt;
+
+&lt;printable&gt; ::= &quot;A&quot; .. &quot;Z&quot;
+              | &quot;a&quot; .. &quot;z&quot;
+              | &quot;0&quot; .. &quot;9&quot;
+
+&lt;word_symbol&gt; ::= &quot;!&quot; | &quot;\&quot;&quot; | &quot;#&quot; | &quot;$&quot; | &quot;%&quot; | &quot;&amp;&quot; | &quot;'&quot; | &quot;*&quot; | &quot;+&quot; | &quot;-&quot; | &quot;/&quot; 
+           | &quot;:&quot; | &quot;\;&quot; | &quot;&lt;&quot; | &quot;=&quot; | &quot;&gt;&quot; | &quot;?&quot; | &quot;@&quot;
+           | &quot;[&quot; | &quot;\\&quot; | &quot;]&quot; | &quot;^&quot; | &quot;_&quot; | &quot;{&quot; | &quot;}&quot; | &quot;|&quot; | &quot;~&quot;
+
+&lt;symbol&gt; ::= &lt;word_symbol&gt; | &lt;space&gt; | &lt;printable&gt; | &quot;,&quot; | &quot;\t&quot; | &quot;\n&quot; | &quot;(&quot; | &quot;)&quot;
+
+&lt;word&gt; ::= &lt;word_char&gt; | &lt;word_char&gt; &lt;word&gt;
+
+&lt;char_value&gt; ::= &quot;'&quot; &lt;symbol&gt; &quot;'&quot;
+
+&lt;bool&gt; ::= &quot;faux&quot; | &quot;fausse&quot; | &quot;vrai&quot; | &quot;vraie&quot;
+</pre></div>
+
+<p>As the language is heavily based on the <strong class="strong">French language</strong>, it has shaped
+many of our syntax decisions :
+</p>
+<ul class="itemize mark-bullet">
+<li>We made it mandatory to put spaces where needed in case of
+punctiation, as it is a
+<a class="uref" href="https://formations.mer.gouv.fr/sites/default/files/2023-11/Espacement%20avant%20et%20apr%C3%A8s%20les%20signes%20de%20ponctuation%20et%20les%20symboles.pdf">french
+grammar rule</a>. This works for (&rsquo;:&rsquo;, &rsquo;.&rsquo;, &rsquo;«&rsquo;, &rsquo;»&rsquo;, &rsquo;,&rsquo;).
+</li><li>We decided to replace all operations symbols by their literal French
+equivalent as we wanted this language to use <strong class="strong">as many french words as
+possible</strong> in order to represent <strong class="strong">France</strong>. Therefore, operations such
+as &lsquo;<samp class="samp">+</samp>&rsquo; or &lsquo;<samp class="samp">*</samp>&rsquo; are being replaced by &lsquo;<samp class="samp">plus</samp>&rsquo; and &lsquo;<samp class="samp">multiplié par</samp>&rsquo;. This
+forces to have at least one space before and after such operations as
+they are now depicted as <strong class="strong">words</strong>.
+</li><li>As it can become easily overwhelming to type out every single
+operation using its own word representation, we created alternatives
+to some operations to make them shorter. For example, the XOR &lsquo;<samp class="samp">^</samp>&rsquo;
+operation can either be typed out as &lsquo;<samp class="samp">exclusif ou</samp>&rsquo; or &lsquo;<samp class="samp">xor</samp>&rsquo;. The
+multiply &lsquo;<samp class="samp">*</samp>&rsquo; operation can also either be &lsquo;<samp class="samp">multiplié par</samp>&rsquo; or &lsquo;<samp class="samp">fois</samp>&rsquo;.
+</li><li>We forced every file of our language to begin with &lsquo;<samp class="samp">Bonjour,</samp>&rsquo; (&lsquo;<samp class="samp">Hello</samp>&rsquo;
+in english) in order to fit with the French Culture as french citizens
+are widely known for their politeness. For the same reasons, &lsquo;<samp class="samp">while</samp>&rsquo;
+and &lsquo;<samp class="samp">if</samp>&rsquo; structures ends by &lsquo;<samp class="samp">Merci.</samp>&rsquo; (&lsquo;<samp class="samp">Thank you=in english) and the
+  main function ends with
+  =Merci d'avance, Cordialement, &lt;Name&gt;\n&lt;FamilyName&gt;</samp>&rsquo; (for
+&lsquo;<samp class="samp">Thank you in advance, Best regards, &lt;Name&gt;\n&lt;FamilyName&gt;</samp>&rsquo;) as this
+function is where the program stops.
+</li><li>Words used to describe instructions such as &lsquo;<samp class="samp">J'invoque</samp>&rsquo; (&lsquo;<samp class="samp">Invoke</samp>&rsquo; in
+english) or &lsquo;<samp class="samp">Affiche</samp>&rsquo; (&lsquo;<samp class="samp">Display</samp>&rsquo; in english) were what we thought was
+the best way to directly translate such common instructions in
+<strong class="strong">french</strong>.
+</li><li>As we wanted users to have a unique experience while using the
+language, instructions directly made by users are conjugated in the
+first person in order to simulate a conversation. Other instructions
+executed directly by the machine such as displaying are in imperative
+form in the second person.
+</li><li>Every single instructions ends with a &lsquo;<samp class="samp">.</samp>&rsquo; as every single sentence in
+<strong class="strong">french</strong> ends the same way.
+</li><li>&lsquo;<samp class="samp">while</samp>&rsquo; and &lsquo;<samp class="samp">if</samp>&rsquo; structures do not exactly share the same syntax in
+order to differentiate them properly : &lsquo;<samp class="samp">if</samp>&rsquo; takes a &lsquo;<samp class="samp">,</samp>&rsquo; at the end of
+the condition whereas &lsquo;<samp class="samp">while</samp>&rsquo; doesn&rsquo;t.
+</li><li>Comparison are in the feminine form (&lsquo;<samp class="samp">supérieure</samp>&rsquo;, &lsquo;<samp class="samp">égale</samp>&rsquo;) since the
+French word &lsquo;<samp class="samp">variable</samp>&rsquo; is feminine.
+</li></ul>
+
+
+<ul class="mini-toc">
+<li><a href="Language-logic.html" accesskey="1">Language logic</a></li>
+</ul>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Previous: <a href="Inspirations.html">Inspirations</a>, Up: <a href="Franc-C-reference.html">Franc C reference</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>]</p>
+</div>
+
+
+
+</body>
+</html>

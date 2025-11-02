@@ -1,0 +1,2382 @@
+\input texinfo    @c -*- texinfo -*-
+@c %**start of header
+@setfilename index.info
+@settitle TGPD: The GLADOS Project Documentation
+@documentencoding UTF-8
+@documentlanguage en
+@c %**end of header
+
+@dircategory Misc
+@direntry
+* (index).              TGPD: The GLADOS Project Documentation.
+@end direntry
+
+@finalout
+@titlepage
+@title TGPD: The GLADOS Project Documentation
+@author Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet
+@end titlepage
+
+@contents
+
+@ifnottex
+@node Top
+@top TGPD: The GLADOS Project Documentation
+@end ifnottex
+
+@menu
+* Other documentations::
+* Introduction::
+* Franc C reference::
+* Bytecode reference::
+* Virtual Machine reference::
+* Franc C Compiler::
+* Franc C Virtual Machine::
+* Larousse: Larousse (1). 
+
+@detailmenu
+--- The Detailed Node Listing ---
+
+Franc C reference
+
+* Motives::
+* Inspirations::
+* Language Formal Syntax (BNF)::
+
+Inspirations
+
+* Linotte::
+* C::
+* French language::
+
+Language Formal Syntax (BNF)
+
+* Language logic::
+
+Bytecode reference
+
+* Formal syntax (BNF)::
+* Instructions::
+
+Virtual Machine reference
+
+* Introduction: Introduction (1). 
+* Stack::
+* CallStack::
+* Zero flag::
+* End cases::
+
+Introduction
+
+* Stack-Based vs Register-Based::
+
+Stack
+
+* Initialization::
+* Basic Operations::
+
+CallStack
+
+* Memory Layout::
+* Function call mechanism::
+
+Franc C Compiler
+
+* Parameters list and long descriptions::
+* Larousse::
+* Functioning::
+* Lexer & Parsing reference::
+* Compilation reference::
+* Readable assembly::
+
+Parameters list and long descriptions
+
+* FILESNAME::
+* --output FILENAME::
+* --no-larousse::
+* --debug::
+
+Functioning
+
+* Getting inputs::
+* Lexing and parsing::
+* Combination::
+* Compilation::
+* Verifications::
+* Output::
+* Justifications::
+
+Lexer & Parsing reference
+
+* Safety measures::
+* Error list::
+* Known caveats::
+
+Compilation reference
+
+* Function call parameters, return value and variables: Function call parameters return value and variables. 
+* Safety measures: Safety measures (1). 
+* Intended undefined behaviours::
+
+Readable assembly
+
+* Syntax of the readable assembly::
+* List of instructions::
+
+Franc C Virtual Machine
+
+* Input Descriptions::
+* Architecture Implementation::
+* Exceptions List::
+* Known Caveats::
+
+Input Descriptions
+
+* Bytecode File Format::
+* Command-Line Interface::
+
+Architecture Implementation
+
+* Memory Layout: Memory Layout (1). 
+* Instruction Set Overview::
+* Function Call Convention::
+
+Exceptions List
+
+* Load-Time Errors::
+* Runtime Errors::
+
+Known Caveats
+
+* Undefined Behaviors::
+* Performance Limitations::
+* Portability Issues::
+
+Larousse
+
+* Introduction (motives)::
+* Functions::
+* Académie Franc C'Aise::
+
+@end detailmenu
+@end menu
+
+@node Other documentations
+@chapter Other documentations
+
+@itemize
+@item
+@uref{index.html, Single page documentation}
+
+@item
+@uref{index_html/index.html, Multi page documentation}
+@item
+@uref{index.info, Info page (info -f index.info)}
+@item
+@uref{index.man, Man page (man -l index.man)}
+@end itemize
+
+@node Introduction
+@chapter Introduction
+
+The glados is a third year Epitech project where five people are asked to build a new programming language.
+
+Who never had problems with a programming language ?
+Who never thought of building it's own ?
+Who never imagined a language so litteral, that anyone could use it without technical knowledge ?
+
+Introducing: the @strong{Franc C}.
+The Franc C is a programming language with a litteral french syntax.
+
+In this project, we built five different things.
+@itemize
+@item
+The Franc C language itself, defining it's grammar and application
+@item
+A bytecode associated with the Franc C, used to run Franc C Programs
+@item
+A virtual machine reference, used to dictate how the bytecode should be executed.
+@item
+The Franc C Compiler, a tool used to compile Franc C Reference code into a Franc C Program
+@item
+The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.
+@item
+The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions
+@end itemize
+
+@node Franc C reference
+@chapter Franc C reference
+
+@menu
+* Motives::
+* Inspirations::
+* Language Formal Syntax (BNF)::
+@end menu
+
+@node Motives
+@section Motives
+
+@itemize
+@item
+The @strong{Franc C} was built to allow french people to program in their
+home language.
+@item
+The language is easily readable for a non-technical person.
+@item
+The focus is put on the syntax, not in the functionalities of the
+language.
+@end itemize
+
+@node Inspirations
+@section Inspirations
+
+We took inspiration for our syntax on a beautiful language,
+@uref{http://langagelinotte.free.fr, linotte} ; and for our implementation
+on the @uref{https://www.iso.org/standard/82075.html, C programming
+language}.
+
+Obviously, the french language is our biggest inspirator.
+
+@menu
+* Linotte::
+* C::
+* French language::
+@end menu
+
+@node Linotte
+@subsection Linotte
+
+The linotte programming language is a high-level,
+french-litteral-syntaxed programming language made for introducing
+programmation to children.
+
+We saw it as a great inspiration for our language with the next
+features:
+
+@itemize
+@item
+Word delimitation at the end of functions, if and while conditionals.
+@item
+Use of some syntax like ``read'' instead of ``execute'' code
+@end itemize
+
+The linotte syntax was, however, not litteral enough to our liking.
+
+@node C
+@subsection C
+
+The C programming language is a low-level language. We took inspiration
+from it in the implementation of our language. For example, the C
+programming language is from the imperative paradigm, and so is our
+language.
+
+We took many things from this language:
+
+@itemize
+@item
+The imperative paradigm
+@item
+The int-defined booleans In the C programming language, all integers
+can be interpreted as booleans. A false is a value strictly equal to
+zero, and a true is every other values.
+@item
+The possibility of defining variables local to each function call
+@item
+The possibility of using recursive function calls
+@item
+The representation of a chararacter by it's ascii value
+@item
+The function used to print a character ``putchar''
+@item
+The existence of a standard library with some useful functions
+@item
+All of the operations like xor, addition, bitshift@dots{}
+@item
+The possibility for functions to return a value
+@item
+The infix notation of operations, with parenthesis
+@item
+The possibility to compute directly with any combination of operations
+in any part of the code where a value is required. For example, when
+passing a parameter, you could pass a computation, a variable value,
+or a mix of both
+@end itemize
+
+Many of these features are also present in other languages, but we took
+them from our knowledge of the C programming language.
+
+@node French language
+@subsection French language
+
+French is not a programming, but a spoken language.
+
+We wanted a truly grammatically correct, complete, easily readable, and
+beautiful language.
+
+Our choice was obviously french, as french syntax is way more precise
+than english's.
+
+We searched for dozen of grammar rules to inforce in our language.
+
+@node Language Formal Syntax (BNF)
+@section Language Formal Syntax (BNF)
+
+@example
+<header> ::= "Bonjour," <spaces>
+
+<main> ::= "En" <spaces> "sachant" <spaces> "que" <spaces> "les" <spaces> "variables" <spaces> "principales" <spaces> "sont" <spaces> ":" <spaces> [<variable_list>]
+ "\;" <spaces> "pourrais-tu" <spaces> "s'il" <spaces> "te" <spaces> "plaît" <spaces> "commencer" <spaces> "la" <spaces> "lecture" <spaces> "ici" <spaces> "?" [<spaces>] <block> [<spaces>] "Merci d'avance," <spaces> "Cordialement," <spaces> <name> <name>
+
+<variable_definition> ::= "-" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> <variable_type> "," <spaces> "valant" <spaces> <value> 
+
+<variable_list> ::= <variable_definition> <spaces> [<variable_list>]
+
+<exclusif_or> ::= "ou" <spaces> "exclusif" | "xor"
+
+<arithmetic_operator> ::= "plus" | "moins"
+                        | ("divisé" | "multiplié") <spaces> "par"
+                        | "modulo"
+                        | "fois"
+
+<comparison_operator> ::= "est"
+                        | "est" <spaces> "égale" <spaces> "à"
+                        | "est" <spaces> "différent" <spaces> "de"
+                        | "est" <spaces> "inférieure" <spaces> "à"
+                        | "est" <spaces> "supérieure" <spaces> "à"
+                        | "est" <spaces> "inférieure" <spaces> "ou" <spaces> "égale" <spaces> "à"
+                        | "est" <spaces> "supérieure" <spaces> "ou" <spaces> "égale" <spaces> "à"
+
+<logical_operator> ::= "et" | "ou"
+
+<bitwise_operator> ::= "décalé" <spaces> "binairement" <spaces> "à" <spaces> "gauche"
+    | "décalé" <spaces> "binairement" <spaces> "à" <spaces> "droite"
+    | "et" <spaces> "binaire"
+    | "ou" <spaces> "binaire"
+    | <exclusif_or>
+ 
+<operators> ::= <bitwise_operator> | <logical_operator> | <comparison_operator> | <arithmetic_operator>
+
+<parenthesized_condition> ::= "(" <condition> ")"
+
+<condition> ::= <word> [<spaces> <operators> <spaces> (<condition> | <parenthesized_condition>)]
+              | <value> [<spaces> <operators> <spaces> (<condition> | <parenthesized_condition>)]
+
+<parameter> ::= "-" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> <variable_type>
+
+<parameter_list> ::= <parameter> <spaces> [<parameter_list>]
+
+<function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <spaces> <function_type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée" <spaces> ":" <spaces> [<parameter_list>] "\;" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> [<variable_list>] "\;" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <spaces> ("suivant" | "ci-après" | "ci-dessous") "." [<spaces>] <block> <spaces> "Merci."
+
+<text> ::= <symbol> [<text>]
+
+<comment> ::= "*" <text> "*"
+
+<quoted_value> ::= "« " <text> " »"
+
+<block> ::= <statement_list>
+
+<statement_list> ::= <statement> [[<spaces>] <statement_list> [<spaces]]
+
+<statement> ::= <condition_statement> | <return_statement> | <loop_statement> | <display_statement> | <invoke_statement> | <assignment_statement>
+
+<return_statement> ::= "Enfin," <spaces> "renvoie" <spaces> <condition> "." | "Enfin," <spaces> "sors" <spaces> "du" <spaces> "bloc."
+
+<condition_definition> ::= "Si" <spaces> <condition> "," <spaces> "exécute" <spaces> "le" <spaces> "texte" <spaces> ":"
+
+<condition_statement> ::= <condition_definition> <space> <block> "Merci."
+    | <condition_definition> <space> <block> "\;" <space> "sinon" <space> "exécute" <space> "le" <space> "texte" <space> ":" <block> "Merci."
+
+<loop_statement> ::= "Tant" <spaces> "que" <condition> <spaces> "exécute" <spaces> "le" <spaces> "code" <spaces> "ci-après" <spaces> ":" <spaces> <block> "Merci."
+
+<display_statement> ::= "Affiche" (<condition> | <quoted_value>) "."
+
+<invoke_params> ::= <condition> ["," <condition>]
+
+<invoke_statement> ::= "J'invoque" <spaces> "le" <spaces> "bloc" <spaces> <word>
+    ["," <spaces> "et" <spaces> "j'assigne" <spaces> "la" <spaces> "valeur" <spaces> "de" <spaces> "retour" <spaces> "à" <spaces> "la" <spaces> "variable" <spaces> <word>]
+    ["," <spaces> "avec les paramètres" <spaces> <invoke_params>] "."
+
+<assignment_statement> ::= "J'aimerais" <spaces> "que" <spaces> <word> <spaces> "prenne" <spaces> "la" <spaces> "valeur" <spaces> <condition> "." |
+    <word> <spaces> "prend" <spaces> "la" <spaces> "valeur" <spaces> <condition>
+
+<variable_type> ::= "entier" <spaces> "naturel" | "booléen"
+
+<function_type> ::= "entier" <spaces> "naturel" | "booléen" | "nul"
+
+<name> ::= <word> "\n"
+
+<variables_list> ::= <variables> | <variables> <spaces> <variables_list>
+
+<variables> ::= <name> "," <spaces> "de" <spaces> "type" <spaces> <type> "," <spaces> "valant" <spaces> <value>
+
+<space> ::= "\t" | "\n" | "\r" | "\f" | "\v"
+
+<spaces> ::= <space> | <space> <spaces>
+
+<number> ::= 0 | 1 | 2 | 3 | ...
+
+<signed_number> ::= "-" <number> | "~" <number> | "non" <spaces> <number>
+
+<value> ::= <signed_number> | <number> | <bool> | <char_value>
+
+<word_char> ::= <printable> | <word_symbol>
+
+<printable> ::= "A" .. "Z"
+              | "a" .. "z"
+              | "0" .. "9"
+
+<word_symbol> ::= "!" | "\"" | "#" | "$" | "%" | "&" | "'" | "*" | "+" | "-" | "/" 
+           | ":" | "\;" | "<" | "=" | ">" | "?" | "@@"
+           | "[" | "\\" | "]" | "^" | "_" | "@{" | "@}" | "|" | "~"
+
+<symbol> ::= <word_symbol> | <space> | <printable> | "," | "\t" | "\n" | "(" | ")"
+
+<word> ::= <word_char> | <word_char> <word>
+
+<char_value> ::= "'" <symbol> "'"
+
+<bool> ::= "faux" | "fausse" | "vrai" | "vraie"
+@end example
+
+As the language is heavily based on the @strong{French language}, it has shaped
+many of our syntax decisions :
+
+@itemize
+@item
+We made it mandatory to put spaces where needed in case of
+punctiation, as it is a
+@uref{https://formations.mer.gouv.fr/sites/default/files/2023-11/Espacement%20avant%20et%20apr%C3%A8s%20les%20signes%20de%20ponctuation%20et%20les%20symboles.pdf, french
+grammar rule}. This works for (':', '.', '«', '»', ',').
+@item
+We decided to replace all operations symbols by their literal French
+equivalent as we wanted this language to use @strong{as many french words as
+possible} in order to represent @strong{France}. Therefore, operations such
+as @samp{+} or @samp{*} are being replaced by @samp{plus} and @samp{multiplié par}. This
+forces to have at least one space before and after such operations as
+they are now depicted as @strong{words}.
+@item
+As it can become easily overwhelming to type out every single
+operation using its own word representation, we created alternatives
+to some operations to make them shorter. For example, the XOR @samp{^}
+operation can either be typed out as @samp{exclusif ou} or @samp{xor}. The
+multiply @samp{*} operation can also either be @samp{multiplié par} or @samp{fois}.
+@item
+We forced every file of our language to begin with @samp{Bonjour,} (@samp{Hello}
+in english) in order to fit with the French Culture as french citizens
+are widely known for their politeness. For the same reasons, @samp{while}
+and @samp{if} structures ends by @samp{Merci.} (@samp{Thank you=in english) and the
+  main function ends with
+  =Merci d'avance, Cordialement, <Name>\n<FamilyName>} (for
+@samp{Thank you in advance, Best regards, <Name>\n<FamilyName>}) as this
+function is where the program stops.
+@item
+Words used to describe instructions such as @samp{J'invoque} (@samp{Invoke} in
+english) or @samp{Affiche} (@samp{Display} in english) were what we thought was
+the best way to directly translate such common instructions in
+@strong{french}.
+@item
+As we wanted users to have a unique experience while using the
+language, instructions directly made by users are conjugated in the
+first person in order to simulate a conversation. Other instructions
+executed directly by the machine such as displaying are in imperative
+form in the second person.
+@item
+Every single instructions ends with a @samp{.} as every single sentence in
+@strong{french} ends the same way.
+@item
+@samp{while} and @samp{if} structures do not exactly share the same syntax in
+order to differentiate them properly : @samp{if} takes a @samp{,} at the end of
+the condition whereas @samp{while} doesn't.
+@item
+Comparison are in the feminine form (@samp{supérieure}, @samp{égale}) since the
+French word @samp{variable} is feminine.
+@end itemize
+
+@menu
+* Language logic::
+@end menu
+
+@node Language logic
+@subsection Language logic
+
+@enumerate
+@item
+@anchor{@strong{Header}}@strong{Header}
+
+
+A file in @samp{Franc C} always starts with: ``Bonjour,'' followed by an empty
+line.
+
+Politeness is very important, and we wanted @samp{Franc C} to express a
+proper and classic language, not a crappy street language. We promise
+you will learn the ``bien parlé'' by using @samp{Franc C}
+
+@item
+@anchor{@strong{Function Declaration}}@strong{Function Declaration}
+
+
+In order to declare a function, you must specify:
+
+@enumerate
+@item
+@anchor{The name of the function}The name of the function
+
+
+@example
+J'aimerais définir le bloc répondant au nom de <function_name>,
+@end example
+
+where is the name of the function
+
+@item
+@anchor{The return type of the function}The return type of the function
+
+
+@example
+de type de retour entier naturel,
+@end example
+
+for the function to return an integer.
+
+@example
+de type de retour booléen,
+@end example
+
+for the function to return a boolean.
+
+@example
+de type de retour nul,
+@end example
+
+if the function does not return anything. (void function)
+
+@item
+@anchor{The parameters of the function}The parameters of the function
+
+
+A parameter, in Franc C, is defined the same way as other programming
+languages : Those are variables that must be passed when the function is
+invoked for it to use them.
+
+@example
+necéssitant comme entrée :
+    - <variable_name1>, de type <type>
+    - <variable_name2>, de type <type>
+    ...
+;
+@end example
+
+You can include as many parameter as you want as long as they @strong{do not
+share} the same name.
+
+@itemize
+@item
+@samp{<variable_name1>} and @samp{<variable_name2>} are the name of the
+variables which are both different.
+@item
+@samp{<type>} is either @samp{booléen} if the parameter is a @samp{boolean} or
+@samp{entier naturel} if it is an @samp{int}.
+@end itemize
+
+Parameters are obviously optional. If the function does not take any
+parameters, you must specify :
+
+@example
+nécessitant comme entrée : ;
+@end example
+
+@item
+@anchor{Variables}Variables
+
+
+Variables created and used inside a function, in Franc C, are defined in
+the function definition. Since Franc C is a very verbose language and
+uses a lot of words, creating variables at the top of the function makes
+it a very good way to clearly see them.
+
+Such variables are being declared the following way :
+
+@example
+contenant les variables :
+    - <variable_name1>, de type <type>, valant <value>
+    - <variable_name2>, de type <type>, valant <value>
+;
+@end example
+
+Just like @strong{parameters}, @strong{variables} must not share the same name. A
+@strong{parameter} and a @strong{variable} can not share the same name either.
+
+@itemize
+@item
+@samp{<variable_name1>} and @samp{<variable_name2>} are the name of the
+variables which are both different.
+@item
+@samp{<type>} is either @samp{booléen} if the variable is a @samp{boolean} or
+@samp{entier naturel} if it is an @samp{int}.
+@item
+@samp{<value>} is either a number or a boolean expression @samp{vrai} @samp{vraie}
+@samp{faux} or @samp{fausse}. It can also be a character value like @samp{\n} (which
+will be 10).
+@end itemize
+
+This @strong{forces} every single created variable to have a default value.
+
+If the function does not use any variable, you must specify :
+
+@example
+contenant les variables : ;
+@end example
+@end enumerate
+
+@item
+@anchor{@strong{Function Body}}@strong{Function Body}
+
+
+A function declaration ends with
+
+@example
+représenté par le code <logical_connector>.
+@end example
+
+@itemize
+@item
+@samp{<logical_connector>} is either @samp{ci-après}, @samp{suivant}, or
+@samp{ci-dessous}.
+@end itemize
+
+What must follow this declaration is the @strong{body of the function}, which
+is what @strong{will be executed} when the function is @strong{invoked}.
+
+In Franc C, what can be executed inside a function is being refered as
+an @samp{instruction}.
+
+Those are the available instructions that you can execute inside a
+function :
+
+@enumerate
+@item
+@anchor{Assignement}Assignement
+
+
+You can, at any time, change the value of a variable the following way :
+
+@example
+J'aimerais que <variable_name> prenne la valeur <computables>.
+@end example
+
+or
+
+@example
+<variable_name> prends la valeur <computables>.
+@end example
+
+@itemize
+@item
+@samp{<variable_name>} represents the name of an existing well-defined
+variable of the function.
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@end itemize
+
+@item
+@anchor{If}If
+
+
+Execute a block of code only if a specific condition was met. It can be
+defined the following way :
+
+@example
+Si <computables>, exécute le texte :
+    <more_instructions>
+Merci.
+@end example
+
+@itemize
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@item
+@samp{<more_instructions>} represents all the instructions that will be
+executed @strong{ONLY} if the @strong{condition} was @strong{met}.
+@item
+@samp{Merci.} represents the end of the condition.
+@end itemize
+
+You can also execute a block of code if the condition wasn't met the
+following way :
+
+@example
+Si <computables>, exécute le texte :
+    <more_instructions>
+; sinon, exécute le texte :
+    <more_instructions_2>
+Merci.
+@end example
+
+@itemize
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@item
+@samp{<more_instructions>} represents all the instructions that will be
+executed @strong{ONLY} if the @strong{condition} was @strong{met}.
+@item
+@samp{<more_instructions_2>} represents all the instructions that will be
+executed @strong{ONLY} if the @strong{condition} was @strong{not met}.
+@item
+@samp{Merci.} represents the end of the condition.
+@end itemize
+
+@item
+@anchor{Invoke}Invoke
+
+
+Invoke another function inside a function, you can also store its result
+in a well-defined function variable.
+
+@example
+J'invoque le bloc <function_name>.
+@end example
+
+@itemize
+@item
+@samp{<function_name>} is the name of an @strong{existing defined function}.
+@end itemize
+
+If the function that is being invoked takes parameters, they @strong{must} be
+specified the following way :
+
+@example
+J'invoque le bloc <function_name>, avec les paramètres <computables>, <computables>, <computables>.
+@end example
+
+@itemize
+@item
+@samp{<function_name>} is the name of an @strong{existing defined function}.
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@end itemize
+
+You @strong{must} not give to a function more parameters than it takes.
+
+In order to store the result of a function, while still giving
+parameters :
+
+@example
+J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>, avec les paramètres <computables>, <computables>, <computables>.
+@end example
+
+@itemize
+@item
+@samp{<function_name>} is the name of an @strong{existing defined function}.
+@item
+@samp{<variable_name>} represents the name of an existing well-defined
+variable of the function.
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@end itemize
+
+However, if you do not want to give any parameter :
+
+@example
+J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>.
+@end example
+
+@itemize
+@item
+@samp{<function_name>} is the name of an @strong{existing defined function}.
+@item
+@samp{<variable_name>} represents the name of an existing well-defined
+variable of the function
+@end itemize
+
+@item
+@anchor{Loop}Loop
+
+
+The only type of loop that is currently implemented in @samp{Franc C} are the
+@samp{while} loops.
+
+A loop allows to execute a block of code until a condition cannot be met
+anymore.
+
+@example
+Tant que <computables> exécute le code ci-après :
+    <more_instructions>
+Merci.
+@end example
+
+@itemize
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@item
+@samp{<more_instructions>} represents all the instructions that will be
+executed @strong{ONLY} if the @strong{condition} was @strong{met}.
+@item
+@samp{Merci.} represents the end of the loop.
+@end itemize
+
+@item
+@anchor{Return}Return
+
+
+During the execution of the function, you can return at any time a
+@strong{value}. Returning a value will cause the function execution to @strong{stop}.
+
+The only condition to return a value is that the function must not be of
+type ``nul''.
+
+@example
+Enfin, renvoie <computables>.
+@end example
+
+@itemize
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@end itemize
+
+If the function does not return anything (@samp{nul} function), you can still
+stop the execution at any time.
+
+@example
+Enfin, sors du bloc.
+@end example
+
+This works only if the function is a @samp{nul} function.
+
+@item
+@anchor{Show statements}Show statements
+
+
+This instruction is used to display either a text, or the result of a
+computation in the screen.
+
+To display a computation :
+
+@example
+Affiche <computables>.
+@end example
+
+@itemize
+@item
+@samp{<computables>} represents an expression composed of values with
+operators. (*Check the @samp{<condition>} defintion on the BNF)
+@end itemize
+
+This will display @strong{the character} corresponding to the result on the
+screen. (E.g): @samp{Affiche 10.} will display @samp{\n}.
+
+However, if you want to display a text :
+
+@example
+Affiche « Meow ».
+@end example
+
+This will display the text @samp{Meow} on the screen.
+@end enumerate
+
+@item
+@anchor{@strong{End of Function}}@strong{End of Function}
+
+
+You must @strong{always} end your @strong{Function Body} with a @samp{Merci.}.
+
+@item
+@anchor{@strong{Special case of 'Main' Function}}@strong{Special case of 'Main' Function}
+
+
+The @strong{main function} is where the program starts. Therefore, its
+defintion must be clearly different from the @strong{other functions}.
+
+Such functions are being defined the following way :
+
+@example
+Bonjour,
+
+En sachant que les variables principales sont :
+    <variables>
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    <instructions>
+Merci d'avance,
+Cordialement,
+<family_name>
+<name>
+@end example
+
+@itemize
+@item
+@samp{<variables>} is an optional field, and represents the variables of
+the function. They are declared the same way as a normal function.
+@item
+@samp{<instructions>} represents all the instructions that will be
+executed.
+@item
+@samp{Merci d'avance, Cordialement, <family_name> <name>.} represents the
+end of the main function
+@item
+@samp{<family_name>} represents the developer's last name, and must always
+end with a newline character ('\n').
+@item
+@samp{<name>} represents the developer's first name, and must also end with
+a newline character ('\n').
+@end itemize
+
+A @strong{main function} does not take any parameter. Therefore, no parameter
+definition must be done. The value being @strong{returned} in the @strong{main
+function} represent the exit status of the program. If no value was
+being @strong{returned}, the program exists by default with a status code of
+@samp{0}.
+@end enumerate
+
+@node Bytecode reference
+@chapter Bytecode reference
+
+The bytecode starts with a magic number, followed by an address
+describing the placement of the PC at the start of the program, followed
+by the program itself.
+
+@menu
+* Formal syntax (BNF)::
+* Instructions::
+@end menu
+
+@node Formal syntax (BNF)
+@section Formal syntax (BNF)
+
+@example
+<bytecode> ::= <magic_number> <adress> <operation_list>
+
+<magic_number> ::= "E\fE\f" ; 0x45 0xc 0x45 0xc
+
+<adress> ::= <byte> <byte> <byte> <byte> <byte> <byte> <byte> <byte>
+
+<operation_list> ::= <operation> | <operation>  <operation_list>
+
+<operation> ::= <not>
+              | <lnot>
+              | <neg>
+              | <and>
+              | <or>
+              | <xor>
+              | <shl>
+              | <shr>
+              | <land>
+              | <lor>
+              | <add>
+              | <sub>
+              | <mult>
+              | <div>
+              | <mod>
+              | <gt>
+              | <ge>
+              | <lt>
+              | <le>
+              | <eq>
+              | <diff>
+              | <updz>
+              | <push_stack>
+              | <pop_stack>
+              | <pop>
+              | <call>
+              | <ret>
+              | <jmp>
+              | <zjmp>
+              | <aff>
+              | <affs>
+              | <push_value>
+              | <push_label>
+
+
+<not> ::= "\003"
+
+<lnot> ::= "\004"
+
+<neg> ::= "\005"
+
+<and> ::= "\006"
+
+<or> ::= "\a"
+
+<land> ::= "\b"
+
+<lor> ::= "\t"
+
+<xor> ::= "\n"
+
+<shl> ::= "\v"
+
+<shr> ::= "\f"
+
+<add> ::= "\r"
+
+<sub> ::= "\016"
+
+<mult> ::= "\017"
+
+<div> ::= "\020"
+
+<mod> ::= "\021"
+
+<gt> ::= "\022"
+
+<ge> ::= "\023"
+
+<lt> ::= "\024"
+
+<le> ::= "\025"
+
+<eq> ::= "\026"
+
+<diff> ::= "\027"
+
+<updz> ::= "\030"
+
+<push_stack> ::= "\035" <arguments>
+
+<pop_stack> ::= "\036" <arguments>
+
+<pop> ::= "\037"
+
+<call> ::= """
+
+<ret> ::= "#"
+
+<jmp> ::= "$"
+
+<zjmp> ::= "%"
+
+<aff> ::= "&"
+
+<affs> ::= "'" <arguments> <string>
+
+<push_value> ::= "Y" <arguments>
+
+<push_label> ::= "[" <arguments>
+
+<arguments> ::= <byte> <byte> <byte> <byte> <byte> <byte> <byte> <byte>
+
+<string> ::= <byte> | <byte> <string>
+
+<byte > =  "\0" .. "ÿ"
+@end example
+
+@node Instructions
+@section Instructions
+
+Since the virtual machine is stack-based, every instruction representing
+an operation will pop it's operands, and push the result to the stack.
+
+@multitable {aaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaa}
+@headitem mnemonic
+@tab description
+@tab bnf object
+@item not
+@tab Not, invert the bits of the operand
+@tab not
+@item lnot
+@tab Logical not, invert the boolean interpretation of the operand
+@tab lnot
+@item neg
+@tab Negate, switch the sign of the operand
+@tab neg
+@item and
+@tab And, performs a binary AND operation between two operands
+@tab and
+@item or
+@tab Or, performs a binary OR operation between two operands
+@tab or
+@item xor
+@tab Exclusive or, performs a binary XOR operation between two operands
+@tab xor
+@item shl
+@tab Left bitshift, shifts the bits of the operand to the left, appending zeroes
+@tab shl
+@item shr
+@tab Right bitshift, shifts the bits of the operand to the right, appending zeroes
+@tab shr
+@item land
+@tab Logical and, boolean interpretation of the logical AND on two operands
+@tab land
+@item lor
+@tab Logical or, boolean interpretation of the logical OR on two operands
+@tab lor
+@item add
+@tab Addition, adds the value of two operands
+@tab add
+@item sub
+@tab Substraction, subtract the value of two operands
+@tab sub
+@item mult
+@tab Multiplication, multiplies the value of two operands
+@tab mult
+@item div
+@tab Division, return the dividend of the euclidian division of operand 1 by operand 2
+@tab div
+@item mod
+@tab Modulo, return the rest of the euclidian division of operand 1 by operand 2
+@tab mod
+@item gt
+@tab Greater than, compares the two operands and return a result for boolean interpretation
+@tab gt
+@item ge
+@tab Greater than or equals to, compares the two operands and return a result for boolean interpretation
+@tab ge
+@item lt
+@tab Less than, compares the two operands and return a result for boolean interpretation
+@tab lt
+@item le
+@tab Less than or equals to, compares the two operands and return a result for boolean interpretation
+@tab le
+@item eq
+@tab Equals, compares the two operands and return a result for boolean interpretation
+@tab eq
+@item neq
+@tab Different from, compares the two operands and return a result for boolean interpretation
+@tab diff
+@item updz
+@tab Update zero flag, pops the value from the stack and set it as the new zero flag
+@tab updz
+@item push
+@tab Push value, push a 64 bits value to the stack
+@tab push@math{_value}
+@item push
+@tab Push relative address, push a 64 bits relative address to the stack, corresponding generally to a label
+@tab push@math{_label}
+@item push
+@tab Push from stack pointer relative address, push to the stack the 8 bytes found at the stack pointer + the address given as operand
+@tab push@math{_stack}
+@item pop
+@tab Pop empty, pop 8 bytes from the stack
+@tab pop
+@item pop
+@tab Pop to stack pointer relative address, pop 8 bytes from the stack, and write them to the stack pointer + the address given as operand
+@tab pop@math{_stack}
+@item call
+@tab Call, op 8 bytes from the stack, register the new stack pointer, push the PC and stack pointer to the callstack, and jump to the value of the 8 bytes popped from the stack
+@tab call
+@item ret
+@tab Return, reset the stack to the stack pointer, pop the callstack and jump to the address from the callstack pop
+@tab ret
+@item jmp
+@tab Jump, pop an address from the stack, and set the PC to it
+@tab jmp
+@item zjmp
+@tab Zero jump, pop an address from the stack, and if the zero flag is set, set the PC to it
+@tab zjmp
+@item aff
+@tab Show, pop 8 bytes from the stack, apply a modulo 256 to the result, and write a single ascii character corresponding to the result
+@tab aff
+@item affs
+@tab Show string, the first operand is a 64 bits integer corresponding to the number of caracters, that we will call n. The next n bytes are the ascii values of the characters that will be wrote
+@tab affs
+@end multitable
+
+@node Virtual Machine reference
+@chapter Virtual Machine reference
+
+@menu
+* Introduction: Introduction (1). 
+* Stack::
+* CallStack::
+* Zero flag::
+* End cases::
+@end menu
+
+@node Introduction (1)
+@section Introduction
+
+When defining an assembly language for the Franc C binary, we focused on
+the ease of development of the compiler. We just had one requirement
+that allowed an easy development of the virtual machine: our assembly
+shall be
+@uref{https://en.wikipedia.org/wiki/Stack-oriented_programming, stack-based},
+drawing inspiration from the
+@uref{https://en.wikipedia.org/wiki/Java_virtual_machine, Java Virtual
+Machine (JVM)}.
+
+@menu
+* Stack-Based vs Register-Based::
+@end menu
+
+@node Stack-Based vs Register-Based
+@subsection Stack-Based vs Register-Based
+
+@multitable {aaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+@headitem Aspect
+@tab Stack-Based (fcvm)
+@tab Register-Based (e.g., Lua VM)
+@item @strong{Storage}
+@tab Operand stack (LIFO)
+@tab Virtual registers
+@item @strong{Instructions}
+@tab Compact, implicit operands, prone to errors
+@tab Explicit operand addressing
+@item @strong{Complexity}
+@tab Simple to implement
+@tab More complex logic
+@item @strong{Bytecode Size}
+@tab Bigger overall (smaller instructions but way more quantiry)
+@tab Smaller overall
+@end multitable
+
+We chose a stack-based approach for the following reasons:
+
+@enumerate
+@item
+@strong{Simpler bytecode generation}: The compiler does not have to deal
+with registers, knowing it does not have the capacity to remember
+data while processing multiple operations.
+@item
+@strong{Monotyped language}: The fact that the Franc C is an integer only
+language allows for fixed-size parameter encoding. One of the main
+advantages of the register-based approach is to allow for type
+encoding.
+@end enumerate
+
+@node Stack
+@section Stack
+
+The stack shoud be implemented as a contiguous array of bytes with the
+following characteristics:
+
+@itemize
+@item
+@strong{Data type}: Array of bytes
+@item
+@strong{Element size}: 8 bytes per element (64-bit signed integers)
+@item
+@strong{Alignment}: All operations push/pop exactly 8 bytes
+@item
+@strong{Stack size}: Always a multiple of 8 bytes
+@end itemize
+
+@menu
+* Initialization::
+* Basic Operations::
+@end menu
+
+@enumerate
+@item
+@anchor{Stack Management}Stack Management
+
+
+To perform function calls, the VM must maintains the stack pointer. It
+points to the start of the current stack local context. it is modified
+by the instructions call and ret.
+@end enumerate
+
+@node Initialization
+@subsection Initialization
+
+By default, the stack should be initialized with 8 bytes representing
+the return value of the program. The default value is
+implementation-defined.
+
+@node Basic Operations
+@subsection Basic Operations
+
+@multitable {aaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaa}
+@headitem Operation
+@tab Description
+@tab Stack Effect
+@item @strong{PUSH}
+@tab Push 8 bytes onto the stack
+@tab SP unchanged, Counter += 1
+@item @strong{POP}
+@tab Remove 8 bytes from the stack
+@tab SP unchanged, Counter -= 1
+@end multitable
+
+@node CallStack
+@section CallStack
+
+The @strong{callstack} manages function calls and returns, enabling the VM
+to: - Navigate between functions - Restore execution context after
+function returns - Maintain function-local state - Detect program
+termination
+
+@menu
+* Memory Layout::
+* Function call mechanism::
+@end menu
+
+@node Memory Layout
+@subsection Memory Layout
+
+The callstack can be implemented as a contiguous array of frame
+records:@*
+By default, the callstack can be initialized as an @strong{empty array}.
+
+Example implementation : - @strong{Data type}: Array of tuples @samp{[(PC, SP)]} -
+@strong{PC} (Program Counter): Return address (next instruction after CALL) -
+@strong{SP} (Stack Pointer): Stack state at call time
+
+@multitable {aaaaa} {aa} {aa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+@headitem Frame
+@tab PC
+@tab SP
+@tab Description
+@item 0
+@tab 0
+@tab 0
+@tab Entry point
+@item 1
+@tab 12
+@tab 16
+@tab First function call
+@item 2
+@tab 57
+@tab 24
+@tab Current function locale start
+@end multitable
+
+@node Function call mechanism
+@subsection Function call mechanism
+
+When executing @samp{call <address>}:
+
+@enumerate
+@item
+@strong{Save current context}: Push @samp{(PC + 1, SP)} onto the call stack
+@itemize
+@item
+@samp{PC + 1}: Address of the instruction following CALL
+@item
+@samp{SP}: Current stack pointer (preserves caller's stack)
+@end itemize
+@item
+@strong{Jump to function}: Set @samp{PC = <address>}
+@end enumerate
+
+When executing @samp{Ret}:
+
+@enumerate
+@item
+@strong{Pop frame}: Retrieve @samp{(saved_PC, saved_SP)} from call stack
+@item
+@strong{Restore context}:
+@itemize
+@item
+Set @samp{PC = saved_PC} (return to caller)
+@item
+Set @samp{SP = saved_SP} (restore stack state)
+@end itemize
+@item
+@strong{Check termination}: If call stack is empty after pop, @strong{terminate
+program}
+@end enumerate
+
+@node Zero flag
+@section Zero flag
+
+The @strong{Zero Flag} is a single-bit register used for conditional branching
+and control flow decisions.@*
+It stores the result of comparison and test operations,@*
+enabling the implementation of @samp{if} and @samp{while}.
+
+@itemize
+@item
+@strong{Data type}: @samp{unsigned char}
+@item
+@strong{Default value}: @samp{1}
+@end itemize
+
+The Zero Flag follows this logic:
+
+@multitable {aaaaaaaaa} {aaaaaaaaaaaaaaa}
+@headitem Condition
+@tab Zero Flag Value
+@item @strong{!= 0}
+@tab @samp{1} (true)
+@item @strong{== 0}
+@tab @samp{0} (false)
+@end multitable
+
+@node End cases
+@section End cases
+
+The program terminates normally when: - A @samp{Ret} instruction is executed
+from the main function - The call stack becomes empty after the return
+
+@strong{Version} : 1.2@*
+@strong{Last update} : Novembre 2025@*
+@strong{Author} : Acacademie Franc C'aise
+
+@node Franc C Compiler
+@chapter Franc C Compiler
+
+The Franc C Compiler (FCC) is a toolchain that allows the compilation of
+one or multiple Franc C Reference code (.fr) files into a single
+bytecode executable by the FCVM program.
+
+@menu
+* Parameters list and long descriptions::
+* Larousse::
+* Functioning::
+* Lexer & Parsing reference::
+* Compilation reference::
+* Readable assembly::
+@end menu
+
+@node Parameters list and long descriptions
+@section Parameters list and long descriptions
+
+@samp{fcc FILESNAME [-o|--output FILENAME] [-n|--no-larousse] [-d|--debug]}
+
+@menu
+* FILESNAME::
+* --output FILENAME::
+* --no-larousse::
+* --debug::
+@end menu
+
+@node FILESNAME
+@subsection FILESNAME
+
+The name of the input files. They need to be valid .fr source files.
+
+@node --output FILENAME
+@subsection --output FILENAME
+
+The name of the output bytecode file. Only considered without the
+--debug flag.
+
+Without the presence of this flag, the default output file is @samp{a.fcp}.
+
+@node --no-larousse
+@subsection --no-larousse
+
+By default, the FCC program compiles with the Larousse sources included.
+See the @ref{Larousse, , larousse} section.
+
+This flag allows compilation without any files from the Larousse
+library.
+
+@node --debug
+@subsection --debug
+
+This flags allows a debug output. Instead of writing the bytecode to a
+file, a debug view of the assembly is wrote to the standard output
+(/dev/stdout on most GNU/linux machines).
+
+@node Larousse
+@section Larousse
+
+The Larousse is the standard library who accompanies the FCC program. If
+the Larousse is to be included, the @samp{fcc} program will search a folder
+named @samp{larousse}, and then list in all subdirectories of level-1 the
+@samp{.fr} source files. Those found source files will be added to the input
+list, and compiled.
+
+@node Functioning
+@section Functioning
+
+The FCC program works with different steps.
+
+@menu
+* Getting inputs::
+* Lexing and parsing::
+* Combination::
+* Compilation::
+* Verifications::
+* Output::
+* Justifications::
+@end menu
+
+@node Getting inputs
+@subsection Getting inputs
+
+The inputs are retrived via the Larousse library and the user-provided
+files.
+
+@node Lexing and parsing
+@subsection Lexing and parsing
+
+Each file is lexed into a list of token, then parsed into an Abstract
+Syntax Tree (AST).
+
+See @ref{Lexer & Parsing reference, , the parsing reference} for more
+information.
+
+This step may fail. Each file being converted one after the other, if
+one fails, the remaining ones are not even considered and an error is
+returned.
+
+@node Combination
+@subsection Combination
+
+Each AST representing each files given for compilation is then combined.
+
+In this step, the presence of a single principal function is verified,
+and if no or multiple are found, an error is returned.
+
+The result is a CAST (Combined Abstract Syntax Tree)
+
+@node Compilation
+@subsection Compilation
+
+The compilation step is where the CAST is converted to a Context
+datastructure, linked with an Assembly datastructure. It is not yet
+bytecode, just a structure representing the final output.
+
+The context structure is important for the next step.
+
+This step is really linear, there is no acknowledgement of the rest of
+the program when compiling a subpart.
+
+@node Verifications
+@subsection Verifications
+
+This step ensures some basic verifications.
+
+It takes the context from the previous step, and analyses it to find any
+flaws.
+
+For example, we check here if a function is invoked whilst it's
+reference is non-existant.
+
+@node Output
+@subsection Output
+
+This step is the final one.
+
+If the @samp{--debug} flag is given, it will take the structured assembly and
+write it down just as it is stored.
+
+Elsewise, it is converted to bytecode in really two small steps. The
+first one is to convert labels to relative positions. The second one is
+to convert everything to it's bytecode relation.
+
+Finaly, the resulted bytecode is written to the designated output file.
+
+@node Justifications
+@subsection Justifications
+
+Regarding the lexing and parsing part, we decided so separate those to
+allow for easier syntaxic sugar implementation and code readability.
+
+The combination part was added to allow for multiple input files to be
+grouped together before the compilation process. It is easier to do it
+like this than to try and combine multiple outputed bytecodes together,
+like the @samp{ld} program does when compiling a C program.
+
+The compilation is linear, and therefore, we had to separate the
+verification process from this step, to allow for a really easy-to-read
+code. Having a linear compilation reduces the capacity of complex
+program logic, but since the Franc C is a really simple imperative
+language, it poses no problems to do it this way. We simply store some
+context in a datastructure for the verification step to look in a global
+point of view, instead of the linearly reduced point of view of the
+compilation.
+
+Finaly, we send the assembly to out output step, that is in charge of
+converting it to the final bytecode, or to write it as a debug output.
+
+@node Lexer & Parsing reference
+@section Lexer & Parsing reference
+
+We have chosen Haskell to implement the lexing and parsing of the
+language, as functional languages like Haskell make it particularly easy
+to express, abstract, and combine parsers. This allows the Franc C to be
+very verbose, which was definitely needed.
+
+As we wanted to speed things up and release a first version as quickly
+as possible, we decided to use a pre-existing parsing library
+@samp{Megaparsec}. The library offers fast parsing performance, is an
+improved successor of @samp{Parsec}, and provides high-quality error messages
+that greatly simplify debugging and development.
+
+The @samp{Lexer} and @samp{Parser} both refers to two different parts:
+
+@itemize
+@item
+The @samp{Lexer}, which uses @samp{Megaparsec} reads the source code's syntax,
+checks that it follows the correct grammar, then converts the text
+into a list of tokens that the parser can later use. For example, the
+code @samp{Si x est égale à 0, exécute le texte} would be transformed into
+the list as @samp{[If, Symbol "x", Operation Equals, Number 0, Then]}
+@item
+The @samp{Parser}, on the other hand, takes this list of tokens to
+transform it into an @strong{Abstract Syntax Tree} (AST). It uses Haskell's
+recursive principles to build that tree so that the compiler can later
+use it to generate the final executable library.
+@end itemize
+
+The @samp{Parser} is only executed if the @samp{Lexer} did not fail to lex the
+targetted source code.
+
+@menu
+* Safety measures::
+* Error list::
+* Known caveats::
+@end menu
+
+@node Safety measures
+@subsection Safety measures
+
+The safety of the lexing process is ensured by @samp{Megaparsec}, which
+provides robust error handling and syntax checking. During the lexing
+part, Megaparsec ensures the input strictly follows the defined grammar.
+If the syntax is incorrect, the lexer fails gracefully by producing a
+clear and descriptive error message, preventing the program from
+continuing with an invalid input. If the syntax is valid, the lexer
+successfully returns a well-structured list of tokens that can safely be
+passed to the parser.
+
+Since the Lexer always produces a clean and valid list of tokens, the
+Parser does not include any additional safety checks on its input.
+However, it makes sure that no more than @strong{one} main function was
+defined.
+
+@node Error list
+@subsection Error list
+
+@itemize
+@item
+Grammar Error : Triggered when Megaparsec fails to lex or parse the
+source code due to @strong{invalid syntax}.
+@item
+Double Main Definition : Raised when more than one main function was
+defined in the program.
+@end itemize
+
+@node Known caveats
+@subsection Known caveats
+
+@itemize
+@item
+Lexing Error Printing : We are aware that Megaparsec does not always
+display clear or accurate error messages in some cases. This issue is
+due to our current lexing implementation rather than Megaparsec
+itself, and should be fixed soon or later.
+@item
+Parsing Input : The parser currently does not validate its input and
+fully relies on the lexer to always produce correct and consistent
+tokens. While this works for now, it could lead to potential issues in
+the future.
+@end itemize
+
+@node Compilation reference
+@section Compilation reference
+
+We are here referring to compilation as the compilation and the
+verification step. Thus, in this section, the compilation step will
+refer to both of these steps.
+
+Given the simple nature of the logic of the Franc C language, we chose
+here to implement a simple compilation.
+
+The compilation step do not use any external dependencies.
+
+We simply store a context that is updated throughout the compilation
+process. This context contains :
+
+@itemize
+@item
+A list of variables, with their name, size, and position relative to
+the stack pointer.
+@item
+A label counter, used to suffix labels with a number to distinguish
+them.
+@item
+A list of function context, representing each definitions.
+@item
+A list of function context, representing each invoke.
+@end itemize
+
+The function context contains :
+
+@itemize
+@item
+The name of the function.
+@item
+A boolean value, used to describe if this function is either returning
+something or of the void type ; or describes if this functions is
+either assigning a value when invoking or not.
+@item
+A parameter count, that indicates the number of parameters in this
+function.
+@end itemize
+
+The fact that the entire language is only integer-based facilitates the
+concept of variable storage and parameter types. No types appear in the
+compilation process, except the void type for function definitions and
+invoke.
+
+@menu
+* Function call parameters, return value and variables: Function call parameters return value and variables. 
+* Safety measures: Safety measures (1). 
+* Intended undefined behaviours::
+@end menu
+
+@node Function call parameters return value and variables
+@subsection Function call parameters, return value and variables
+
+When a function is called, it have parameters, a return value and some
+variables.
+
+Here is a map of how they are stored in the stack:
+
+@example
+┌─────────────────┐
+│  Caller frame   │
+├─────────────────┤
+│  Parameters     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Return Value   │  ← PUSHREL/POPREL access
+├─────────────────┤  ← SP
+│  Local vars     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Temporaries    │  ← Stack top
+└─────────────────┘
+@end example
+
+@strong{Local variables}: Accessed via SP-relative offsets - @samp{PUSHREL 0}: First
+local - @samp{PUSHREL 8}: Second local (8-byte offset) - @samp{POPREL N}: Store to
+local at offset N
+
+@strong{Return value and paramers}: Accessed via SP-relative offsets -
+@samp{PUSHREL -8}: Return value - @samp{PUSHREL -16}: First parameter -
+@samp{PUSHREL -24}: Second parameter
+
+@node Safety measures (1)
+@subsection Safety measures
+
+During the compilation step, we check for user errors :
+
+@itemize
+@item
+No main function is given.
+@item
+Multiple main functions are given.
+@item
+A function is defined with the name of an already defined function.
+@item
+A function defines a parameter, or a variable, with the name of an
+already existing, local to the function, parameter or variable.
+@item
+A function that is not referenced is invoked.
+@item
+A function that takes n parameters is invoked with more or less than n
+parameters.
+@item
+A return value is given to a function of type void.
+@item
+An empty return is given to a function of type non-void.
+@item
+An assignement of the return of a void-typed function is made.
+@end itemize
+
+@node Intended undefined behaviours
+@subsection Intended undefined behaviours
+
+@enumerate
+@item
+@anchor{Integer over/underflows}Integer over/underflows
+
+
+We do not devine the result of an integer overflow, or an integer
+underflow. Our integers are defined solely as signed integers on 64
+bits.
+
+The minimum integer is defined as the maximum integer negated. In the C
+programming language, it is defined as being one less, but in our
+implementation of the negate sign ``-'', we chose for parsing and lexing
+simplicity to use the negate solely as an operation. Take the example
+``-5'', we will not register it as the -5 number, but as the number 5 on
+whom we apply the negate operation. This explains the fact that our
+minimum integer is defined as the negated maximum integer.
+
+The maximum integer is defined as 2@math{^63} - 1, or
+9'223'372'036'854'775'807.
+
+@item
+@anchor{Known caveats (1)}Known caveats
+
+
+@enumerate
+@item
+@anchor{Lack of static analysis}Lack of static analysis
+
+
+The FCC compilation step do not implement any static analysis.
+
+These are the direct cause of some -- sadly -- not implemented
+behavious:
+
+@itemize
+@item
+We cannot check for direct division by zero. For example: (10 divisé
+par 0) will not result in an error at compile-time.
+@item
+We cannot produce pre-computations. For example: (10 plus 10) will not
+result in the value 20 at compile-time, but in the computation of 10
+plus 10 at run-time. It is highly inefficient.
+@end itemize
+@end enumerate
+@end enumerate
+
+@node Readable assembly
+@section Readable assembly
+
+When the @samp{--debug} flag is passed, the output of the program is a
+readable assembly written to the standard output.
+
+@menu
+* Syntax of the readable assembly::
+* List of instructions::
+@end menu
+
+@node Syntax of the readable assembly
+@subsection Syntax of the readable assembly
+
+There are two cases in the syntax :
+
+@itemize
+@item
+label, they are written in the left margin, like so: @samp{label_name:}
+@item
+instructions, they are written tabulated with four spaces, like so:
+@samp{mnemonic [args]}
+@end itemize
+
+@node List of instructions
+@subsection List of instructions
+
+@multitable {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaa} {aaaaaaaaaaaaaaaaaa}
+@headitem Operation
+@tab Parameter
+@tab Representation
+@item label
+@tab name
+@tab @samp{name:}
+@item binary not
+@tab 
+@tab @samp{not}
+@item binary and
+@tab 
+@tab @samp{and}
+@item binary or
+@tab 
+@tab @samp{or}
+@item logical not
+@tab 
+@tab @samp{lnot}
+@item logical and
+@tab 
+@tab @samp{land}
+@item logical or
+@tab 
+@tab @samp{lor}
+@item exclusive or
+@tab 
+@tab @samp{xor}
+@item left bitshift
+@tab 
+@tab @samp{shl}
+@item right bitshift
+@tab 
+@tab @samp{shr}
+@item addition
+@tab 
+@tab @samp{add}
+@item substraction
+@tab 
+@tab @samp{sub}
+@item multiplication
+@tab 
+@tab @samp{mult}
+@item division
+@tab 
+@tab @samp{div}
+@item modulo
+@tab 
+@tab @samp{mod}
+@item comparison greater than
+@tab 
+@tab @samp{gt}
+@item comparison greater or equal to
+@tab 
+@tab @samp{ge}
+@item comparison less than
+@tab 
+@tab @samp{lt}
+@item comparison less or equal to
+@tab 
+@tab @samp{le}
+@item comparison equals
+@tab 
+@tab @samp{eq}
+@item comparison different to
+@tab 
+@tab @samp{neq}
+@item update zero flag
+@tab 
+@tab @samp{updz}
+@item push value
+@tab value
+@tab @samp{push value}
+@item push relative address
+@tab address
+@tab @samp{push [address]}
+@item push label relative address
+@tab label-name
+@tab @samp{push %label-name}
+@item push from stack pointer relative address
+@tab address
+@tab @samp{push @@address}
+@item pop to stack pointer relative address
+@tab address
+@tab @samp{pop @@address}
+@item pop
+@tab 
+@tab @samp{pop}
+@item invoke a function
+@tab 
+@tab @samp{call}
+@item return
+@tab 
+@tab @samp{ret}
+@item jump to address
+@tab 
+@tab @samp{jmp}
+@item jump to address if zero flag
+@tab 
+@tab @samp{zjmp}
+@item print character
+@tab 
+@tab @samp{aff}
+@item print string
+@tab string
+@tab @samp{affs "string"}
+@end multitable
+
+@node Franc C Virtual Machine
+@chapter Franc C Virtual Machine
+
+@menu
+* Input Descriptions::
+* Architecture Implementation::
+* Exceptions List::
+* Known Caveats::
+@end menu
+
+@node Input Descriptions
+@section Input Descriptions
+
+@menu
+* Bytecode File Format::
+* Command-Line Interface::
+@end menu
+
+@node Bytecode File Format
+@subsection Bytecode File Format
+
+The fcvm executes Franc C bytecode files.
+
+They have the following header structure:
+
+@example
+┌─────────────────────────────────────┐
+│ Magic Number (4 bytes)              │  0x45 0x0C 0x45 0x0C
+├─────────────────────────────────────┤
+│ Bytecode Instructions               │  Variable length
+└─────────────────────────────────────┘
+@end example
+
+@strong{Magic Number}: @samp{0x45 0x0C 0x45 0x0C} (4 bytes), as defined in the
+@ref{Bytecode reference, , Franc C bytecode reference}. - Validates file
+format at VM initialization - Invalid magic number triggers immediate
+error
+
+@node Command-Line Interface
+@subsection Command-Line Interface
+
+@example
+./fcvm <bytecode_file>
+@end example
+
+@strong{Exit Codes}:
+
+@multitable {aaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}
+@headitem Code
+@tab Description
+@item @samp{0}
+@tab Success (or custom return value = 0)
+@item @samp{1-255}
+@tab Custom exit code (return value mod 256)
+@item @samp{84}
+@tab Any error (runtime or load-time)
+@end multitable
+
+@node Architecture Implementation
+@section Architecture Implementation
+
+@menu
+* Memory Layout: Memory Layout (1). 
+* Instruction Set Overview::
+* Function Call Convention::
+@end menu
+
+@node Memory Layout (1)
+@subsection Memory Layout
+
+The VM maintains three core structures:
+
+@itemize
+@item
+The operand stack
+@item
+The callstack
+@item
+Three specific registers
+@end itemize
+
+@enumerate
+@item
+@anchor{Operand Stack}Operand Stack
+
+
+Stores temporary computation values, variables and function return
+values.
+
+@example
+┌─────────────┬─────────────┬─────────────┐
+│  Element 0  │  Element 1  │  Element 2  │
+│  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
+└─────────────┴─────────────┴─────────────┘
+      ↑
+    Stack Top
+@end example
+
+@strong{Properties}: - Type: @samp{[Word8]} (list of bytes) - Element size: 8 bytes
+(64-bit) - Initial state: One zero element @samp{[0x00 × 8]} - Max size:
+1,000,000 elements (8 MB) - Operations: PUSH (prepend), POP (drop first
+8 bytes)
+
+@item
+@anchor{Call Stack}Call Stack
+
+
+Manages function call frames.
+
+@example
+┌─────────────────────────────────┐
+│  Frame: (PC: 0, SP: 0)          │  ← Entry
+├─────────────────────────────────┤
+│  Frame: (PC: 12, SP: 16)        │
+├─────────────────────────────────┤
+│  Frame: (PC: 57, SP: 24)        │  ← Current
+└─────────────────────────────────┘
+@end example
+
+@strong{Properties}: - Type: @samp{[(PC, SP)]} (list of tuples) - Frame content:
+Return address (PC) + Stack pointer (SP) - Initial state: Empty @samp{[]} -
+Max depth: 1,000,000 frames
+
+@strong{Behavior}: - @samp{CALL}: Push @samp{(PC+1, SP)}, jump to function - @samp{RET}: Pop
+frame, restore context, trim stack - @strong{Termination}: Empty call stack
+after @samp{RET} → program ends
+
+@item
+@anchor{Registers}Registers
+
+
+@strong{Program Counter (PC)} - Points to current instruction in bytecode -
+Initial: 8 (after 4-byte magic number) - Updates: @samp{+1} (normal), @samp{+9}
+(with data), or jump target
+
+@strong{Stack Pointer (SP)} - Marks base of current function's stack frame -
+Used for local variable access via @samp{PUSHREL=/=POPREL} - Modified during
+@samp{CALL} and @samp{RET}
+
+@strong{Zero Flag (ZF)} - Type: @samp{Word8} (0 or 1) - Initial: 1 (true) -
+Semantics: @samp{0} if stack top = 0, else @samp{1} - Set by @samp{ZFLAG}, tested by
+@samp{ZJMP}
+@end enumerate
+
+@node Instruction Set Overview
+@subsection Instruction Set Overview
+
+The VM implements 40 opcodes across 7 categories:
+
+@quotation
+@ref{Bytecode reference, , Bytecode Definition}.
+
+@end quotation
+
+@node Function Call Convention
+@subsection Function Call Convention
+
+@strong{Calling sequence}:
+
+@example
+1. Push function address
+2. Execute CALL
+   → Saves (PC+1, SP) to call stack
+   → Jumps to function
+@end example
+
+@strong{Return sequence}:
+
+@example
+1. Execute RET
+   → Restores PC and SP
+   → Trims stack to SP position
+   → If call stack empty: program terminates
+@end example
+
+@strong{Stack frame layout}:
+
+@example
+┌──────────────────┐
+│  Caller frame    │
+├──────────────────┤  ← SP
+│  Local function  │  ← Stack top
+└──────────────────┘
+@end example
+
+@node Exceptions List
+@section Exceptions List
+
+All errors exit with code @strong{84} and write to @strong{stderr}.
+
+@menu
+* Load-Time Errors::
+* Runtime Errors::
+@end menu
+
+@node Load-Time Errors
+@subsection Load-Time Errors
+
+@strong{Invalid Magic Number}
+
+@example
+Message: *** UNRECONIZED FILE FORMAT
+Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
+@end example
+
+@strong{File I/O Error}
+
+@example
+Message: Error with file
+Trigger: File not found, permission denied, or read error
+@end example
+
+@node Runtime Errors
+@subsection Runtime Errors
+
+@strong{Arithmetic Errors}
+
+@example
+Message: *** 0 CAN'T BE USE in this operation
+Trigger: DIV or MOD with divisor = 0
+@end example
+
+@strong{Stack & CallStack Overflow}
+
+@example
+Message: *** STACK OVERFLOW
+Trigger: Operand stack ≥ 1M elements OR call stack ≥ 1M frames
+Cause:   Excessive PUSH without POP, or infinite recursion
+@end example
+
+@strong{Stack Underflow}
+
+@example
+Message: *** STACK ERROR
+Trigger: Operation requires elements when stack_size ≤ 1
+Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
+@end example
+
+@node Known Caveats
+@section Known Caveats
+
+@menu
+* Undefined Behaviors::
+* Performance Limitations::
+* Portability Issues::
+@end menu
+
+@node Undefined Behaviors
+@subsection Undefined Behaviors
+
+@strong{Integer Overflow} - 64-bit signed integers wrap silently - Example:
+@samp{INT64_MAX + 1} → UNDEFINED - No error raised
+
+@strong{Invalid Opcodes} - Treated as NOP (PC += 1) - Corrupted bytecode may
+execute partially - No detection mechanism
+
+@node Performance Limitations
+@subsection Performance Limitations
+
+@strong{List-Based Stack} - Push/Pop: O(1) ✓ - SP-relative access: O(n) ✗ -
+Impact: Slow for deep stacks (>1000 elements)
+
+@strong{String Operations} - @samp{AFFS} creates intermediate structures - Linear in
+string length (acceptable)
+
+@node Portability Issues
+@subsection Portability Issues
+
+@strong{Platform Word Size} - @samp{PC} and @samp{SP} use Haskell @samp{Int} type - 32-bit
+systems: Max ~2GB bytecode - 64-bit systems: Max ~8GB bytecode - Not a
+practical concern for typical use
+
+@strong{Document Version}: 1.1@*
+@strong{Last Updated}: November 2025@*
+@strong{Author} : Acacademie Franc C'aise
+
+@node Larousse (1)
+@chapter Larousse
+
+@menu
+* Introduction (motives)::
+* Functions::
+* Académie Franc C'Aise::
+@end menu
+
+@node Introduction (motives)
+@section Introduction (motives)
+
+As programming using Franc C can easily become overwhelming, we decided
+to provide a set of already implemented functions, in a library called
+@samp{Larousse}, as a way to facilitate some tasks.
+
+@samp{Larousse} also serves as a way to showcase our language's capabilities,
+and demonstrate its verbose syntax, and acts as a test suite for the
+@samp{Académie Franc C'Aise}, which runs functional tests on it.
+
+@node Functions
+@section Functions
+
+@multitable {aaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaa}
+@headitem Functions
+@tab Parameters
+@tab Description
+@tab Benchmark*
+@item additionner
+@tab nombre, second@math{_nombre}
+@tab Returns @samp{nombre + second_nombre}.
+@tab 0.086s
+@item afficher@math{_nombre}
+@tab nombre
+@tab Displays in the standard output the number @samp{nombre}.
+@tab 0.067s
+@item carré@math{_de}
+@tab nombre
+@tab Returns @samp{nombre * nombre}.
+@tab 0.074s
+@item diviser
+@tab nombre, second@math{_nombre}
+@tab Returns @samp{nombre / second_nombre}.
+@tab 0.060s
+@item douze
+@tab nombre
+@tab Returns @samp{nombre / 12} if @samp{nombre} is multiple of 12, otherwise @samp{-1}.
+@tab 0.069s
+@item est@math{_en}@math{_majuscule}
+@tab nombre
+@tab Returns @samp{1} if @samp{nombre} is an uppercase letter, otherwise @samp{0}.
+@tab 0.063s
+@item est@math{_en}@math{_minuscule}
+@tab nombre
+@tab Returns @samp{1} if @samp{nombre} is a lowercase letter, otherwise @samp{0}.
+@tab 0.060s
+@item est@math{_négatif}
+@tab nombre
+@tab Returns @samp{1} if @samp{nombre} is negative, otherwise @samp{0}.
+@tab 0.070s
+@item est@math{_premier}
+@tab nombre
+@tab Returns @samp{1} if @samp{nombre} is a prime number, otherwise @samp{0}.
+@tab 0.051s
+@item fizzbuzz
+@tab nombre
+@tab Displays « Fizz » if @samp{nombre} is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays @samp{nombre}.
+@tab 0.056s
+@item imprimer@math{_peigne}
+@tab -
+@tab Displays in ascending order all the smallest numbers composed of three digits.
+@tab 0.220s
+@item imprimer@math{_peigne}@math{_2}
+@tab -
+@tab Displays in ascending order all the smallest numbers composed of four digits.
+@tab 8.481s
+@item imprimer@math{_peigne}@math{_nombre}
+@tab nombre
+@tab Displays in ascending order all the smallest numbers composed of @samp{nombre} digits.
+@tab Depends
+@item max
+@tab nombre, second@math{_nombre}
+@tab Returns @samp{nombre} if @samp{nombre} is superior than @samp{second_nombre}, otherwise @samp{second_nombre}.
+@tab 0.060s
+@item min
+@tab nombre, second@math{_nombre}
+@tab Returns @samp{second_nombre} if @samp{nombre} is superior than @samp{second_nombre}, otherwise @samp{nombre}.
+@tab 0.092s
+@item multiplier
+@tab nombre, second@math{_nombre}
+@tab Returns @samp{nombre * second_nombre}.
+@tab 0.065s
+@item prochain@math{_premier}
+@tab nombre
+@tab Returns the first prime number greater than @samp{nombre}.
+@tab 0.072s
+@item précedent
+@tab nombre
+@tab Returns @samp{nombre - 1}.
+@tab 0.069s
+@item racine@math{_carré}@math{_de}
+@tab nombre
+@tab Returns the integer square root of @samp{nombre}.
+@tab 0.070s
+@item soustraire
+@tab nombre, second@math{_nombre}
+@tab Returns @samp{nombre - second_nombre}.
+@tab 0.090s
+@item suivant
+@tab nombre
+@tab Returns @samp{nombre + 1}.
+@tab 0.065s
+@end multitable
+
+(*) Benchmark specs:
+
+@example
+CPU : Intel i9 14900K
+GPU : NVIDIA RTX 4070 TI SUPER
+RAM: 32 GB
+@end example
+
+@node Académie Franc C'Aise
+@section Académie Franc C'Aise
+
+@samp{Académie Franc C'Aise} is the @samp{functional tester} made in @samp{Python} for
+the @samp{Franc C}, and uses @samp{Larousse} standard library.
+
+You will find in every single @samp{Larousse} source code function: - The
+same function written in @samp{C}. - A main function in @samp{Franc C} which calls
+the function in @samp{Franc C} with various parameter, in the @samp{test}
+folder. - A main function in @samp{C} which calls the function in @samp{C} with
+the same parameters, in the @samp{test} folder.
+
+@samp{Académie Franc C'Aise} compiles both the @samp{C} and @samp{Franc C} version
+using @samp{gcc} and @samp{fcvm}. It then runs both versions, and check whether
+their inputs are the same as a way to test the language. It also
+displays how much time each step took (Compilation, Execution) for both
+languages then finally shows the time difference between those.
+
+@samp{Franc C} is in most cases faster to compile than @samp{C}. However, @samp{C} is
+almost always faster in execution time than @samp{Franc C}.
+
+At the end of the program, @samp{Académie Franc C'Aise} displays how many
+tests passed out of how many were run. It then exits with a failure if
+not all tests passed.
+
+@bye

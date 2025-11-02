@@ -157,6 +157,37 @@ The function context contains :
 
 The fact that the entire language is only integer-based facilitates the concept of variable storage and parameter types. No types appear in the compilation process, except the void type for function definitions and invoke.
 
+## Function call parameters, return value and variables
+
+When a function is called, it have parameters, a return value and some variables.
+
+Here is a map of how they are stored in the stack:
+
+```
+┌─────────────────┐
+│  Caller frame   │
+├─────────────────┤
+│  Parameters     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Return Value   │  ← PUSHREL/POPREL access
+├─────────────────┤  ← SP
+│  Local vars     │  ← PUSHREL/POPREL access
+├─────────────────┤
+│  Temporaries    │  ← Stack top
+└─────────────────┘
+```
+
+**Local variables**: Accessed via SP-relative offsets
+- `PUSHREL 0`: First local
+- `PUSHREL 8`: Second local (8-byte offset)
+- `POPREL N`: Store to local at offset N
+
+**Return value and paramers**: Accessed via SP-relative offsets
+- `PUSHREL -8`: Return value
+- `PUSHREL -16`: First parameter
+- `PUSHREL -24`: Second parameter
+
+
 ## Safety measures
 
 During the compilation step, we check for user errors :

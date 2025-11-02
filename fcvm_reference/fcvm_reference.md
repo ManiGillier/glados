@@ -4,7 +4,9 @@
 
 ### Bytecode File Format
 
-The fcvm executes bytecode files with a simple header structure:
+The fcvm executes Franc C bytecode files.
+
+They have the following header structure:
 
 ```
 ┌─────────────────────────────────────┐
@@ -14,18 +16,9 @@ The fcvm executes bytecode files with a simple header structure:
 └─────────────────────────────────────┘
 ```
 
-**Magic Number**: `0x45 0x0C 0x45 0x0C` (4 bytes)
+**Magic Number**: `0x45 0x0C 0x45 0x0C` (4 bytes), as defined in the [Franc C bytecode reference](#bytecode_reference).
 - Validates file format at VM initialization
 - Invalid magic number triggers immediate error
-
-**Instruction Encoding**:
-- Opcode: 1 byte
-- Immediate data (optional): 8 bytes following opcode
-- Multi-byte values: big-endian format
-- Stack elements: always 8 bytes (64-bit integers)
-
-> **Note**: For complete bytecode specification including all opcodes and their encoding, \
-see the [Bytecode Definition](bytecodedef.md) document.
 
 ### Command-Line Interface
 
@@ -49,13 +42,17 @@ see the [Bytecode Definition](bytecodedef.md) document.
 
 The VM maintains three core structures:
 
+- The operand stack
+- The callstack
+- Three specific registers
+
 #### Operand Stack
 
-Stores temporary computation values.
+Stores temporary computation values, variables and function return values.
 
 ```
 ┌─────────────┬─────────────┬─────────────┐
-│  Element 0  │  Element 1  │  Element 2  │  ...
+│  Element 0  │  Element 1  │  Element 2  │
 │  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
 └─────────────┴─────────────┴─────────────┘
       ↑
@@ -116,7 +113,7 @@ Manages function call frames.
 
 The VM implements 40 opcodes across 7 categories:
 
-> [Bytecode Definition](bytecodedef.md).
+> [Bytecode Definition](#bytecode_reference).
 
 ### Function Call Convention
 
@@ -138,23 +135,12 @@ The VM implements 40 opcodes across 7 categories:
 
 **Stack frame layout**:
 ```
-┌─────────────────┐
-│  Caller frame   │
-├─────────────────┤  ← SP
-│  Local vars     │  ← PUSHREL/POPREL access
-├─────────────────┤
-│  Temporaries    │  ← Stack top
-└─────────────────┘
+┌──────────────────┐
+│  Caller frame    │
+├──────────────────┤  ← SP
+│  Local function  │  ← Stack top
+└──────────────────┘
 ```
-
-**Local variables**: Accessed via SP-relative offsets
-- `PUSHREL 0`: First local
-- `PUSHREL 8`: Second local (8-byte offset)
-- `POPREL N`: Store to local at offset N
-
-**Return value**: Top of stack when call stack becomes empty
-
----
 
 ## Exceptions List
 
@@ -196,20 +182,13 @@ Trigger: Operation requires elements when stack_size ≤ 1
 Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
 ```
 
-**Error format**:
-```
-\n*** ERROR_MESSAGE\n
-```
-
----
-
 ## Known Caveats
 
 ### Undefined Behaviors
 
 **Integer Overflow**
 - 64-bit signed integers wrap silently
-- Example: `INT64_MAX + 1` → `INT64_MIN`
+- Example: `INT64_MAX + 1` → UNDEFINED
 - No error raised
 
 **Invalid Opcodes**
@@ -236,19 +215,6 @@ Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
 - 64-bit systems: Max ~8GB bytecode
 - Not a practical concern for typical use
 
-### Debugging Limitations
-
-**Debug Mode**
-- Prints full VM state after each instruction
-- Extremely verbose, no selective tracing
-- No breakpoints or step execution
-
-**Opcode Display**
-- Shows numeric values only (e.g., "13" instead of "ADD")
-- Requires manual lookup
-
----
-
-**Document Version**: 1.0  
+**Document Version**: 1.1  
 **Last Updated**: November 2025  
 **Author** : Acacademie Franc C'aise

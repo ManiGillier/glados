@@ -19,6 +19,26 @@ In this project, we built five different things.
 -   The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.
 -   The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions
 
+# Documentation
+
+See the documentation [here](https://manigillier.github.io/glados/index.html).
+
+# How to get started
+
+```
+git clone https://github.com/ManiGillier/glados.git glados
+cd glados
+make install
+make
+```
+
+Two binaries will then be created :
+- `fcc`, a binary that compiles your `Franc C` code into a `Franc C` binary
+- `fcvm`, in order to execute a `Franc C` binary
+
+In order to understand how to use those two binaries, we recommend you reading our documentation. 
+
+
 # Authors
 
 - Mani Gillier
@@ -26,7 +46,3 @@ In this project, we built five different things.
 - Hugo Poggetti
 - Aymerick Soual
 - Maxime Huet
-
-# Documentation
-
-See the documentation [here](https://manigillier.github.io/glados/index.html).

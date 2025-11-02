@@ -1,0 +1,52 @@
+
+#+TITLE: TGPD: The GLADOS Project Documentation
+
+* Introduction
+
+The glados is a third year Epitech project where five people are asked to build a new programming language.
+
+Who never had problems with a programming language ?
+Who never thought of building it's own ?
+Who never imagined a language so litteral, that anyone could use it without technical knowledge ?
+
+Introducing: the *Franc C*.
+The Franc C is a programming language with a litteral french syntax.
+
+In this project, we built five different things.
+- The Franc C language itself, defining it's grammar and application
+- A bytecode associated with the Franc C, used to run Franc C Programs
+- A virtual machine reference, used to dictate how the bytecode should be executed.
+- The Franc C Compiler, a tool used to compile Franc C Reference code into a Franc C Program
+- The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.
+- The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions
+
+* Franc C reference
+:PROPERTIES:
+:CUSTOM_ID: language_reference
+:END:
+#+INCLUDE: "language_reference/language_reference.org"
+* Bytecode reference
+:PROPERTIES:
+:CUSTOM_ID: bytecode_reference
+:END:
+#+INCLUDE: "bytecode_reference/bytecode_reference.org"
+* Virtual Machine reference
+:PROPERTIES:
+:CUSTOM_ID: vm_architecture_reference
+:END:
+#+INCLUDE: "VM_Architecture_reference/VM_Architecture_reference.org"
+* Franc C Compiler
+:PROPERTIES:
+:CUSTOM_ID: fcc_reference
+:END:
+#+INCLUDE: "fcc_reference/fcc_reference.org"
+* Franc C Virtual Machine
+:PROPERTIES:
+:CUSTOM_ID: fcvm_reference
+:END:
+#+INCLUDE: "fcvm_reference/fcvm_reference.org"
+* Larousse
+:PROPERTIES:
+:CUSTOM_ID: larousse
+:END:
+#+INCLUDE: "larousse_reference/larousse_reference.org"

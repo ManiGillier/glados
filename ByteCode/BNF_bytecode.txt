@@ -1,0 +1,115 @@
+<bytecode> ::= <magic_number> <adress> <operation_list>
+
+<magic_number> ::= "69,12,69,12,"
+
+<adress> ::= <byte> "," <byte> "," <byte> "," <byte> "," <byte> "," <byte> "," <byte> "," <byte> [","]
+
+<operation_list> ::= <operation> | <operation> "," <operation_list>
+
+<operation> ::= <not>
+              | <lnot>
+              | <neg>
+              | <and>
+              | <or>
+              | <land>
+              | <lor>
+              | <xor>
+              | <shl>
+              | <shr>
+              | <add>
+              | <sub>
+              | <mult>
+              | <div>
+              | <mod>
+              | <gt>
+              | <ge>
+              | <lt>
+              | <le>
+              | <eq>
+              | <diff>
+              | <updz>
+              | <push_stack>
+              | <pop_stack>
+              | <pop>
+              | <call>
+              | <ret>
+              | <jmp>
+              | <zjmp>
+              | <aff>
+              | <affs>
+              | <push_value>
+              | <push_label>
+
+
+<not> ::= "3" [","]
+
+<lnot> ::= "4" [","]
+
+<neg> ::= "5" [","]
+
+<and> ::= "6" [","]
+
+<or> ::= "7" [","]
+
+<land> ::= "8" [","]
+
+<lor> ::= "9" [","]
+
+<xor> ::= "10" [","]
+
+<shl> ::= "11" [","]
+
+<shr> ::= "12" [","]
+
+<add> ::= "13" [","]
+
+<sub> ::= "14" [","]
+
+<mult> ::= "15" [","]
+
+<div> ::= "16" [","]
+
+<mod> ::= "17" [","]
+
+<gt> ::= "18" [","]
+
+<ge> ::= "19" [","]
+
+<lt> ::= "20" [","]
+
+<le> ::= "21" [","]
+
+<eq> ::= "22" [","]
+
+<diff> ::= "23" [","]
+
+<updz> ::= "24" [","]
+
+<push_stack> ::= "29," <arguments>
+
+<pop_stack> ::= "30," <arguments>
+
+<pop> ::= "31" [","]
+
+<call> ::= "34" [","]
+
+<ret> ::= "35" [","]
+
+<jmp> ::= "36" [","]
+
+<zjmp> ::= "37" [","]
+
+<aff> ::= "38" [","]
+
+<affs> ::= "39," <arguments> <string>
+
+<push_value> ::= "89," <arguments>
+
+<push_label> ::= "91," <arguments>
+
+<arguments> ::= <byte> "," <byte> "," <byte> "," <byte> "," <byte> "," <byte> "," <byte> "," <byte> [","]
+
+<string> ::= <byte> [","] | <byte> "," <string>
+
+<byte> ::= "0" | "1" | "2" | ... | "255"
+

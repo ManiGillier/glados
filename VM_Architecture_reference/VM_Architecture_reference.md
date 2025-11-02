@@ -18,7 +18,7 @@ We chose a stack-based approach for the following reasons:
 
 ## Stack
 
-The stack is implemented as a contiguous array of bytes with the following characteristics:
+The stack shoud be implemented as a contiguous array of bytes with the following characteristics:
 
 - **Data type**: Array of bytes
 - **Element size**: 8 bytes per element (64-bit signed integers)
@@ -27,14 +27,13 @@ The stack is implemented as a contiguous array of bytes with the following chara
 
 #### Stack Management
 
-To optimize performance, and perform function calls, the VM maintains two contextual data:
-
-- **Stack Pointer (SP)**: Points to the start of the current stack local context. Modified by the instructions call and ret
-- **Stack Counter**: Tracks the number of elements, avoiding recalculation after each operation
+To perform function calls, the VM must maintains the stack pointer.
+It points to the start of the current stack local context. 
+it is modified by the instructions call and ret.
 
 ### Initialization
 
-By default, the stack is initialized with 8 bytes representing the return value of the program.
+By default, the stack should be initialized with 8 bytes representing the return value of the program.
 The default value is implementation-defined.
 
 ### Basic Operations
@@ -54,9 +53,10 @@ The **callstack** manages function calls and returns, enabling the VM to:
 
 ### Memory Layout
 
-The callstack is implemented as a contiguous array of frame records:\
-By default, the callstack is initialized as an **empty array**.
+The callstack can be implemented as a contiguous array of frame records:\
+By default, the callstack can be initialized as an **empty array**.
 
+Example implementation :
 - **Data type**: Array of tuples `[(PC, SP)]`
   - **PC** (Program Counter): Return address (next instruction after CALL)
   - **SP** (Stack Pointer): Stack state at call time
@@ -102,50 +102,12 @@ The Zero Flag follows this logic:
 
 ## End cases
 
-The VM can terminate execution in two ways:
-1. **Normal termination**: Program completes successfully
-2. **Error termination**: An error condition is encountered
-
-### Successful Execution
-
 The program terminates normally when:
 - A `Ret` instruction is executed from the main function
 - The call stack becomes empty after the return
 
-### Error Termination
-
-When an error occurs, the VM immediately halts execution and returns **exit code 84**.
-
-#### 1. File Format Errors
-
-| Error                    | Condition                                    | When Detected     |
-|--------------------------|----------------------------------------------|-------------------|
-| **Invalid Magic Number** | Bytecode header doesn't match expected value | VM initialization |
-| **Invalid Entry Point**  | Entry address out of bounds                  | Loading phase     |
-
-##### 2. Arithmetic Errors
-
-| Error                | Condition              | Example  |
-|----------------------|------------------------|----------|
-| **Division by Zero** | `div` with divisor = 0 | `10 / 0` |
-| **Modulo by Zero**   | `mod` with divisor = 0 | `10 % 0` |
-
-##### 3. Stack Errors
-
-| Error               | Condition                               | Cause                                |
-|---------------------|-----------------------------------------|--------------------------------------|
-| **Stack Overflow**  | Operand stack exceeds maximum capacity  | Too many PUSH operations without POP |
-| **Stack Underflow** | Attempt to POP from empty operand stack | More POP than PUSH operations        |
-
-##### 4. Call Stack Errors
-
-| Error                   | Condition                        | Cause                                                     |
-|-------------------------|----------------------------------|-----------------------------------------------------------|
-| **Call Stack Overflow** | Call stack exceeds maximum depth | Too many nested function calls (e.g., infinite recursion) |
-|                         |                                  |                                                           |
-
 ---
 
-**Version** : 1.1  
+**Version** : 1.2  
 **Last update** : Novembre 2025  
 **Author** : Acacademie Franc C'aise

@@ -10,11 +10,11 @@
 
 ## Language Formal Syntax (BNF)
 
-```
+```bnf
 <header> ::= "Bonjour," <spaces>
 
 <main> ::= "En" <spaces> "sachant" <spaces> "que" <spaces> "les" <spaces> "variables" <spaces> "principales" <spaces> "sont" <spaces> ":" <spaces> [<variable_list>]
- ";" <spaces> "pourrais-tu" <spaces> "s'il" <spaces> "te" <spaces> "plaît" <spaces> "commencer" <spaces> "la" <spaces> "lecture" <spaces> "ici" <spaces> "?" [<spaces>] <block> [<spaces>] "Merci d'avance," <spaces> "Cordialement," <spaces> <name> <name>
+ "\;" <spaces> "pourrais-tu" <spaces> "s'il" <spaces> "te" <spaces> "plaît" <spaces> "commencer" <spaces> "la" <spaces> "lecture" <spaces> "ici" <spaces> "?" [<spaces>] <block> [<spaces>] "Merci d'avance," <spaces> "Cordialement," <spaces> <name> <name>
 
 <variable_definition> ::= "-" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> <variable_type> "," <spaces> "valant" <spaces> <value> 
 
@@ -54,7 +54,7 @@
 
 <parameter_list> ::= <parameter> <spaces> [<parameter_list>]
 
-<function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <spaces> <function_type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée" <spaces> ":" <spaces> [<parameter_list>] ";" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> [<variable_list>] ";" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <spaces> ("suivant" | "ci-après" | "ci-dessous") "." [<spaces>] <block> <spaces> "Merci."
+<function_definition> ::= "J’aimerais" <spaces> "définir" <spaces> "le" <spaces> "bloc" <spaces> "répondant" <spaces> "au" <spaces> "nom" <spaces> "de" <spaces> <word> "," <spaces> "de" <spaces> "type" <spaces> "de" <spaces> "retour" <spaces> <function_type> "," <spaces> "nécessitant" <spaces> "comme" <spaces> "entrée" <spaces> ":" <spaces> [<parameter_list>] "\;" <spaces> "contenant" <spaces> "les" <spaces> "variables" <spaces> ":" <spaces> [<variable_list>] "\;" <spaces> "représenté" <spaces> "par" <spaces> "le" <spaces> "code" <spaces> ("suivant" | "ci-après" | "ci-dessous") "." [<spaces>] <block> <spaces> "Merci."
 
 <text> ::= <symbol> [<text>]
 
@@ -71,7 +71,7 @@
 <condition_definition> ::= "Si" <spaces> <condition> "," <spaces> "exécute" <spaces> "le" <spaces> "texte" <spaces> ":"
 
 <condition_statement> ::= <condition_definition> <space> <block> "Merci."
-    | <condition_definition> <space> <block> ";" <space> "sinon" <space> "exécute" <space> "le" <space> "texte" <space> ":" <block> "Merci."
+    | <condition_definition> <space> <block> "\;" <space> "sinon" <space> "exécute" <space> "le" <space> "texte" <space> ":" <block> "Merci."
 
 <loop_statement> ::= "Tant" <spaces> "que" <condition> <spaces> "exécute" <spaces> "le" <spaces> "code" <spaces> "ci-après" <spaces> ":" <spaces> <block> "Merci."
 
@@ -113,7 +113,7 @@
               | "0" .. "9"
 
 <word_symbol> ::= "!" | "\"" | "#" | "$" | "%" | "&" | "'" | "*" | "+" | "-" | "/" 
-           | ":" | ";" | "<" | "=" | ">" | "?" | "@" 
+           | ":" | "\;" | "<" | "=" | ">" | "?" | "@"
            | "[" | "\\" | "]" | "^" | "_" | "{" | "}" | "|" | "~"
 
 <symbol> ::= <word_symbol> | <space> | <printable> | "," | "\t" | "\n" | "(" | ")"
@@ -127,7 +127,7 @@
 
 As the language is heavily based on the **French language**, it has shaped many of our syntax decisions :
 
-- We made it mandatory to put a space before and after a puncutuation sign as it is a [french grammar rule](https://formations.mer.gouv.fr/sites/default/files/2023-11/Espacement%20avant%20et%20apr%C3%A8s%20les%20signes%20de%20ponctuation%20et%20les%20symboles.pdf). This works for (':', '.', '«', '»').
+- We made it mandatory to put spaces where needed in case of punctiation, as it is a [french grammar rule](https://formations.mer.gouv.fr/sites/default/files/2023-11/Espacement%20avant%20et%20apr%C3%A8s%20les%20signes%20de%20ponctuation%20et%20les%20symboles.pdf). This works for (':', '.', '«', '»', ',').
 - We decided to replace all operations symbols by their literal French equivalent as we wanted this language to use **as many french words as possible** in order to represent **France**. Therefore, operations such as `+` or `*` are being replaced by `plus` and `multiplié par`. This forces to have at least one space before and after such operations
 as they are now depicted as **words**.
 - As it can become easily overwhelming to type out every single operation using its own word representation, we created alternatives to some operations to make them

@@ -1,13 +1,13 @@
 .TH "TGPD: The GLADOS Project Documentation" "1" 
 .SH "Other documentations"
 .IP \(em 4
-./index.html \fBat\fP \fISingle page documentation\fP
+index.html \fBat\fP \fISingle page documentation\fP
 .IP \(em 4
-./index_html/index.html \fBat\fP \fIMulti page documentation\fP
+index_html/index.html \fBat\fP \fIMulti page documentation\fP
 .IP \(em 4
-./index.info \fBat\fP \fIInfo page (info -f index.info)\fP
+index.info \fBat\fP \fIInfo page (info -f index.info)\fP
 .IP \(em 4
-./index.man \fBat\fP \fIMan page (man -l index.man)\fP
+index.man \fBat\fP \fIMan page (man -l index.man)\fP
 .SH "Introduction"
 .PP
 The glados is a third year Epitech project where five people are asked to build a new programming language.
@@ -1850,27 +1850,27 @@ and demonstrate its verbose syntax, and acts as a test suite for the
 l l l l .
 Functions	Parameters	Description	Benchmark*
 _
-additionner	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre + second_nombre\fP.	0.086s
-afficher\d\s-2nombre\s+2\u	nombre	Displays in the standard output the number \fInombre\fP.	0.067s
-carré\d\s-2de\s+2\u	nombre	Returns \fInombre * nombre\fP.	0.074s
-diviser	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre / second_nombre\fP.	0.060s
-douze	nombre	Returns \fInombre / 12\fP if \fInombre\fP is multiple of 12, otherwise \fI\-1\fP.	0.069s
-est\d\s-2en\s+2\u\d\s-2majuscule\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is an uppercase letter, otherwise \fI0\fP.	0.063s
-est\d\s-2en\s+2\u\d\s-2minuscule\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is a lowercase letter, otherwise \fI0\fP.	0.060s
-est\d\s-2négatif\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is negative, otherwise \fI0\fP.	0.070s
-est\d\s-2premier\s+2\u	nombre	Returns \fI1\fP if \fInombre\fP is a prime number, otherwise \fI0\fP.	0.051s
-fizzbuzz	nombre	Displays « Fizz » if \fInombre\fP is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays \fInombre\fP.	0.056s
-imprimer\d\s-2peigne\s+2\u	-	Displays in ascending order all the smallest numbers composed of three digits.	0.220s
-imprimer\d\s-2peigne\s+2\u\d\s-22\s+2\u	-	Displays in ascending order all the smallest numbers composed of four digits.	8.481s
-imprimer\d\s-2peigne\s+2\u\d\s-2nombre\s+2\u	nombre	Displays in ascending order all the smallest numbers composed of \fInombre\fP digits.	Depends
-max	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre\fP if \fInombre\fP is superior than \fIsecond_nombre\fP, otherwise \fIsecond_nombre\fP.	0.060s
-min	nombre, second\d\s-2nombre\s+2\u	Returns \fIsecond_nombre\fP if \fInombre\fP is superior than \fIsecond_nombre\fP, otherwise \fInombre\fP.	0.092s
-multiplier	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre * second_nombre\fP.	0.065s
-prochain\d\s-2premier\s+2\u	nombre	Returns the first prime number greater than \fInombre\fP.	0.072s
-précedent	nombre	Returns \fInombre \- 1\fP.	0.069s
-racine\d\s-2carré\s+2\u\d\s-2de\s+2\u	nombre	Returns the integer square root of \fInombre\fP.	0.070s
-soustraire	nombre, second\d\s-2nombre\s+2\u	Returns \fInombre \- second_nombre\fP.	0.090s
-suivant	nombre	Returns \fInombre + 1\fP.	0.065s
+https://github.com/ManiGillier/glados/blob/dev/larousse/additionner/additionner.fr \fBat\fP \fI\fIadditionner\fP\fP	\fInombre\fP, \fIsecond_nombre\fP	Returns \fInombre + second_nombre\fP.	0.086s
+https://github.com/ManiGillier/glados/blob/dev/larousse/afficher_nombre/afficher_nombre.fr \fBat\fP \fI\fIafficher_nombre\fP\fP	\fInombre\fP	Displays in the standard output the number \fInombre\fP.	0.067s
+https://github.com/ManiGillier/glados/blob/dev/larousse/carr%C3%A9_de/carr%C3%A9_de.fr \fBat\fP \fI\fIcarré_de\fP\fP	\fInombre\fP	Returns \fInombre * nombre\fP.	0.074s
+https://github.com/ManiGillier/glados/blob/dev/larousse/diviser/diviser.fr \fBat\fP \fI\fIdiviser\fP\fP	\fInombre\fP, \fIsecond_nombre\fP	Returns \fInombre / second_nombre\fP.	0.060s
+https://github.com/ManiGillier/glados/blob/dev/larousse/douze/douze.fr \fBat\fP \fI\fIdouze\fP\fP	\fInombre\fP	Returns \fInombre / 12\fP if \fInombre\fP is multiple of 12, otherwise \fI\-1\fP.	0.069s
+https://github.com/ManiGillier/glados/blob/dev/larousse/est_en_majuscule/est_en_majuscule.fr \fBat\fP \fI\fIest_en_majuscule\fP\fP	\fInombre\fP	Returns \fI1\fP if \fInombre\fP is an uppercase letter, otherwise \fI0\fP.	0.063s
+https://github.com/ManiGillier/glados/blob/dev/larousse/est_en_minuscule/est_en_minuscule.fr \fBat\fP \fI\fIest_en_minuscule\fP\fP	\fInombre\fP	Returns \fI1\fP if \fInombre\fP is a lowercase letter, otherwise \fI0\fP.	0.060s
+https://github.com/ManiGillier/glados/blob/dev/larousse/est_n%C3%A9gatif/est_n%C3%A9gatif.fr \fBat\fP \fI\fIest_négatif\fP\fP	\fInombre\fP	Returns \fI1\fP if \fInombre\fP is negative, otherwise \fI0\fP.	0.070s
+https://github.com/ManiGillier/glados/blob/dev/larousse/est_premier/est_premier.fr \fBat\fP \fI\fIest_premier\fP\fP	\fInombre\fP	Returns \fI1\fP if \fInombre\fP is a prime number, otherwise \fI0\fP.	0.051s
+https://github.com/ManiGillier/glados/blob/dev/larousse/fizzbuzz/fizzbuzz.fr \fBat\fP \fI\fIfizzbuzz\fP\fP	\fInombre\fP	Displays « Fizz » if \fInombre\fP is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays \fInombre\fP.	0.056s
+https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne/imprimer_peigne.fr \fBat\fP \fI\fIimprimer_peigne\fP\fP	-	Displays in ascending order all the smallest numbers composed of three digits.	0.220s
+https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne_2/imprimer_peigne_2.fr \fBat\fP \fI\fIimprimer_peigne_2\fP\fP	-	Displays in ascending order all the smallest numbers composed of four digits.	8.481s
+https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne_nombre/imprimer_peigne_nombre.fr \fBat\fP \fI\fIimprimer_peigne_nombre\fP\fP	\fInombre\fP	Displays in ascending order all the smallest numbers composed of \fInombre\fP digits.	Depends
+https://github.com/ManiGillier/glados/blob/dev/larousse/max/max.fr \fBat\fP \fI\fImax\fP\fP	\fInombre\fP, \fIsecond_nombre\fP	Returns \fInombre\fP if \fInombre\fP is superior than \fIsecond_nombre\fP, otherwise \fIsecond_nombre\fP.	0.060s
+https://github.com/ManiGillier/glados/blob/dev/larousse/min/min.fr \fBat\fP \fI\fImin\fP\fP	\fInombre\fP, \fIsecond_nombre\fP	Returns \fIsecond_nombre\fP if \fInombre\fP is superior than \fIsecond_nombre\fP, otherwise \fInombre\fP.	0.092s
+https://github.com/ManiGillier/glados/blob/dev/larousse/multiplier/multiplier.fr \fBat\fP \fI\fImultiplier\fP\fP	\fInombre\fP, \fIsecond_nombre\fP	Returns \fInombre * second_nombre\fP.	0.065s
+https://github.com/ManiGillier/glados/blob/dev/larousse/prochain_premier/prochain_premier.fr \fBat\fP \fI\fIprochain_premier\fP\fP	\fInombre\fP	Returns the first prime number greater than \fInombre\fP.	0.072s
+https://github.com/ManiGillier/glados/blob/dev/larousse/pr%C3%A9c%C3%A9dent/pr%C3%A9c%C3%A9dent.fr \fBat\fP \fI\fIprécedent\fP\fP	\fInombre\fP	Returns \fInombre \- 1\fP.	0.069s
+https://github.com/ManiGillier/glados/blob/dev/larousse/racine_carr%C3%A9_de/racine_carr%C3%A9_de.fr \fBat\fP \fI\fIracine_carré_de\fP\fP	\fInombre\fP	Returns the integer square root of \fInombre\fP.	0.070s
+https://github.com/ManiGillier/glados/blob/dev/larousse/soustraire/soustraire.fr \fBat\fP \fI\fIsoustraire\fP\fP	\fInombre\fP, \fIsecond_nombre\fP	Returns \fInombre \- second_nombre\fP.	0.090s
+https://github.com/ManiGillier/glados/blob/dev/larousse/suivant/suivant.fr \fBat\fP \fI\fIsuivant\fP\fP	\fInombre\fP	Returns \fInombre + 1\fP.	0.065s
 .TE
 .TB ""
 

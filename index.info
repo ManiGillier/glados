@@ -151,10 +151,10 @@ File: index.info,  Node: Other documentations,  Next: Introduction,  Prev: Top, 
 1 Other documentations
 **********************
 
-   • Single page documentation (./index.html)
-   • Multi page documentation (./index_html/index.html)
-   • Info page (info -f index.info) (./index.info)
-   • Man page (man -l index.man) (./index.man)
+   • Single page documentation (index.html)
+   • Multi page documentation (index_html/index.html)
+   • Info page (info -f index.info) (index.info)
+   • Man page (man -l index.man) (index.man)
 
 
 File: index.info,  Node: Introduction,  Next: Franc C reference,  Prev: Other documentations,  Up: Top
@@ -1973,29 +1973,29 @@ File: index.info,  Node: Functions,  Next: Académie Franc C'Aise,  Prev: Introd
 8.2 Functions
 =============
 
-Functions                Parameters              Description                                                                                                                                     Benchmark*
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-additionner              nombre, second_nombre   Returns ‘nombre + second_nombre’.                                                                                                               0.086s
-afficher_nombre          nombre                  Displays in the standard output the number ‘nombre’.                                                                                            0.067s
-carré_de                 nombre                  Returns ‘nombre * nombre’.                                                                                                                      0.074s
-diviser                  nombre, second_nombre   Returns ‘nombre / second_nombre’.                                                                                                               0.060s
-douze                    nombre                  Returns ‘nombre / 12’ if ‘nombre’ is multiple of 12, otherwise ‘-1’.                                                                            0.069s
-est_en_majuscule         nombre                  Returns ‘1’ if ‘nombre’ is an uppercase letter, otherwise ‘0’.                                                                                  0.063s
-est_en_minuscule         nombre                  Returns ‘1’ if ‘nombre’ is a lowercase letter, otherwise ‘0’.                                                                                   0.060s
-est_négatif              nombre                  Returns ‘1’ if ‘nombre’ is negative, otherwise ‘0’.                                                                                             0.070s
-est_premier              nombre                  Returns ‘1’ if ‘nombre’ is a prime number, otherwise ‘0’.                                                                                       0.051s
-fizzbuzz                 nombre                  Displays « Fizz » if ‘nombre’ is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays ‘nombre’.   0.056s
-imprimer_peigne          -                       Displays in ascending order all the smallest numbers composed of three digits.                                                                  0.220s
-imprimer_peigne_2        -                       Displays in ascending order all the smallest numbers composed of four digits.                                                                   8.481s
-imprimer_peigne_nombre   nombre                  Displays in ascending order all the smallest numbers composed of ‘nombre’ digits.                                                               Depends
-max                      nombre, second_nombre   Returns ‘nombre’ if ‘nombre’ is superior than ‘second_nombre’, otherwise ‘second_nombre’.                                                       0.060s
-min                      nombre, second_nombre   Returns ‘second_nombre’ if ‘nombre’ is superior than ‘second_nombre’, otherwise ‘nombre’.                                                       0.092s
-multiplier               nombre, second_nombre   Returns ‘nombre * second_nombre’.                                                                                                               0.065s
-prochain_premier         nombre                  Returns the first prime number greater than ‘nombre’.                                                                                           0.072s
-précedent                nombre                  Returns ‘nombre - 1’.                                                                                                                           0.069s
-racine_carré_de          nombre                  Returns the integer square root of ‘nombre’.                                                                                                    0.070s
-soustraire               nombre, second_nombre   Returns ‘nombre - second_nombre’.                                                                                                               0.090s
-suivant                  nombre                  Returns ‘nombre + 1’.                                                                                                                           0.065s
+Functions                                                                                                                                Parameters                  Description                                                                                                                                     Benchmark*
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+‘additionner’ (https://github.com/ManiGillier/glados/blob/dev/larousse/additionner/additionner.fr)                                       ‘nombre’, ‘second_nombre’   Returns ‘nombre + second_nombre’.                                                                                                               0.086s
+‘afficher_nombre’ (https://github.com/ManiGillier/glados/blob/dev/larousse/afficher_nombre/afficher_nombre.fr)                           ‘nombre’                    Displays in the standard output the number ‘nombre’.                                                                                            0.067s
+‘carré_de’ (https://github.com/ManiGillier/glados/blob/dev/larousse/carr%C3%A9_de/carr%C3%A9_de.fr)                                      ‘nombre’                    Returns ‘nombre * nombre’.                                                                                                                      0.074s
+‘diviser’ (https://github.com/ManiGillier/glados/blob/dev/larousse/diviser/diviser.fr)                                                   ‘nombre’, ‘second_nombre’   Returns ‘nombre / second_nombre’.                                                                                                               0.060s
+‘douze’ (https://github.com/ManiGillier/glados/blob/dev/larousse/douze/douze.fr)                                                         ‘nombre’                    Returns ‘nombre / 12’ if ‘nombre’ is multiple of 12, otherwise ‘-1’.                                                                            0.069s
+‘est_en_majuscule’ (https://github.com/ManiGillier/glados/blob/dev/larousse/est_en_majuscule/est_en_majuscule.fr)                        ‘nombre’                    Returns ‘1’ if ‘nombre’ is an uppercase letter, otherwise ‘0’.                                                                                  0.063s
+‘est_en_minuscule’ (https://github.com/ManiGillier/glados/blob/dev/larousse/est_en_minuscule/est_en_minuscule.fr)                        ‘nombre’                    Returns ‘1’ if ‘nombre’ is a lowercase letter, otherwise ‘0’.                                                                                   0.060s
+‘est_négatif’ (https://github.com/ManiGillier/glados/blob/dev/larousse/est_n%C3%A9gatif/est_n%C3%A9gatif.fr)                             ‘nombre’                    Returns ‘1’ if ‘nombre’ is negative, otherwise ‘0’.                                                                                             0.070s
+‘est_premier’ (https://github.com/ManiGillier/glados/blob/dev/larousse/est_premier/est_premier.fr)                                       ‘nombre’                    Returns ‘1’ if ‘nombre’ is a prime number, otherwise ‘0’.                                                                                       0.051s
+‘fizzbuzz’ (https://github.com/ManiGillier/glados/blob/dev/larousse/fizzbuzz/fizzbuzz.fr)                                                ‘nombre’                    Displays « Fizz » if ‘nombre’ is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays ‘nombre’.   0.056s
+‘imprimer_peigne’ (https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne/imprimer_peigne.fr)                           -                           Displays in ascending order all the smallest numbers composed of three digits.                                                                  0.220s
+‘imprimer_peigne_2’ (https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne_2/imprimer_peigne_2.fr)                     -                           Displays in ascending order all the smallest numbers composed of four digits.                                                                   8.481s
+‘imprimer_peigne_nombre’ (https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne_nombre/imprimer_peigne_nombre.fr)      ‘nombre’                    Displays in ascending order all the smallest numbers composed of ‘nombre’ digits.                                                               Depends
+‘max’ (https://github.com/ManiGillier/glados/blob/dev/larousse/max/max.fr)                                                               ‘nombre’, ‘second_nombre’   Returns ‘nombre’ if ‘nombre’ is superior than ‘second_nombre’, otherwise ‘second_nombre’.                                                       0.060s
+‘min’ (https://github.com/ManiGillier/glados/blob/dev/larousse/min/min.fr)                                                               ‘nombre’, ‘second_nombre’   Returns ‘second_nombre’ if ‘nombre’ is superior than ‘second_nombre’, otherwise ‘nombre’.                                                       0.092s
+‘multiplier’ (https://github.com/ManiGillier/glados/blob/dev/larousse/multiplier/multiplier.fr)                                          ‘nombre’, ‘second_nombre’   Returns ‘nombre * second_nombre’.                                                                                                               0.065s
+‘prochain_premier’ (https://github.com/ManiGillier/glados/blob/dev/larousse/prochain_premier/prochain_premier.fr)                        ‘nombre’                    Returns the first prime number greater than ‘nombre’.                                                                                           0.072s
+‘précedent’ (https://github.com/ManiGillier/glados/blob/dev/larousse/pr%C3%A9c%C3%A9dent/pr%C3%A9c%C3%A9dent.fr)                         ‘nombre’                    Returns ‘nombre - 1’.                                                                                                                           0.069s
+‘racine_carré_de’ (https://github.com/ManiGillier/glados/blob/dev/larousse/racine_carr%C3%A9_de/racine_carr%C3%A9_de.fr)                 ‘nombre’                    Returns the integer square root of ‘nombre’.                                                                                                    0.070s
+‘soustraire’ (https://github.com/ManiGillier/glados/blob/dev/larousse/soustraire/soustraire.fr)                                          ‘nombre’, ‘second_nombre’   Returns ‘nombre - second_nombre’.                                                                                                               0.090s
+‘suivant’ (https://github.com/ManiGillier/glados/blob/dev/larousse/suivant/suivant.fr)                                                   ‘nombre’                    Returns ‘nombre + 1’.                                                                                                                           0.065s
 
    (*) Benchmark specs:
 
@@ -2035,96 +2035,96 @@ not all tests passed.
 Tag Table:
 Node: Top198
 Node: Other documentations2424
-Node: Introduction2772
-Node: Franc C reference3948
-Node: Motives4165
-Node: Inspirations4521
-Node: Linotte4987
-Node: C5523
-Node: French language6993
-Node: Language Formal Syntax (BNF)7421
-Node: Language logic16442
-Ref: *Header*16568
-Ref: *Function Declaration*16890
-Ref: The name of the function16980
-Ref: The return type of the function17143
-Ref: The parameters of the function17488
-Ref: Variables18499
-Ref: *Function Body*19973
-Ref: Assignement20542
-Ref: If21125
-Ref: Invoke22675
-Ref: Loop24681
-Ref: Return25453
-Ref: Show statements26210
-Ref: *End of Function*26907
-Ref: *Special case of 'Main' Function*27001
-Node: Bytecode reference28487
-Node: Formal syntax (BNF)28859
-Node: Instructions31157
-Node: Virtual Machine reference38724
-Node: Introduction (1)38993
-Node: Stack-Based vs Register-Based39568
-Node: Stack40829
-Ref: Stack Management41327
-Node: Initialization41538
-Node: Basic Operations41811
-Node: CallStack42212
-Node: Memory Layout42613
-Node: Function call mechanism43279
-Node: Zero flag44054
-Node: End cases44629
-Node: Franc C Compiler44979
-Node: Parameters list and long descriptions45478
-Node: FILESNAME45821
-Node: --output FILENAME46033
-Node: --no-larousse46370
-Node: --debug46732
-Node: Larousse47043
-Node: Functioning47515
-Node: Getting inputs47839
-Node: Lexing and parsing48049
-Node: Combination48539
-Node: Compilation48942
-Node: Verifications49443
-Node: Output49803
-Node: Justifications50346
-Node: Lexer & Parsing reference51530
-Node: Safety measures53219
-Node: Error list54089
-Node: Known caveats54464
-Node: Compilation reference55109
-Node: Function call parameters return value and variables56839
-Node: Safety measures (1)58214
-Node: Intended undefined behaviours59126
-Ref: Integer over/underflows59318
-Ref: Known caveats (1)60111
-Ref: Lack of static analysis60136
-Node: Readable assembly60750
-Node: Syntax of the readable assembly61086
-Node: List of instructions61494
-Node: Franc C Virtual Machine64118
-Node: Input Descriptions64382
-Node: Bytecode File Format64604
-Node: Command-Line Interface65582
-Node: Architecture Implementation66021
-Node: Memory Layout (1)66327
-Ref: Operand Stack66606
-Ref: Call Stack67412
-Ref: Registers68497
-Node: Instruction Set Overview69063
-Node: Function Call Convention69376
-Node: Exceptions List70179
-Node: Load-Time Errors70457
-Node: Runtime Errors70828
-Node: Known Caveats71453
-Node: Undefined Behaviors71671
-Node: Performance Limitations72063
-Node: Portability Issues72479
-Node: Larousse (1)72909
-Node: Introduction (motives)73093
-Node: Functions73646
-Node: Académie Franc C'Aise78666
+Node: Introduction2764
+Node: Franc C reference3940
+Node: Motives4157
+Node: Inspirations4513
+Node: Linotte4979
+Node: C5515
+Node: French language6985
+Node: Language Formal Syntax (BNF)7413
+Node: Language logic16434
+Ref: *Header*16560
+Ref: *Function Declaration*16882
+Ref: The name of the function16972
+Ref: The return type of the function17135
+Ref: The parameters of the function17480
+Ref: Variables18491
+Ref: *Function Body*19965
+Ref: Assignement20534
+Ref: If21117
+Ref: Invoke22667
+Ref: Loop24673
+Ref: Return25445
+Ref: Show statements26202
+Ref: *End of Function*26899
+Ref: *Special case of 'Main' Function*26993
+Node: Bytecode reference28479
+Node: Formal syntax (BNF)28851
+Node: Instructions31149
+Node: Virtual Machine reference38716
+Node: Introduction (1)38985
+Node: Stack-Based vs Register-Based39560
+Node: Stack40821
+Ref: Stack Management41319
+Node: Initialization41530
+Node: Basic Operations41803
+Node: CallStack42204
+Node: Memory Layout42605
+Node: Function call mechanism43271
+Node: Zero flag44046
+Node: End cases44621
+Node: Franc C Compiler44971
+Node: Parameters list and long descriptions45470
+Node: FILESNAME45813
+Node: --output FILENAME46025
+Node: --no-larousse46362
+Node: --debug46724
+Node: Larousse47035
+Node: Functioning47507
+Node: Getting inputs47831
+Node: Lexing and parsing48041
+Node: Combination48531
+Node: Compilation48934
+Node: Verifications49435
+Node: Output49795
+Node: Justifications50338
+Node: Lexer & Parsing reference51522
+Node: Safety measures53211
+Node: Error list54081
+Node: Known caveats54456
+Node: Compilation reference55101
+Node: Function call parameters return value and variables56831
+Node: Safety measures (1)58206
+Node: Intended undefined behaviours59118
+Ref: Integer over/underflows59310
+Ref: Known caveats (1)60103
+Ref: Lack of static analysis60128
+Node: Readable assembly60742
+Node: Syntax of the readable assembly61078
+Node: List of instructions61486
+Node: Franc C Virtual Machine64110
+Node: Input Descriptions64374
+Node: Bytecode File Format64596
+Node: Command-Line Interface65574
+Node: Architecture Implementation66013
+Node: Memory Layout (1)66319
+Ref: Operand Stack66598
+Ref: Call Stack67404
+Ref: Registers68489
+Node: Instruction Set Overview69055
+Node: Function Call Convention69368
+Node: Exceptions List70171
+Node: Load-Time Errors70449
+Node: Runtime Errors70820
+Node: Known Caveats71445
+Node: Undefined Behaviors71663
+Node: Performance Limitations72055
+Node: Portability Issues72471
+Node: Larousse (1)72901
+Node: Introduction (motives)73085
+Node: Functions73638
+Node: Académie Franc C'Aise81510
 
 End Tag Table
 

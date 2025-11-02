@@ -17,8 +17,6 @@
 @author Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet
 @end titlepage
 
-@contents
-
 @ifnottex
 @node Top
 @top TGPD: The GLADOS Project Documentation
@@ -167,7 +165,6 @@ Larousse
 @itemize
 @item
 @uref{index.html, Single page documentation}
-
 @item
 @uref{index_html/index.html, Multi page documentation}
 @item
@@ -2255,93 +2252,93 @@ and demonstrate its verbose syntax, and acts as a test suite for the
 @node Functions
 @section Functions
 
-@multitable {aaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaa}
+@multitable {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa} {aaaaaaaaaa}
 @headitem Functions
 @tab Parameters
 @tab Description
 @tab Benchmark*
-@item additionner
-@tab nombre, second@math{_nombre}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/additionner/additionner.fr, @samp{additionner}}
+@tab @samp{nombre}, @samp{second_nombre}
 @tab Returns @samp{nombre + second_nombre}.
 @tab 0.086s
-@item afficher@math{_nombre}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/afficher_nombre/afficher_nombre.fr, @samp{afficher_nombre}}
+@tab @samp{nombre}
 @tab Displays in the standard output the number @samp{nombre}.
 @tab 0.067s
-@item carré@math{_de}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/carr%C3%A9_de/carr%C3%A9_de.fr, @samp{carré_de}}
+@tab @samp{nombre}
 @tab Returns @samp{nombre * nombre}.
 @tab 0.074s
-@item diviser
-@tab nombre, second@math{_nombre}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/diviser/diviser.fr, @samp{diviser}}
+@tab @samp{nombre}, @samp{second_nombre}
 @tab Returns @samp{nombre / second_nombre}.
 @tab 0.060s
-@item douze
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/douze/douze.fr, @samp{douze}}
+@tab @samp{nombre}
 @tab Returns @samp{nombre / 12} if @samp{nombre} is multiple of 12, otherwise @samp{-1}.
 @tab 0.069s
-@item est@math{_en}@math{_majuscule}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/est_en_majuscule/est_en_majuscule.fr, @samp{est_en_majuscule}}
+@tab @samp{nombre}
 @tab Returns @samp{1} if @samp{nombre} is an uppercase letter, otherwise @samp{0}.
 @tab 0.063s
-@item est@math{_en}@math{_minuscule}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/est_en_minuscule/est_en_minuscule.fr, @samp{est_en_minuscule}}
+@tab @samp{nombre}
 @tab Returns @samp{1} if @samp{nombre} is a lowercase letter, otherwise @samp{0}.
 @tab 0.060s
-@item est@math{_négatif}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/est_n%C3%A9gatif/est_n%C3%A9gatif.fr, @samp{est_négatif}}
+@tab @samp{nombre}
 @tab Returns @samp{1} if @samp{nombre} is negative, otherwise @samp{0}.
 @tab 0.070s
-@item est@math{_premier}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/est_premier/est_premier.fr, @samp{est_premier}}
+@tab @samp{nombre}
 @tab Returns @samp{1} if @samp{nombre} is a prime number, otherwise @samp{0}.
 @tab 0.051s
-@item fizzbuzz
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/fizzbuzz/fizzbuzz.fr, @samp{fizzbuzz}}
+@tab @samp{nombre}
 @tab Displays « Fizz » if @samp{nombre} is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays @samp{nombre}.
 @tab 0.056s
-@item imprimer@math{_peigne}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne/imprimer_peigne.fr, @samp{imprimer_peigne}}
 @tab -
 @tab Displays in ascending order all the smallest numbers composed of three digits.
 @tab 0.220s
-@item imprimer@math{_peigne}@math{_2}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne_2/imprimer_peigne_2.fr, @samp{imprimer_peigne_2}}
 @tab -
 @tab Displays in ascending order all the smallest numbers composed of four digits.
 @tab 8.481s
-@item imprimer@math{_peigne}@math{_nombre}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/imprimer_peigne_nombre/imprimer_peigne_nombre.fr, @samp{imprimer_peigne_nombre}}
+@tab @samp{nombre}
 @tab Displays in ascending order all the smallest numbers composed of @samp{nombre} digits.
 @tab Depends
-@item max
-@tab nombre, second@math{_nombre}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/max/max.fr, @samp{max}}
+@tab @samp{nombre}, @samp{second_nombre}
 @tab Returns @samp{nombre} if @samp{nombre} is superior than @samp{second_nombre}, otherwise @samp{second_nombre}.
 @tab 0.060s
-@item min
-@tab nombre, second@math{_nombre}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/min/min.fr, @samp{min}}
+@tab @samp{nombre}, @samp{second_nombre}
 @tab Returns @samp{second_nombre} if @samp{nombre} is superior than @samp{second_nombre}, otherwise @samp{nombre}.
 @tab 0.092s
-@item multiplier
-@tab nombre, second@math{_nombre}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/multiplier/multiplier.fr, @samp{multiplier}}
+@tab @samp{nombre}, @samp{second_nombre}
 @tab Returns @samp{nombre * second_nombre}.
 @tab 0.065s
-@item prochain@math{_premier}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/prochain_premier/prochain_premier.fr, @samp{prochain_premier}}
+@tab @samp{nombre}
 @tab Returns the first prime number greater than @samp{nombre}.
 @tab 0.072s
-@item précedent
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/pr%C3%A9c%C3%A9dent/pr%C3%A9c%C3%A9dent.fr, @samp{précedent}}
+@tab @samp{nombre}
 @tab Returns @samp{nombre - 1}.
 @tab 0.069s
-@item racine@math{_carré}@math{_de}
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/racine_carr%C3%A9_de/racine_carr%C3%A9_de.fr, @samp{racine_carré_de}}
+@tab @samp{nombre}
 @tab Returns the integer square root of @samp{nombre}.
 @tab 0.070s
-@item soustraire
-@tab nombre, second@math{_nombre}
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/soustraire/soustraire.fr, @samp{soustraire}}
+@tab @samp{nombre}, @samp{second_nombre}
 @tab Returns @samp{nombre - second_nombre}.
 @tab 0.090s
-@item suivant
-@tab nombre
+@item @uref{https://github.com/ManiGillier/glados/blob/dev/larousse/suivant/suivant.fr, @samp{suivant}}
+@tab @samp{nombre}
 @tab Returns @samp{nombre + 1}.
 @tab 0.065s
 @end multitable

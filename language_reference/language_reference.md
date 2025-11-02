@@ -1,14 +1,77 @@
-# Language reference
+# Motives
 
-## Language inspirations
+-   The **Franc C** was built to allow french people to program in their
+    home language.
+-   The language is easily readable for a non-technical person.
+-   The focus is put on the syntax, not in the functionalities of the
+    language.
 
-[ToDo]
+# Inspirations
 
-## Language motives
+We took inspiration for our syntax on a beautiful language,
+[linotte](http://langagelinotte.free.fr) ; and for our implementation on
+the [C programming language](https://www.iso.org/standard/82075.html).
 
-[ToDo]
+Obviously, the french language is our biggest inspirator.
 
-## Language Formal Syntax (BNF)
+## Linotte
+
+The linotte programming language is a high-level,
+french-litteral-syntaxed programming language made for introducing
+programmation to children.
+
+We saw it as a great inspiration for our language with the next
+features:
+
+-   Word delimitation at the end of functions, if and while
+    conditionals.
+-   Use of some syntax like \"read\" instead of \"execute\" code
+
+The linotte syntax was, however, not litteral enough to our liking.
+
+## C
+
+The C programming language is a low-level language. We took inspiration
+from it in the implementation of our language. For example, the C
+programming language is from the imperative paradigm, and so is our
+language.
+
+We took many things from this language:
+
+-   The imperative paradigm
+-   The int-defined booleans In the C programming language, all integers
+    can be interpreted as booleans. A false is a value strictly equal to
+    zero, and a true is every other values.
+-   The possibility of defining variables local to each function call
+-   The possibility of using recursive function calls
+-   The representation of a chararacter by it\'s ascii value
+-   The function used to print a character \"putchar\"
+-   The existence of a standard library with some useful functions
+-   All of the operations like xor, addition, bitshift...
+-   The possibility for functions to return a value
+-   The infix notation of operations, with parenthesis
+-   The possibility to compute directly with any combination of
+    operations in any part of the code where a value is required. For
+    example, when passing a parameter, you could pass a computation, a
+    variable value, or a mix of both
+
+Many of these features are also present in other languages, but we took
+them from our knowledge of the C programming language.
+
+## French language
+
+French is not a programming, but a spoken language.
+
+We wanted a truly grammatically correct, complete, easily readable, and
+beautiful language.
+
+Our choice was obviously french, as french syntax is way more precise
+than english\'s.
+
+We searched for dozen of grammar rules to inforce in our language.
+
+
+# Language Formal Syntax (BNF)
 
 ```bnf
 <header> ::= "Bonjour," <spaces>

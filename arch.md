@@ -1,11 +1,11 @@
 
-# Introduction
+# MANI Introduction
 
-# Language reference
+# MANI Language reference
 
-## Language inspirations
+## MANI Language inspirations
 
-## Language motives
+## MANI Language motives
 
 ## RAYANE Language Formal Syntax (BNF)
 

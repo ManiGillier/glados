@@ -46,7 +46,7 @@ The inputs are retrived via the Larousse library and the user-provided files.
 
 Each file is lexed into a list of token, then parsed into an Abstract Syntax Tree (AST).
 
-See [the parsing reference](#parsing-reference) for more information.
+See [the parsing reference](#lexer-parsing-reference) for more information.
 
 This step may fail. Each file being converted one after the other, if one fails, the remaining ones are not even considered and an error is returned.
 

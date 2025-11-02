@@ -1,8 +1,8 @@
-# VM Architecture 
+# Introduction
 
 When defining an assembly language for the Franc C binary, we focused on the ease of development of the compiler. We just had one requirement that allowed an easy development of the virtual machine: our assembly shall be [stack-based](https://en.wikipedia.org/wiki/Stack-oriented_programming), drawing inspiration from the [Java Virtual Machine (JVM)](https://en.wikipedia.org/wiki/Java_virtual_machine).
 
-### Stack-Based vs Register-Based
+## Stack-Based vs Register-Based
 
 | Aspect            | Stack-Based (fcvm)                                          | Register-Based (e.g., Lua VM) |
 |-------------------|-------------------------------------------------------------|-------------------------------|
@@ -16,7 +16,7 @@ We chose a stack-based approach for the following reasons:
 1. **Simpler bytecode generation**: The compiler does not have to deal with registers, knowing it does not have the capacity to remember data while processing multiple operations.
 2. **Monotyped language**: The fact that the Franc C is an integer only language allows for fixed-size parameter encoding. One of the main advantages of the register-based approach is to allow for type encoding.
 
-## Stack
+# Stack
 
 The stack shoud be implemented as a contiguous array of bytes with the following characteristics:
 
@@ -25,25 +25,25 @@ The stack shoud be implemented as a contiguous array of bytes with the following
 - **Alignment**: All operations push/pop exactly 8 bytes
 - **Stack size**: Always a multiple of 8 bytes
 
-#### Stack Management
+### Stack Management
 
 To perform function calls, the VM must maintains the stack pointer.
 It points to the start of the current stack local context. 
 it is modified by the instructions call and ret.
 
-### Initialization
+## Initialization
 
 By default, the stack should be initialized with 8 bytes representing the return value of the program.
 The default value is implementation-defined.
 
-### Basic Operations
+## Basic Operations
 
 | Operation | Description | Stack Effect |
 |-----------|-------------|--------------|
 | **PUSH**  | Push 8 bytes onto the stack | SP unchanged, Counter += 1 |
 | **POP**   | Remove 8 bytes from the stack | SP unchanged, Counter -= 1 |
 
-## CallStack 
+# CallStack 
 
 The **callstack** manages function calls and returns, enabling the VM to:
 - Navigate between functions
@@ -51,7 +51,7 @@ The **callstack** manages function calls and returns, enabling the VM to:
 - Maintain function-local state
 - Detect program termination
 
-### Memory Layout
+## Memory Layout
 
 The callstack can be implemented as a contiguous array of frame records:\
 By default, the callstack can be initialized as an **empty array**.
@@ -67,7 +67,7 @@ Example implementation :
 | 1     | 12 | 16 | First function call           |
 | 2     | 57 | 24 | Current function locale start |
 
-### Function call mechanism
+## Function call mechanism
 
 When executing `call <address>`:
 
@@ -84,7 +84,7 @@ When executing `Ret`:
    - Set `SP = saved_SP` (restore stack state)
 3. **Check termination**: If call stack is empty after pop, **terminate program**
 
-## Zero flag
+# Zero flag
 
 The **Zero Flag** is a single-bit register used for conditional branching and control flow decisions.\
 It stores the result of comparison and test operations, \
@@ -100,7 +100,7 @@ The Zero Flag follows this logic:
 | **!= 0**  | `1` (true)      |
 | **== 0**  | `0` (false)     |
 
-## End cases
+# End cases
 
 The program terminates normally when:
 - A `Ret` instruction is executed from the main function

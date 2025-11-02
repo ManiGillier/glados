@@ -1,12 +1,10 @@
-# Larousse reference
-
-## Introduction (motives)
+# Introduction (motives)
 
 As programming using Franc C can easily become overwhelming, we decided to provide a set of already implemented functions, in a library called `Larousse`, as a way to facilitate some tasks.
 
 `Larousse` also serves as a way to showcase our language's capabilities, and demonstrate its verbose syntax, and acts as a test suite for the `Académie Franc C'Aise`, which runs functional tests on it.
 
-## Functions
+# Functions
 
 |     Functions               |     Parameters               |     Description                                                           |        Benchmark*        |
 |     :------------------     |     :------------------:     |     :---------------------------------------------------------------:     |     ----------------:    |
@@ -40,7 +38,7 @@ GPU : NVIDIA RTX 4070 TI SUPER
 RAM: 32 GB
 ```
 
-## Académie Franc C'Aise
+# Académie Franc C'Aise
 
 `Académie Franc C'Aise` is the `functional tester` made in `Python` for the `Franc C`, and uses `Larousse` standard library.
 

@@ -1,8 +1,7 @@
-# fcvm Reference
 
-## Input Descriptions
+# Input Descriptions
 
-### Bytecode File Format
+## Bytecode File Format
 
 The fcvm executes Franc C bytecode files.
 
@@ -20,7 +19,7 @@ They have the following header structure:
 - Validates file format at VM initialization
 - Invalid magic number triggers immediate error
 
-### Command-Line Interface
+## Command-Line Interface
 
 ```bash
 ./fcvm <bytecode_file>
@@ -36,9 +35,9 @@ They have the following header structure:
 
 ---
 
-## Architecture Implementation
+# Architecture Implementation
 
-### Memory Layout
+## Memory Layout
 
 The VM maintains three core structures:
 
@@ -46,7 +45,7 @@ The VM maintains three core structures:
 - The callstack
 - Three specific registers
 
-#### Operand Stack
+### Operand Stack
 
 Stores temporary computation values, variables and function return values.
 
@@ -66,7 +65,7 @@ Stores temporary computation values, variables and function return values.
 - Max size: 1,000,000 elements (8 MB)
 - Operations: PUSH (prepend), POP (drop first 8 bytes)
 
-#### Call Stack
+### Call Stack
 
 Manages function call frames.
 
@@ -91,7 +90,7 @@ Manages function call frames.
 - `RET`: Pop frame, restore context, trim stack
 - **Termination**: Empty call stack after `RET` → program ends
 
-#### Registers
+### Registers
 
 **Program Counter (PC)**
 - Points to current instruction in bytecode
@@ -109,13 +108,13 @@ Manages function call frames.
 - Semantics: `0` if stack top = 0, else `1`
 - Set by `ZFLAG`, tested by `ZJMP`
 
-### Instruction Set Overview
+## Instruction Set Overview
 
 The VM implements 40 opcodes across 7 categories:
 
 > [Bytecode Definition](#bytecode_reference).
 
-### Function Call Convention
+## Function Call Convention
 
 **Calling sequence**:
 ```
@@ -142,11 +141,11 @@ The VM implements 40 opcodes across 7 categories:
 └──────────────────┘
 ```
 
-## Exceptions List
+# Exceptions List
 
 All errors exit with code **84** and write to **stderr**.
 
-### Load-Time Errors
+## Load-Time Errors
 
 **Invalid Magic Number**
 ```
@@ -160,7 +159,7 @@ Message: Error with file
 Trigger: File not found, permission denied, or read error
 ```
 
-### Runtime Errors
+## Runtime Errors
 
 **Arithmetic Errors**
 ```
@@ -182,9 +181,9 @@ Trigger: Operation requires elements when stack_size ≤ 1
 Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
 ```
 
-## Known Caveats
+# Known Caveats
 
-### Undefined Behaviors
+## Undefined Behaviors
 
 **Integer Overflow**
 - 64-bit signed integers wrap silently
@@ -196,7 +195,7 @@ Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
 - Corrupted bytecode may execute partially
 - No detection mechanism
 
-### Performance Limitations
+## Performance Limitations
 
 **List-Based Stack**
 - Push/Pop: O(1) ✓
@@ -207,7 +206,7 @@ Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
 - `AFFS` creates intermediate structures
 - Linear in string length (acceptable)
 
-### Portability Issues
+## Portability Issues
 
 **Platform Word Size**
 - `PC` and `SP` use Haskell `Int` type

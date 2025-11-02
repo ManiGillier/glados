@@ -121,6 +121,8 @@ We searched for dozen of grammar rules to inforce in our language.
 
 <text> ::= <symbol> [<text>]
 
+<comment> ::= "*" <text> "*"
+
 <quoted_value> ::= "« " <text> " »"
 
 <block> ::= <statement_list>
@@ -201,3 +203,294 @@ shorter. For example, the XOR `^` operation can either be typed out as `exclusif
 - Every single instructions ends with a `.` as every single sentence in **french** ends the same way.
 - `while` and `if` structures do not exactly share the same syntax in order to differentiate them properly : `if` takes a `,` at the end of the condition whereas `while` doesn't.
 - Comparison are in the feminine form (`supérieure`, `égale`) since the French word `variable` is feminine.
+
+## Language logic
+
+### **Header**
+
+A file in `Franc C` always starts with: "Bonjour," followed by an empty line.
+
+Politeness is very important, and we wanted `Franc C` to express a proper and classic language, not a crappy street language.
+We promise you will learn the "bien parlé" by using `Franc C`
+
+### **Function Declaration**
+
+In order to declare a function, you must specify:
+
+#### The name of the function
+
+```
+J'aimerais définir le bloc répondant au nom de <function_name>,
+```
+
+where <function_name> is the name of the function
+
+
+#### The return type of the function
+
+
+```
+de type de retour entier naturel,
+```
+
+for the function to return an integer.
+
+```
+de type de retour booléen,
+```
+
+for the function to return a boolean.
+
+```
+de type de retour nul,
+```
+
+if the function does not return anything. (void function)
+
+
+#### The parameters of the function
+
+A parameter, in Franc C, is defined the same way as other programming languages : Those are variables that must be passed when the function is invoked for it to use them.
+
+```
+necéssitant comme entrée :
+    - <variable_name1>, de type <type>
+    - <variable_name2>, de type <type>
+    ...
+;
+```
+
+You can include as many parameter as you want as long as they **do not share** the same name.
+
+- `<variable_name1>` and `<variable_name2>` are the name of the variables which are both different.
+- `<type>` is either `booléen` if the parameter is a `boolean` or `entier naturel` if it is an `int`.
+
+Parameters are obviously optional. If the function does not take any parameters, you must specify :
+
+```
+nécessitant comme entrée : ;
+```
+
+#### Variables
+
+Variables created and used inside a function, in Franc C, are defined in the function definition. 
+Since Franc C is a very verbose language and uses a lot of words, creating variables at the top of the function makes it a very good way to clearly see them.
+
+Such variables are being declared the following way :
+
+```
+contenant les variables :
+    - <variable_name1>, de type <type>, valant <value>
+    - <variable_name2>, de type <type>, valant <value>
+;
+```
+
+Just like **parameters**, **variables** must not share the same name.
+A **parameter** and a **variable** can not share the same name either.
+
+- `<variable_name1>` and `<variable_name2>` are the name of the variables which are both different.
+- `<type>` is either `booléen` if the variable is a `boolean` or `entier naturel` if it is an `int`.
+- `<value>` is either a number or a boolean expression `vrai` `vraie` `faux` or `fausse`. It can also be a character value like `\n` (which will be 10).
+
+This **forces** every single created variable to have a default value.
+
+If the function does not use any variable, you must specify :
+
+```
+contenant les variables : ;
+```
+
+### **Function Body**
+
+A function declaration ends with
+
+```
+représenté par le code <logical_connector>.
+```
+
+- `<logical_connector>` is either `ci-après`, `suivant`, or `ci-dessous`. 
+
+What must follow this declaration is the **body of the function**, which is what **will be executed** when the function is **invoked**.
+
+In Franc C, what can be executed inside a function is being refered as an `instruction`.
+
+Those are the available instructions that you can execute inside a function :
+
+#### Assignement
+
+You can, at any time, change the value of a variable the following way :
+
+```
+J'aimerais que <variable_name> prenne la valeur <computables>.
+```
+
+or 
+
+```
+<variable_name> prends la valeur <computables>.
+```
+
+- `<variable_name>` represents the name of an existing well-defined variable of the function.
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+
+#### If
+
+Execute a block of code only if a specific condition was met. It can be defined the following way :
+
+```
+Si <computables>, exécute le texte :
+    <more_instructions>
+Merci.
+```
+
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+- `<more_instructions>` represents all the instructions that will be executed **ONLY** if the **condition** was **met**.
+- `Merci.` represents the end of the condition.
+
+You can also execute a block of code if the condition wasn't met the following way :
+
+```
+Si <computables>, exécute le texte :
+    <more_instructions>
+; sinon, exécute le texte :
+    <more_instructions_2>
+Merci.
+```
+
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+- `<more_instructions>` represents all the instructions that will be executed **ONLY** if the **condition** was **met**.
+- `<more_instructions_2>` represents all the instructions that will be executed **ONLY** if the **condition** was **not met**.
+- `Merci.` represents the end of the condition.
+
+
+#### Invoke
+
+Invoke another function inside a function, you can also store its result in a well-defined function variable.
+
+```
+J'invoque le bloc <function_name>.
+```
+
+- `<function_name>` is the name of an **existing defined function**.
+
+If the function that is being invoked takes parameters, they **must** be specified the following way :
+
+```
+J'invoque le bloc <function_name>, avec les paramètres <computables>, <computables>, <computables>.
+```
+
+- `<function_name>` is the name of an **existing defined function**.
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+
+You **must** not give to a function more parameters than it takes.
+
+In order to store the result of a function, while still giving parameters :
+
+```
+J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>, avec les paramètres <computables>, <computables>, <computables>.
+```
+
+- `<function_name>` is the name of an **existing defined function**.
+- `<variable_name>` represents the name of an existing well-defined variable of the function.
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+
+However, if you do not want to give any parameter :
+
+```
+J'invoque le bloc <function_name>, et j'assigne la valeur de retour à la variable <variable_name>.
+```
+
+- `<function_name>` is the name of an **existing defined function**.
+- `<variable_name>` represents the name of an existing well-defined variable of the function
+
+#### Loop
+
+The only type of loop that is currently implemented in `Franc C` are the `while` loops.
+
+A loop allows to execute a block of code until a condition cannot be met anymore.
+
+```
+Tant que <computables> exécute le code ci-après :
+    <more_instructions>
+Merci.
+```
+
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+- `<more_instructions>` represents all the instructions that will be executed **ONLY** if the **condition** was **met**.
+- `Merci.` represents the end of the loop.
+
+#### Return
+
+During the execution of the function, you can return at any time a **value**.
+Returning a value will cause the function execution to **stop**.
+
+The only condition to return a value is that the function must not be of type "nul".
+
+```
+Enfin, renvoie <computables>.
+```
+
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+
+If the function does not return anything (`nul` function), you can still stop the execution at any time.
+
+```
+Enfin, sors du bloc.
+```
+
+This works only if the function is a `nul` function.
+
+#### Show statements
+
+This instruction is used to display either a text, or the result of a computation in the screen.
+
+To display a computation : 
+
+```
+Affiche <computables>.
+```
+
+- `<computables>` represents an expression composed of values with operators. (*Check the `<condition>` defintion on the BNF)
+
+This will display **the character** corresponding to the result on the screen.
+(E.g): `Affiche 10.` will display `\n`.
+
+However, if you want to display a text : 
+
+```
+Affiche « Meow ».
+```
+
+This will display the text `Meow` on the screen.
+
+### **End of Function**
+
+You must **always** end your **Function Body** with a `Merci.`.
+
+### **Special case of 'Main' Function**
+
+The **main function** is where the program starts. Therefore, its defintion must be clearly different from the **other functions**.
+
+Such functions are being defined the following way :
+
+```
+Bonjour,
+
+En sachant que les variables principales sont :
+    <variables>
+; pourrais-tu s'il te plaît commencer la lecture ici ?
+    <instructions>
+Merci d'avance,
+Cordialement,
+<family_name>
+<name>
+```
+
+- `<variables>` is an optional field, and represents the variables of the function. They are declared the same way as a normal function.
+- `<instructions>` represents all the instructions that will be executed.
+- `Merci d'avance, Cordialement, <family_name> <name>.` represents the end of the main function
+- `<family_name>` represents the developer's last name, and must always end with a newline character ('\n').
+- `<name>` represents the developer's first name, and must also end with a newline character ('\n').
+
+A **main function** does not take any parameter. Therefore, no parameter definition must be done.
+The value being **returned** in the **main function** represent the exit status of the program. If no value was being **returned**, the program exists by default with a status code of `0`.

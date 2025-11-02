@@ -2,132 +2,55 @@
 
 ## Introduction (motives)
 
-The main goal of the larousse is to make the Franc C programming easier by providing a bunch of useful functions. Some functions also serve as a showcase for the language capabilities, such as the imprimer_peigne_n.
-
-## Programs
-
-### additionner
-
-This program takes two integers as a parameter and return the sum of them.
-
-This program takes 0.017 seconds on mac.
-
-### afficher_nombre
-
-This program takes an integer and will display it in the standard output.
-
-This program takes 0.017 seconds on mac.
-
-### carré_de
-
-This program will take a single integer and square it to return the result.
-
-This program takes 0.017 seconds on mac.
-
-### diviser
-
-This program takes two integers as a parameter and return the first one devided by the second one.
-
-This program takes 0.017 seconds on mac.
-
-### douze
-
-This program takes an integer, if this integer is a multiple of 12 it will return the integer devided by 12, otherwise it will return -12.
-
-This program takes 0.017 seconds on mac.
-
-### est_en_majuscule
-
-This program takes a single char as a parameter, return 1 if the character is in uppercase, and 0 if it isn't.
-
-This program takes 0.017 seconds on mac.
-
-### est_en_minuscule
-
-This program takes a single char as a parameter, return 1 if the character is in lowercase, and 0 if it isn't.
-
-This program takes 0.017 seconds on mac.
-
-### est_négatif
-
-This program takes an integer, if this integer is negative, it will return 1, otherwise it will return 0.
-
-This program takes 0.017 seconds on mac.
-
-### est_premier
-
-This program takes an integer as a parameter and will returns 0 is the parameter is a prime number, else it will return -1.
-
-This program takes 0.017s seconds on mac.
-
-### fizzbuzz
-
-This program takes a single integer, if the integer is a multiple of both 3 and 5, it will print "FizzBuzz" in the standard stream, if it's only a multiple of 3 it will print "Fizz", for a multiple of 5 it prints "Buzz". Otherwise it prints the input number.
-
-This program takes 0.017 seconds on mac.
-
-### imprimer_peigne
-
-This function takes no arguments and displays, in ascending order, all the numbers composed by three different digits numbers (012, 013, 014, 015, 016, 017, 018, 019, 023, ..., 789). Given three digits (all different), only the smallest number composed by those digits must be displayed. It must be prototyped as follows:
-
-This program takes 0.092 seconds on mac.
-
-### imprimer_peigne_2
-
-This function displays, in ascending order, all the different combinations of two two-digit numbers (00 01, 00 02, 00 03, 00 04, 00 05,...,01 99, 02 03, ..., 98 99).
-
-This program takes 5.477 seconds on mac.
-
-### imprimer_peigne_nombre
-
-This function takes an integer n and displays, in ascending order, all the numbers composed by n different digits numbers . Given n digits (all different), only the smallest number composed by thoses digits is displayed.
-
-The runtime of this function is highly affected by the number given as parameter, it will range from 0.017 seconds on mac for slow number, to more than 10 seconds on mac for bigger number.
-
-### max
-
-This function takes two integer and return the biggest of the two.
-
-This program takes 0.017 seconds on mac.
-
-### min
-
-This function takes two integer and return the smallest of the two.
-
-This program takes 0.017 seconds on mac.
-
-### multiplier
-
-This program takes two integer as a parameter and return the first one multiplied by the second one.
-
-This program takes 0.017 seconds on mac.
-
-### prochain_premier
-
-This program take a single integer as a parameter and will return the first prime number that is bigger than it.
-
-This program takes 0.017 seconds on mac.
-
-### précédent
-
-This program takes a single integer and will return an integer lower by 1.
-
-This program takes 0.017 seconds on mac.
-
-### racine_carré_de
-
-This program takes a single integer and return the squared integer out of it.
-
-This program takes 0.017 seconds on mac.
-
-### soustraire
-
-This program takes two integer as a parameter and return the first one minus the second one.
-
-This program takes 0.017 seconds on mac.
-
-### suivant
-
-This program takes a single integer and will return an integer uppered by 1.
-
-This program takes 0.017 seconds on mac.
+As programming using Franc C can easily become overwhelming, we decided to provide a set of already implemented functions, in a library called `Larousse`, as a way to facilitate some tasks.
+
+`Larousse` also serves as a way to showcase our language's capabilities, and demonstrate its verbose syntax, and acts as a test suite for the `Académie Franc C'Aise`, which runs functional tests on it.
+
+## Functions
+
+|     Functions               |     Parameters               |     Description                                                           |        Benchmark*        |
+|     :------------------     |     :------------------:     |     :---------------------------------------------------------------:     |     ----------------:    |
+|     additionner             |    nombre, second_nombre     |     Returns `nombre + second_nombre`.                                     |       0.086s             |
+|     afficher_nombre         |    nombre                    |     Displays in the standard output the number `nombre`.                  |       0.067s             |
+|     carré_de                |    nombre                    |     Returns `nombre * nombre`.                                            |       0.074s             |
+|     diviser                 |    nombre, second_nombre     |     Returns `nombre / second_nombre`.                                     |       0.060s             |
+|     douze                   |    nombre                    |     Returns `nombre / 12` if `nombre` is multiple of 12, otherwise `-1`.  |       0.069s             |
+|     est_en_majuscule        |    nombre                    |     Returns `1` if `nombre` is an uppercase letter, otherwise `0`.        |       0.063s             |
+|     est_en_minuscule        |    nombre                    |     Returns `1` if `nombre` is a lowercase letter, otherwise `0`.         |       0.060s             |
+|     est_négatif             |    nombre                    |     Returns `1` if `nombre` is negative, otherwise `0`.                   |       0.070s             |
+|     est_premier             |    nombre                    |     Returns `1` if `nombre` is a prime number, otherwise `0`.             |       0.051s             |
+|     fizzbuzz                |    nombre                    |     Displays « Fizz » if `nombre` is multiple of 3, « Buzz » if multiple of 5, and « FizzBuzz » if multiple of both, otherwise displays `nombre`.             |       0.056s             |
+|     imprimer_peigne         |    -                         |     Displays in ascending order all the smallest numbers composed of three digits. |   0.220s    |
+|     imprimer_peigne_2       |    -                         |     Displays in ascending order all the smallest numbers composed of four digits.  |    8.481s   |
+|     imprimer_peigne_nombre  |    nombre                    |     Displays in ascending order all the smallest numbers composed of `nombre` digits. |   Depends |
+|     max                     |    nombre, second_nombre     |     Returns `nombre` if `nombre` is superior than `second_nombre`, otherwise `second_nombre`.                                    |       0.060s
+|     min                     |    nombre, second_nombre     |     Returns `second_nombre` if `nombre` is superior than `second_nombre`, otherwise `nombre`.                                    |       0.092s
+|     multiplier              |    nombre, second_nombre     |     Returns `nombre * second_nombre`.                                     |       0.065s             |
+|     prochain_premier        |    nombre                    |     Returns the first prime number greater than `nombre`.                 |       0.072s             |
+|     précedent               |    nombre                    |     Returns `nombre - 1`.                                                 |       0.069s             |
+|     racine_carré_de         |    nombre                    |     Returns the integer square root of `nombre`.                          |       0.070s             |
+|     soustraire              |    nombre, second_nombre     |     Returns `nombre - second_nombre`.                                     |       0.090s             |
+|     suivant               |    nombre                      |     Returns `nombre + 1`.                                                 |       0.065s             |  
+
+
+(*) Benchmark specs:
+```
+CPU : Intel i9 14900K
+GPU : NVIDIA RTX 4070 TI SUPER
+RAM: 32 GB
+```
+
+## Académie Franc C'Aise
+
+`Académie Franc C'Aise` is the `functional tester` made in `Python` for the `Franc C`, and uses `Larousse` standard library.
+
+You will find in every single `Larousse` source code function:
+- The same function written in `C`.
+- A main function in `Franc C` which calls the function in `Franc C` with various parameter, in the `test` folder.
+- A main function in `C` which calls the function in `C` with the same parameters, in the `test` folder.
+
+`Académie Franc C'Aise` compiles both the `C` and `Franc C` version using `gcc` and `fcvm`. It then runs both versions, and check whether their inputs are the same as a way to test the language. It also displays how much time each step took (Compilation, Execution) for both languages then finally shows the time difference between those.
+
+`Franc C` is in most cases faster to compile than `C`. However, `C` is almost always faster in execution time than `Franc C`.
+
+At the end of the program, `Académie Franc C'Aise` displays how many tests passed out of how many were run. It then exits with a failure if not all tests passed.

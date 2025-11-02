@@ -1,6 +1,7 @@
 
 #+TITLE: TGPD: The GLADOS Project Documentation
 #+AUTHOR: Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet
+#+OPTIONS: toc:nil
 
 * Other documentations
 

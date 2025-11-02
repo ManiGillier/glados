@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-11-02 Sun 23:10 -->
+<!-- 2025-11-02 Sun 23:14 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>TGPD: The GLADOS Project Documentation</title>
@@ -229,156 +229,19 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">TGPD: The GLADOS Project Documentation</h1>
-<div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#orgf345671">1. Other documentations</a></li>
-<li><a href="#org421c663">2. Introduction</a></li>
-<li><a href="#language_reference">3. Franc C reference</a>
-<ul>
-<li><a href="#motives">3.1. Motives</a></li>
-<li><a href="#inspirations">3.2. Inspirations</a>
-<ul>
-<li><a href="#linotte">3.2.1. Linotte</a></li>
-<li><a href="#c">3.2.2. C</a></li>
-<li><a href="#french-language">3.2.3. French language</a></li>
-</ul>
-</li>
-<li><a href="#language-formal-syntax-bnf">3.3. Language Formal Syntax (BNF)</a>
-<ul>
-<li><a href="#language-logic">3.3.1. Language logic</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#bytecode_reference">4. Bytecode reference</a>
-<ul>
-<li><a href="#formal-syntax-bnf">4.1. Formal syntax (BNF)</a></li>
-<li><a href="#instructions">4.2. Instructions</a></li>
-</ul>
-</li>
-<li><a href="#vm_architecture_reference">5. Virtual Machine reference</a>
-<ul>
-<li><a href="#introduction">5.1. Introduction</a>
-<ul>
-<li><a href="#stack-based-vs-register-based">5.1.1. Stack-Based vs Register-Based</a></li>
-</ul>
-</li>
-<li><a href="#stack">5.2. Stack</a>
-<ul>
-<li><a href="#initialization">5.2.1. Initialization</a></li>
-<li><a href="#basic-operations">5.2.2. Basic Operations</a></li>
-</ul>
-</li>
-<li><a href="#callstack">5.3. CallStack</a>
-<ul>
-<li><a href="#memory-layout">5.3.1. Memory Layout</a></li>
-<li><a href="#function-call-mechanism">5.3.2. Function call mechanism</a></li>
-</ul>
-</li>
-<li><a href="#zero-flag">5.4. Zero flag</a></li>
-<li><a href="#end-cases">5.5. End cases</a></li>
-</ul>
-</li>
-<li><a href="#fcc_reference">6. Franc C Compiler</a>
-<ul>
-<li><a href="#parameters-list-and-long-descriptions">6.1. Parameters list and long descriptions</a>
-<ul>
-<li><a href="#filesname">6.1.1. FILESNAME</a></li>
-<li><a href="#output-filename">6.1.2. &#x2013;output FILENAME</a></li>
-<li><a href="#no-larousse">6.1.3. &#x2013;no-larousse</a></li>
-<li><a href="#debug">6.1.4. &#x2013;debug</a></li>
-</ul>
-</li>
-<li><a href="#larousse">6.2. Larousse</a></li>
-<li><a href="#functioning">6.3. Functioning</a>
-<ul>
-<li><a href="#getting-inputs">6.3.1. Getting inputs</a></li>
-<li><a href="#lexing-and-parsing">6.3.2. Lexing and parsing</a></li>
-<li><a href="#combination">6.3.3. Combination</a></li>
-<li><a href="#compilation">6.3.4. Compilation</a></li>
-<li><a href="#verifications">6.3.5. Verifications</a></li>
-<li><a href="#output">6.3.6. Output</a></li>
-<li><a href="#justifications">6.3.7. Justifications</a></li>
-</ul>
-</li>
-<li><a href="#lexer-parsing-reference">6.4. Lexer &amp; Parsing reference</a>
-<ul>
-<li><a href="#safety-measures">6.4.1. Safety measures</a></li>
-<li><a href="#error-list">6.4.2. Error list</a></li>
-<li><a href="#known-caveats">6.4.3. Known caveats</a></li>
-</ul>
-</li>
-<li><a href="#compilation-reference">6.5. Compilation reference</a>
-<ul>
-<li><a href="#function-call-parameters-return-value-and-variables">6.5.1. Function call parameters, return value and variables</a></li>
-<li><a href="#safety-measures-1">6.5.2. Safety measures</a></li>
-<li><a href="#intended-undefined-behaviours">6.5.3. Intended undefined behaviours</a></li>
-</ul>
-</li>
-<li><a href="#readable-assembly">6.6. Readable assembly</a>
-<ul>
-<li><a href="#syntax-of-the-readable-assembly">6.6.1. Syntax of the readable assembly</a></li>
-<li><a href="#list-of-instructions">6.6.2. List of instructions</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#fcvm_reference">7. Franc C Virtual Machine</a>
-<ul>
-<li><a href="#input-descriptions">7.1. Input Descriptions</a>
-<ul>
-<li><a href="#bytecode-file-format">7.1.1. Bytecode File Format</a></li>
-<li><a href="#command-line-interface">7.1.2. Command-Line Interface</a></li>
-</ul>
-</li>
-<li><a href="#architecture-implementation">7.2. Architecture Implementation</a>
-<ul>
-<li><a href="#memory-layout">7.2.1. Memory Layout</a></li>
-<li><a href="#instruction-set-overview">7.2.2. Instruction Set Overview</a></li>
-<li><a href="#function-call-convention">7.2.3. Function Call Convention</a></li>
-</ul>
-</li>
-<li><a href="#exceptions-list">7.3. Exceptions List</a>
-<ul>
-<li><a href="#load-time-errors">7.3.1. Load-Time Errors</a></li>
-<li><a href="#runtime-errors">7.3.2. Runtime Errors</a></li>
-</ul>
-</li>
-<li><a href="#known-caveats">7.4. Known Caveats</a>
-<ul>
-<li><a href="#undefined-behaviors">7.4.1. Undefined Behaviors</a></li>
-<li><a href="#performance-limitations">7.4.2. Performance Limitations</a></li>
-<li><a href="#portability-issues">7.4.3. Portability Issues</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#larousse">8. Larousse</a>
-<ul>
-<li><a href="#introduction-motives">8.1. Introduction (motives)</a></li>
-<li><a href="#functions">8.2. Functions</a></li>
-<li><a href="#académie-franc-caise">8.3. Académie Franc C&rsquo;Aise</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-orgf345671" class="outline-2">
-<h2 id="orgf345671"><span class="section-number-2">1.</span> Other documentations</h2>
+<div id="outline-container-orgb2f4cae" class="outline-2">
+<h2 id="orgb2f4cae"><span class="section-number-2">1.</span> Other documentations</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li><a href="index.html">Single page documentation</a></li>
-
 <li><a href="index_html/index.html">Multi page documentation</a></li>
 <li><a href="index.info">Info page (info -f index.info)</a></li>
 <li><a href="index.man">Man page (man -l index.man)</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org421c663" class="outline-2">
-<h2 id="org421c663"><span class="section-number-2">2.</span> Introduction</h2>
+<div id="outline-container-org7911fbe" class="outline-2">
+<h2 id="org7911fbe"><span class="section-number-2">2.</span> Introduction</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The glados is a third year Epitech project where five people are asked to build a new programming language.
@@ -720,7 +583,7 @@ In order to declare a function, you must specify:
 <ol class="org-ol">
 <li><a id="the-name-of-the-function"></a>The name of the function<br />
 <div class="outline-text-6" id="text-the-name-of-the-function">
-<pre class="example" id="org62cef41">
+<pre class="example" id="orga890dbe">
 J'aimerais définir le bloc répondant au nom de &lt;function_name&gt;,
 </pre>
 
@@ -731,7 +594,7 @@ where is the name of the function
 </li>
 <li><a id="the-return-type-of-the-function"></a>The return type of the function<br />
 <div class="outline-text-6" id="text-the-return-type-of-the-function">
-<pre class="example" id="org0b83f43">
+<pre class="example" id="org5895436">
 de type de retour entier naturel,
 </pre>
 
@@ -739,7 +602,7 @@ de type de retour entier naturel,
 for the function to return an integer.
 </p>
 
-<pre class="example" id="org17a2620">
+<pre class="example" id="orge6d8c78">
 de type de retour booléen,
 </pre>
 
@@ -747,7 +610,7 @@ de type de retour booléen,
 for the function to return a boolean.
 </p>
 
-<pre class="example" id="org21f4087">
+<pre class="example" id="orgb953a30">
 de type de retour nul,
 </pre>
 
@@ -764,7 +627,7 @@ languages : Those are variables that must be passed when the function is
 invoked for it to use them.
 </p>
 
-<pre class="example" id="orgb7f5d6f">
+<pre class="example" id="orgf625fea">
 necéssitant comme entrée :
     - &lt;variable_name1&gt;, de type &lt;type&gt;
     - &lt;variable_name2&gt;, de type &lt;type&gt;
@@ -789,7 +652,7 @@ Parameters are obviously optional. If the function does not take any
 parameters, you must specify :
 </p>
 
-<pre class="example" id="orgf87317e">
+<pre class="example" id="org091c3b3">
 nécessitant comme entrée : ;
 </pre>
 </div>
@@ -807,7 +670,7 @@ it a very good way to clearly see them.
 Such variables are being declared the following way :
 </p>
 
-<pre class="example" id="orgbffdc77">
+<pre class="example" id="org180d5f2">
 contenant les variables :
     - &lt;variable_name1&gt;, de type &lt;type&gt;, valant &lt;value&gt;
     - &lt;variable_name2&gt;, de type &lt;type&gt;, valant &lt;value&gt;
@@ -837,7 +700,7 @@ This <b>forces</b> every single created variable to have a default value.
 If the function does not use any variable, you must specify :
 </p>
 
-<pre class="example" id="org20f1d03">
+<pre class="example" id="orgc311b2b">
 contenant les variables : ;
 </pre>
 </div>
@@ -850,7 +713,7 @@ contenant les variables : ;
 A function declaration ends with
 </p>
 
-<pre class="example" id="org1b58aac">
+<pre class="example" id="org7cc07ca">
 représenté par le code &lt;logical_connector&gt;.
 </pre>
 
@@ -881,7 +744,7 @@ function :
 You can, at any time, change the value of a variable the following way :
 </p>
 
-<pre class="example" id="orgcbc6a03">
+<pre class="example" id="orga751887">
 J'aimerais que &lt;variable_name&gt; prenne la valeur &lt;computables&gt;.
 </pre>
 
@@ -889,7 +752,7 @@ J'aimerais que &lt;variable_name&gt; prenne la valeur &lt;computables&gt;.
 or
 </p>
 
-<pre class="example" id="orgdbdcee6">
+<pre class="example" id="org76900c7">
 &lt;variable_name&gt; prends la valeur &lt;computables&gt;.
 </pre>
 
@@ -908,7 +771,7 @@ Execute a block of code only if a specific condition was met. It can be
 defined the following way :
 </p>
 
-<pre class="example" id="orgb4f6a23">
+<pre class="example" id="orgd2a0eff">
 Si &lt;computables&gt;, exécute le texte :
     &lt;more_instructions&gt;
 Merci.
@@ -927,7 +790,7 @@ You can also execute a block of code if the condition wasn&rsquo;t met the
 following way :
 </p>
 
-<pre class="example" id="orgc8e7455">
+<pre class="example" id="orga73af79">
 Si &lt;computables&gt;, exécute le texte :
     &lt;more_instructions&gt;
 ; sinon, exécute le texte :
@@ -953,7 +816,7 @@ Invoke another function inside a function, you can also store its result
 in a well-defined function variable.
 </p>
 
-<pre class="example" id="org87a2382">
+<pre class="example" id="org1020f4b">
 J'invoque le bloc &lt;function_name&gt;.
 </pre>
 
@@ -966,7 +829,7 @@ If the function that is being invoked takes parameters, they <b>must</b> be
 specified the following way :
 </p>
 
-<pre class="example" id="org5e43842">
+<pre class="example" id="orgdd4ba94">
 J'invoque le bloc &lt;function_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
 </pre>
 
@@ -985,7 +848,7 @@ In order to store the result of a function, while still giving
 parameters :
 </p>
 
-<pre class="example" id="org155b20e">
+<pre class="example" id="orgdac1b27">
 J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
 </pre>
 
@@ -1001,7 +864,7 @@ operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
 However, if you do not want to give any parameter :
 </p>
 
-<pre class="example" id="org520a897">
+<pre class="example" id="orgce887d7">
 J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;.
 </pre>
 
@@ -1024,7 +887,7 @@ A loop allows to execute a block of code until a condition cannot be met
 anymore.
 </p>
 
-<pre class="example" id="orgb1785a5">
+<pre class="example" id="orga98b47e">
 Tant que &lt;computables&gt; exécute le code ci-après :
     &lt;more_instructions&gt;
 Merci.
@@ -1051,7 +914,7 @@ The only condition to return a value is that the function must not be of
 type &ldquo;nul&rdquo;.
 </p>
 
-<pre class="example" id="org166fdc7">
+<pre class="example" id="orgfbf1b10">
 Enfin, renvoie &lt;computables&gt;.
 </pre>
 
@@ -1065,7 +928,7 @@ If the function does not return anything (<code>nul</code> function), you can st
 stop the execution at any time.
 </p>
 
-<pre class="example" id="orga6f8c64">
+<pre class="example" id="org466aa8a">
 Enfin, sors du bloc.
 </pre>
 
@@ -1085,7 +948,7 @@ computation in the screen.
 To display a computation :
 </p>
 
-<pre class="example" id="org1707882">
+<pre class="example" id="org549de91">
 Affiche &lt;computables&gt;.
 </pre>
 
@@ -1103,7 +966,7 @@ screen. (E.g): <code>Affiche 10.</code> will display <code>\n</code>.
 However, if you want to display a text :
 </p>
 
-<pre class="example" id="org93e5b71">
+<pre class="example" id="orgcb19634">
 Affiche « Meow ».
 </pre>
 
@@ -1132,7 +995,7 @@ defintion must be clearly different from the <b>other functions</b>.
 Such functions are being defined the following way :
 </p>
 
-<pre class="example" id="orgdc41d3b">
+<pre class="example" id="org6801ee7">
 Bonjour,
 
 En sachant que les variables principales sont :
@@ -2224,7 +2087,7 @@ variables.
 Here is a map of how they are stored in the stack:
 </p>
 
-<pre class="example" id="orgd2dab89">
+<pre class="example" id="orgf2d08b0">
 ┌─────────────────┐
 │  Caller frame   │
 ├─────────────────┤
@@ -2602,7 +2465,7 @@ The fcvm executes Franc C bytecode files.
 They have the following header structure:
 </p>
 
-<pre class="example" id="orgd70212a">
+<pre class="example" id="orgcdff5a8">
 ┌─────────────────────────────────────┐
 │ Magic Number (4 bytes)              │  0x45 0x0C 0x45 0x0C
 ├─────────────────────────────────────┤
@@ -2691,7 +2554,7 @@ Stores temporary computation values, variables and function return
 values.
 </p>
 
-<pre class="example" id="org3025f52">
+<pre class="example" id="org5a25ba5">
 ┌─────────────┬─────────────┬─────────────┐
 │  Element 0  │  Element 1  │  Element 2  │
 │  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
@@ -2714,7 +2577,7 @@ values.
 Manages function call frames.
 </p>
 
-<pre class="example" id="org7919b17">
+<pre class="example" id="org013e790">
 ┌─────────────────────────────────┐
 │  Frame: (PC: 0, SP: 0)          │  ← Entry
 ├─────────────────────────────────┤
@@ -2781,7 +2644,7 @@ The VM implements 40 opcodes across 7 categories:
 <b>Calling sequence</b>:
 </p>
 
-<pre class="example" id="org3841ac1">
+<pre class="example" id="orgd6fdcea">
 1. Push function address
 2. Execute CALL
    → Saves (PC+1, SP) to call stack
@@ -2792,7 +2655,7 @@ The VM implements 40 opcodes across 7 categories:
 <b>Return sequence</b>:
 </p>
 
-<pre class="example" id="orge75d23d">
+<pre class="example" id="org491b83a">
 1. Execute RET
    → Restores PC and SP
    → Trims stack to SP position
@@ -2803,7 +2666,7 @@ The VM implements 40 opcodes across 7 categories:
 <b>Stack frame layout</b>:
 </p>
 
-<pre class="example" id="org18ea049">
+<pre class="example" id="org5a249eb">
 ┌──────────────────┐
 │  Caller frame    │
 ├──────────────────┤  ← SP
@@ -2827,7 +2690,7 @@ All errors exit with code <b>84</b> and write to <b>stderr</b>.
 <b>Invalid Magic Number</b>
 </p>
 
-<pre class="example" id="org33f4516">
+<pre class="example" id="org1253e4b">
 Message: *** UNRECONIZED FILE FORMAT
 Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
 </pre>
@@ -2836,7 +2699,7 @@ Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
 <b>File I/O Error</b>
 </p>
 
-<pre class="example" id="org6c688c0">
+<pre class="example" id="org035767f">
 Message: Error with file
 Trigger: File not found, permission denied, or read error
 </pre>
@@ -2849,7 +2712,7 @@ Trigger: File not found, permission denied, or read error
 <b>Arithmetic Errors</b>
 </p>
 
-<pre class="example" id="orgc9d4124">
+<pre class="example" id="orga669ef5">
 Message: *** 0 CAN'T BE USE in this operation
 Trigger: DIV or MOD with divisor = 0
 </pre>
@@ -2858,7 +2721,7 @@ Trigger: DIV or MOD with divisor = 0
 <b>Stack &amp; CallStack Overflow</b>
 </p>
 
-<pre class="example" id="orge15ad11">
+<pre class="example" id="org9df7e14">
 Message: *** STACK OVERFLOW
 Trigger: Operand stack ≥ 1M elements OR call stack ≥ 1M frames
 Cause:   Excessive PUSH without POP, or infinite recursion
@@ -2868,7 +2731,7 @@ Cause:   Excessive PUSH without POP, or infinite recursion
 <b>Stack Underflow</b>
 </p>
 
-<pre class="example" id="orgfd3af11">
+<pre class="example" id="org905c50c">
 Message: *** STACK ERROR
 Trigger: Operation requires elements when stack_size ≤ 1
 Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
@@ -3123,7 +2986,7 @@ and demonstrate its verbose syntax, and acts as a test suite for the
 (*) Benchmark specs:
 </p>
 
-<pre class="example" id="orgbaee840">
+<pre class="example" id="orgf95eca2">
 CPU : Intel i9 14900K
 GPU : NVIDIA RTX 4070 TI SUPER
 RAM: 32 GB
@@ -3170,7 +3033,7 @@ not all tests passed.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet</p>
-<p class="date">Created: 2025-11-02 Sun 23:10</p>
+<p class="date">Created: 2025-11-02 Sun 23:14</p>
 </div>
 </body>
 </html>

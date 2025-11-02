@@ -21,11 +21,11 @@ In this project, we built five different things.
 
 # Authors
 
-Mani Gillier
-Rayane El Janati El Idrissi
-Hugo Poggetti
-Aymerick Soual
-Maxime Huet
+- Mani Gillier
+- Rayane El Janati El Idrissi
+- Hugo Poggetti
+- Aymerick Soual
+- Maxime Huet
 
 # Documentation
 

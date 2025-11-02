@@ -111,4 +111,4 @@
 
 <string> ::= <byte> | <byte> <string>
 
-<byte > =  "\0" | ... | "ÿ"
+<byte > =  "\0" .. "ÿ"

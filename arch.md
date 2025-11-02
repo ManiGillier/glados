@@ -53,15 +53,15 @@ Il faut s'appuyer du BNF pour former ça
 
 ## HUGO End cases
 
-# Bytecode reference
+# MANI Bytecode reference
 
-## Bytecode Formal Syntax (BNF) OF BYTECODE NOT READABLE
+## MANI Bytecode Formal Syntax (BNF) OF BYTECODE NOT READABLE
 
 -> with justifications
 
-## Instruction map (0x01 = jmp etc.)
+## MANI Instruction map (0x01 = jmp etc.)
 
-## Instruction actions
+## MANI Instruction actions
 
 # MANI & RAYANE fcc reference
 

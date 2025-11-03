@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2025-11-02 Sun 23:50 -->
+<!-- 2025-11-03 Mon 13:47 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>TGPD: The GLADOS Project Documentation</title>
@@ -229,8 +229,8 @@
 <body>
 <div id="content" class="content">
 <h1 class="title">TGPD: The GLADOS Project Documentation</h1>
-<div id="outline-container-org8074131" class="outline-2">
-<h2 id="org8074131"><span class="section-number-2">1.</span> Other documentations</h2>
+<div id="outline-container-org2c2e11a" class="outline-2">
+<h2 id="org2c2e11a"><span class="section-number-2">1.</span> Other documentations</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li><a href="index.html">Single page documentation</a></li>
@@ -240,8 +240,8 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-orgc28cffd" class="outline-2">
-<h2 id="orgc28cffd"><span class="section-number-2">2.</span> Introduction</h2>
+<div id="outline-container-org23a88c1" class="outline-2">
+<h2 id="org23a88c1"><span class="section-number-2">2.</span> Introduction</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 The glados is a third year Epitech project where five people are asked to build a new programming language.
@@ -269,6 +269,11 @@ In this project, we built five different things.
 <li>The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.</li>
 <li>The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions</li>
 </ul>
+
+<p>
+We chose to implement everything in the Haskell programming language, because it offers great parsing capabilities and perfect security.
+The functionnal paradigm is perfect for a compiler implementation as all cases must be treated, and it is easy to test with the HUnit testing library.
+</p>
 </div>
 </div>
 <div id="outline-container-language_reference" class="outline-2">
@@ -583,7 +588,7 @@ In order to declare a function, you must specify:
 <ol class="org-ol">
 <li><a id="the-name-of-the-function"></a>The name of the function<br />
 <div class="outline-text-6" id="text-the-name-of-the-function">
-<pre class="example" id="org7ce90bf">
+<pre class="example" id="org4c7b422">
 J'aimerais définir le bloc répondant au nom de &lt;function_name&gt;,
 </pre>
 
@@ -594,7 +599,7 @@ where is the name of the function
 </li>
 <li><a id="the-return-type-of-the-function"></a>The return type of the function<br />
 <div class="outline-text-6" id="text-the-return-type-of-the-function">
-<pre class="example" id="org1606d52">
+<pre class="example" id="orga3a0d94">
 de type de retour entier naturel,
 </pre>
 
@@ -602,7 +607,7 @@ de type de retour entier naturel,
 for the function to return an integer.
 </p>
 
-<pre class="example" id="org217015c">
+<pre class="example" id="org9d62d95">
 de type de retour booléen,
 </pre>
 
@@ -610,7 +615,7 @@ de type de retour booléen,
 for the function to return a boolean.
 </p>
 
-<pre class="example" id="orgc6d5237">
+<pre class="example" id="org2d095f4">
 de type de retour nul,
 </pre>
 
@@ -627,7 +632,7 @@ languages : Those are variables that must be passed when the function is
 invoked for it to use them.
 </p>
 
-<pre class="example" id="org1238173">
+<pre class="example" id="orgba78471">
 necéssitant comme entrée :
     - &lt;variable_name1&gt;, de type &lt;type&gt;
     - &lt;variable_name2&gt;, de type &lt;type&gt;
@@ -652,7 +657,7 @@ Parameters are obviously optional. If the function does not take any
 parameters, you must specify :
 </p>
 
-<pre class="example" id="orgdbab65f">
+<pre class="example" id="orgc2fe84f">
 nécessitant comme entrée : ;
 </pre>
 </div>
@@ -670,7 +675,7 @@ it a very good way to clearly see them.
 Such variables are being declared the following way :
 </p>
 
-<pre class="example" id="org06e69b2">
+<pre class="example" id="org66c12e4">
 contenant les variables :
     - &lt;variable_name1&gt;, de type &lt;type&gt;, valant &lt;value&gt;
     - &lt;variable_name2&gt;, de type &lt;type&gt;, valant &lt;value&gt;
@@ -700,7 +705,7 @@ This <b>forces</b> every single created variable to have a default value.
 If the function does not use any variable, you must specify :
 </p>
 
-<pre class="example" id="orgdf49bff">
+<pre class="example" id="org4b88cd7">
 contenant les variables : ;
 </pre>
 </div>
@@ -713,7 +718,7 @@ contenant les variables : ;
 A function declaration ends with
 </p>
 
-<pre class="example" id="org40e2610">
+<pre class="example" id="org5056c28">
 représenté par le code &lt;logical_connector&gt;.
 </pre>
 
@@ -744,7 +749,7 @@ function :
 You can, at any time, change the value of a variable the following way :
 </p>
 
-<pre class="example" id="org6f20658">
+<pre class="example" id="orgd385ae5">
 J'aimerais que &lt;variable_name&gt; prenne la valeur &lt;computables&gt;.
 </pre>
 
@@ -752,7 +757,7 @@ J'aimerais que &lt;variable_name&gt; prenne la valeur &lt;computables&gt;.
 or
 </p>
 
-<pre class="example" id="org8d4486c">
+<pre class="example" id="org556681e">
 &lt;variable_name&gt; prends la valeur &lt;computables&gt;.
 </pre>
 
@@ -771,7 +776,7 @@ Execute a block of code only if a specific condition was met. It can be
 defined the following way :
 </p>
 
-<pre class="example" id="org8cdcc21">
+<pre class="example" id="org55a7a1c">
 Si &lt;computables&gt;, exécute le texte :
     &lt;more_instructions&gt;
 Merci.
@@ -790,7 +795,7 @@ You can also execute a block of code if the condition wasn&rsquo;t met the
 following way :
 </p>
 
-<pre class="example" id="org951665f">
+<pre class="example" id="orgf41975b">
 Si &lt;computables&gt;, exécute le texte :
     &lt;more_instructions&gt;
 ; sinon, exécute le texte :
@@ -816,7 +821,7 @@ Invoke another function inside a function, you can also store its result
 in a well-defined function variable.
 </p>
 
-<pre class="example" id="org3b6bf58">
+<pre class="example" id="org25f0bd6">
 J'invoque le bloc &lt;function_name&gt;.
 </pre>
 
@@ -829,7 +834,7 @@ If the function that is being invoked takes parameters, they <b>must</b> be
 specified the following way :
 </p>
 
-<pre class="example" id="org9d597b2">
+<pre class="example" id="org31849ab">
 J'invoque le bloc &lt;function_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
 </pre>
 
@@ -848,7 +853,7 @@ In order to store the result of a function, while still giving
 parameters :
 </p>
 
-<pre class="example" id="org3eb679f">
+<pre class="example" id="org0aab84e">
 J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;, avec les paramètres &lt;computables&gt;, &lt;computables&gt;, &lt;computables&gt;.
 </pre>
 
@@ -864,7 +869,7 @@ operators. (*Check the <code>&lt;condition&gt;</code> defintion on the BNF)</li>
 However, if you do not want to give any parameter :
 </p>
 
-<pre class="example" id="orge063a81">
+<pre class="example" id="orgb0850c3">
 J'invoque le bloc &lt;function_name&gt;, et j'assigne la valeur de retour à la variable &lt;variable_name&gt;.
 </pre>
 
@@ -887,7 +892,7 @@ A loop allows to execute a block of code until a condition cannot be met
 anymore.
 </p>
 
-<pre class="example" id="org4d286ae">
+<pre class="example" id="orge8bf7d1">
 Tant que &lt;computables&gt; exécute le code ci-après :
     &lt;more_instructions&gt;
 Merci.
@@ -914,7 +919,7 @@ The only condition to return a value is that the function must not be of
 type &ldquo;nul&rdquo;.
 </p>
 
-<pre class="example" id="org42e0b7c">
+<pre class="example" id="org74629f1">
 Enfin, renvoie &lt;computables&gt;.
 </pre>
 
@@ -928,7 +933,7 @@ If the function does not return anything (<code>nul</code> function), you can st
 stop the execution at any time.
 </p>
 
-<pre class="example" id="org17c0e63">
+<pre class="example" id="org3acd645">
 Enfin, sors du bloc.
 </pre>
 
@@ -948,7 +953,7 @@ computation in the screen.
 To display a computation :
 </p>
 
-<pre class="example" id="orga0b1e98">
+<pre class="example" id="org34dd9e7">
 Affiche &lt;computables&gt;.
 </pre>
 
@@ -966,7 +971,7 @@ screen. (E.g): <code>Affiche 10.</code> will display <code>\n</code>.
 However, if you want to display a text :
 </p>
 
-<pre class="example" id="org9c3a2e0">
+<pre class="example" id="org5934138">
 Affiche « Meow ».
 </pre>
 
@@ -995,7 +1000,7 @@ defintion must be clearly different from the <b>other functions</b>.
 Such functions are being defined the following way :
 </p>
 
-<pre class="example" id="org57472e6">
+<pre class="example" id="orgcda5d46">
 Bonjour,
 
 En sachant que les variables principales sont :
@@ -2087,7 +2092,7 @@ variables.
 Here is a map of how they are stored in the stack:
 </p>
 
-<pre class="example" id="org7d79d58">
+<pre class="example" id="org9d1cf29">
 ┌─────────────────┐
 │  Caller frame   │
 ├─────────────────┤
@@ -2465,7 +2470,7 @@ The fcvm executes Franc C bytecode files.
 They have the following header structure:
 </p>
 
-<pre class="example" id="org9e74c44">
+<pre class="example" id="org1eb4def">
 ┌─────────────────────────────────────┐
 │ Magic Number (4 bytes)              │  0x45 0x0C 0x45 0x0C
 ├─────────────────────────────────────┤
@@ -2554,7 +2559,7 @@ Stores temporary computation values, variables and function return
 values.
 </p>
 
-<pre class="example" id="org2ad6372">
+<pre class="example" id="orgd0a71ce">
 ┌─────────────┬─────────────┬─────────────┐
 │  Element 0  │  Element 1  │  Element 2  │
 │  (8 bytes)  │  (8 bytes)  │  (8 bytes)  │
@@ -2577,7 +2582,7 @@ values.
 Manages function call frames.
 </p>
 
-<pre class="example" id="org2b3fd5f">
+<pre class="example" id="org05393cc">
 ┌─────────────────────────────────┐
 │  Frame: (PC: 0, SP: 0)          │  ← Entry
 ├─────────────────────────────────┤
@@ -2644,7 +2649,7 @@ The VM implements 40 opcodes across 7 categories:
 <b>Calling sequence</b>:
 </p>
 
-<pre class="example" id="org5dbac9e">
+<pre class="example" id="orgfb91273">
 1. Push function address
 2. Execute CALL
    → Saves (PC+1, SP) to call stack
@@ -2655,7 +2660,7 @@ The VM implements 40 opcodes across 7 categories:
 <b>Return sequence</b>:
 </p>
 
-<pre class="example" id="org14804d6">
+<pre class="example" id="orgb140d9e">
 1. Execute RET
    → Restores PC and SP
    → Trims stack to SP position
@@ -2666,7 +2671,7 @@ The VM implements 40 opcodes across 7 categories:
 <b>Stack frame layout</b>:
 </p>
 
-<pre class="example" id="org3e48508">
+<pre class="example" id="org91aeede">
 ┌──────────────────┐
 │  Caller frame    │
 ├──────────────────┤  ← SP
@@ -2690,7 +2695,7 @@ All errors exit with code <b>84</b> and write to <b>stderr</b>.
 <b>Invalid Magic Number</b>
 </p>
 
-<pre class="example" id="org26e7f47">
+<pre class="example" id="orgf7f99a7">
 Message: *** UNRECONIZED FILE FORMAT
 Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
 </pre>
@@ -2699,7 +2704,7 @@ Trigger: First 4 bytes ≠ 0x45 0x0C 0x45 0x0C
 <b>File I/O Error</b>
 </p>
 
-<pre class="example" id="org4b0677b">
+<pre class="example" id="org8df47e0">
 Message: Error with file
 Trigger: File not found, permission denied, or read error
 </pre>
@@ -2712,7 +2717,7 @@ Trigger: File not found, permission denied, or read error
 <b>Arithmetic Errors</b>
 </p>
 
-<pre class="example" id="org8eb1881">
+<pre class="example" id="org74f7763">
 Message: *** 0 CAN'T BE USE in this operation
 Trigger: DIV or MOD with divisor = 0
 </pre>
@@ -2721,7 +2726,7 @@ Trigger: DIV or MOD with divisor = 0
 <b>Stack &amp; CallStack Overflow</b>
 </p>
 
-<pre class="example" id="org95898dc">
+<pre class="example" id="org40e6e64">
 Message: *** STACK OVERFLOW
 Trigger: Operand stack ≥ 1M elements OR call stack ≥ 1M frames
 Cause:   Excessive PUSH without POP, or infinite recursion
@@ -2731,7 +2736,7 @@ Cause:   Excessive PUSH without POP, or infinite recursion
 <b>Stack Underflow</b>
 </p>
 
-<pre class="example" id="org8bc8769">
+<pre class="example" id="org822e6c0">
 Message: *** STACK ERROR
 Trigger: Operation requires elements when stack_size ≤ 1
 Affects: All binary/unary ops, CALL, JMP, ZJMP, AFF
@@ -2986,7 +2991,7 @@ and demonstrate its verbose syntax, and acts as a test suite for the
 (*) Benchmark specs:
 </p>
 
-<pre class="example" id="org0f6c515">
+<pre class="example" id="orgf30d1ca">
 CPU : Intel i9 14900K
 GPU : NVIDIA RTX 4070 TI SUPER
 RAM: 32 GB
@@ -3033,7 +3038,7 @@ not all tests passed.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet</p>
-<p class="date">Created: 2025-11-02 Sun 23:50</p>
+<p class="date">Created: 2025-11-03 Mon 13:47</p>
 </div>
 </body>
 </html>

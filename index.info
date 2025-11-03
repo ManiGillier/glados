@@ -185,6 +185,12 @@ with a litteral french syntax.
    • The Larousse, a library of Franc C Reference code used to help
      Franc C programmers with some basic utilitarian functions
 
+   We chose to implement everything in the Haskell programming language,
+because it offers great parsing capabilities and perfect security.  The
+functionnal paradigm is perfect for a compiler implementation as all
+cases must be treated, and it is easy to test with the HUnit testing
+library.
+
 
 File: index.info,  Node: Franc C reference,  Next: Bytecode reference,  Prev: Introduction,  Up: Top
 
@@ -2036,95 +2042,95 @@ Tag Table:
 Node: Top198
 Node: Other documentations2424
 Node: Introduction2764
-Node: Franc C reference3940
-Node: Motives4157
-Node: Inspirations4513
-Node: Linotte4979
-Node: C5515
-Node: French language6985
-Node: Language Formal Syntax (BNF)7413
-Node: Language logic16434
-Ref: *Header*16560
-Ref: *Function Declaration*16882
-Ref: The name of the function16972
-Ref: The return type of the function17135
-Ref: The parameters of the function17480
-Ref: Variables18491
-Ref: *Function Body*19965
-Ref: Assignement20534
-Ref: If21117
-Ref: Invoke22667
-Ref: Loop24673
-Ref: Return25445
-Ref: Show statements26202
-Ref: *End of Function*26899
-Ref: *Special case of 'Main' Function*26993
-Node: Bytecode reference28479
-Node: Formal syntax (BNF)28851
-Node: Instructions31149
-Node: Virtual Machine reference38716
-Node: Introduction (1)38985
-Node: Stack-Based vs Register-Based39560
-Node: Stack40821
-Ref: Stack Management41319
-Node: Initialization41530
-Node: Basic Operations41803
-Node: CallStack42204
-Node: Memory Layout42605
-Node: Function call mechanism43271
-Node: Zero flag44046
-Node: End cases44621
-Node: Franc C Compiler44971
-Node: Parameters list and long descriptions45470
-Node: FILESNAME45813
-Node: --output FILENAME46025
-Node: --no-larousse46362
-Node: --debug46724
-Node: Larousse47035
-Node: Functioning47507
-Node: Getting inputs47831
-Node: Lexing and parsing48041
-Node: Combination48531
-Node: Compilation48934
-Node: Verifications49435
-Node: Output49795
-Node: Justifications50338
-Node: Lexer & Parsing reference51522
-Node: Safety measures53211
-Node: Error list54081
-Node: Known caveats54456
-Node: Compilation reference55101
-Node: Function call parameters return value and variables56831
-Node: Safety measures (1)58206
-Node: Intended undefined behaviours59118
-Ref: Integer over/underflows59310
-Ref: Known caveats (1)60103
-Ref: Lack of static analysis60128
-Node: Readable assembly60742
-Node: Syntax of the readable assembly61078
-Node: List of instructions61486
-Node: Franc C Virtual Machine64110
-Node: Input Descriptions64374
-Node: Bytecode File Format64596
-Node: Command-Line Interface65574
-Node: Architecture Implementation66013
-Node: Memory Layout (1)66319
-Ref: Operand Stack66598
-Ref: Call Stack67404
-Ref: Registers68489
-Node: Instruction Set Overview69055
-Node: Function Call Convention69368
-Node: Exceptions List70171
-Node: Load-Time Errors70449
-Node: Runtime Errors70820
-Node: Known Caveats71445
-Node: Undefined Behaviors71663
-Node: Performance Limitations72055
-Node: Portability Issues72471
-Node: Larousse (1)72901
-Node: Introduction (motives)73085
-Node: Functions73638
-Node: Académie Franc C'Aise81510
+Node: Franc C reference4233
+Node: Motives4450
+Node: Inspirations4806
+Node: Linotte5272
+Node: C5808
+Node: French language7278
+Node: Language Formal Syntax (BNF)7706
+Node: Language logic16727
+Ref: *Header*16853
+Ref: *Function Declaration*17175
+Ref: The name of the function17265
+Ref: The return type of the function17428
+Ref: The parameters of the function17773
+Ref: Variables18784
+Ref: *Function Body*20258
+Ref: Assignement20827
+Ref: If21410
+Ref: Invoke22960
+Ref: Loop24966
+Ref: Return25738
+Ref: Show statements26495
+Ref: *End of Function*27192
+Ref: *Special case of 'Main' Function*27286
+Node: Bytecode reference28772
+Node: Formal syntax (BNF)29144
+Node: Instructions31442
+Node: Virtual Machine reference39009
+Node: Introduction (1)39278
+Node: Stack-Based vs Register-Based39853
+Node: Stack41114
+Ref: Stack Management41612
+Node: Initialization41823
+Node: Basic Operations42096
+Node: CallStack42497
+Node: Memory Layout42898
+Node: Function call mechanism43564
+Node: Zero flag44339
+Node: End cases44914
+Node: Franc C Compiler45264
+Node: Parameters list and long descriptions45763
+Node: FILESNAME46106
+Node: --output FILENAME46318
+Node: --no-larousse46655
+Node: --debug47017
+Node: Larousse47328
+Node: Functioning47800
+Node: Getting inputs48124
+Node: Lexing and parsing48334
+Node: Combination48824
+Node: Compilation49227
+Node: Verifications49728
+Node: Output50088
+Node: Justifications50631
+Node: Lexer & Parsing reference51815
+Node: Safety measures53504
+Node: Error list54374
+Node: Known caveats54749
+Node: Compilation reference55394
+Node: Function call parameters return value and variables57124
+Node: Safety measures (1)58499
+Node: Intended undefined behaviours59411
+Ref: Integer over/underflows59603
+Ref: Known caveats (1)60396
+Ref: Lack of static analysis60421
+Node: Readable assembly61035
+Node: Syntax of the readable assembly61371
+Node: List of instructions61779
+Node: Franc C Virtual Machine64403
+Node: Input Descriptions64667
+Node: Bytecode File Format64889
+Node: Command-Line Interface65867
+Node: Architecture Implementation66306
+Node: Memory Layout (1)66612
+Ref: Operand Stack66891
+Ref: Call Stack67697
+Ref: Registers68782
+Node: Instruction Set Overview69348
+Node: Function Call Convention69661
+Node: Exceptions List70464
+Node: Load-Time Errors70742
+Node: Runtime Errors71113
+Node: Known Caveats71738
+Node: Undefined Behaviors71956
+Node: Performance Limitations72348
+Node: Portability Issues72764
+Node: Larousse (1)73194
+Node: Introduction (motives)73378
+Node: Functions73931
+Node: Académie Franc C'Aise81803
 
 End Tag Table
 

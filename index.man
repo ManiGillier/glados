@@ -35,6 +35,10 @@ The Franc C Compiler, a tool used to compile Franc C Reference code into a Franc
 The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.
 .IP \(em 4
 The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions
+
+.PP
+We chose to implement everything in the Haskell programming language, because it offers great parsing capabilities and perfect security.
+The functionnal paradigm is perfect for a compiler implementation as all cases must be treated, and it is easy to test with the HUnit testing library.
 .SH "Franc C reference"
 .SS "Motives"
 .IP \(em 4

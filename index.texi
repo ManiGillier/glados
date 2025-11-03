@@ -17,6 +17,8 @@
 @author Mani Gillier, Rayane El Janati El Idrissi, Hugo Poggetti, Aymerick Soual, Maxime Huet
 @end titlepage
 
+@contents
+
 @ifnottex
 @node Top
 @top TGPD: The GLADOS Project Documentation
@@ -200,6 +202,9 @@ The Franc C Virtual Machine, a tool used to run Franc C Program on any computer.
 @item
 The Larousse, a library of Franc C Reference code used to help Franc C programmers with some basic utilitarian functions
 @end itemize
+
+We chose to implement everything in the Haskell programming language, because it offers great parsing capabilities and perfect security.
+The functionnal paradigm is perfect for a compiler implementation as all cases must be treated, and it is easy to test with the HUnit testing library.
 
 @node Franc C reference
 @chapter Franc C reference
